@@ -19,7 +19,7 @@ that inherently prevents me from starting the task.
 
 So this boilerplate is a way to make all of *that* as painless as possible...
 
-### So why use this boilerplate of something else?
+### So why use this boilerplate instead of something else?
 
 There is obviously more than one way to skin a cat. This project is meant to be
 opinionated and meant to make decisions so that I don't have make them later. It
