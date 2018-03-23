@@ -49,7 +49,7 @@ be a popular choice with ample documentation and examples.
 
 ### Commands
 
-`npm run build`
+`npm run dev`
 
 Start the Rollup build process and watch the source files and
 trigger livereload when a file changes.

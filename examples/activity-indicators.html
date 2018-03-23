@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="../dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>Activity Indicators</h1>
+
+            <h3>Dots</h3>
+
+            <div class="row py-5">
+                <div class="col-sm-2">
+                    <activity-indicator type="dots" size="xs" color="primary"></activity-indicator>
+                </div>
+                <div class="col-sm-2">
+                    <activity-indicator type="dots" size="sm"></activity-indicator>
+                </div>
+                <div class="col-sm-2">
+                    <activity-indicator type="dots" size="md"></activity-indicator>
+                </div>
+                <div class="col-sm-2">
+                    <activity-indicator type="dots" size="lg"></activity-indicator>
+                </div>
+                <div class="col-sm-2">
+                    <activity-indicator type="dots" size="xl"></activity-indicator>
+                </div>
+            </div>
+
+            <h3>Spinner</h3>
+
+            <div class="row py-5">
+                <div class="col-sm-2">
+                    <activity-indicator type="spinner" size="xs"></activity-indicator>
+                </div>
+                <div class="col-sm-2">
+                    <activity-indicator type="spinner" size="sm"></activity-indicator>
+                </div>
+                <div class="col-sm-2">
+                    <activity-indicator type="spinner" size="md"></activity-indicator>
+                </div>
+                <div class="col-sm-2">
+                    <activity-indicator type="spinner" size="lg"></activity-indicator>
+                </div>
+                <div class="col-sm-2">
+                    <activity-indicator type="spinner" size="xl"></activity-indicator>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="../dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app'
+            });
+        </script>
+    </body>
+</html>

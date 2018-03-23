@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="../dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>Activity Buttons</h1>
+
+            <h2>Dots</h2>
+
+            <div class="row pb-5">
+                <div class="col-sm-2">
+                    <activity-button indicator="dots" color="primary" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-2">
+                    <activity-button indicator="dots" color="secondary" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-2">
+                    <activity-button indicator="dots" color="info" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-2">
+                    <activity-button indicator="dots" color="success" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-2">
+                    <activity-button indicator="dots" color="danger" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-2">
+                    <activity-button indicator="dots" color="warning" @click="onClick">Click Me!</activity-button>
+                </div>
+            </div>
+
+            <h2>Spinner</h2>
+
+            <div class="row pb-5">
+                <div class="col-sm-2">
+                    <activity-button indicator="spinner" color="primary" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-2">
+                    <activity-button indicator="spinner" color="secondary" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-2">
+                    <activity-button indicator="spinner" color="info" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-2">
+                    <activity-button indicator="spinner" color="success" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-2">
+                    <activity-button indicator="spinner" color="danger" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-2">
+                    <activity-button indicator="spinner" color="warning" @click="onClick">Click Me!</activity-button>
+                </div>
+            </div>
+
+            <h2>Sizes</h2>
+
+            <h3>Dots</h3>
+
+            <div class="row pb-5">
+                <div class="col-sm-4">
+                    <activity-button indicator="dots" size="sm" color="primary" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-4">
+                    <activity-button indicator="dots" size="md" color="primary" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-4">
+                    <activity-button indicator="dots" size="lg" color="primary" @click="onClick">Click Me!</activity-button>
+                </div>
+            </div>
+
+            <h3>Spinner</h3>
+
+            <div class="row pb-5">
+                <div class="col-sm-4">
+                    <activity-button indicator="spinner" size="sm" color="primary" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-4">
+                    <activity-button indicator="spinner" size="md" color="primary" @click="onClick">Click Me!</activity-button>
+                </div>
+                <div class="col-sm-4">
+                    <activity-button indicator="spinner" size="lg" color="primary" @click="onClick">Click Me!</activity-button>
+                </div>
+            </div>
+
+            <h2>Orientation</h2>
+
+            <div class="row pb-5">
+                <div class="col-sm-3">
+                    <activity-button indicator="spinner" orientation="top" color="primary" @click="onClick">Orientate Top</activity-button>
+                </div>
+                <div class="col-sm-3">
+                    <activity-button indicator="spinner" orientation="bottom" color="primary" @click="onClick">Orientate Bottom</activity-button>
+                </div>
+                <div class="col-sm-3">
+                    <activity-button indicator="spinner" orientation="left" color="primary" @click="onClick">Orientate Left</activity-button>
+                </div>
+                <div class="col-sm-3">
+                    <activity-button indicator="spinner" orientation="right" color="primary" @click="onClick">Orientate Right</activity-button>
+                </div>
+            </div>
+
+            <h2>Block</h2>
+
+            <div class="row pb-5">
+                <div class="col-sm-6">
+                    <activity-button indicator="spinner" :block="true" orientation="top" color="primary" @click="onClick">Spinner Top</activity-button>
+                    <activity-button indicator="dots" :block="true" orientation="top" color="primary" @click="onClick">Dots Top</activity-button>
+                </div>
+                <div class="col-sm-6">
+                    <activity-button indicator="spinner" :block="true" orientation="bottom" color="primary" @click="onClick">Spinner Bottom</activity-button>
+                    <activity-button indicator="dots" :block="true" orientation="bottom" color="primary" @click="onClick">Dots Bottom</activity-button>
+                </div>
+            </div>
+            <div class="row pb-5">
+                <div class="col-sm-6">
+                    <activity-button indicator="spinner" :block="true" orientation="left" color="primary" @click="onClick">Spinner Left</activity-button>
+                    <activity-button indicator="dots" :block="true" orientation="left" color="primary" @click="onClick">Dots Left</activity-button>
+                </div>
+                <div class="col-sm-6">
+                    <activity-button indicator="spinner" :block="true" orientation="right" color="primary" @click="onClick">Spinner Right</activity-button>
+                    <activity-button indicator="dots" :block="true" orientation="right" color="primary" @click="onClick">Dots Right</activity-button>
+                </div>
+            </div>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="../dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app',
+                methods: {
+                    onClick(event, button) {
+                        button.showActivity();
+
+                        //setTimeout(() => button.hideActivity(), 1000);
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

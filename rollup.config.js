@@ -5,8 +5,10 @@ import { camelCase } from 'lodash';
 import { upperFirst } from 'lodash';
 import vue from 'rollup-plugin-vue';
 import json from 'rollup-plugin-json';
+import alias from 'rollup-plugin-alias';
 import babel from 'rollup-plugin-babel';
 import serve from 'rollup-plugin-serve';
+import postcss from 'rollup-plugin-postcss';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
@@ -34,6 +36,10 @@ const NODE_MODULES = `${__dirname}/node_modules/**`;
 
 // Define the plugins used for the rollup process
 const plugins = [
+    alias({
+        resolve: ['.js', '.vue'],
+        '@': './'
+    }),
     json(),
     commonjs({
         include: NODE_MODULES
@@ -51,6 +57,10 @@ const plugins = [
         css: function(style, styles, compiler) {
             fs.writeFileSync(`${DIST}${FILENAME}.css`, style);
         }
+    }),
+    postcss({
+        plugins: [],
+        extensions: ['.scss', '.sass', '.css' ]
     }),
     babel({
         exclude: NODE_MODULES
@@ -71,18 +81,17 @@ export default {
     output: {
         name: NAMESPACE,
         format: PACKAGE_FORMAT,
-        file: `${DIST}${FILENAME}.js`
+        file: `${DIST}${FILENAME}.js`,
+        globals: {
+            'vue': 'Vue'
+        },
+        sourcemap: (process.env.ROLLUP_WATCH ? 'inline' : true)
     },
     external: [
         'vue'
     ],
-    globals: {
-        'vue': 'Vue'
-    },
     watch: {
         include: `${SRC}**`
     },
-    sourcemap: true,
-    sourcemapFile: `${DIST}${FILENAME}.js.map`,
     plugins: plugins
 };
