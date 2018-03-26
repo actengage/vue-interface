@@ -2,11 +2,15 @@
     <div class="google-map-info-window" :class="{'activity': activity}">
         <activity-indicator v-if="activity" :center="true" size="sm" />
         <div v-else class="pt-1">
-            <h3 v-if="title" class="header text-overflow" v-html="title" />
+            <h3 v-if="name" class="header text-overflow" v-html="name" />
             <h3 v-else class="header text-overflow">Location</h3>
 
+            <div v-if="loadingImagePreview || !loadingImagePreview && imagePreview" class="position-relative banner" :style="{backgroundImage: `url(${imagePreview})`}">
+                <activity-indicator v-if="loadingImagePreview" size="sm" :center="true" />
+            </div>
+
             <div class="d-flex align-content-center">
-                <div v-if="icon"><img class="icon" :src="icon" :alt="title" /></div>
+                <div v-if="icon"><img class="icon" :src="icon" :alt="name" /></div>
                 <div>
                     <div v-if="address" class="address text-overflow" v-html="address"/>
                     <div v-if="phone" class="phone text-overflow"><a :href="`callto:${phone}`" v-html="phone"/></div>
@@ -34,6 +38,7 @@
 
 import { each } from 'lodash';
 import Badge from '@/Toolbox/Components/Badge';
+import readFile from '@/Toolbox/Helpers/ReadFile';
 import ActivityIndicator from '@/Toolbox/ActivityIndicators/ActivityIndicator';
 
 export default {
@@ -43,6 +48,25 @@ export default {
     components: {
         Badge,
         ActivityIndicator
+    },
+
+    watch: {
+        image(value) {
+            if(value instanceof File) {
+                this.loadingImagePreview = true;
+
+                readFile(value, e => {
+                    // console.log('progress', e);
+                })
+                .then(e => {
+                    this.loadingImagePreview = false;
+                    this.imagePreview = e.target.result;
+                });
+            }
+            else {
+                console.log('image', value);
+            }
+        }
     },
 
     props: {
@@ -58,11 +82,11 @@ export default {
         },
 
         /**
-         * An title for the info window.
+         * An name for the info window.
          *
          * @property string
          */
-        title: String,
+        name: String,
 
         /**
          * An icon for the info window.
@@ -111,7 +135,14 @@ export default {
          *
          * @property string
          */
-        vicinity: String
+        vicinity: String,
+
+        /**
+         * An vicinity for the info window.
+         *
+         * @property string
+         */
+        image: [Array, File, Object]
 
     },
 
@@ -137,8 +168,11 @@ export default {
 
     },
 
-    computed: {
-
+    data() {
+        return {
+            imagePreview: null,
+            loadingImagePreview: null
+        };
     }
 
 }
@@ -163,7 +197,16 @@ export default {
         }
 
         .header {
-            font-size: $font-size-base * 1.5;
+            font-size: $font-size-base * 1.25;
+        }
+
+        .banner {
+            width: 100%;
+            height: 125px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin-bottom: $font-size-base;
         }
 
         .address {

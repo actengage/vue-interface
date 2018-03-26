@@ -1,10 +1,10 @@
 import { mapKeys } from 'lodash';
 import { isObject } from 'lodash';
 
-export default function(subject, prefix, delimeter = '-') {
+export default function prefix(subject, prefix, delimeter = '-') {
     const prefixer = (value, key) => {
         const string = key || value;
-        
+
         return [
             prefix,
             string.replace(new RegExp(`^${prefix}${delimeter}?`), '')

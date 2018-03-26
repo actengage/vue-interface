@@ -291,7 +291,7 @@ export default class Model {
 
         this.fill(data);
 
-        return this.request('/api/events', config).post();
+        return this.request(`/api/${this.table()}`, config).post();
     }
 
     /**
@@ -307,7 +307,7 @@ export default class Model {
 
         this.fill(data);
 
-        return this.request('/api/events/'+this.key(), config).put();
+        return this.request(`/api/${this.table()}/${this.key()}`, config).put();
     }
 
     /**
@@ -316,12 +316,14 @@ export default class Model {
      * @param data object
      * @return bool
      */
-    delete() {
+    delete(data = {}, config = {}) {
         if(!this.exists()) {
             throw new Error('The model must have a primary key before it can be delete.');
         }
 
-        //
+        this.fill(data);
+
+        return this.request(`/api/${this.table()}/${this.key()}`, config).delete();
     }
 
     /**

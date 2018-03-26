@@ -2,10 +2,14 @@
 
     <div class="upload-field" :class="{'form-group': group, 'enable-dropzone': dropzone}" @dragenter.prevent="onDragEnter" @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave">
 
-        <file-field v-if="multiple && (!maxUploads || maxUploads > files.length) || !files.length" :name="name" :label="label" :help-text="helpText" :multiple="multiple" :width="width" :height="height" :errors="errors" @change="addFiles($event.target.files)" />
+        <file-field v-if="multiple && (!maxUploads || maxUploads > data.length) || !multiple && !data" :name="name" :label="label" :help-text="helpText" :multiple="multiple" :width="width" :height="height" :errors="errors" @change="multiple ? addFiles($event.target.files) : addFile($event.target.files[0])" />
 
-        <div class="upload-field-preview mt-4">
-            <file-preview v-for="(file, key) in files" :key="[file.name, file.lastModified, file.size].join('')" :file="file" @close="removeFile(file)"  />
+        <div v-if="multiple" class="upload-field-preview mt-4">
+            <file-preview v-for="(file, key) in data" :key="[file.name, file.lastModified, file.size].join('')" :file="file" @close="removeFile(file)"  />
+        </div>
+
+        <div v-else-if="!multiple && data" class="upload-field-preview mt-4">
+            <file-preview :file="data" @close="removeFile(data)"  />
         </div>
 
         <div v-if="showDropElement" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
@@ -56,7 +60,7 @@ export default {
     */
 
     model: {
-        prop: 'files',
+        prop: 'data',
         event: 'change'
     },
 
@@ -123,14 +127,14 @@ export default {
         },
 
         /**
-         * The type attribute
+         * The data attribute
          *
-         * @property String
+         * @property File|FileList|Array
          */
-        files: {
-            type: [FileList, Array],
+        data: {
+            type: [File, FileList, Array],
             default() {
-                return [];
+                return !this.multiple ? null : [];
             }
         }
 
@@ -139,19 +143,23 @@ export default {
     methods: {
 
         removeFile(data) {
-            const files = this.files.slice(0);
+            if(this.multiple) {
+                const files = this.data.slice(0);
 
-            remove(files, {
-                name: data.name,
-                size: data.size,
-                lastModified: data.lastModified
-            });
+                remove(files, {
+                    name: data.name,
+                    size: data.size,
+                    lastModified: data.lastModified
+                });
 
-            this.$emit('change', files);
+                this.$emit('change', files);
+            }
+            else {
+                this.$emit('change', null);
+            }
         },
 
         addFile(file, subject) {
-            const files = subject || this.files.slice(0);
             const data = {
                 name: file.name,
                 lastModified: file.lastModified,
@@ -160,18 +168,24 @@ export default {
                 type: file.type
             }
 
-            if(!this.maxUploads || this.maxUploads > files.length) {
-                if(findIndex(files, data) === -1) {
-                    files.push(file);
+            if(this.multiple) {
+                const files = subject || this.data.slice(0);
+
+                if(!this.maxUploads || this.maxUploads > files.length) {
+                    if(findIndex(files, data) === -1) {
+                        files.push(file);
+                    }
+
+                    this.$emit('change', files);
                 }
-
-                this.$emit('change', files);
             }
-
+            else {
+                this.$emit('change', file)
+            }
         },
 
         addFiles(files) {
-            const subject = this.files.slice(0);
+            const subject = this.data.slice(0);
 
             each(files, file => {
                 this.addFile(file, subject);

@@ -72,7 +72,15 @@ export default {
                 center: {
                     lat: this.latitude,
                     lng: this.longitude
-                }
+                },
+                mapTypeControl: false,
+                streetViewControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM
+                },
+                zoomControlOptions: {
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM
+                },
+                fullscreenControl: false
             }, isFunction(this.options) ? this.options(google) : this.options);
         },
 

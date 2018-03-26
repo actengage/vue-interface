@@ -32,7 +32,6 @@ export default {
          */
         model: {
             type: Object,
-            required: true,
             validate(value) {
                 return value instanceof Model;
             }
@@ -75,15 +74,17 @@ export default {
             default(event) {
                 this.$emit('submit', event);
 
-                this.model.save(this.data, {
-                    onUploadProgress: event => {
-                        this.$emit('submit:progress', event);
-                    }
-                }).then((data) => {
-                    this.onSubmitSuccess(event, data);
-                }, (errors) => {
-                    this.onSubmitFailed(event, errors);
-                });
+                if(this.model) {
+                    this.model.save(this.data, {
+                        onUploadProgress: event => {
+                            this.$emit('submit:progress', event);
+                        }
+                    }).then((data) => {
+                        this.onSubmitSuccess(event, data);
+                    }, (errors) => {
+                        this.onSubmitFailed(event, errors);
+                    });
+                }
             }
         },
 

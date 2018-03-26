@@ -1,17 +1,17 @@
 import Vue from 'vue';
 import { each } from 'lodash';
 import { filter } from 'lodash';
-import MapSymbol from './MapSymbol';
 import { isUndefined } from 'lodash';
+import Symbol from '@/Toolbox/Maps/Symbols/Symbol';
 import GoogleMapInfoWindow from '@/Toolbox/Maps/GoogleMapInfoWindow';
 
-export default class InfoWindow extends MapSymbol {
+export default class InfoWindow extends Symbol {
 
-    initialize(position, options) {
+    initialize() {
         const InfoWindowVue = Vue.extend(GoogleMapInfoWindow);
 
         this.$template = new InfoWindowVue({
-            propsData: options || {}
+            propsData: this.$data || {}
         }).$mount();
 
         return new google.maps.InfoWindow({
@@ -29,8 +29,11 @@ export default class InfoWindow extends MapSymbol {
     }
 
     update(data) {
+        if(isUndefined(data)) {
+            return;
+        }
+
         const map = {
-            'title': 'name',
             'address': 'formatted_address',
             'phone': 'formatted_phone_number'
         };

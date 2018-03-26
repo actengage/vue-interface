@@ -6,84 +6,127 @@ import { findIndex } from 'lodash';
 import { isUndefined } from 'lodash';
 import MapSymbol from './MapSymbol';
 import InfoWindow from './InfoWindow';
-import MarkerForm from '@/Toolbox/Maps/Forms/MarkerForm';
+import InfoWindowForm from '@/Toolbox/Maps/InfoWindowForm';
 
-export default class Marker extends MapSymbol {
+export default class Polygon extends MapSymbol {
 
-    initialize(options) {
-        this.$places = null;
-        this.$results = null;
-        this.$vue.drawingMode = this;
-        this.$listener = this.$vue.map.addListener('click', event => {
-            this.onMapClick(event);
-        });
+    initialize(params) {
+        if(params.paths) {
+            this.$originalValue = params.paths;
+        }
 
-        const position = this.$vue.map.getCenter();
-        const polygon = new google.maps.Polygon(extend({
-            map: this.$vue.map,
-            draggable: true
-        }, options));
-
-        polygon.addListener('drag', event => {
-            polygon.getPath().forEach((point, i) => {
-                this.$vue.map.$drawingPoints[i].setPosition(point);
+        if(this.$vue.drawingMode === this) {
+            this.$listener = this.$vue.map.addListener('click', event => {
+                this.onMapClick(event);
             });
+        }
+
+        return new google.maps.Polygon({
+            map: this.$vue.map,
+            paths: params.paths || [],
+            draggable: this.$vue.drawingMode === this
         });
-
-        this.$infoWindow = new InfoWindow(this.$vue);
-        this.$infoWindow.$data = this.$data;
-        this.$infoWindow.$template.activity = true;
-        this.$infoWindow.$template.$on('click:edit', event => this.update());
-        this.$infoWindow.$template.$on('click:delete',  event => this.delete());
-
-        this.$vue.geocode(position).then(results => {
-            this.$results = results;
-            this.$infoWindow.update(results[0]);
-        });
-
-        return polygon;
     }
 
     events() {
         return {
             'click': event => {
-                // Open the InfoWindow
-                this.$infoWindow.open(this.$symbol);
+                if(this.$vue.drawingMode !== this) {
+                    this.$listener = this.$vue.map.addListener('click', event => {
+                        this.onMapClick(event);
+                    });
 
-                // Trigger the marker:click event on the parent Vue instance.
-                this.$vue.$emit('polygon:click', event, this);
+                    this.$vue.drawingMode = this;
+                    this.$symbol.setDraggable(true);
+                    this.$symbol.getPath().forEach(point => {
+                        this.onMapClick({
+                            latLng: point
+                        });
+                    });
+                }
+                else {
+                    // Open the InfoWindow
+                    this.$infoWindow.$symbol.setPosition(this.getCenter());
+                    this.$infoWindow.open(this.$symbol);
+                    this.updateInfoWindow(this.getCenter());
+                }
+            },
+            'drag': event => {
+                this.$infoWindow.$symbol.setPosition(this.getCenter());
+                this.$symbol.getPath().forEach((point, i) => {
+                    this.$drawingPoints[i].setPosition(point);
+                });
             },
             'dragstart': event => {
                 this.$vue.$isDragging = true;
             },
             'dragend': event => {
                 this.$vue.$isDragging = false;
+                this.updateInfoWindow(this.getCenter());
             }
+        };
+    }
+
+    cancel() {
+        each(this.$drawingPoints, point => {
+            point.setMap(null);
+        });
+
+        if(this.$originalValue) {
+            this.$symbol.setPath(this.$originalValue);
         }
+
+        super.cancel();
     }
 
-    extendBounds(bounds) {
-        bounds.union(this.$vue.map.getBounds());
-    }
+    save() {
+        this.updateInfoWindow(this.getCenter());
 
-    update() {
+        each(this.$drawingPoints, point => {
+            point.setMap(null);
+        });
 
+        this.$originalValue = this.$symbol.getPath();
+
+        super.save();
     }
 
     delete() {
-        each(this.$vue.map.$drawingPoints, marker => {
+        each(this.$drawingPoints, marker => {
             marker.setMap(null);
         });
 
         super.delete();
-        this.$vue.map.$drawingPoints = [];
-        this.$vue.$emit('polygon:removed', this);
-        google.maps.event.removeListener(this.$listener);
+    }
+
+    getBounds() {
+        const bounds = new google.maps.LatLngBounds();
+        const path = this.$symbol.getPath();
+
+        if(path) {
+            path.forEach(point => {
+                bounds.extend(point);
+            });
+        }
+        else {
+            bounds.union(this.$vue.map.getBounds());
+        }
+
+        return bounds;
+    }
+
+    getCenter() {
+        return this.getBounds().getCenter();
+    }
+
+    extendBounds(bounds) {
+        bounds.union(this.getBounds());
     }
 
     resizeDrawing() {
-        if(isArray(this.$vue.map.$drawingPoints) && this.$vue.map.$drawingPoints.length > 1) {
-            this.$symbol.setPaths(this.$vue.map.$drawingPoints.map(point => point.getPosition()));
+        if(isArray(this.$drawingPoints) && this.$drawingPoints.length > 1) {
+            this.$symbol.setPaths(this.$drawingPoints.map(point => point.getPosition()));
+            this.$infoWindow.$symbol.setPosition(this.getCenter());
         }
     }
 
@@ -104,9 +147,8 @@ export default class Marker extends MapSymbol {
         });
 
         marker.addListener('dblclick', event => {
-            this.$vue.map.$drawingPoints.splice(findIndex(this.$vue.map.$drawingPoints, marker), 1);
-            console.log(this.$vue.map.$drawingPoints.map(marker => marker.getPosition()));
-            this.$symbol.setPath(this.$vue.map.$drawingPoints.map(marker => marker.getPosition()));
+            this.$drawingPoints.splice(findIndex(this.$drawingPoints, marker), 1);
+            this.$symbol.setPath(this.$drawingPoints.map(marker => marker.getPosition()));
             marker.setMap(null);
         });
 
@@ -114,11 +156,11 @@ export default class Marker extends MapSymbol {
             this.resizeDrawing();
         });
 
-        if(!isArray(this.$vue.map.$drawingPoints)) {
-            this.$vue.map.$drawingPoints = [marker];
+        if(!isArray(this.$drawingPoints)) {
+            this.$drawingPoints = [marker];
         }
         else {
-            this.$vue.map.$drawingPoints.push(marker);
+            this.$drawingPoints.push(marker);
             this.resizeDrawing();
         }
     }

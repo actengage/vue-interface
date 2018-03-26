@@ -2,12 +2,21 @@
     <div class="google-map-field" :class="{'form-group': group}" :style="{'width': formattedWidth, 'height': formattedHeight}">
 
         <div class="google-map-field-controls left" :class="{'show': !isDragging && !drawingMode}">
-            <button type="button" class="btn btn-sm btn-primary" :class="{'disabled': !mapData.length}" @click="showList()"><i class="fa fa-list"></i></button>
-            <button type="button" class="btn btn-sm btn-primary" @click="showSearch()"><i class="fa fa-search"></i> Search</button>
+            <button type="button" class="btn btn-sm btn-primary" :class="{'disabled': !value.length}" @click="showList()"><i class="fa fa-list"></i></button>
+            <button v-if="!max || value.length < max" type="button" class="btn btn-sm btn-primary" @click="showSearch()"><i class="fa fa-search"></i> Search</button>
         </div>
 
         <div class="google-map-field-controls right" :class="{'show': !isDragging && !drawingMode}">
-            <button-dropdown size="sm" align="right" icon="fa fa-plus" :split="!!lastSelectedAction" @click="onActionClick" @item:click="onItemClick" :label="lastSelectedAction ? `${lastSelectedAction.label}` : null" :items="mapDropdownItems" />
+            <button-dropdown
+                size="sm"
+                align="right"
+                icon="fa fa-plus"
+                :split="!!lastSelectedAction"
+                :label="lastSelectedAction ? `${lastSelectedAction.label}` : null" :items="mapDropdownItems"
+                v-if="!max || value.length < max"
+                @click="onActionClick"
+                @item:click="onItemClick"
+            />
         </div>
 
         <div class="google-map-field-controls right show-immediately" :class="{'show': drawingMode}">
@@ -17,7 +26,7 @@
 
         <overlay :visible.sync="isShowingSearch">
             <div class="google-map-search-field">
-                <input type="text" v-model="query" placeholder="Enter an address, coordinate, place, or location..." @keypress.enter="onSubmit($event, query)"/>
+                <input type="text" v-model="query" placeholder="Enter an address, coordinate, place, or location..." @keypress.enter.prevent="onSubmit($event, query)"/>
                 <activity-button type="button" class="btn btn-lg btn-primary" :activity="isGeocoding" :disabled="!query" @click="onSubmit($event, query)">Search <i class="fa fa-long-array-right"></i></activity-button>
             </div>
 
@@ -37,24 +46,21 @@
         </overlay>
 
         <overlay :visible.sync="isShowingList">
-            <template v-if="mapData.length">
+            <template v-if="value.length">
                 <div class="overlay-controls right">
                     <a href="#" class="btn btn-primary btn-lg" :class="{'disabled': selected.length !== 1}" @click.prevent="editSelected"><i class="fa fa-edit"></i> Edit</a>
                     <a href="#" class="btn btn-danger btn-lg" :class="{'disabled': !selected.length}" @click.prevent="deleteSelected"><i class="fa fa-trash-o"></i> Delete</a>
                 </div>
 
                 <list-group :multiple="true" :activateable="true">
-                    <list-group-item v-for="(item, key) in mapData" :key="key" :action="true" @click="toggleSelect(item)">
-                        <template v-if="item.type === 'marker'">
-                            <h3 v-if="data(item, 'title')" v-html="data(item, 'title')" />
-                            <h3 v-else="data(item, 'address')" v-html="data(item, 'address')" />
-                            <div v-if="data(item, 'title') && data(item, 'address')" v-html="data(item, 'address')" />
-                            <div v-if="data(item, 'phone')" v-html="data(item, 'phone')" />
-                            <div v-if="item.symbol.position">{{ item.symbol.position.lat() }}, {{ item.symbol.position.lng() }}</div>
-                            <div class="pt-1">
-                                <badge v-if="data(item, 'types')" class="mr-1" color="primary" v-for="type in data(item, 'types')" :key="type" :label="type" />
-                            </div>
-                        </template>
+                    <list-group-item v-for="(item, key) in value" :key="key" :action="true" @click="toggleSelect(item)">
+                        <h3 v-if="item.$infoWindow.$template.name" v-html="item.$infoWindow.$template.name" />
+                        <h3 v-else="item.$infoWindow.$template.address" v-html="item.$infoWindow.$template.address" />
+                        <div v-if="item.$infoWindow.$template.name && item.$infoWindow.$template.address" v-html="item.$infoWindow.$template.address" />
+                        <div v-if="item.$infoWindow.$template.phone" v-html="item.$infoWindow.$template.phone" />
+                        <div class="pt-1">
+                            <badge v-if="item.$infoWindow.$template.types" class="mr-1" color="primary" v-for="type in item.$infoWindow.$template.types" :key="type" :label="type" />
+                        </div>
                     </list-group-item>
                 </list-group>
             </template>
@@ -79,6 +85,7 @@
 <script>
 
 import { each } from 'lodash';
+import { clone } from 'lodash';
 import { extend } from 'lodash';
 import { isNumber } from 'lodash';
 import { camelCase } from 'lodash';
@@ -120,37 +127,52 @@ export default {
         ButtonDropdown
     },
 
-    /*
-    directives: {
-        focus: {
-            bind(el, binding, vnode) {
-                const prop = isString(binding.value) ? binding.value : binding.expression;
+    props: {
 
-                if( !el.classList.contains('.form-control') &&
-                    el.tagName.toLowerCase() !== 'input' &&
-                    el.tagName.toLowerCase() !== 'select' &&
-                    el.tagName.toLowerCase() !== 'textarea') {
-                    el = el.querySelector('.form-control, input, select, textarea');
-                }
+        /**
+         * The maximum number of symbols allowed on the map.
+         *
+         * @property String
+         */
+        max: Number,
 
-                vnode.context.$watch(prop, value => {
-                    if(!!value) {
-                        el.focus();
-                    }
-                });
+        /**
+         * The minimum number of symbols allowed on the map.
+         *
+         * @property String
+         */
+        // min: Number,
+
+        /**
+         * The field value attribute.
+         *
+         * @property String
+         */
+        value: {
+            type: Array,
+            default: () => {
+                return [];
             }
         }
-    },
-    */
-
-    props: {
 
     },
 
     watch: {
-        'mapData': function(value) {
+
+        value: function(value) {
             this.fitBounds();
+        },
+
+        drawingMode: function(value) {
+            if(value) {
+                each(this.value, symbol => {
+                    if(symbol !== value) {
+                        symbol.$infoWindow.close();
+                    }
+                });
+            }
         }
+
     },
 
     methods: {
@@ -170,7 +192,7 @@ export default {
         },
 
         showList() {
-            if(this.mapData.length) {
+            if(this.value.length) {
                 this.isShowingList = true;
             }
         },
@@ -261,18 +283,14 @@ export default {
         },
 
         fitBounds() {
-            if(this.mapData.length) {
+            if(this.value.length) {
                 const bounds = new google.maps.LatLngBounds();
 
-                each(this.mapData, obj => {
+                each(this.value, obj => {
                     obj.extendBounds(bounds);
                 });
 
                 this.map.fitBounds(bounds);
-
-                if(this.map.getZoom() > 18) {
-                    this.map.setZoom(18);
-                }
             }
             else {
                 this.map.setZoom(this.zoom);
@@ -304,6 +322,7 @@ export default {
             this.map = instance.map;
             this.geocoder = new google.maps.Geocoder();
             this.places = new google.maps.places.PlacesService(this.map);
+            this.$emit('initialize', this);
         },
 
         onActionClick(event) {
@@ -316,7 +335,7 @@ export default {
 
         onClickResult(event, result) {
             if(this.lastSelectedAction) {
-                this.lastSelectedAction.onClick(event);
+                this.lastSelectedAction.onClick(event, result);
             }
             else {
                 this.mapDropdownItems[0].onClick(event, result);
@@ -326,12 +345,11 @@ export default {
         },
 
         onClickCancel(event) {
-            this.drawingMode.delete();
-            this.drawingMode = false;
+            this.drawingMode.cancel();
         },
 
         onClickSave(event) {
-
+            this.drawingMode.save();
         }
 
     },
@@ -346,7 +364,18 @@ export default {
                         result = result.geometry.location;
                     }
 
-                    this.mapData.push(new Marker(this, result || this.map.getCenter()));
+                    const marker = new Marker(this, {
+                        drawingMode: true,
+                        position: result || this.map.getCenter()
+                    });
+
+                    marker.$infoWindow.open(marker.$symbol);
+
+                    const value = clone(this.value);
+
+                    value.push(marker);
+
+                    this.$emit('update:value', value);
                 }
             },{
                 label: 'Add Polygon',
@@ -355,7 +384,15 @@ export default {
                         result = result.geometry.location;
                     }
 
-                    this.mapData.push(new Polygon(this));
+                    const polygon = new Polygon(this, {
+                        drawingMode: true
+                    });
+
+                    const value = clone(this.value);
+
+                    value.push(polygon);
+
+                    this.$emit('update:value', value);
                 }
             }];
         },
@@ -383,15 +420,7 @@ export default {
     data() {
         return {
             map: null,
-            /*
-            mapData: {
-                markers: [],
-                polygons: [],
-                rectangles: [],
-                // infoWindows: []
-            },
-            */
-            mapData: [],
+            //mapData: this.value || [],
             formData: {},
             lastSelectedAction: null,
             query: null,
