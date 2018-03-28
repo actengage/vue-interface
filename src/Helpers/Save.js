@@ -3,7 +3,7 @@ import { pull } from 'lodash';
 import { clone } from 'lodash';
 import { reduce } from 'lodash';
 import { isArray } from 'lodash';
-import Model from '@/Toolbox/Http/Model';
+import Model from '@/Http/Model';
 
 export default function save(models) {
     return new Promise((resolve, reject) => {
