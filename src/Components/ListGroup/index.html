@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ListGroup</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">list-group</h1>
+
+            <h3>Basic List Group</h3>
+
+            <list-group>
+                <list-group-item>List Item #1</list-group-item>
+                <list-group-item>List Item #2</list-group-item>
+                <list-group-item>List Item #3</list-group-item>
+            </list-group>
+
+            <hr class="mt-5">
+
+            <h3 class="mt-5">Clickable List Group</h3>
+
+            <list-group activateable>
+                <list-group-item action>List Item #1</list-group-item>
+                <list-group-item action>List Item #2</list-group-item>
+                <list-group-item action>List Item #3</list-group-item>
+            </list-group>
+
+            <hr class="mt-5">
+
+            <h3 class="mt-5">Multiple Click List Group</h3>
+
+            <list-group activateable multiple>
+                <list-group-item action>List Item #1</list-group-item>
+                <list-group-item action>List Item #2</list-group-item>
+                <list-group-item action>List Item #3</list-group-item>
+            </list-group>
+
+            <hr class="mt-5">
+
+            <h3 class="mt-5">List Group Badges</h3>
+
+            <list-group>
+                <list-group-item class="d-flex justify-content-between align-items-center" badge="asd">List Group Item #1</list-group-item>
+                <list-group-item class="d-flex justify-content-between align-items-center" badge="123123" label="List Group Item #2"/></list-group-item>
+                <list-group-item class="d-flex justify-content-between align-items-center">List Group Item #3 <badge :label="1"></badge></list-group-item>
+                <list-group-item class="d-flex justify-content-between align-items-center">List Group Item #4 <badge>10</badge></list-group-item>
+            </list-group>
+
+            <hr class="mt-5">
+
+            <h3 class="mt-5">Contextual List Group</h3>
+
+            <list-group>
+                <list-group-item variant="primary">Primary</list-group-item>
+                <list-group-item variant="secondary">Secondary</list-group-item>
+                <list-group-item variant="success">Success</list-group-item>
+                <list-group-item variant="danger">Danger</list-group-item>
+                <list-group-item variant="warning">Warning</list-group-item>
+                <list-group-item variant="info">Info</list-group-item>
+                <list-group-item variant="light">Light</list-group-item>
+                <list-group-item variant="dark">Dark</list-group-item>
+            </list-group>
+
+            <hr class="mt-5">
+
+            <h3 class="mt-5">Clickable Contextual List Group</h3>
+
+            <list-group activateable>
+                <list-group-item variant="primary" action>Primary</list-group-item>
+                <list-group-item variant="secondary" action>Secondary</list-group-item>
+                <list-group-item variant="success" action>Success</list-group-item>
+                <list-group-item variant="danger" action>Danger</list-group-item>
+                <list-group-item variant="warning" action>Warning</list-group-item>
+                <list-group-item variant="info" action>Info</list-group-item>
+                <list-group-item variant="light" action>Light</list-group-item>
+                <list-group-item variant="dark" action>Dark</list-group-item>
+            </list-group>
+
+            <hr class="mt-5">
+
+            <h3 class="mt-5">Custom Content</h3>
+
+            <list-group activateable>
+                <list-group-item class="flex-column align-items-start" action>
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">List group item heading</h5>
+                        <small>3 days ago</small>
+                    </div>
+                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                    <small>Donec id elit non mi porta.</small>
+                </list-group-item>
+                <list-group-item class="flex-column align-items-start" action>
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">List group item heading</h5>
+                        <small>3 days ago</small>
+                    </div>
+                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                    <small>Donec id elit non mi porta.</small>
+                </list-group-item>
+                <list-group-item class="flex-column align-items-start" action>
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">List group item heading</h5>
+                        <small>3 days ago</small>
+                    </div>
+                    <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                    <small>Donec id elit non mi porta.</small>
+                </list-group-item>
+            </list-group>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app'
+            });
+        </script>
+    </body>
+</html>

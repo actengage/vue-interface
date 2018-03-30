@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>ProgressBar</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">progress-bar</h1>
+
+            <h3>Basic Usage</h3>
+
+            <progress-bar :progress="progress"></progress-bar>
+
+            <hr>
+
+            <h3>Colors</h3>
+
+            <p><progress-bar progress="50" bg-primary></progress-bar></p>
+            <p><progress-bar progress="50" bg-secondary></progress-bar></p>
+            <p><progress-bar progress="50" bg-success></progress-bar></p>
+            <p><progress-bar progress="50" bg-danger></progress-bar></p>
+            <p><progress-bar progress="50" bg-warning></progress-bar></p>
+            <p><progress-bar progress="50" bg-info></progress-bar></p>
+            <p><progress-bar progress="50" bg-dark></progress-bar></p>
+            <p><progress-bar progress="50" bg-light></progress-bar></p>
+            <p><progress-bar progress="50" bg-muted></progress-bar></p>
+
+            <hr>
+
+            <h3>Striped</h3>
+
+            <p><progress-bar progress="50" bg-primary striped></progress-bar></p>
+            <p><progress-bar progress="50" bg-secondary striped></progress-bar></p>
+            <p><progress-bar progress="50" bg-success striped></progress-bar></p>
+            <p><progress-bar progress="50" bg-danger striped></progress-bar></p>
+            <p><progress-bar progress="50" bg-warning striped></progress-bar></p>
+            <p><progress-bar progress="50" bg-info striped></progress-bar></p>
+            <p><progress-bar progress="50" bg-dark striped></progress-bar></p>
+            <p><progress-bar progress="50" bg-light striped></progress-bar></p>
+            <p><progress-bar progress="50" bg-muted striped></progress-bar></p>
+
+            <hr>
+
+            <h3>Animated</h3>
+
+            <p><progress-bar progress="50" bg-primary striped animated></progress-bar></p>
+            <p><progress-bar progress="50" bg-secondary striped animated></progress-bar></p>
+            <p><progress-bar progress="50" bg-success striped animated></progress-bar></p>
+            <p><progress-bar progress="50" bg-danger striped animated></progress-bar></p>
+            <p><progress-bar progress="50" bg-warning striped animated></progress-bar></p>
+            <p><progress-bar progress="50" bg-info striped animated></progress-bar></p>
+            <p><progress-bar progress="50" bg-dark striped animated></progress-bar></p>
+            <p><progress-bar progress="50" bg-light striped animated></progress-bar></p>
+            <p><progress-bar progress="50" bg-muted striped animated></progress-bar></p>
+
+            <hr>
+
+            <h3>Height</h3>
+
+            <progress-bar :height="100" progress="50" striped animated></progress-bar>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app',
+                data() {
+                    return {
+                        progress: 0
+                    };
+                },
+                mounted() {
+                    const progress = () => {
+                        setTimeout(() => {
+                            this.progress++;
+
+                            if(this.progress < 100) {
+                                progress();
+                            }
+                        }, 500);
+                    };
+
+                    progress();
+                }
+            });
+        </script>
+    </body>
+</html>

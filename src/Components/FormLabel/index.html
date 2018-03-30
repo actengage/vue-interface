@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>FormLabel</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">form-label</h1>
+
+            <h3>Default</h3>
+
+            <p><form-label>Default</form-label></p>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3>Colors</h3>
+
+                    <p><form-label text-primary>Primary</form-label></p>
+                    <p><form-label text-secondary>Secondary</form-label></p>
+                    <p><form-label text-success>Success</form-label></p>
+                    <p><form-label text-danger>Danger</form-label></p>
+                    <p><form-label text-warning>Warning</form-label></p>
+                    <p><form-label text-info>Info</form-label></p>
+                    <p><form-label bg-dark text-light>Light</form-label></p>
+                    <p><form-label text-dark>Dark</form-label></p>
+                    <p><form-label text-muted>Muted</form-label></p>
+                    <p><form-label bg-dark text-white>White</form-label></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Background Colors</h3>
+
+                    <p><form-label text-white bg-primary>Primary</form-label></p>
+                    <p><form-label text-white bg-secondary>Secondary</form-label></p>
+                    <p><form-label text-white bg-success>Success</form-label></p>
+                    <p><form-label text-white bg-danger>Danger</form-label></p>
+                    <p><form-label text-white bg-warning>Warning</form-label></p>
+                    <p><form-label text-white bg-info>Info</form-label></p>
+                    <p><form-label bg-light>Light</form-label></p>
+                    <p><form-label text-white bg-dark>Dark</form-label></p>
+                    <p><form-label bg-muted>Muted</form-label></p>
+                    <p><form-label bg-white>White</form-label></p>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app',
+                data() {
+                    return {
+                        value: null
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

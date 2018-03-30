@@ -65,11 +65,11 @@ export default {
         },
 
         /**
-         * The list group item color.
+         * The list group item variant.
          *
          * @property String
          */
-        color: String,
+        variant: String,
 
         /**
          * The list group item href attribute.
@@ -98,8 +98,8 @@ export default {
             classes['active'] = this.isActive;
             classes['disabled'] = this.isDisabled;
 
-            if(this.color) {
-                classes[prefix(this.color, 'list-group-item')] = true;
+            if(this.variant) {
+                classes[prefix(this.variant, 'list-group-item')] = true;
             }
 
             return classes;

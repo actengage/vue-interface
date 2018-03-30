@@ -2,26 +2,28 @@
 
     <div class="table-view">
 
-        <slot name="buttons">
-            <div v-if="buttons.length" class="buttons-wrapper pull-right">
-                <span>
-            		<a v-for="(button, key) in buttons"
-                        :href="button.href || '#'"
-                        :class="button.className || 'btn btn-primary'"
-                        @click="proxy(button.onClick, $event)">
-                        <i v-if="button.icon" :class="button.icon"></i>
-                        <span v-html="button.label"></span>
-                    </a>
-                </span>
-            </div>
-        </slot>
+        <div class="d-flex justify-content-between align-items-center">
+            <slot name="header">
+                <div class="table-view-header">
+                    <slot name="heading"><h3 v-if="heading" v-html="heading"></h3></slot>
+                    <slot name="description"><p v-if="description" v-html="description"></p></slot>
+                </div>
+            </slot>
 
-        <slot name="header">
-            <div class="table-view-header">
-                <slot name="heading"><h3 v-if="heading" v-html="heading"></h3></slot>
-                <slot name="description"><p v-if="description" v-html="description"></p></slot>
-            </div>
-        </slot>
+            <slot name="buttons">
+                <div v-if="buttons.length" class="buttons-wrapper">
+                    <span>
+                		<a v-for="(button, key) in buttons"
+                            :href="button.href || '#'"
+                            :class="button.className || 'btn btn-primary'"
+                            @click="proxy(button.onClick, $event)">
+                            <i v-if="button.icon" :class="button.icon"></i>
+                            <span v-html="button.label"></span>
+                        </a>
+                    </span>
+                </div>
+            </slot>
+        </div>
 
         <table class="table" :class="{'table-hover': !loading}">
 

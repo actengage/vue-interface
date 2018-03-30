@@ -140,11 +140,11 @@ export default {
         },
 
         /**
-         * The toggle button's color class.
+         * The toggle button's variant class.
          *
          * @property String
          */
-        color: {
+        variant: {
             type: String,
             default: 'primary'
         },
@@ -264,7 +264,7 @@ export default {
             return [
                 'btn',
                 prefix(this.size, 'btn'),
-                prefix(this.color, 'btn')
+                prefix(this.variant, 'btn')
             ].join(' ');
         },
 
@@ -273,7 +273,7 @@ export default {
                 'btn',
                 'dropdown-toggle',
                 prefix(this.size, 'btn'),
-                prefix(this.color, 'btn'),
+                prefix(this.variant, 'btn'),
                 (this.split ? 'dropdown-toggle-split' : ''),
             ].join(' ');
         }

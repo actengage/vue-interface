@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>SelectField</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">select-field</h1>
+
+            <h3>Basic Usage</h3>
+
+            <select-field label="Regular Field">
+                <option value="">Select an option...</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+
+            <select-field label="Descriptive Field" help-text="Some helpful text goes here.">
+                <option value="">Select an option...</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+
+            <select-field :custom="true" label="Custom Field">
+                <option value="">Select an option...</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+
+            <select-field label="Plaintext Field" plaintext>
+                <option value="">Select an option...</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+
+            <select-field label="Readonly Field" readonly>
+                <option value="">Select an option...</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+
+            <hr>
+
+            <h3>Sizes</h3>
+
+            <div class="row">
+
+                <div class="col-sm-6">
+
+                    <h5>Regular Field</h5>
+
+                    <select-field size="sm">
+                        <option value="">Small</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select-field>
+
+                    <select-field size="md">
+                        <option value="">Medium</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select-field>
+
+                    <select-field size="lg">
+                        <option value="">Large</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select-field>
+
+                </div>
+
+                <div class="col-sm-6">
+
+                    <h5>Custom Field</h5>
+
+                    <select-field :custom="true" size="sm">
+                        <option value="">Small</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select-field>
+
+                    <select-field :custom="true" size="md">
+                        <option value="">Medium</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select-field>
+
+                    <select-field :custom="true" size="lg">
+                        <option value="">Large</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select-field>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <h3>Colors</h3>
+
+            <select-field value="primary" text-white bg-primary>
+                <option value="primary">Primary</option>
+            </select-field>
+
+            <select-field value="secondary" text-white bg-secondary>
+                <option value="secondary">Secondary</option>
+            </select-field>
+
+            <select-field value="success" text-white bg-success>
+                <option value="success">Success</option>
+            </select-field>
+
+            <select-field value="danger" text-white bg-danger>
+                <option value="danger">Danger</option>
+            </select-field>
+
+            <select-field value="warning" text-white bg-warning>
+                <option value="warning">Warning</option>
+            </select-field>
+
+            <select-field value="info" text-white bg-info>
+                <option value="info">Info</option>
+            </select-field>
+
+            <select-field value="dark" text-light bg-dark>
+                <option value="dark">Dark</option>
+            </select-field>
+
+            <select-field value="muted" text-dark bg-muted>
+                <option value="muted">Muted</option>
+            </select-field>
+
+            <select-field value="white" text-dark bg-white>
+                <option value="white">White</option>
+            </select-field>
+
+            <hr>
+
+            <h3>Validation</h3>
+
+            <select-field label="Single Inline Error" error="This is an inline error."></select-field>
+
+            <select-field name="test" label="Multiple Errors From Object" :errors="{'test': ['This is an inline error #1.', 'This is an inline error #2.']}"></select-field>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app',
+                data() {
+                    return {
+                        value: null
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

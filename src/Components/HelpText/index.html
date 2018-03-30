@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>FormLabel</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">help-text</h1>
+
+            <h3>Default</h3>
+
+            <p><help-text>Default</help-text></p>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3>Colors</h3>
+
+                    <p><help-text text-primary>Primary</help-text></p>
+                    <p><help-text text-secondary>Secondary</help-text></p>
+                    <p><help-text text-success>Success</help-text></p>
+                    <p><help-text text-danger>Danger</help-text></p>
+                    <p><help-text text-warning>Warning</help-text></p>
+                    <p><help-text text-info>Info</help-text></p>
+                    <p><help-text bg-dark text-light>Light</help-text></p>
+                    <p><help-text text-dark>Dark</help-text></p>
+                    <p><help-text text-muted>Muted</help-text></p>
+                    <p><help-text bg-dark text-white>White</help-text></p>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Background Colors</h3>
+
+                    <p><help-text text-white bg-primary>Primary</help-text></p>
+                    <p><help-text text-white bg-secondary>Secondary</help-text></p>
+                    <p><help-text text-white bg-success>Success</help-text></p>
+                    <p><help-text text-white bg-danger>Danger</help-text></p>
+                    <p><help-text text-white bg-warning>Warning</help-text></p>
+                    <p><help-text text-white bg-info>Info</help-text></p>
+                    <p><help-text bg-light>Light</help-text></p>
+                    <p><help-text text-white bg-dark>Dark</help-text></p>
+                    <p><help-text bg-muted>Muted</help-text></p>
+                    <p><help-text bg-white>White</help-text></p>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app',
+                data() {
+                    return {
+                        value: null
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

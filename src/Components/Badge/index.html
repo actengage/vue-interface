@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Badge</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>badge</h1>
+
+            <h3 class="mt-4">Basic Usage</h3>
+
+            <badge>Some Label</badge><br>
+            <badge label="Inline Label"></badge><br>
+            <badge accessibility="Some screenreader label">Some Label w/Accessibility</badge><br>
+
+            <hr>
+
+            <h3>Pill Shaped</h3>
+
+            <badge pill>Some Label</badge>
+            <badge label="Inline Label" pill></badge>
+
+            <hr>
+
+            <h3>Anchors</h3>
+
+            <badge href="http://google.com">Redirect to Google</badge>
+
+            <hr>
+
+            <h3>Variants</h3>
+
+            <badge variant="primary">Primary</badge><br>
+            <badge variant="secondary">Secondary</badge><br>
+            <badge variant="success">Success</badge><br>
+            <badge variant="danger">Danger</badge><br>
+            <badge variant="warning">Warning</badge><br>
+            <badge variant="info">Info</badge><br>
+            <badge variant="dark">Dark</badge><br>
+            <badge variant="muted">Muted</badge><br>
+            <badge variant="light">Light</badge><br>
+
+            <hr>
+
+            <h1>Some Header Value <badge>1</badge></h1>
+            <h2>Some Header Value <badge>1</badge></h2>
+            <h3>Some Header Value <badge>1</badge></h3>
+            <h4>Some Header Value <badge>1</badge></h4>
+            <h5>Some Header Value <badge>1</badge></h5>
+            <h6>Some Header Value <badge>1</badge></h6>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app'
+            });
+        </script>
+    </body>
+</html>

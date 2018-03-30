@@ -55,10 +55,7 @@ export default {
          *
          * @property Object
          */
-        show: {
-            type: Boolean,
-            default: false
-        },
+        show: Boolean,
 
         /**
          * An array of dropdown items. If an key/value pair isn't defined, the

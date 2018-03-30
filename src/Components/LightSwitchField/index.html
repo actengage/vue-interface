@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>LightSwitchField</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>light-switch-field</h1>
+
+            <h3>Basic Field</h3>
+
+            <light-switch-field v-model="value" :help-text="`Current Value: ${value}`"></light-switch-field>
+
+            <hr>
+            
+            <h3>Sizes</h3>
+
+            <span>Extra Small (xs)</span>
+            <light-switch-field v-model="value" size="xs"></light-switch-field>
+
+            <span>Small (sm)</span>
+            <light-switch-field v-model="value" size="sm"></light-switch-field>
+
+            <span>Medium (md)</span>
+            <light-switch-field v-model="value" size="md"></light-switch-field>
+
+            <span>Large (lg)</span>
+            <light-switch-field v-model="value" size="lg"></light-switch-field>
+
+            <span>Extra Large (xl)</span>
+            <light-switch-field v-model="value" size="xl"></light-switch-field>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app',
+                data() {
+                    return {
+                        value: 1
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

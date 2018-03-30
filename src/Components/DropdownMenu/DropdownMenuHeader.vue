@@ -1,5 +1,9 @@
 <template>
-    <h5 class="dropdown-header" v-html="label"><slot></slot></h5>
+    <h5 class="dropdown-header">
+        {{header}}
+
+        <slot></slot>
+    </h5>
 </template>
 
 <script>
@@ -15,7 +19,7 @@ export default {
          *
          * @property Object
          */
-        label: String
+        header: String
 
     }
 

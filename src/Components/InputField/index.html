@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>InputField</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">input-field</h1>
+
+            <h3>Basic Usage</h3>
+
+            <input-field type="text" label="Text Field"></input-field>
+            <input-field type="text" label="Descriptive Text Field" help-text="Some helpful text goes here."></input-field>
+            <input-field type="email" label="Email Field" placeholder="you@example.com"></input-field>
+            <input-field type="text" label="Plain Text" placeholder="Type something here..." plaintext></input-field>
+            <input-field type="text" label="Readonly" placeholder="Type something here..." readonly></input-field>
+
+            <hr>
+
+            <h3>Sizes</h3>
+
+            <input-field type="text" size="sm" placeholder="Small"></input-field>
+            <input-field type="text" size="md" placeholder="Medium"></input-field>
+            <input-field type="text" size="lg" placeholder="Large"></input-field>
+
+            <hr>
+
+            <h3>Colors</h3>
+
+            <input-field type="text" value="Primary" text-white bg-primary></input-field>
+            <input-field type="text" value="Secondary" text-white bg-secondary></input-field>
+            <input-field type="text" value="Success" text-white bg-success></input-field>
+            <input-field type="text" value="Danger" text-white bg-danger></input-field>
+            <input-field type="text" value="Warning" text-white bg-warning></input-field>
+            <input-field type="text" value="Info" text-white bg-info></input-field>
+            <input-field type="text" value="Dark" text-light bg-dark></input-field>
+            <input-field type="text" value="Muted" text-dark bg-muted></input-field>
+            <input-field type="text" value="White" text-dark bg-white></input-field>
+
+            <h3>Validation</h3>
+
+            <input-field type="text" label="Single Inline Error" error="This is an inline error."></input-field>
+
+            <input-field type="text" name="test" label="Multiple Errors From Object" :errors="{'test': ['This is an inline error #1.', 'This is an inline error #2.']}"></input-field>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app',
+                data() {
+                    return {
+                        value: null
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

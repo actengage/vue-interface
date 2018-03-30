@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>DropdownMenu</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>dropdown-menu</h1>
+
+            <h3>Basic Usage</h3>
+
+            <span v-if="hasClicked">Item #4 was clicked!</span>
+
+            <div class="position-relative">
+                <dropdown-menu :show="true" :style="{'position': 'relative', 'float': 'none'}">
+                    <dropdown-menu-item>Item #1</dropdown-menu-item>
+                    <dropdown-menu-item>Item #2</dropdown-menu-item>
+                    <dropdown-menu-header>Some Header</dropdown-menu-header>
+                    <dropdown-menu-item active>Item #3</dropdown-menu-item>
+                    <dropdown-menu-item @click="hasClicked = true">Item #4</dropdown-menu-item>
+                    <dropdown-menu-divider></dropdown-menu-divider>
+                    <dropdown-menu-item href="http://google.com">Redirect to Google.com</dropdown-menu-item>
+                </dropdown-menu>
+            </div>
+
+            <hr>
+
+            <h3>From Array</h3>
+
+            <span v-if="hasClicked2">Item #4 was clicked!</span>
+
+            <div class="position-relative">
+                <dropdown-menu
+                    :show="true"
+                    :style="{'position': 'relative', 'float': 'none'}"
+                    :items="[
+                        {'type': 'item', 'label': 'Item #1'},
+                        {'type': 'item', 'label': 'Item #2'},
+                        {'type': 'header', 'header': 'Some Header'},
+                        {'type': 'item', 'label': 'Item #3'},
+                        {'type': 'item', 'label': 'Item #4', onClick:() => hasClicked2 = true},
+                        {'type': 'divider'},
+                        {'type': 'item', 'label': 'Redirect to Google.com', href: 'http://google.com'},
+                    ]">
+                </dropdown-menu>
+            </div>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app',
+                data() {
+                    return {
+                        hasClicked: false,
+                        hasClicked2: false,
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

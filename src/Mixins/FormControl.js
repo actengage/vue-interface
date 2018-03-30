@@ -1,19 +1,22 @@
+import { each } from 'lodash';
+import { merge } from 'lodash';
+import { extend } from 'lodash';
 import { isArray } from 'lodash';
 import { isObject } from 'lodash';
+import { camelCase } from 'lodash';
+import { isUndefined } from 'lodash';
+import prefix from '@/Helpers/Prefix';
 
 export default {
 
     props: {
 
         /**
-         * The class name assigned to the control element
+         * The field id attribute value.
          *
          * @property String
          */
-        controlClass: {
-            type: String,
-            default: 'form-control'
-        },
+        id: String,
 
         /**
          * The value of label element. If no value, no label will appear.
@@ -23,13 +26,86 @@ export default {
         label: String,
 
         /**
-         * The class for the label element.
+         * The field name attribute value.
          *
          * @property String
          */
-        labelClass: {
+        name: String,
+
+        /**
+         * The field id attribute value.
+         *
+         * @property String
+         */
+        value: {
+            default: null
+        },
+
+        /**
+         * The placeholder attribute value.
+         *
+         * @property String
+         */
+        placeholder: String,
+
+        /**
+         * Is the field required.
+         *
+         * @property String
+         */
+        required: Boolean,
+
+        /**
+         * The regex pattern for validation.
+         *
+         * @property String
+         */
+        pattern: String,
+
+        /**
+         * An inline field validation error.
+         *
+         * @property String|Boolean
+         */
+        error: String,
+
+        /**
+         * An inline field validation errors passed as object with key/value
+         * pairs. If errors passed as an object, the form name will be used for
+         * the key.
+         *
+         * @property Object|Boolean
+         */
+        errors: [Object, Array],
+
+        /**
+         * Some feedback to add to the field once the field is successfully
+         * valid.
+         *
+         * @property String
+         */
+        feedback: [String, Array],
+
+        /**
+         * An array of event names that correlate with callback functions
+         *
+         * @property Function
+         */
+        bindEvents: {
+            type: Array,
+            default() {
+                return ['focus', 'blur', 'change', 'click', 'keyup', 'keydown', 'progress'];
+            }
+        },
+
+        /**
+         * The default class name assigned to the control element
+         *
+         * @property String
+         */
+        defaultControlClass: {
             type: String,
-            default: ''
+            default: 'form-control'
         },
 
         /**
@@ -37,10 +113,7 @@ export default {
          *
          * @property String
          */
-        hideLabel: {
-            type: Boolean,
-            default: false
-        },
+        hideLabel: Boolean,
 
         /**
          * Additional margin/padding classes for fine control of spacing
@@ -48,46 +121,6 @@ export default {
          * @property String
          */
         spacing: String,
-
-        /**
-         * Add form-group to the wrapping element
-         *
-         * @property String
-         */
-        group: {
-            type: Boolean,
-            default: true
-        },
-
-        /**
-         * Display the form field inline
-         *
-         * @property String
-         */
-        inline: {
-            type: Boolean,
-            default: false
-        },
-
-        /**
-         * If the form control is readonly, display only as text?
-         *
-         * @property String
-         */
-        plaintext: {
-            type: Boolean,
-            default: false
-        },
-
-        /**
-         * Is the form control readonly?
-         *
-         * @property String
-         */
-        readonly: {
-            type: Boolean,
-            default: false
-        },
 
         /**
          * The size of the form control
@@ -101,6 +134,34 @@ export default {
         },
 
         /**
+         * Display the form field inline
+         *
+         * @property String
+         */
+        inline: Boolean,
+
+        /**
+         * If the form control is readonly, display only as text?
+         *
+         * @property String
+         */
+        plaintext: Boolean,
+
+        /**
+         * Is the form control readonly?
+         *
+         * @property String
+         */
+        readonly: Boolean,
+
+        /**
+         * Is the form control disabled?
+         *
+         * @property String
+         */
+        disabled: Boolean,
+
+        /**
          * Some instructions to appear under the field label
          *
          * @property String
@@ -111,12 +172,26 @@ export default {
          * Some instructions to appear under the field label
          *
          * @property String
-         */
         helpTextClass: {
             type: String,
             default: 'form-text text-muted'
         }
+        */
 
+    },
+
+    directives: {
+        bindEvents: {
+            bind(el, binding, vnode) {
+                const events = binding.value || vnode.context.bindEvents;
+
+                each(events, name => {
+                    el.addEventListener(name, event => {
+                        vnode.context.$emit(name, event);
+                    });
+                });
+            }
+        }
     },
 
     methods: {
@@ -168,19 +243,44 @@ export default {
 
     computed: {
 
+        callbacks() {
+            return this.bindEvents.map(event => {
+                return {
+                    name: event,
+                    callback: this[camelCase(['on', event].join(' '))]
+                }
+            }).filter(event => !isUndefined(event.callback));
+        },
+
+        invalidFeedback() {
+            if(this.error) {
+                return this.error;
+            }
+
+            const errors = this.getFieldErrors();
+
+            return isArray(errors) ? errors.join('<br>') : errors;
+        },
+
+        validFeedback() {
+            return isArray(this.feedback) ? this.feedback.join('<br>') : this.feedback;
+        },
+
+        controlClass() {
+            return this.defaultControlClass + (this.plaintext ? '-plaintext' : '');
+        },
+
+        controlSizeClass() {
+            return prefix(this.size, this.controlClass);
+        },
+
         controlClasses() {
             return [
-                this.controlClass + (this.plaintext ? '-plaintext' : ''),
+                this.controlClass,
                 this.controlSizeClass,
                 (this.spacing || ''),
                 (this.invalidFeedback ? 'is-invalid' : '')
             ].join(' ');
-        },
-
-        controlSizeClass() {
-            let prefix;
-
-            return (prefix = this.controlClass + '-') + this.size.replace(new RegExp(`^${prefix}`), '');
         }
 
     }

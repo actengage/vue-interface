@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>RadioField</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">radio-field</h1>
+
+            <h3>Basic Usage</h3>
+
+            <h5 class="mt-4">Block Layout</h5>
+
+            <radio-field name="color" value="red">Red</radio-field>
+            <radio-field name="color" value="green">Green</radio-field>
+            <radio-field name="color" value="blue">Blue</radio-field>
+            <radio-field name="color" value="yellow" readonly>Yellow (Readonly)</radio-field>
+
+            <h5 class="mt-4">Inline Layout</h5>
+
+            <radio-field name="color1" label="Red" value="red" :inline="true"></radio-field>
+            <radio-field name="color1" label="Green" value="green" :inline="true"></radio-field>
+            <radio-field name="color1" label="Blue" value="blue" :inline="true"></radio-field>
+            <radio-field name="color1" value="yellow" readonly :inline="true">Yellow (Readonly)</radio-field>
+
+            <hr>
+
+            <h3>Sizes</h3>
+
+            <radio-field size="sm" placeholder="Small">Small</radio-field>
+            <radio-field size="md" placeholder="Medium">Medium</radio-field>
+            <radio-field size="lg" placeholder="Large">Large</radio-field>
+
+            <hr>
+
+            <h3>Colors</h3>
+
+            <radio-field label="Primary" text-white bg-primary></radio-field>
+            <radio-field label="Secondary" text-white bg-secondary></radio-field>
+            <radio-field label="Success" text-white bg-success></radio-field>
+            <radio-field label="Danger" text-white bg-danger></radio-field>
+            <radio-field label="Warning" text-white bg-warning></radio-field>
+            <radio-field label="Info" text-white bg-info></radio-field>
+            <radio-field label="Dark" text-light bg-dark></radio-field>
+            <radio-field label="Muted" text-dark bg-muted></radio-field>
+            <radio-field label="White" text-dark bg-white></radio-field>
+
+            <hr>
+
+            <h3>Validation</h3>
+
+            <radio-field label="Single Inline Error" required error="This is an inline error."></radio-field>
+
+            <radio-field name="test" label="Multiple Errors From Object" :errors="{'test': ['This is an inline error #1.', 'This is an inline error #2.']}"></radio-field>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app',
+                data() {
+                    return {
+                        value: null
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

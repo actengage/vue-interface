@@ -39,7 +39,7 @@ export default {
         align: {
             type: String,
             validate: value => {
-                return ['start', 'end', 'center', 'between', 'around'].indexOf(value) !== -1;
+                return ['start', 'end', 'center'].indexOf(value) !== -1;
             }
         },
 

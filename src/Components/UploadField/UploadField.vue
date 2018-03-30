@@ -22,25 +22,22 @@
 </template>
 
 <script>
-
 import { each } from 'lodash';
 import { merge } from 'lodash';
 import { remove } from 'lodash';
 import { extend } from 'lodash';
 import { findIndex } from 'lodash';
 import { isUndefined } from 'lodash';
-import BaseField from './BaseField';
-import FileField from './FileField';
-import FilePreview from './FilePreview';
+//import BaseField from './BaseField';
 import FormControl from '@/Mixins/FormControl';
-
- //
+import FileField from '@/Components/FileField/FileField';
+import FilePreview from '@/Components/FilePreview/FilePreview';
 
 export default {
 
     name: 'upload-field',
 
-    extends: BaseField,
+    //extends: BaseField,
 
     mixins: [FormControl],
 
@@ -253,10 +250,10 @@ export default {
     }
 
 }
-
 </script>
 
 <style lang="scss">
+@import './node_modules/bootstrap/scss/bootstrap.scss';
 
 .upload-field {
 

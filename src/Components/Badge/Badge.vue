@@ -1,9 +1,9 @@
 <template>
-    <a v-if="href" :href="href" class="badge" :class="classes">
+    <a v-if="href" :href="href" class="badge" :class="mergeClasses(classes, variantClass)">
         <slot>{{label}}</slot>
         <span class="sr-only" v-html="accessibility"/>
     </a>
-    <span v-else class="badge" :class="classes">
+    <span v-else class="badge" :class="mergeClasses(classes, variantClass)">
         <slot>{{label}}</slot>
         <span class="sr-only" v-html="accessibility"/>
     </span>
@@ -12,8 +12,15 @@
 <script>
 
 import prefix from '@/Helpers/Prefix';
+import Variant from '@/Mixins/Variant';
 
 export default {
+
+    name: 'badge',
+
+    mixins: [
+        Variant
+    ],
 
     props: {
 
@@ -23,16 +30,6 @@ export default {
          * @property String
          */
         accessibility: String,
-
-        /**
-         * The badge color.
-         *
-         * @property String
-         */
-        color: {
-            type: String,
-            default: 'primary'
-        },
 
         /**
          * If an href attribute is passed, the badge becomes an anchor.
@@ -60,23 +57,17 @@ export default {
          *
          * @property String
          */
-        secondary: {
-            type: Boolean,
-            default: false
-        }
+        secondary: Boolean
 
     },
 
     computed: {
+
         classes() {
-            const classes = prefix({
+            return prefix({
                 'pill': this.pill,
                 'secondary': this.secondary
-            }, 'badge');
-
-            classes[prefix(this.color, 'badge')] = !!this.color;
-
-            return classes;
+            }, this.$options.name);
         }
     }
 }

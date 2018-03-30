@@ -24,7 +24,7 @@
 <script>
 import moment from 'moment';
 import { isFunction } from 'lodash';
-import ProgressBar from '@/ProgressBar/ProgressBar';
+import ProgressBar from '@/Components/ProgressBar/ProgressBar';
 
 export default {
 
@@ -181,6 +181,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import './node_modules/bootstrap/scss/bootstrap.scss';
 
 $file-preview-close-width: $font-size-base * 2;
 $file-preview-close-height: $font-size-base * 2;

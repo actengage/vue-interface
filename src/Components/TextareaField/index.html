@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>TextareaField</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">textarea-field</h1>
+
+            <h3>Basic Usage</h3>
+
+            <textarea-field type="text" label="Text Field"></textarea-field>
+            <textarea-field type="text" label="Plain Text" placeholder="Type something here..." plaintext></textarea-field>
+            <textarea-field type="text" label="Readonly" placeholder="Type something here..." readonly></textarea-field>
+
+            <hr>
+
+            <h3>Sizes</h3>
+
+            <textarea-field type="text" size="sm" placeholder="Small"></textarea-field>
+            <textarea-field type="text" size="md" placeholder="Medium"></textarea-field>
+            <textarea-field type="text" size="lg" placeholder="Large"></textarea-field>
+
+            <hr>
+
+            <h3>Colors</h3>
+
+            <textarea-field type="text" value="Primary" text-white bg-primary></textarea-field>
+            <textarea-field type="text" value="Secondary" text-white bg-secondary></textarea-field>
+            <textarea-field type="text" value="Success" text-white bg-success></textarea-field>
+            <textarea-field type="text" value="Danger" text-white bg-danger></textarea-field>
+            <textarea-field type="text" value="Warning" text-white bg-warning></textarea-field>
+            <textarea-field type="text" value="Info" text-white bg-info></textarea-field>
+            <textarea-field type="text" value="Dark" text-light bg-dark></textarea-field>
+            <textarea-field type="text" value="Muted" text-dark bg-muted></textarea-field>
+            <textarea-field type="text" value="White" text-dark bg-white></textarea-field>
+
+            <h3>Validation</h3>
+
+            <textarea-field type="text" label="Single Inline Error" error="This is an inline error."></textarea-field>
+
+            <textarea-field type="text" name="test" label="Multiple Errors From Object" :errors="{'test': ['This is an inline error #1.', 'This is an inline error #2.']}"></textarea-field>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app',
+                data() {
+                    return {
+                        value: null
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

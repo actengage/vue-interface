@@ -88,11 +88,11 @@ export default {
         },
 
         /**
-         * The bootstrap color of the button.
+         * The bootstrap variant of the button.
          *
          * @property String
          */
-        color: {
+        variant: {
             type: String,
             default: 'primary'
         },
@@ -211,7 +211,7 @@ export default {
             };
 
             classes['btn-' + this.size.replace('btn-', '')] = !!this.size;
-            classes['btn-' + this.color.replace('btn-', '')] = !!this.color;
+            classes['btn-' + this.variant.replace('btn-', '')] = !!this.variant;
             classes['btn-activity-' + this.orientation.replace('btn-activity-', '')] = !!this.orientation;
             classes['btn-activity-indicator-' + this.indicator.replace('btn-activity-indicator-', '')] = !!this.indicator;
 

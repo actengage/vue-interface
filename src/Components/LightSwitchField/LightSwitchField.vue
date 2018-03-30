@@ -1,7 +1,7 @@
 <template>
-    <div :class="{'form-group': group}">
+    <form-group>
         <slot name="label">
-            <label :for="id" :class="labelClass" v-html="label"></label>
+            <form-label v-if="label" :for="id" v-html="label" />
         </slot>
 
         <div :class="controlClasses" tabindex="0" @click="toggle()" @keyup.32="toggle()" @keyup.37="toggle(offValue)" @keyup.39="toggle(onValue)">
@@ -14,29 +14,27 @@
 
         <input type="text" :name="name" :value="value" :id="id" class="form-control d-none">
 
-        <slot name="feedback" :invalidFeedback="invalidFeedback" :validFeedback="validFeedback">
-            <div v-if="invalidFeedback" :class="invalidFeedbackClass" v-html="invalidFeedback"></div>
-            <div v-if="validFeedback" :class="validFeedbackClass" v-html="validFeedback"></div>
+        <slot name="feedback">
+            <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
+            <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
         </slot>
 
-        <slot name="help-text" :help-text="helpText" :help-text-class="helpTextClass">
-            <small v-if="helpText" :class="helpTextClass" v-html="helpText"></small>
+        <slot name="help">
+            <help-text v-if="helpText" v-html="helpText" />
         </slot>
-    </div>
+    </form-group>
 </template>
 
 <script>
 
 import { extend } from 'lodash';
 import { isUndefined } from 'lodash';
-import BaseField from './BaseField';
+//import BaseField from './BaseField';
 import FormControl from '@/Mixins/FormControl';
 
 export default {
 
     name: 'light-switch-field',
-
-    extends: BaseField,
 
     mixins: [FormControl],
 
@@ -47,7 +45,7 @@ export default {
          *
          * @property String
          */
-        controlClass: {
+        defaultControlClass: {
             type: String,
             default: 'form-control light-switch'
         },
@@ -79,13 +77,6 @@ export default {
         offValue: {
             default: 0
         }
-
-        /**
-         * The checked value
-         *
-         * @property Number|String|Boolean
-         */
-        // checked: [Number, String, Boolean]
 
     },
 
@@ -153,6 +144,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import './node_modules/bootstrap/scss/bootstrap.scss';
+
 $light-switch-animation-easing: ease;
 $light-switch-animation-length: 1s / 3;
 $light-switch-handle-width: $font-size-base * 2;

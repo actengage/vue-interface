@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Form Feedback</title>
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">form-feedback</h1>
+
+            <h3>Valid</h3>
+
+            <div class="was-validated mb-3">
+                <input type="text" class="form-control">
+                <form-feedback valid>Some Invalid Feedback</form-feedback>
+            </div>
+
+            <h3>Invalid</h3>
+
+            <div class="was-validated mb-3">
+                <input type="text" class="form-control invalid" invalid required>
+                <form-feedback invalid>Some Invalid Feedback</form-feedback>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new VueToolbox({
+                el: '#app'
+            });
+        </script>
+    </body>
+</html>

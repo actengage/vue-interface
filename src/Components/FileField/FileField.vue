@@ -1,0 +1,101 @@
+<template>
+
+    <form-group>
+
+        <slot name="label">
+            <form-label v-if="label" :for="id" v-html="label"></form-label>
+        </slot>
+
+        <div class="custom-file">
+
+            <slot name="label">
+                <form-label v-if="label" :class="mergeClasses(colorableClasses, 'custom-file-label')" :for="id" v-html="label || 'Choose file'" />
+            </slot>
+
+            <input
+                v-bind-events
+                type="file"
+                :class="controlClasses"
+                :id="id"
+                :placeholder="placeholder"
+                :width="width"
+                :height="height"
+                :required="required"
+                :multiple="multiple"
+                :readonly="readonly"
+                v-on:change="updated($event.target.files)">
+
+            <slot name="help">
+                <help-text v-if="helpText" v-html="helpText" />
+            </slot>
+
+            <slot name="feedback">
+                <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
+                <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+            </slot>
+
+        </div>
+
+    </form-group>
+
+</template>
+
+<script>
+
+import InputField from '@/Components/InputField/InputField';
+
+export default {
+
+    name: 'file-field',
+
+    extends: InputField,
+
+    model: {
+        event: 'change'
+    },
+
+    props: {
+
+        /**
+         * The class name assigned to the control element
+         *
+         * @property String
+         */
+        defaultControlClass: {
+            type: String,
+            default: 'custom-file-input'
+        },
+
+        /**
+         * An array of valid extensions
+         *
+         * @property String
+         */
+        extensions: Array,
+
+        /**
+         * The type attribute
+         *
+         * @property String
+         */
+        multiple: Boolean,
+
+        /**
+         * The height attribute for the control element
+         *
+         * @property String
+         */
+        height: [Number, String],
+
+        /**
+         * The width attribute for the control element
+         *
+         * @property String
+         */
+        width: [Number, String]
+
+    }
+
+}
+
+</script>
