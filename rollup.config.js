@@ -37,6 +37,21 @@ const NAMESPACE = upperFirst(camelCase(pkg.name));
 // The node_modules directory path
 const NODE_MODULES = `${__dirname}/node_modules/**`;
 
+// Define the list of output globals
+const globals = {
+    'vue': 'Vue',
+    'axios': 'axios',
+    'moment': 'moment',
+    'lodash': 'lodash'
+};
+
+// Define an array of external packages to not include in the bundle
+const external = [
+    'vue',
+    'axios',
+    'moment'
+];
+
 // Define the plugins used for the rollup process
 const plugins = [
     //globals(),
@@ -47,6 +62,8 @@ const plugins = [
         '@': `${__dirname}/src/`
     }),
     resolve({
+        main: true,
+        jsnext: true,
         browser: true,
         extensions: [ '.js', '.vue']
     }),
@@ -82,25 +99,34 @@ if(process.env.ROLLUP_WATCH == 'true') {
 }
 
 // Export the config object
-export default {
+export default [{
     input: MAINJS,
     output: {
         name: NAMESPACE,
         format: PACKAGE_FORMAT,
         file: `${DIST}${FILENAME}.js`,
         sourcemap: (process.env.ROLLUP_WATCH ? 'inline' : true),
-        globals: {
-            'vue': 'Vue',
-            'axios': 'axios',
-            'moment': 'moment',
-            'lodash-es': 'lodash'
-        }
+        globals: globals,
+        exports: 'named',
     },
-    external: [
-        'vue'
-    ],
     watch: {
         include: `${SRC}**`
     },
+    external: external,
     plugins: plugins
-};
+}, {
+    input: MAINJS,
+    output: {
+        name: NAMESPACE,
+        format: 'es',
+        file: `${DIST}${FILENAME}.es.js`,
+        sourcemap: (process.env.ROLLUP_WATCH ? 'inline' : true),
+        globals: globals,
+        exports: 'named',
+    },
+    watch: {
+        include: `${SRC}**`
+    },
+    external: external,
+    plugins: plugins
+}];

@@ -30,8 +30,8 @@
 
 <script>
 
-import uuid from '@/Helpers/Uuid';
-import prefix from '@/Helpers/Prefix';
+import uuid from '@/Helpers/Uuid/Uuid';
+import prefix from '@/Helpers/Prefix/Prefix';
 import DropdownMenu from '../DropdownMenu';
 
 export default {

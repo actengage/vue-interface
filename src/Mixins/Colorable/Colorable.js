@@ -4,7 +4,7 @@ import { filter } from 'lodash';
 import { isNull } from 'lodash';
 import { omitBy } from 'lodash';
 import { camelCase } from 'lodash';
-import prefix from '@/Helpers/Prefix';
+import prefix from '@/Helpers/Prefix/Prefix';
 
 const COLORS = [
     'primary',

@@ -1,7 +1,7 @@
 import { each } from 'lodash';
 import { isArray } from 'lodash';
 import { isObject } from 'lodash';
-import Transformer from './Transformer';
+import Transformer from '../Transformer';
 
 export default class TableViewTransformer extends Transformer {
 

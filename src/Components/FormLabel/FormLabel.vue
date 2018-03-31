@@ -7,8 +7,8 @@
 <script>
 
 import { extend } from 'lodash';
-import Colorable from '@/Mixins/Colorable';
-import Screenreaders from '@/Mixins/Screenreaders';
+import Colorable from '@/Mixins/Colorable/Colorable';
+import Screenreaders from '@/Mixins/Screenreaders/Screenreaders';
 
 export default {
 

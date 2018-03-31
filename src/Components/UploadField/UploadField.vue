@@ -28,8 +28,7 @@ import { remove } from 'lodash';
 import { extend } from 'lodash';
 import { findIndex } from 'lodash';
 import { isUndefined } from 'lodash';
-//import BaseField from './BaseField';
-import FormControl from '@/Mixins/FormControl';
+import FormControl from '@/Mixins/FormControl/FormControl';
 import FileField from '@/Components/FileField/FileField';
 import FilePreview from '@/Components/FilePreview/FilePreview';
 
@@ -37,24 +36,12 @@ export default {
 
     name: 'upload-field',
 
-    //extends: BaseField,
-
     mixins: [FormControl],
 
     components: {
         FileField,
         FilePreview
     },
-
-    /*
-    directives: {
-        bindEvents: {
-            inserted(el, binding, vnode) {
-                console.log(binding, vnode.context);
-            }
-        }
-    },
-    */
 
     model: {
         prop: 'data',

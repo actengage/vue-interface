@@ -7,7 +7,7 @@
 <script>
 
 import { isFunction } from 'lodash';
-import Model from '@/Http/Model';
+import Model from '@/Http/Model/Model';
 
 export default {
 
@@ -121,7 +121,14 @@ export default {
             }
         }
 
+    },
+
+    data() {
+        return {
+            errors: {}
+        }
     }
+    
 }
 
 </script>

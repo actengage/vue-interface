@@ -10,7 +10,7 @@
 
 import { each } from 'lodash';
 import ListGroupItem from './ListGroupItem';
-import prefix from '@/Helpers/Prefix';
+import prefix from '@/Helpers/Prefix/Prefix';
 
 export default {
 

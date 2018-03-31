@@ -1,13 +1,21 @@
-import Vue from 'vue';
 import { each } from 'lodash';
+import * as plugins from './Plugins';
 import * as components from './Components';
-import MergeClasses from '@/Plugins/MergeClasses';
+//import * as directives from './Directives';
+import VueInstaller from './Helpers/VueInstaller';
 
-Vue.config.productionTip = false;
-Vue.use(MergeClasses);
+export * from './Http';
+export * from './Mixins';
+export * from './Plugins';
+export * from './Components';
+//export * from './Directives';
 
-each(components, (component, name) => {
-    Vue.component(name, component);
+export default VueInstaller.use({
+
+    install(Vue) {
+        VueInstaller.plugins(Vue, plugins);
+        VueInstaller.components(Vue, components);
+        //VueInstaller.directives(Vue, directives);
+    }
+
 });
-
-export default Vue.extend();

@@ -14,7 +14,7 @@
 
 import { isObject } from 'lodash';
 import Badge from '../Badge';
-import prefix from '@/Helpers/Prefix';
+import prefix from '@/Helpers/Prefix/Prefix';
 
 export default {
 

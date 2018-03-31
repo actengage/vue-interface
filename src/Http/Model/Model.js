@@ -1,3 +1,4 @@
+import { map } from 'lodash';
 import { each } from 'lodash';
 import { keys } from 'lodash';
 import { size } from 'lodash';
@@ -5,10 +6,11 @@ import { extend } from 'lodash';
 import { filter } from 'lodash';
 import { isNull } from 'lodash';
 import { pickBy } from 'lodash';
+import { reduce } from 'lodash';
 import { isArray } from 'lodash';
 import { isObject } from 'lodash';
 import { isUndefined } from 'lodash';
-import Request from './Request';
+import Request from '../Request';
 
 export default class Model {
 
@@ -18,17 +20,17 @@ export default class Model {
      * @param data object
      * @return void
      */
-    constructor(data = {}, override = {}) {
-        this.$initialized = false;
+    constructor(data = {}, params = {}) {
         this.$changed = {};
         this.$exists = false;
         this.$attributes = {};
         this.$key = this.key();
+        this.$files = this.files();
         this.$table = this.table();
         this.$properties = this.properties();
-        this.fill(data);
+        this.initialize(data);
 
-        each(override, (value, key) => {
+        each(params, (value, key) => {
             this[key] = value;
         });
 
@@ -37,6 +39,21 @@ export default class Model {
         }
 
         this.$initialized = true;
+    }
+
+    /**
+     * Initialize the model with the given data without considering the data
+     * as "changed".
+     *
+     * @param data object
+     * @return this
+     */
+    initialize(data) {
+        this.$initialized = false;
+        this.fill(data);
+        this.$initialized = true;
+
+        return this;
     }
 
     /**
@@ -223,7 +240,7 @@ export default class Model {
      * @return bool
      */
     exists() {
-        return this.$exists;
+        return !!this.$exists;
     }
 
     /**
@@ -233,6 +250,29 @@ export default class Model {
      */
     hasChanged(key) {
         return !key ? size(this.$changed) > 0 : !isUndefined(this.$changed[key]);
+    }
+
+    /**
+     * Does the model have any File objects. If so, need to send as multipart.
+     *
+     * @return bool
+     */
+    hasFiles() {
+        function count(files, total = 0) {
+            return reduce(files, (carry, value) => {
+                if(isArray(value)) {
+                    return carry + count(value, total);
+                }
+                else if(value instanceof File || value instanceof FileList) {
+                    return carry + 1;
+                }
+                else {
+                    return carry;
+                }
+            }, total);
+        }
+
+        return count(this.toJSON()) !== 0;
     }
 
     /**
@@ -291,7 +331,9 @@ export default class Model {
 
         this.fill(data);
 
-        return this.request(`/api/${this.table()}`, config).post();
+        return this.request(`/api/${this.table()}`, extend({
+            data: !this.hasFiles() ? this.toJson() : this.toFormData()
+        }, config)).post();
     }
 
     /**
@@ -305,9 +347,13 @@ export default class Model {
             return this.create(data, config);
         }
 
+        const method = this.hasFiles() ? 'post' : 'put';
+
         this.fill(data);
 
-        return this.request(`/api/${this.table()}/${this.key()}`, config).put();
+        return this.request(`/api/${this.table()}/${this.get(this.key())}`, extend({
+            data: !this.hasFiles() ? this.toJson() : this.toFormData()
+        }, config))[method]();
     }
 
     /**
@@ -323,7 +369,43 @@ export default class Model {
 
         this.fill(data);
 
-        return this.request(`/api/${this.table()}/${this.key()}`, config).delete();
+        return this.request(`/api/${this.table()}/${this.get(this.key())}`, config).delete();
+    }
+
+    /**
+     * Find an existing model by id
+     *
+     * @param data object
+     * @return bool
+     */
+    search(params = {}, config = {}) {
+        return new Promise((resolve, reject) => {
+            this.request(`/api/${this.table()}`, extend({
+                params: params
+            }, config)).get().then(response => {
+                resolve(map(response.data, data => {
+                    return new (this.constructor)(data);
+                }));
+            }, errors => {
+                reject(errors);
+            });
+        });
+    }
+
+    /**
+     * Find an existing model by id
+     *
+     * @param data object
+     * @return bool
+     */
+    find(id, config = {}) {
+        return new Promise((resolve, reject) => {
+            this.request(`/api/${this.table()}/${id}`, config).get().then(response => {
+                resolve(this.initialize(response));
+            }, errors => {
+                reject(errors);
+            });
+        });
     }
 
     /**
@@ -333,9 +415,7 @@ export default class Model {
      * @return bool
      */
     request(url, config = {}) {
-        return new Request(url, extend(config, {
-            data: this.toFormData()
-        }));
+        return new Request(url, config);
     }
 
     /**

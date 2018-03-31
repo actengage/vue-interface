@@ -5,7 +5,7 @@ import { isArray } from 'lodash';
 import { isObject } from 'lodash';
 import { camelCase } from 'lodash';
 import { isUndefined } from 'lodash';
-import prefix from '@/Helpers/Prefix';
+import prefix from '@/Helpers/Prefix/Prefix';
 
 export default {
 
@@ -168,16 +168,6 @@ export default {
          */
         helpText: String,
 
-        /**
-         * Some instructions to appear under the field label
-         *
-         * @property String
-        helpTextClass: {
-            type: String,
-            default: 'form-text text-muted'
-        }
-        */
-
     },
 
     directives: {
@@ -210,36 +200,11 @@ export default {
             return !errors || isArray(errors) || isObject(errors) ? errors : [errors];
         },
 
-        /*
-        setValidity(validity, message) {
-            console.log('stop setValidity');
-            return;
-
-            const element = this.getInputField();
-
-            if(element) {
-                element.setCustomValidity(message)
-                element.checkValidity();
-            }
-        },
-        */
-
         updated(value, event) {
             this.$emit(event || 'input', value);
         }
 
     },
-
-    /*
-    watch: {
-        error: function (value) {
-            this.setValidity(false, error);
-        },
-        errors: function (errors) {
-            this.setValidity((errors = this.getFieldErrors()) && errors.length, errors ? errors[0] : '');
-        }
-    },
-    */
 
     computed: {
 

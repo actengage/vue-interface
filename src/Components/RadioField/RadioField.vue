@@ -31,9 +31,9 @@
 
 <script>
 
-import prefix from '@/Helpers/Prefix';
-import Colorable from '@/Mixins/Colorable';
-import FormControl from '@/Mixins/FormControl';
+import prefix from '@/Helpers/Prefix/Prefix';
+import Colorable from '@/Mixins/Colorable/Colorable';
+import FormControl from '@/Mixins/FormControl/FormControl';
 
 export default {
 

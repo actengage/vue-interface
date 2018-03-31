@@ -24,6 +24,7 @@
 <script>
 import moment from 'moment';
 import { isFunction } from 'lodash';
+import readFile from '@/Helpers/ReadFile/ReadFile';
 import ProgressBar from '@/Components/ProgressBar/ProgressBar';
 
 export default {
@@ -143,21 +144,16 @@ export default {
     methods: {
         readFile() {
             const start = moment();
-            const reader = new FileReader;
 
-            reader.onload = e => {
-                setTimeout(() => {
-                    this.image = e.target.result;
-                }, 600 - moment().diff(start));
-            };
-
-            reader.onprogress = e => {
+            readFile(this.file, e => {
                 if(e.lengthComputable) {
                     this.loaded = parseInt((e.loaded / e.total) * 100, 10);
                 }
-            };
-
-            reader.readAsDataURL(this.file);
+            }).then(e => {
+                setTimeout(() => {
+                    this.image = e.target.result;
+                }, 600 - moment().diff(start));
+            });
         },
 
     	bytesToSize: function(bytes) {

@@ -21,7 +21,7 @@ export default function(Vue, options) {
                 classes[arg] = true;
             }
         });
-        
+
         return classes;
     };
 

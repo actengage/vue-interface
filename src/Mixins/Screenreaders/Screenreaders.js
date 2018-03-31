@@ -5,14 +5,14 @@ export default {
         /**
          * Should show only for screenreaders
          *
-         * @property Number
+         * @property Boolean
          */
         srOnly: Boolean,
 
         /**
          * Should be focusable for screenreaders
          *
-         * @property Number
+         * @property Boolean
          */
         srOnlyFocusable: Boolean
 

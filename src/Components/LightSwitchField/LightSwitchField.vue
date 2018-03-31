@@ -30,7 +30,7 @@
 import { extend } from 'lodash';
 import { isUndefined } from 'lodash';
 //import BaseField from './BaseField';
-import FormControl from '@/Mixins/FormControl';
+import FormControl from '@/Mixins/FormControl/FormControl';
 
 export default {
 

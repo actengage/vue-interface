@@ -1,3 +1,5 @@
+import prefix from '@/Helpers/Prefix/Prefix';
+
 export default {
 
     props: {
@@ -16,11 +18,8 @@ export default {
     },
 
     computed: {
-        sizeableClasses() {
-            return {
-                'sr-only': this.srOnly,
-                'sr-only-focusable': this.srOnlyFocusable,
-            };
+        sizeableClass() {
+            return prefix(this.size, this.$options.name);
         }
     }
 

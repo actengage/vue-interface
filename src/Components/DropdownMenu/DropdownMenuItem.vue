@@ -11,7 +11,7 @@
 
 <script>
 
-import Proxy from '@/Mixins/Proxy';
+import Proxy from '@/Mixins/Proxy/Proxy';
 
 export default {
 

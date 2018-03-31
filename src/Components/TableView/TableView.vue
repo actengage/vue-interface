@@ -11,7 +11,7 @@
             </slot>
 
             <slot name="buttons">
-                <div v-if="buttons.length" class="buttons-wrapper">
+                <div v-if="buttons.length" class="buttons-wrapper my-3">
                     <span>
                 		<a v-for="(button, key) in buttons"
                             :href="button.href || '#'"
@@ -85,11 +85,11 @@ import { keys } from 'lodash';
 import { each } from 'lodash';
 import { extend } from 'lodash';
 import { isObject } from 'lodash';
-import Proxy from '@/Mixins/Proxy';
-import Request from '@/Http/Request';
 import Pagination from '../Pagination';
 import ActivityIndicator from '../ActivityIndicator';
-import TableViewTransformer from '@/Http/Transformers/TableViewTransformer';
+import Proxy from '@/Mixins/Proxy/Proxy';
+import Request from '@/Http/Request/Request';
+import TableViewTransformer from '@/Http/TableViewTransformer/TableViewTransformer';
 
 export default {
     name: 'table-view',

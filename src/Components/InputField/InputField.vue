@@ -37,10 +37,8 @@
 
 <script>
 
-//import Sizeable from '@/Mixins/Sizeable';
-
-import Colorable from '@/Mixins/Colorable';
-import FormControl from '@/Mixins/FormControl';
+import Colorable from '@/Mixins/Colorable/Colorable';
+import FormControl from '@/Mixins/FormControl/FormControl';
 
 export default {
 
