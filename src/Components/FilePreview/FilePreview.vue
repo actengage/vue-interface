@@ -55,7 +55,7 @@ export default {
          * @property Object
          */
         file: {
-            type: File,
+            type: [Object, File],
             required: true
         },
 
@@ -82,7 +82,7 @@ export default {
          * @property String
          */
         name() {
-            return this.file.name;
+            return this.file instanceof File ? this.file.name : this.file.orig_filename;
         },
 
         /**
@@ -91,7 +91,7 @@ export default {
          * @property String
          */
         extension() {
-            return this.file.name.split('.').pop().toLowerCase();
+            return this.file instanceof File ? this.file.name.split('.').pop().toLowerCase() : this.file.extension;
         },
 
         /**
@@ -100,7 +100,7 @@ export default {
          * @property String
          */
         size() {
-            return this.bytesToSize(this.file.size);
+            return this.bytesToSize(this.file instanceof File ? this.file.size : this.file.bytes);
         },
 
         /**
@@ -109,7 +109,7 @@ export default {
          * @property String
          */
         type() {
-            return this.file.type;
+            return this.file instanceof File ? this.file.type : this.file.mime;
         },
 
         /**
@@ -127,7 +127,7 @@ export default {
          * @property String
          */
         lastModified() {
-            return this.file.lastModified;
+            return this.file instanceof File ? this.file.lastModified : null;
         },
 
         /**
@@ -136,24 +136,26 @@ export default {
          * @property String
          */
         lastModifiedDate() {
-            return this.file.lastModifiedDate;
+            return this.file instanceof File ? this.file.lastModifiedDate : null;
         }
 
     },
 
     methods: {
         readFile() {
-            const start = moment();
+            if(this.file instanceof File) {
+                const start = moment();
 
-            readFile(this.file, e => {
-                if(e.lengthComputable) {
-                    this.loaded = parseInt((e.loaded / e.total) * 100, 10);
-                }
-            }).then(e => {
-                setTimeout(() => {
-                    this.image = e.target.result;
-                }, 600 - moment().diff(start));
-            });
+                readFile(this.file, e => {
+                    if(e.lengthComputable) {
+                        this.loaded = parseInt((e.loaded / e.total) * 100, 10);
+                    }
+                }).then(e => {
+                    setTimeout(() => {
+                        this.image = e.target.result;
+                    }, 600 - moment().diff(start));
+                });
+            }
         },
 
     	bytesToSize: function(bytes) {
@@ -168,7 +170,7 @@ export default {
     data() {
         return {
             loaded: 0,
-            image: null
+            image: this.file.url
         };
     }
 

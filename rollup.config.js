@@ -68,7 +68,10 @@ const plugins = [
         extensions: [ '.js', '.vue']
     }),
     commonjs({
-        include: NODE_MODULES
+        include: NODE_MODULES,
+        namedExports: {
+            'node_modules/axios/index.js': 'axios'
+        }
     }),
     vue({
         scss: {

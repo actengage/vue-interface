@@ -1,8 +1,19 @@
 <template>
 
-    <div class="upload-field" :class="{'form-group': group, 'enable-dropzone': dropzone}" @dragenter.prevent="onDragEnter" @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave">
+    <form-group class="upload-field" :class="{'enable-dropzone': dropzone}" @dragenter.prevent="onDragEnter" @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave">
 
-        <file-field v-if="multiple && (!maxUploads || maxUploads > data.length) || !multiple && !data" :name="name" :label="label" :help-text="helpText" :multiple="multiple" :width="width" :height="height" :errors="errors" @change="multiple ? addFiles($event.target.files) : addFile($event.target.files[0])" />
+        <file-field
+            v-if="multiple && (!maxUploads || maxUploads > data.length) || !multiple && !data"
+            :name="name"
+            :label="label"
+            :placeholder="placeholder"
+            :help-text="helpText"
+            :multiple="multiple"
+            :width="width"
+            :height="height"
+            :errors="errors"
+            @change="multiple ? addFiles($event.target.files) : addFile($event.target.files[0])"
+        />
 
         <div v-if="multiple" class="upload-field-preview mt-4">
             <file-preview v-for="(file, key) in data" :key="[file.name, file.lastModified, file.size].join('')" :file="file" @close="removeFile(file)"  />
@@ -17,7 +28,7 @@
             <div>Drag and drop files to upload</div>
         </div>
 
-    </div>
+    </form-group>
 
 </template>
 
@@ -116,7 +127,7 @@ export default {
          * @property File|FileList|Array
          */
         data: {
-            type: [File, FileList, Array],
+            type: [Object, File, FileList, Array],
             default() {
                 return !this.multiple ? null : [];
             }

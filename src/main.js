@@ -9,6 +9,7 @@ export * from './Mixins';
 export * from './Plugins';
 export * from './Components';
 //export * from './Directives';
+export * from './Helpers';
 
 export default VueInstaller.use({
 

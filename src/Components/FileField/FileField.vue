@@ -8,8 +8,8 @@
 
         <div class="custom-file">
 
-            <slot name="label">
-                <form-label v-if="label" :class="mergeClasses(colorableClasses, 'custom-file-label')" :for="id" v-html="label || 'Choose file'" />
+            <slot name="placeholder">
+                <form-label :class="mergeClasses(colorableClasses, 'custom-file-label')" :for="id" v-html="placeholder || 'Choose file'" />
             </slot>
 
             <input
@@ -17,7 +17,6 @@
                 type="file"
                 :class="controlClasses"
                 :id="id"
-                :placeholder="placeholder"
                 :width="width"
                 :height="height"
                 :required="required"

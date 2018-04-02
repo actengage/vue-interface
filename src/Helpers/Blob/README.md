@@ -1,21 +1,19 @@
-# readFile(file, [progress])
+# blob(url, [progress])
 
-Read the uploaded File object
+Read the url and return a Blob.
 
-@param  File  The File object from the file field
+@param  String  The source url to be converted to a blob
 @param  Function  A callback function for the loading progress
 @return Promise
 
-    const file = document.querySelector('[type=file]').files[0];
-
-    readFile(file, (e, reader) => {
+    blob(url, (e, xhr) => {
         // reader.abort();
-        
+
         if(e.lengthComputable) {
             console.log('loaded', parseInt((e.loaded / e.total) * 100, 10));
         }
-    }).then(e => {
-        console.log('file', e.target.result);
+    }).then(blob => {
+        console.log('blob', blob);
     }, error => {
         console.log('error', error);
     });

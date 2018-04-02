@@ -75,6 +75,8 @@ export default {
                 this.$emit('submit', event);
 
                 if(this.model) {
+                    console.log('data', this.data);
+                    
                     this.model.save(this.data, {
                         onUploadProgress: event => {
                             this.$emit('submit:progress', event);
@@ -128,7 +130,7 @@ export default {
             errors: {}
         }
     }
-    
+
 }
 
 </script>

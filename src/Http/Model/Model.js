@@ -331,9 +331,13 @@ export default class Model {
 
         this.fill(data);
 
-        return this.request(`/api/${this.table()}`, extend({
+        const request = this.request(`/api/${this.table()}`, extend({
             data: !this.hasFiles() ? this.toJson() : this.toFormData()
-        }, config)).post();
+        }, config))
+
+        return request.post().then(response => {
+            return this.fill(response);
+        });
     }
 
     /**
@@ -346,14 +350,16 @@ export default class Model {
         if(!this.exists()) {
             return this.create(data, config);
         }
-
-        const method = this.hasFiles() ? 'post' : 'put';
-
+        
         this.fill(data);
 
-        return this.request(`/api/${this.table()}/${this.get(this.key())}`, extend({
+        const request = this.request(`/api/${this.table()}/${this.get(this.key())}`, extend({
             data: !this.hasFiles() ? this.toJson() : this.toFormData()
-        }, config))[method]();
+        }, config));
+
+        return request[this.hasFiles() ? 'post' : 'put']().then(response => {
+            return this.fill(response);
+        });
     }
 
     /**
