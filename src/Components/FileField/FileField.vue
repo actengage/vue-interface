@@ -9,7 +9,7 @@
         <div class="custom-file">
 
             <slot name="placeholder">
-                <form-label :class="mergeClasses(colorableClasses, 'custom-file-label')" :for="id" v-html="placeholder || 'Choose file'" />
+                <form-label :class="$mergeClasses(colorableClasses, 'custom-file-label')" :for="id" v-html="placeholder || 'Choose file'" />
             </slot>
 
             <input

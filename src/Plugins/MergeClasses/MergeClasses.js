@@ -7,7 +7,7 @@ import { isObject } from 'lodash';
 
 export default function(Vue, options) {
 
-    Vue.prototype.mergeClasses = function() {
+    Vue.prototype.$mergeClasses = function() {
         const classes = {};
 
         each([].slice.call(arguments), arg => {

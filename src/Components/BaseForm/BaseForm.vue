@@ -14,6 +14,19 @@ export default {
     props: {
 
         /**
+         * The Model method used to send the request.
+         *
+         * @property Boolean
+         */
+        method: {
+            type: String,
+            default: 'save',
+            validate(value) {
+                return this.model && isFunction(this.model[value]);
+            }
+        },
+
+        /**
          * An object of form data
          *
          * @property Object
@@ -42,10 +55,7 @@ export default {
          *
          * @property Boolean
          */
-        inline: {
-            type: Boolean,
-            default: false
-        },
+        inline: Boolean,
 
         /**
          * A callback function for the `submit` event
@@ -62,7 +72,7 @@ export default {
          *
          * @property Function|String
          */
-        redirect: [String, Function],
+        redirect: [Object, String, Function],
 
         /**
          * A callback function for the `submit` event
@@ -72,21 +82,7 @@ export default {
         onSubmit: {
             type: Function,
             default(event) {
-                this.$emit('submit', event);
-
-                if(this.model) {
-                    console.log('data', this.data);
-                    
-                    this.model.save(this.data, {
-                        onUploadProgress: event => {
-                            this.$emit('submit:progress', event);
-                        }
-                    }).then((data) => {
-                        this.onSubmitSuccess(event, data);
-                    }, (errors) => {
-                        this.onSubmitFailed(event, errors);
-                    });
-                }
+                this.model && this.submit();
             }
         },
 
@@ -105,7 +101,7 @@ export default {
                     this.redirect(this);
                 }
                 else if(this.redirect) {
-                    window.location = this.redirect;
+                    this.$router.push(this.redirect);
                 }
             }
         },
@@ -121,6 +117,24 @@ export default {
                 this.$emit('submit:failed', event, errors);
                 this.$emit('submit:complete', event, false, errors);
             }
+        }
+
+    },
+
+    methods: {
+
+        submit(event) {
+            this.$emit('submit', event);
+
+            return this.model[this.method](this.data, {
+                onUploadProgress: event => {
+                    this.$emit('submit:progress', event);
+                }
+            }).then((data) => {
+                this.onSubmitSuccess(event, data);
+            }, (errors) => {
+                this.onSubmitFailed(event, errors);
+            });
         }
 
     },

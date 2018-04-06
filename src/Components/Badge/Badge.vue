@@ -1,9 +1,9 @@
 <template>
-    <a v-if="href" :href="href" class="badge" :class="mergeClasses(classes, variantClass)">
+    <a v-if="href" :href="href" class="badge" :class="$mergeClasses(classes, variantClass)">
         <slot>{{label}}</slot>
         <span class="sr-only" v-html="accessibility"/>
     </a>
-    <span v-else class="badge" :class="mergeClasses(classes, variantClass)">
+    <span v-else class="badge" :class="$mergeClasses(classes, variantClass)">
         <slot>{{label}}</slot>
         <span class="sr-only" v-html="accessibility"/>
     </span>

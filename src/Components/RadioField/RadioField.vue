@@ -1,6 +1,6 @@
 <template>
-    <div class="form-check" :class="mergeClasses({'form-check-inline': inline}, controlSizeClass)">
-        <label :for="id" :class="mergeClasses('form-check-label', colorableClasses)">
+    <div class="form-check" :class="$mergeClasses({'form-check-inline': inline}, controlSizeClass)">
+        <label :for="id" :class="$mergeClasses('form-check-label', colorableClasses)">
             <input
                 type="radio"
                 :name="name"
@@ -11,7 +11,7 @@
                 :readonly="readonly"
                 :pattern="pattern"
                 :checked="value === checked"
-                :class="mergeClasses(controlClass, (invalidFeedback ? 'is-invalid':''), !(label ? 'position-static' : ''))"
+                :class="$mergeClasses(controlClass, (invalidFeedback ? 'is-invalid':''), !(label ? 'position-static' : ''))"
                 v-bind-events="bindEvents"
                 v-on:change="updated($event.target.value, 'change')">
 

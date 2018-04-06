@@ -350,7 +350,7 @@ export default class Model {
         if(!this.exists()) {
             return this.create(data, config);
         }
-        
+
         this.fill(data);
 
         const request = this.request(`/api/${this.table()}/${this.get(this.key())}`, extend({
@@ -435,10 +435,17 @@ export default class Model {
         each(this.toJSON(), (value, key) => {
             if(isArray(value)) {
                 each(value, item => {
+                    if(!(item instanceof File) && (isObject(item) || isArray(item))) {
+                        item = JSON.stringify(item);
+                    }
+
                     form.append(key.replace(/(.+)(\[.+\]?)$/, '$1')+'[]', item);
                 });
             }
-            else {
+            else if(!(value instanceof File) && isObject(value)) {
+                form.append(key, JSON.stringify(value));
+            }
+            else if(!isNull(value)) {
                 form.append(key, value);
             }
         });

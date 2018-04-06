@@ -14,7 +14,7 @@
                 :disabled="disabled || readonly"
                 :readonly="readonly"
                 :pattern="pattern"
-                :class="mergeClasses(controlClasses, colorableClasses)"
+                :class="$mergeClasses(controlClasses, colorableClasses)"
                 v-on:input="updated($event.target.value)">
                 <slot />
             </select>

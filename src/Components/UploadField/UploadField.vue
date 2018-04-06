@@ -1,9 +1,9 @@
 <template>
 
-    <form-group class="upload-field" :class="{'enable-dropzone': dropzone}" @dragenter.prevent="onDragEnter" @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave">
+    <form-group class="upload-field" :class="{'enable-dropzone': dropzone, 'enable-multiple': multiple}" @dragenter.prevent="onDragEnter" @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave">
 
         <file-field
-            v-if="multiple && (!maxUploads || maxUploads > data.length) || !multiple && !data"
+            v-if="multiple && (!maxUploads || maxUploads > value.length) || !multiple && !value"
             :name="name"
             :label="label"
             :placeholder="placeholder"
@@ -15,12 +15,12 @@
             @change="multiple ? addFiles($event.target.files) : addFile($event.target.files[0])"
         />
 
-        <div v-if="multiple" class="upload-field-preview mt-4">
-            <file-preview v-for="(file, key) in data" :key="[file.name, file.lastModified, file.size].join('')" :file="file" @close="removeFile(file)"  />
+        <div v-if="multiple && value && value.length" class="upload-field-preview mt-4">
+            <file-preview v-for="(file, key) in value" :key="file.id || key" :file="file" @close="removeFile(file)"/>
         </div>
 
-        <div v-else-if="!multiple && data" class="upload-field-preview mt-4">
-            <file-preview :file="data" @close="removeFile(data)"  />
+        <div v-else-if="!multiple && value" class="upload-field-preview mt-4">
+            <file-preview :file="value" @close="removeFile(value)"/>
         </div>
 
         <div v-if="showDropElement" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
@@ -33,10 +33,12 @@
 </template>
 
 <script>
+import { pull } from 'lodash';
 import { each } from 'lodash';
 import { merge } from 'lodash';
 import { remove } from 'lodash';
 import { extend } from 'lodash';
+import { isArray } from 'lodash';
 import { findIndex } from 'lodash';
 import { isUndefined } from 'lodash';
 import FormControl from '@/Mixins/FormControl/FormControl';
@@ -55,23 +57,18 @@ export default {
     },
 
     model: {
-        prop: 'data',
+        prop: 'value',
         event: 'change'
     },
 
     props: {
 
         /**
-         * Is the user dragging a file over the dropzone
+         * Can user upload multiple files
          *
          * @property String
          */
-        dragging: {
-            type: [String, Boolean],
-            default() {
-                return undefined;
-            }
-        },
+        multiple: Boolean,
 
         /**
          * The maximum number of files that a user can upload
@@ -99,9 +96,18 @@ export default {
          *
          * @property String
          */
-        dropzone: {
-            type: Boolean,
-            default: true
+        dropzoneMinHeight: [Number, String],
+
+        /**
+         * Is the user dragging a file over the dropzone
+         *
+         * @property String
+         */
+        dragging: {
+            type: [String, Boolean],
+            default() {
+                return undefined;
+            }
         },
 
         /**
@@ -109,16 +115,9 @@ export default {
          *
          * @property String
          */
-        dropzoneMinHeight: [Number, String],
-
-        /**
-         * Can user upload multiple files
-         *
-         * @property String
-         */
-        multiple: {
+        dropzone: {
             type: Boolean,
-            default: false
+            default: true
         },
 
         /**
@@ -126,7 +125,7 @@ export default {
          *
          * @property File|FileList|Array
          */
-        data: {
+        value: {
             type: [Object, File, FileList, Array],
             default() {
                 return !this.multiple ? null : [];
@@ -139,13 +138,18 @@ export default {
 
         removeFile(data) {
             if(this.multiple) {
-                const files = this.data.slice(0);
+                const files = isArray(this.value) ? this.value.slice(0) : [];
 
-                remove(files, {
-                    name: data.name,
-                    size: data.size,
-                    lastModified: data.lastModified
-                });
+                if(data instanceof File) {
+                    remove(files, {
+                        name: data.name,
+                        size: data.size,
+                        lastModified: data.lastModified
+                    });
+                }
+                else {
+                    remove(files, data);
+                }
 
                 this.$emit('change', files);
             }
@@ -164,7 +168,7 @@ export default {
             }
 
             if(this.multiple) {
-                const files = subject || this.data.slice(0);
+                const files = subject || (isArray(this.value) ? this.value.slice(0) : []);
 
                 if(!this.maxUploads || this.maxUploads > files.length) {
                     if(findIndex(files, data) === -1) {
@@ -180,7 +184,7 @@ export default {
         },
 
         addFiles(files) {
-            const subject = this.data.slice(0);
+            const subject = isArray(this.value) ? this.value.slice(0) : [];
 
             each(files, file => {
                 this.addFile(file, subject);
@@ -251,13 +255,60 @@ export default {
 </script>
 
 <style lang="scss">
-@import './node_modules/bootstrap/scss/bootstrap.scss';
+@import './node_modules/bootstrap/scss/bootstrap-reboot.scss';
+
+@mixin file-preview($total) {
+    & .file-preview-inner {
+        margin-right: 0;
+    }
+
+    &:nth-last-child(#{$total}) .file-preview-inner {
+        margin-right: 1rem;
+    }
+
+    &:nth-last-child(#{$total}),
+    &:nth-last-child(#{$total}) ~ .file-preview {
+        width: 100% / $total;
+    }
+}
 
 .upload-field {
 
     &.enable-dropzone {
         position: relative;
     }
+
+    &.enable-multiple .file-preview {
+        max-width: 300px;
+
+        &:first-child:nth-last-child(1) {
+            width: 100%;
+        }
+
+        @include file-preview(2);
+        @include file-preview(3);
+        @include file-preview(4);
+        @include file-preview(5);
+    }
+li
+
+/* two items */
+li:first-child:nth-last-child(2),
+li:first-child:nth-last-child(2) ~ li {
+    width: 50%;
+}
+
+/* three items */
+li:first-child:nth-last-child(3),
+li:first-child:nth-last-child(3) ~ li {
+    width: 33.3333%;
+}
+
+/* four items */
+li:first-child:nth-last-child(4),
+li:first-child:nth-last-child(4) ~ li {
+    width: 25%;
+}
 
     &:not(.enable-dropzone) .upload-field-dropzone {
         position: fixed;
@@ -290,10 +341,8 @@ export default {
         flex-wrap: wrap;
     }
 
-    .upload-field-preview .file-preview:not(.is-image) {
-        width: 150px;
-    }
 
+    /*
     .upload-field-preview .file-preview.is-image {
         width: 22.75%;
         margin-right: 3%;
@@ -302,6 +351,7 @@ export default {
             margin-right: 0;
         }
     }
+    */
 
     .upload-field-preview .file-preview {
         display: inline-block;

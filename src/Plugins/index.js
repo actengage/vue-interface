@@ -1,5 +1,7 @@
-import MergeClasses from './MergeClasses';
+import mergeClasses from './MergeClasses';
+import overlay from './Overlay';
 
 export {
-    MergeClasses
+    mergeClasses,
+    overlay
 }

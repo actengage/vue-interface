@@ -13,12 +13,17 @@ export default {
             type: String,
             default: 'primary'
         }
+
     },
 
     computed: {
 
+        variantClassPrefix() {
+            return this.$options.name;
+        },
+
         variantClass() {
-            return prefix(this.variant, this.$options.name);
+            return prefix(this.variant, this.variantClassPrefix);
         }
 
     }

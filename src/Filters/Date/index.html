@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Overlay</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            {{ '2020-01-01 05:00:00' | date('d') }}<br>
+            {{ '2020-01-01 05:00:00' | date('dd') }}<br>
+            {{ '2020-01-01 05:00:00' | date('ddd') }}<br>
+            {{ '2020-01-01 05:00:00' | date('dddd') }}<br>
+            {{ '2020-01-01 05:00:00' | date('Y') }}<br>
+            {{ '2020-01-01 05:00:00' | date('YY') }}<br>
+            {{ '2020-01-01 05:00:00' | date('M') }}<br>
+            {{ '2020-01-01 05:00:00' | date('MM') }}<br>
+            {{ '2020-01-01 05:00:00' | date('MMM') }}<br>
+            {{ '2020-01-01 05:00:00' | date('MMMM') }}<br>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.core.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment.min.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app'
+            });
+        </script>
+    </body>
+</html>

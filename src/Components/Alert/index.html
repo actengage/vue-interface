@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Alert</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>alert</h1>
+
+            <h3>Basic Usage</h3>
+
+            <alert>This is an alert.</alert>
+
+            <hr>
+
+            <h3>Dismissible</h3>
+
+            <alert show variant="info" dismissible fade>
+                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+            </alert>
+
+            <h3>Dismissible Countdown</h3>
+
+            <alert variant="warning" :show="10" dismissible fade @dismiss-countdown="onDismissCountdown">
+                <strong>Dismissing in:</strong> T-minus {{ dismissingIn }}
+            </alert>
+
+            <hr>
+
+            <h3>Variations</h3>
+
+            <alert show variant="primary">This is an <b>primary</b> alert.</alert>
+            <alert show variant="secondary">This is an <b>secondary</b> alert.</alert>
+            <alert show variant="success">This is an <b>success</b> alert.</alert>
+            <alert show variant="danger">This is an <b>danger</b> alert.</alert>
+            <alert show variant="warning">This is an <b>warning</b> alert.</alert>
+            <alert show variant="info">This is an <b>info</b> alert.</alert>
+            <alert show variant="dark">This is an <b>dark</b> alert.</alert>
+            <alert show variant="light">This is an <b>light</b> alert.</alert>
+            <alert show variant="muted">This is an <b>muted</b> alert.</alert>
+
+            <hr>
+
+            <h3>Link Color</h3>
+
+            <alert show variant="primary">This is an <b>primary</b> alert with <alert-link href="#">an example link</alert-link>. Give it a click if you like.</alert>
+            <alert show variant="secondary">This is an <b>secondary</b> alert with <alert-link href="#">an example link</alert-link>. Give it a click if you like.</alert>
+            <alert show variant="success">This is an <b>success</b> alert with <alert-link href="#">an example link</alert-link>. Give it a click if you like.</alert>
+            <alert show variant="danger">This is an <b>danger</b> alert with <alert-link href="#">an example link</alert-link>. Give it a click if you like.</alert>
+            <alert show variant="warning">This is an <b>warning</b> alert with <alert-link href="#">an example link</alert-link>. Give it a click if you like.</alert>
+            <alert show variant="info">This is an <b>info</b> alert with <alert-link href="#">an example link</alert-link>. Give it a click if you like.</alert>
+            <alert show variant="dark">This is an <b>dark</b> alert with <alert-link href="#">an example link</alert-link>. Give it a click if you like.</alert>
+            <alert show variant="light">This is an <b>light</b> alert with <alert-link href="#">an example link</alert-link>. Give it a click if you like.</alert>
+            <alert show variant="muted">This is an <b>muted</b> alert with <alert-link href="#">an example link</alert-link>. Give it a click if you like.</alert>
+
+            <hr>
+
+            <h3>Additional Content</h3>
+
+            <alert show variant="success">
+                <alert-heading>Well done!</alert-heading>
+                <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                <hr>
+                <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+            </alert>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                methods: {
+                    onDismissCountdown(count) {
+                        this.dismissingIn = count;
+                    }
+                },
+                data() {
+                    return {
+                        dismissingIn: 0
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

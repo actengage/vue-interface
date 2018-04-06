@@ -20,7 +20,13 @@
         </slot>
 
         <slot name="dropdown-menu">
-            <dropdown-menu :id="id" :items="items" :align="align" :show.sync="isDropdownShowing" @item:click="onItemClick" v-transform-position>
+            <dropdown-menu
+                :id="id"
+                :items="items"
+                :align="align"
+                :show.sync="isDropdownShowing"
+                @item:click="onItemClick"
+                v-transform-position>
                 <slot/>
             </dropdown-menu>
         </slot>

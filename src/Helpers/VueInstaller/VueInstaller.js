@@ -1,14 +1,19 @@
 import { each } from 'lodash';
+import script from '../Script';
 
 const VueInstaller = {
     use,
+    script,
     plugin,
     plugins,
+    filter,
+    filters,
     component,
     components,
     directive,
     directives,
     $plugins: {},
+    $filters: {},
     $directives: {},
     $components: {},
 };
@@ -30,6 +35,18 @@ export function plugin(Vue, name, def) {
 export function plugins(Vue, plugins) {
     each(plugins, (def, name) => {
         plugin(Vue, name, def);
+    });
+}
+
+export function filter(Vue, name, def) {
+    if(!VueInstaller.$filters[name]) {
+        Vue.use(VueInstaller.$filters[name] = def);
+    }
+}
+
+export function filters(Vue, filters) {
+    each(filters, (def, name) => {
+        filter(Vue, name, def);
     });
 }
 

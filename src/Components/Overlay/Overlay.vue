@@ -1,16 +1,18 @@
 <template>
-    <div class="overlay" :class="{'show': visible}" :style="{background: background}" @keyup.esc="hide">
-        <button type="button" class="btn btn-link overlay-close" @click="onClickClose">
+    <div class="overlay" :class="{'show': isVisible}" :style="{background: background}" @keyup.esc="hide">
+        <button v-if="closeButton" type="button" class="btn btn-link overlay-close" @click="onClickClose">
             <i class="fa fa-times-circle"></i>
         </button>
 
-        <div class="overlay-content container">
-            <slot />
+        <div class="overlay-content container" :class="{'fixed': fixedContent}" :style="{minHeight: minHeight}">
+            <slot/>
         </div>
     </div>
 </template>
 
 <script>
+import { extend } from 'lodash';
+import { isObject } from 'lodash';
 
 export default {
 
@@ -33,18 +35,37 @@ export default {
          *
          * @property Boolean
          */
-        visible: {
+        visible: Boolean,
+
+        /**
+         * Is the overlay content fixed position
+         *
+         * @property Boolean
+         */
+        fixedContent: Boolean,
+
+        /**
+         * Is the overlay content fixed position
+         *
+         * @property Boolean
+         */
+        closeButton: {
             type: Boolean,
             default: true
-        }
+        },
+
+        /**
+         * Is the overlay content minimum height.
+         *
+         * @property Boolean
+         */
+        minHeight: [String, Number]
 
     },
 
     watch: {
         visible(value) {
-            if(value) {
-                this.focus();
-            }
+            (this.isVisible = value) && this.focus();
         }
     },
 
@@ -63,10 +84,19 @@ export default {
          *
          * @return void
          */
-        show() {
+        show(contents, options) {
             this.$mount(document.body.appendChild(document.createElement('div')));
+
+            if(contents.$mount) {
+                contents.$parent = this;
+                contents.$mount(
+                    this.$el.querySelector('.overlay-content').appendChild(document.createElement('div'))
+                );
+            }
+
+            this.focus();
             this.$emit('show');
-            this.$emit('update:visible', true);
+            this.$emit('update:visible', this.isVisible = true);
         },
 
         /**
@@ -76,7 +106,7 @@ export default {
          */
         hide() {
             this.$emit('hide');
-            this.$emit('update:visible', false);
+            this.$emit('update:visible', this.isVisible = false);
         },
 
         /**
@@ -92,8 +122,12 @@ export default {
     },
 
     mounted() {
-        if(this.visible) {
-            this.focus();
+        this.visible && this.focus();
+    },
+
+    data() {
+        return {
+            isVisible: this.visible
         }
     }
 
@@ -102,7 +136,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './node_modules/bootstrap/scss/bootstrap.scss';
+@import './node_modules/bootstrap/scss/bootstrap-reboot.scss';
 
 .overlay {
     position: fixed;
@@ -144,6 +178,15 @@ export default {
         width: 100%;
         margin: 0 auto;
         padding-bottom: $font-size-base * 6;
+
+        &.fixed {
+            top: 0;
+            left: 0;
+            padding: 0;
+            height: 100%;
+            position: fixed;
+            max-width: none;
+        }
 
         .overlay-controls {
             float: right;

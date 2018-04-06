@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Overlay</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/dist/vue-toolbox.css">
     </head>
     <body>
@@ -11,20 +12,74 @@
 
             <h3>Basic Usage</h3>
 
-            <overlay>
-                <p>content goes here...</p>
-            </overlay>
+            <button type="button" class="btn btn-primary" @click="showOverlay1">
+                Show Overlay 1
+            </button>
+
+            <button type="button" class="btn btn-primary" @click="showOverlay2">
+                Show Overlay 2
+            </button>
+
+            <button type="button" class="btn btn-primary" @click="showOverlay3">
+                Show Overlay 3
+            </button>
+
+            <button type="button" class="btn btn-primary" @click="showOverlay4">
+                Show Overlay 4
+            </button>
+
+            <div class="test"></div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.core.js"></script>
         <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
         <script type="text/javascript">
             const vue = new Vue({
                 el: '#app',
                 data() {
                     return {
-                        value: null
+                        visible: true
                     };
+                },
+                methods: {
+                    showOverlay1() {
+                        const Child = Vue.extend(VueToolbox.InputField);
+
+                        this.$overlay(new Child({
+                            propsData: {
+                                label: 'Some Field'
+                            }
+                        }));
+                    },
+
+                    showOverlay2() {
+                        this.$overlay(Vue.extend(VueToolbox.InputField), {
+                            propsData: {
+                                label: 'Some Field'
+                            }
+                        });
+                    },
+
+                    showOverlay3() {
+                        this.$overlay(VueToolbox.InputField, {
+                            propsData: {
+                                label: 'Some Field'
+                            }
+                        });
+                    },
+
+                    showOverlay4() {
+                        const Child = Vue.extend(VueToolbox.InputField);
+                        const OverlayComponent = Vue.extend(VueToolbox.Overlay);
+                        const overlay = new OverlayComponent;
+
+                        overlay.show(new Child({
+                            propsData: {
+                                label: 'Some Field'
+                            }
+                        }))
+                    }
                 }
             });
         </script>

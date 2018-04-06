@@ -144,7 +144,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './node_modules/bootstrap/scss/bootstrap.scss';
+@import './node_modules/bootstrap/scss/bootstrap-reboot.scss';
 
 $light-switch-animation-easing: ease;
 $light-switch-animation-length: 1s / 3;

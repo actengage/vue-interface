@@ -1,5 +1,9 @@
 import ActivityButton from './ActivityButton';
 import ActivityIndicator from './ActivityIndicator';
+import Alert from './Alert';
+import AlertClose from './Alert/AlertClose';
+import AlertHeading from './Alert/AlertHeading';
+import AlertLink from './Alert/AlertLink';
 import Badge from './Badge';
 import BaseForm from './BaseForm';
 import ButtonDropdown from './ButtonDropdown';
@@ -31,6 +35,10 @@ import UploadField from './UploadField';
 export {
     ActivityButton,
     ActivityIndicator,
+    Alert,
+    AlertClose,
+    AlertHeading,
+    AlertLink,
     Badge,
     BaseForm,
     ButtonDropdown,

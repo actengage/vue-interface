@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './node_modules/bootstrap/scss/bootstrap.scss';
+@import './node_modules/bootstrap/scss/bootstrap-reboot.scss';
 
 $activity-indicator-spinner-size: $font-size-base * 2.25;
 $activity-indicator-spinner-width: 10%;

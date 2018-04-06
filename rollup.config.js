@@ -8,13 +8,23 @@ import json from 'rollup-plugin-json';
 import alias from 'rollup-plugin-alias';
 import babel from 'rollup-plugin-babel';
 import serve from 'rollup-plugin-serve';
+import replace from 'rollup-plugin-replace';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 
+import globals from 'rollup-plugin-node-globals';
+import builtins from 'rollup-plugin-node-builtins';
+
+    /*
+    inject({
+        include: MAINJS,
+        exclude: NODE_MODULES
+    }),
+    */
+
+//import inject from 'rollup-plugin-inject';
 //import postcss from 'rollup-plugin-postcss';
-//import globals from 'rollup-plugin-node-globals';
-//import builtins from 'rollup-plugin-node-builtins';
 
 // The type of package Rollup should create
 const PACKAGE_FORMAT = 'umd';
@@ -37,8 +47,28 @@ const NAMESPACE = upperFirst(camelCase(pkg.name));
 // The node_modules directory path
 const NODE_MODULES = `${__dirname}/node_modules/**`;
 
+// The options for the serve() plugin
+const SERVE_OPTIONS = {
+    open: true,
+    port: 10002,
+    contentBase: './',
+    host: 'localhost',
+    historyApiFallback: true
+};
+
+// The options for the watch plugin
+const WATCH_OPTIONS = {
+    include: `${SRC}**`
+};
+
+// The options for the livereload plugin (undefined or object).
+const LIVERELOAD_OPTIONS = {
+    watch: SRC,
+    port: 35730
+};
+
 // Define the list of output globals
-const globals = {
+const OUTPUT_GLOBALS = {
     'vue': 'Vue',
     'axios': 'axios',
     'moment': 'moment',
@@ -46,7 +76,7 @@ const globals = {
 };
 
 // Define an array of external packages to not include in the bundle
-const external = [
+const EXTERNAL = [
     'vue',
     'axios',
     'moment'
@@ -54,8 +84,11 @@ const external = [
 
 // Define the plugins used for the rollup process
 const plugins = [
-    //globals(),
-    //builtins(),
+    replace({
+        'process.env.NODE_ENV': JSON.stringify( process.env.ROLLUP_WATCH == 'true' ? 'development' : 'production' ),
+        'process.env.SERVE_OPTIONS': JSON.stringify(SERVE_OPTIONS),
+        'process.env.LIVERELOAD_OPTIONS': JSON.stringify(LIVERELOAD_OPTIONS)
+    }),
     json(),
     alias({
         resolve: ['.js', '.vue'],
@@ -70,7 +103,7 @@ const plugins = [
     commonjs({
         include: NODE_MODULES,
         namedExports: {
-            'node_modules/axios/index.js': 'axios'
+            //'node_modules/axios/index.js': 'axios'
         }
     }),
     vue({
@@ -83,7 +116,9 @@ const plugins = [
     }),
     babel({
         exclude: NODE_MODULES
-    })
+    }),
+    globals(),
+    builtins(),
 ];
 
 /*
@@ -96,8 +131,8 @@ postcss({
 // Add the serve/livereload plugins if watch argument has been passed
 if(process.env.ROLLUP_WATCH == 'true') {
     plugins.push([
-        serve(),
-        livereload()
+        serve(SERVE_OPTIONS),
+        livereload(LIVERELOAD_OPTIONS)
     ]);
 }
 
@@ -109,13 +144,11 @@ export default [{
         format: PACKAGE_FORMAT,
         file: `${DIST}${FILENAME}.js`,
         sourcemap: (process.env.ROLLUP_WATCH ? 'inline' : true),
-        globals: globals,
+        globals: OUTPUT_GLOBALS,
         exports: 'named',
     },
-    watch: {
-        include: `${SRC}**`
-    },
-    external: external,
+    watch: WATCH_OPTIONS,
+    external: EXTERNAL,
     plugins: plugins
 }, {
     input: MAINJS,
@@ -124,12 +157,10 @@ export default [{
         format: 'es',
         file: `${DIST}${FILENAME}.es.js`,
         sourcemap: (process.env.ROLLUP_WATCH ? 'inline' : true),
-        globals: globals,
+        globals: OUTPUT_GLOBALS,
         exports: 'named',
     },
-    watch: {
-        include: `${SRC}**`
-    },
-    external: external,
+    watch: WATCH_OPTIONS,
+    external: EXTERNAL,
     plugins: plugins
 }];

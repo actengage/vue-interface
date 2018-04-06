@@ -1,6 +1,6 @@
 <template>
     <button :type="type" class="btn" :class="classes" @click="onClick">
-        <slot>{{label}}</slot>
+        <slot><i v-if="icon" :class="icon"/> {{label}}</slot>
         <activity-indicator :type="indicator" />
     </button>
 </template>
@@ -52,30 +52,36 @@ export default {
          *
          * @property Boolean
          */
-        activity: {
-            type: Boolean,
-            default: false
-        },
+        activity: Boolean,
 
         /**
          * Should show the button as disabled.
          *
          * @property Boolean
          */
-        disabled: {
-            type: Boolean,
-            default: false
-        },
+        disabled: Boolean,
 
         /**
          * Display the button as block width.
          *
          * @property Boolean
          */
-        block: {
-            type: Boolean,
-            default: false
-        },
+        block: Boolean,
+
+        /**
+         * The button label. If not passed as a property, label must be passed
+         * inside the element's html.
+         *
+         * @property String
+         */
+        label: String,
+
+        /**
+         * The button icon
+         *
+         * @property String
+         */
+        icon: String,
 
         /**
          * The size of the button.
@@ -125,16 +131,6 @@ export default {
         orientation: {
             type: String,
             default: 'right'
-        },
-
-        /**
-         * The button label. If not passed as a property, label must be passed
-         * inside the element's html.
-         *
-         * @property String
-         */
-        label: {
-            type: String
         }
     },
 
@@ -236,7 +232,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './node_modules/bootstrap/scss/bootstrap.scss';
+@import './node_modules/bootstrap/scss/bootstrap-reboot.scss';
 
 // Activity Indicator variables
 $activity-indicator-animated-delay-in: 333ms;

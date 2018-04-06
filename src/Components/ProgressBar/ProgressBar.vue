@@ -1,7 +1,7 @@
 <template>
     <div class="progress" :style="{'height': formattedHeight}">
-        <div role="progressbar" :style="{'width': progress + '%'}" class="progress-bar" :class="mergeClasses(progressClasses, colorableClasses)" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
-            <span v-if="label">{{progress}}%</span>
+        <div class="progress-bar" role="progressbar" :style="{'width': offsetValue + '%'}" :class="$mergeClasses(progressClasses, variantClass)" :aria-valuenow="offsetValue" :aria-valuemin="min" :aria-valuemax="max">
+            <span v-if="label">{{offsetValue}}%</span>
         </div>
     </div>
 </template>
@@ -9,14 +9,14 @@
 <script>
 
 import { isNumber } from 'lodash';
-import Colorable from '@/Mixins/Colorable/Colorable';
+import Variant from '@/Mixins/Variant/Variant';
 
 export default {
 
     name: 'progress-bar',
 
     mixins: [
-        Colorable
+        Variant
     ],
 
     props: {
@@ -26,7 +26,7 @@ export default {
          *
          * @property String
          */
-        progress: {
+        value: {
             type: Number,
             required: true
         },
@@ -57,11 +57,39 @@ export default {
          *
          * @property String
          */
-        animated: Boolean
+        animated: Boolean,
+
+        /**
+         * The minimum value
+         *
+         * @property String
+         */
+        min: {
+            type: Number,
+            default: 0
+        },
+
+        /**
+         * The max value
+         *
+         * @property String
+         */
+        max: {
+            type: Number,
+            default: 100
+        }
 
     },
 
     computed: {
+
+        variantClassPrefix() {
+            return 'bg';
+        },
+
+        offsetValue() {
+            return this.value / this.max * 100;
+        },
 
         formattedHeight() {
             return !this.height ? null : (

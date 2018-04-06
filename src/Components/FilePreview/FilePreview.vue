@@ -2,21 +2,26 @@
 
     <div class="file-preview" :class="{'is-image': isImage}">
 
-        <a v-if="!isImage || image" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
-            <i class="fa fa-times-circle"></i>
-        </a>
+        <div class="file-preview-inner">
 
-        <div v-if="isImage" class="file-preview-image">
-            <img v-if="image" :src="image" class="file-preview-thumbnail">
-            <progress-bar v-else v-ready="readFile" :progress="loaded" :height="10" />
-        </div>
+            <a v-if="!isImage || image" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
+                <i class="fa fa-times-circle"></i>
+            </a>
 
-        <div v-else class="file-preview-icon">
-            <i class="fa fa-file-o"></i>
-        </div>
+            <div v-if="isImage" class="file-preview-image">
+                <img v-if="image" :src="image" class="file-preview-thumbnail">
+                <progress-bar v-else v-ready="readFile" :value="loaded" :height="10" />
+            </div>
 
-        <div class="file-preview-filename" v-html="name"></div>
-        <div class="file-preview-filesize">({{size}})</div>
+            <div v-else class="file-preview-icon">
+                <i class="fa fa-file-o"></i>
+            </div>
+
+            <div class="file-preview-filename" v-html="name"></div>
+            <div class="file-preview-filesize">({{size}})</div>
+
+        <div>
+
     </div>
 
 </template>
@@ -179,13 +184,15 @@ export default {
 </script>
 
 <style lang="scss">
-@import './node_modules/bootstrap/scss/bootstrap.scss';
-
-$file-preview-close-width: $font-size-base * 2;
-$file-preview-close-height: $font-size-base * 2;
+$file-preview-close-width: 1rem * 2;
+$file-preview-close-height: 1rem * 2;
 
 .file-preview {
-    position: relative;
+    width: 100%;
+
+    .file-preview-inner {
+        position: relative;
+    }
 
     .file-preview-close {
         top: 0;
