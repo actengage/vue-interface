@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>FileField</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">file-field</h1>
+
+            <p>The FileField extends both the Btn and FileField components and compined them into a single component. This component is a custom input field that has all the same options a regular bootstrap button.</p>
+
+            <alert v-if="value" show>
+                File Selected!
+            </alert>
+
+            <h3>Basic Usage</h3>
+
+            <file-button v-model="value" variant="primary">Click Me!</file-button>
+
+            <hr>
+
+            <h3>Sizes</h3>
+
+            <file-button v-model="value" size="sm" variant="primary">Small</file-button>
+            <file-button v-model="value" size="md" variant="primary">Medium</file-button>
+            <file-button v-model="value" size="lg" variant="primary">Large</file-button>
+
+            <hr>
+
+            <h3>Variants</h3>
+
+            <file-button v-model="value" variant="primary">Primary</file-button>
+            <file-button v-model="value" variant="secondary">Secondary</file-button>
+            <file-button v-model="value" variant="success">Success</file-button>
+            <file-button v-model="value" variant="danger">Danger</file-button>
+            <file-button v-model="value" variant="warning">Warning</file-button>
+            <file-button v-model="value" variant="info">Info</file-button>
+            <file-button v-model="value" variant="dark">Dark</file-button>
+            <file-button v-model="value" variant="light">Light</file-button>
+            <file-button v-model="value" variant="muted">Muted</file-button>
+
+            <hr>
+
+            <h3>Active</h3>
+
+            <file-button v-model="value" variant="primary" active>Active</file-button>
+
+            <hr>
+
+            <h3>Disabled</h3>
+
+            <file-button v-model="value" variant="primary" disabled>Disabled</file-button>
+
+            <hr>
+
+            <h3>Block</h3>
+
+            <file-button v-model="value" variant="primary" block>Primary</file-button>
+            <file-button v-model="value" variant="secondary" block>Secondary</file-button>
+            <file-button v-model="value" variant="success" block>Success</file-button>
+            <file-button v-model="value" variant="danger" block>Danger</file-button>
+            <file-button v-model="value" variant="warning" block>Warning</file-button>
+            <file-button v-model="value" variant="info" block>Info</file-button>
+            <file-button v-model="value" variant="dark" block>Dark</file-button>
+            <file-button v-model="value" variant="light" block>Light</file-button>
+            <file-button v-model="value" variant="muted" block>Muted</file-button>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+
+                data() {
+                    return {
+                        value: null
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

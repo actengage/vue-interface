@@ -9,21 +9,13 @@ import alias from 'rollup-plugin-alias';
 import babel from 'rollup-plugin-babel';
 import serve from 'rollup-plugin-serve';
 import replace from 'rollup-plugin-replace';
+import progress from 'rollup-plugin-progress';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
-
 import globals from 'rollup-plugin-node-globals';
 import builtins from 'rollup-plugin-node-builtins';
 
-    /*
-    inject({
-        include: MAINJS,
-        exclude: NODE_MODULES
-    }),
-    */
-
-//import inject from 'rollup-plugin-inject';
 //import postcss from 'rollup-plugin-postcss';
 
 // The type of package Rollup should create
@@ -84,6 +76,7 @@ const EXTERNAL = [
 
 // Define the plugins used for the rollup process
 const plugins = [
+    progress(),
     replace({
         'process.env.NODE_ENV': JSON.stringify( process.env.ROLLUP_WATCH == 'true' ? 'development' : 'production' ),
         'process.env.SERVE_OPTIONS': JSON.stringify(SERVE_OPTIONS),
@@ -92,7 +85,7 @@ const plugins = [
     json(),
     alias({
         resolve: ['.js', '.vue'],
-        '@': `${__dirname}/src/`
+        '@': `${SRC}`
     }),
     resolve({
         main: true,
@@ -103,7 +96,7 @@ const plugins = [
     commonjs({
         include: NODE_MODULES,
         namedExports: {
-            //'node_modules/axios/index.js': 'axios'
+            'node_modules/axios/index.js': 'axios'
         }
     }),
     vue({
@@ -118,7 +111,7 @@ const plugins = [
         exclude: NODE_MODULES
     }),
     globals(),
-    builtins(),
+    builtins()
 ];
 
 /*

@@ -50,6 +50,14 @@
                         </td>
                     </tr>
 
+                    <tr v-else-if="!data.length">
+                        <td :colspan="tableColumns.length" class="position-relative">
+                            <alert variant="warning" class="my-3">
+                                <i class="fa fa-warning"/> There are no results found.
+                            </alert>
+                        </td>
+                    </tr>
+
                     <slot v-else :data="data" :columns="tableColumns">
                         <tr v-for="(row, i) in data">
                             <td v-for="column in tableColumns" v-html="row[column.id] || row[column.name]"></td>

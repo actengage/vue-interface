@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Btn</title>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">btn</h1>
+
+            <h3>Basic Usage</h3>
+
+            <btn variant="primary">Button Element</btn>
+            <btn href="http://google.com" variant="primary">Anchor Element</btn>
+            <btn label variant="primary">Label Element</btn>
+
+            <hr>
+
+            <h3>Sizes</h3>
+
+            <btn size="sm" variant="primary">Small</btn>
+            <btn size="md" variant="primary">Medium</btn>
+            <btn size="lg" variant="primary">Large</btn>
+
+            <hr>
+
+            <h3>Variants</h3>
+
+            <btn variant="primary">Primary</btn>
+            <btn variant="secondary">Secondary</btn>
+            <btn variant="success">Success</btn>
+            <btn variant="danger">Danger</btn>
+            <btn variant="warning">Warning</btn>
+            <btn variant="info">Info</btn>
+            <btn variant="dark">Dark</btn>
+            <btn variant="light">Light</btn>
+            <btn variant="muted">Muted</btn>
+
+            <hr>
+
+            <h3>Active</h3>
+
+            <btn variant="primary" active>Active</btn>
+
+            <hr>
+
+            <h3>Disabled</h3>
+
+            <btn variant="primary" disabled>Disabled</btn>
+
+            <hr>
+
+            <h3>Block</h3>
+
+            <btn variant="primary" block>Primary</btn>
+            <btn variant="secondary" block>Secondary</btn>
+            <btn variant="success" block>Success</btn>
+            <btn variant="danger" block>Danger</btn>
+            <btn variant="warning" block>Warning</btn>
+            <btn variant="info" block>Info</btn>
+            <btn variant="dark" block>Dark</btn>
+            <btn variant="light" block>Light</btn>
+            <btn variant="muted" block>Muted</btn>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app'
+            });
+        </script>
+    </body>
+</html>

@@ -22,7 +22,7 @@
                 :required="required"
                 :multiple="multiple"
                 :readonly="readonly"
-                v-on:change="updated($event.target.files)">
+                @change="updated($event.target.files, 'change')">
 
             <slot name="help">
                 <help-text v-if="helpText" v-html="helpText" />
@@ -54,6 +54,18 @@ export default {
     },
 
     props: {
+
+        /**
+         * An array of event names that correlate with callback functions
+         *
+         * @property Function
+         */
+        bindEvents: {
+            type: Array,
+            default() {
+                return ['focus', 'blur', 'input', 'click', 'keyup', 'keydown', 'progress'];
+            }
+        },
 
         /**
          * The class name assigned to the control element

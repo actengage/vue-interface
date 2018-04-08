@@ -4,7 +4,7 @@
 
         <div class="file-preview-inner">
 
-            <a v-if="!isImage || image" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
+            <a v-if="!hideClose && (!isImage || image)" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
                 <i class="fa fa-times-circle"></i>
             </a>
 
@@ -53,6 +53,13 @@ export default {
     },
 
     props: {
+
+        /**
+         * Hide the close button for the preview
+         *
+         * @property Object
+         */
+        hideClose: Boolean,
 
         /**
          * The uploaded File object
@@ -155,10 +162,13 @@ export default {
                     if(e.lengthComputable) {
                         this.loaded = parseInt((e.loaded / e.total) * 100, 10);
                     }
-                }).then(e => {
+                }).then(event => {
                     setTimeout(() => {
-                        this.image = e.target.result;
+                        this.image = event.target.result;
+                        this.$emit('loaded', event, this);
                     }, 600 - moment().diff(start));
+                }, error => {
+                    this.$emit('error', error);
                 });
             }
         },

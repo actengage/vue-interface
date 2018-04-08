@@ -2352,6 +2352,18 @@ template {
 .btn-activity-indicator-spinner:not(.btn-warning) .activity-indicator-spinner > div:before {
   background-color: white; }
 
+.btn-file {
+  cursor: pointer;
+  position: relative; }
+  .btn-file input {
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
+
 .file-preview {
   width: 100%; }
   .file-preview .file-preview-inner {
@@ -3202,8 +3214,6 @@ template {
   display: none !important; }
 
 .upload-field {
-  /* three items */
-  /* four items */
   /*
     .upload-field-preview .file-preview.is-image {
         width: 22.75%;
@@ -3216,48 +3226,38 @@ template {
     */ }
   .upload-field.enable-dropzone {
     position: relative; }
-  .upload-field.enable-multiple .file-preview {
+  .upload-field .file-preview {
     max-width: 300px; }
-    .upload-field.enable-multiple .file-preview:first-child:nth-last-child(1) {
-      width: 100%; }
-    .upload-field.enable-multiple .file-preview .file-preview-inner {
-      margin-right: 0; }
-    .upload-field.enable-multiple .file-preview:nth-last-child(2) .file-preview-inner {
-      margin-right: 1rem; }
-    .upload-field.enable-multiple .file-preview:nth-last-child(2),
-    .upload-field.enable-multiple .file-preview:nth-last-child(2) ~ .file-preview {
-      width: 50%; }
-    .upload-field.enable-multiple .file-preview .file-preview-inner {
-      margin-right: 0; }
-    .upload-field.enable-multiple .file-preview:nth-last-child(3) .file-preview-inner {
-      margin-right: 1rem; }
-    .upload-field.enable-multiple .file-preview:nth-last-child(3),
-    .upload-field.enable-multiple .file-preview:nth-last-child(3) ~ .file-preview {
-      width: 33.33333%; }
-    .upload-field.enable-multiple .file-preview .file-preview-inner {
-      margin-right: 0; }
-    .upload-field.enable-multiple .file-preview:nth-last-child(4) .file-preview-inner {
-      margin-right: 1rem; }
-    .upload-field.enable-multiple .file-preview:nth-last-child(4),
-    .upload-field.enable-multiple .file-preview:nth-last-child(4) ~ .file-preview {
-      width: 25%; }
-    .upload-field.enable-multiple .file-preview .file-preview-inner {
-      margin-right: 0; }
-    .upload-field.enable-multiple .file-preview:nth-last-child(5) .file-preview-inner {
-      margin-right: 1rem; }
-    .upload-field.enable-multiple .file-preview:nth-last-child(5),
-    .upload-field.enable-multiple .file-preview:nth-last-child(5) ~ .file-preview {
-      width: 20%; }
-  .upload-field li
-li:first-child:nth-last-child(2),
-  .upload-field li:first-child:nth-last-child(2) ~ li {
+  .upload-field.enable-multiple .file-preview:first-child:nth-last-child(1) {
+    width: 100%; }
+  .upload-field.enable-multiple .file-preview .file-preview-inner {
+    margin-right: 0; }
+  .upload-field.enable-multiple .file-preview:nth-last-child(2) .file-preview-inner {
+    margin-right: 1rem; }
+  .upload-field.enable-multiple .file-preview:nth-last-child(2),
+  .upload-field.enable-multiple .file-preview:nth-last-child(2) ~ .file-preview {
     width: 50%; }
-  .upload-field li:first-child:nth-last-child(3),
-  .upload-field li:first-child:nth-last-child(3) ~ li {
-    width: 33.3333%; }
-  .upload-field li:first-child:nth-last-child(4),
-  .upload-field li:first-child:nth-last-child(4) ~ li {
+  .upload-field.enable-multiple .file-preview .file-preview-inner {
+    margin-right: 0; }
+  .upload-field.enable-multiple .file-preview:nth-last-child(3) .file-preview-inner {
+    margin-right: 1rem; }
+  .upload-field.enable-multiple .file-preview:nth-last-child(3),
+  .upload-field.enable-multiple .file-preview:nth-last-child(3) ~ .file-preview {
+    width: 33.33333%; }
+  .upload-field.enable-multiple .file-preview .file-preview-inner {
+    margin-right: 0; }
+  .upload-field.enable-multiple .file-preview:nth-last-child(4) .file-preview-inner {
+    margin-right: 1rem; }
+  .upload-field.enable-multiple .file-preview:nth-last-child(4),
+  .upload-field.enable-multiple .file-preview:nth-last-child(4) ~ .file-preview {
     width: 25%; }
+  .upload-field.enable-multiple .file-preview .file-preview-inner {
+    margin-right: 0; }
+  .upload-field.enable-multiple .file-preview:nth-last-child(5) .file-preview-inner {
+    margin-right: 1rem; }
+  .upload-field.enable-multiple .file-preview:nth-last-child(5),
+  .upload-field.enable-multiple .file-preview:nth-last-child(5) ~ .file-preview {
+    width: 20%; }
   .upload-field:not(.enable-dropzone) .upload-field-dropzone {
     position: fixed; }
   .upload-field .upload-field-dropzone {

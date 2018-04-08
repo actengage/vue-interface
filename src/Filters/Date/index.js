@@ -1,9 +1,12 @@
-import Date from './Date';
+import DateFilter from './DateFilter';
+import MomentFilter from './MomentFilter';
 
 export {
-    Date
+    DateFilter,
+    MomentFilter
 };
 
 export default function(Vue, options) {
-    Vue.filter('date', Date);
+    Vue.filter('date', DateFilter);
+    Vue.filter('moment', MomentFilter);
 };

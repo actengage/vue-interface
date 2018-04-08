@@ -45,7 +45,7 @@ export default {
          */
         show: {
             type: [Number, Boolean],
-            default: false
+            default: true
         }
 
     },

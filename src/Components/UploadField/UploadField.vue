@@ -12,7 +12,7 @@
             :width="width"
             :height="height"
             :errors="errors"
-            @change="multiple ? addFiles($event.target.files) : addFile($event.target.files[0])"
+            @change="onChange"
         />
 
         <div v-if="multiple && value && value.length" class="upload-field-preview mt-4">
@@ -193,6 +193,15 @@ export default {
             event.target.value = null;
         },
 
+        onChange(files) {
+            if(files instanceof FileList) {
+                this.addFiles(files);
+            }
+            else {
+                this.addFile(files);
+            }
+        },
+
         /**
          * The `dragover` event callback.
          *
@@ -278,8 +287,11 @@ export default {
         position: relative;
     }
 
-    &.enable-multiple .file-preview {
+    .file-preview {
         max-width: 300px;
+    }
+
+    &.enable-multiple .file-preview {
 
         &:first-child:nth-last-child(1) {
             width: 100%;
@@ -290,25 +302,6 @@ export default {
         @include file-preview(4);
         @include file-preview(5);
     }
-li
-
-/* two items */
-li:first-child:nth-last-child(2),
-li:first-child:nth-last-child(2) ~ li {
-    width: 50%;
-}
-
-/* three items */
-li:first-child:nth-last-child(3),
-li:first-child:nth-last-child(3) ~ li {
-    width: 33.3333%;
-}
-
-/* four items */
-li:first-child:nth-last-child(4),
-li:first-child:nth-last-child(4) ~ li {
-    width: 25%;
-}
 
     &:not(.enable-dropzone) .upload-field-dropzone {
         position: fixed;

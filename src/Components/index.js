@@ -6,6 +6,7 @@ import AlertHeading from './Alert/AlertHeading';
 import AlertLink from './Alert/AlertLink';
 import Badge from './Badge';
 import BaseForm from './BaseForm';
+import Btn from './Btn';
 import ButtonDropdown from './ButtonDropdown';
 import CheckboxField from './CheckboxField';
 import Container from './Container';
@@ -13,6 +14,7 @@ import DropdownMenu from './DropdownMenu';
 import DropdownMenuDivider from './DropdownMenu/DropdownMenuDivider';
 import DropdownMenuHeader from './DropdownMenu/DropdownMenuHeader';
 import DropdownMenuItem from './DropdownMenu/DropdownMenuItem';
+import FileButton from './FileButton';
 import FileField from './FileField';
 import FilePreview from './FilePreview';
 import FormFeedback from './FormFeedback';
@@ -41,6 +43,7 @@ export {
     AlertLink,
     Badge,
     BaseForm,
+    Btn,
     ButtonDropdown,
     CheckboxField,
     Container,
@@ -48,6 +51,7 @@ export {
     DropdownMenuItem,
     DropdownMenuHeader,
     DropdownMenuDivider,
+    FileButton,
     FileField,
     FilePreview,
     FormFeedback,
