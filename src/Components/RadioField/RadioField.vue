@@ -1,7 +1,10 @@
 <template>
-    <div class="form-check" :class="$mergeClasses({'form-check-inline': inline}, controlSizeClass)">
-        <label :for="id" :class="$mergeClasses('form-check-label', colorableClasses)">
+
+    <div :class="$mergeClasses(controlClass, customControlClass, sizeableClass, inline ? inlineClass : '')">
+
+        <template v-if="id">
             <input
+                v-bind-events
                 type="radio"
                 :name="name"
                 :id="id"
@@ -10,23 +13,49 @@
                 :disabled="disabled || readonly"
                 :readonly="readonly"
                 :pattern="pattern"
-                :checked="value === checked"
-                :class="$mergeClasses(controlClass, (invalidFeedback ? 'is-invalid':''), !(label ? 'position-static' : ''))"
-                v-bind-events="bindEvents"
-                v-on:change="updated($event.target.value, 'change')">
+                :checked="checkedValue === value || checked"
+                :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
+                @change="test($event.target.value, 'change')">
 
-            <slot>{{label}}</slot>
+            <label :for="id" :class="$mergeClasses(labelClass, colorableClasses)">
+                <slot>{{label}}</slot>
+                <slot name="feedback">
+                    <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
+                    <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+                </slot>
+            </label>
 
-            <slot name="feedback">
-                <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-                <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
-            </slot>
-        </label>
+        </template>
+        <template v-else>
+            <label :for="id" :class="$mergeClasses(labelClass, colorableClasses)">
+                <input
+                    v-bind-events
+                    type="radio"
+                    :name="name"
+                    :id="id"
+                    :value="value"
+                    :required="required"
+                    :disabled="disabled || readonly"
+                    :readonly="readonly"
+                    :pattern="pattern"
+                    :checked="checkedValue === value || checked"
+                    :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
+                    @change="test($event.target.value, 'change')">
+
+                <slot>{{label}}</slot>
+
+                <slot name="feedback">
+                    <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
+                    <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+                </slot>
+            </label>
+        </template>
 
         <slot name="help">
             <help-text v-if="helpText" v-html="helpText" />
         </slot>
     </div>
+
 </template>
 
 <script>
@@ -45,38 +74,51 @@ export default {
     ],
 
     model: {
-        prop: 'checked',
-        event: 'change'
+        event: 'change',
+        prop: 'checkedValue'
     },
 
     props: {
 
         /**
-         * Add form-group to the wrapping element
+         * An array of event names that correlate with callback functions
+         *
+         * @property Function
+         */
+        bindEvents: {
+            type: Array,
+            default() {
+                return ['focus', 'blur', 'input', 'click', 'keyup', 'keydown', 'progress'];
+            }
+        },
+
+        /**
+         * Is this a custom element
          *
          * @property String
          */
-        group: {
-            type: Boolean,
-            default: false
-        },
+        custom: Boolean,
 
         /**
          * Display the form field and label inline
          *
          * @property Function
          */
-        inline: {
-            type: Boolean,
-            default: false
-        },
+        inline: Boolean,
 
         /**
          * The checked values
          *
          * @property String
          */
-        checked: [Number, String, Object],
+        checked: Boolean,
+
+        /**
+         * The checked value
+         *
+         * @property String
+         */
+        checkedValue: [Boolean, Number, String, Object],
 
         /**
          * The class name assigned to the control element
@@ -85,18 +127,43 @@ export default {
          */
         defaultControlClass: {
             type: String,
-            default: 'form-check-input'
+            default: 'form-check'
+        }
+
+    },
+
+    methods: {
+
+        test(value, event) {
+            console.log(value, event);
+            this.$emit(event || 'input', value);
         }
 
     },
 
     computed: {
 
-        controlClass() {
-            return this.defaultControlClass;
+        labelClass() {
+            return prefix('label', this.controlClass);
         },
 
-        controlSizeClass() {
+        inputClass() {
+            return prefix('input', this.controlClass);
+        },
+
+        inlineClass() {
+            return prefix('inline', this.controlClass);
+        },
+
+        controlClass() {
+            return this.custom ? 'custom-control' : this.defaultControlClass;
+        },
+
+        customControlClass() {
+            return this.custom ? prefix(this.$options.name.replace('-field', ''), 'custom') : '';
+        },
+
+        sizeableClass() {
             return prefix(this.size, 'form-control');
         }
 

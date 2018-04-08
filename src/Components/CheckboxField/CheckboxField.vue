@@ -1,4 +1,61 @@
 <template>
+
+    <div :class="$mergeClasses(controlClass, customControlClass, sizeableClass, inline ? inlineClass : '')">
+
+        <template v-if="id">
+            <input
+                v-bind-events
+                type="checkbox"
+                :name="name"
+                :id="id"
+                :value="value"
+                :required="required"
+                :disabled="disabled || readonly"
+                :readonly="readonly"
+                :pattern="pattern"
+                :checked="checkedValue === value || checked"
+                :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
+                @change="test($event.target.value, 'change')">
+
+            <label :for="id" :class="$mergeClasses(labelClass, colorableClasses)">
+                <slot>{{label}}</slot>
+                <slot name="feedback">
+                    <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
+                    <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+                </slot>
+            </label>
+
+        </template>
+        <template v-else>
+            <label :for="id" :class="$mergeClasses(labelClass, colorableClasses)">
+                <input
+                    v-bind-events
+                    type="checkbox"
+                    :name="name"
+                    :id="id"
+                    :value="value"
+                    :required="required"
+                    :disabled="disabled || readonly"
+                    :readonly="readonly"
+                    :pattern="pattern"
+                    :checked="checkedValue === value || checked"
+                    :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
+                    @change="test($event.target.value, 'change')">
+
+                <slot>{{label}}</slot>
+
+                <slot name="feedback">
+                    <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
+                    <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+                </slot>
+            </label>
+        </template>
+
+        <slot name="help">
+            <help-text v-if="helpText" v-html="helpText" />
+        </slot>
+    </div>
+    <!--
     <div class="form-check" :class="$mergeClasses({'form-check-inline': inline}, controlSizeClass)">
         <label :for="id" :class="$mergeClasses('form-check-label', colorableClasses)">
             <input
@@ -10,7 +67,7 @@
                 :disabled="disabled || readonly"
                 :readonly="readonly"
                 :pattern="pattern"
-                :checked="checked.indexOf(value) !== -1"
+                :checked="checkedValue.indexOf(value) !== -1"
                 :class="$mergeClasses(controlClass, (invalidFeedback ? 'is-invalid':''), !(label ? 'position-static' : ''))"
                 v-bind-events="bindEvents"
                 v-on:change="updated($event.target.value, 'change')">
@@ -27,6 +84,7 @@
             <help-text v-if="helpText" v-html="helpText" />
         </slot>
     </div>
+-->
 </template>
 
 <script>
@@ -40,23 +98,26 @@ export default {
     extends: RadioField,
 
     props: {
+
         /**
          * The checked values
          *
          * @property String
          */
-        checked: {
+        checkedValue: {
             type: Array,
             default() {
                 return [];
             }
         }
+
     },
 
     methods: {
+
         updated(value) {
-            const checked = this.checked.slice(0);
-            const index = this.checked.indexOf(value);
+            const checked = this.checkedValue.slice(0);
+            const index = this.checkedValue.indexOf(value);
 
             if(index === -1) {
                 checked.push(value);
@@ -67,6 +128,7 @@ export default {
 
             this.$emit('change', checked);
         }
+
     }
 }
 

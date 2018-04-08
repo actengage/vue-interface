@@ -59,10 +59,7 @@ export default {
          *
          * @property String
          */
-        custom: {
-            type: Boolean,
-            default: false
-        }
+        custom: Boolean
 
     },
 

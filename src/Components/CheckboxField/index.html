@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>CheckboxField</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/dist/vue-toolbox.css">
     </head>
@@ -47,6 +48,24 @@
             <checkbox-field label="Dark" text-light bg-dark></checkbox-field>
             <checkbox-field label="Muted" text-dark bg-muted></checkbox-field>
             <checkbox-field label="White" text-dark bg-white></checkbox-field>
+
+            <hr>
+
+            <h3>Custom Elements</h3>
+
+            <h5 class="mt-4">Block Layout</h5>
+
+            <checkbox-field name="custom1" value="red" id="red" custom >Red</checkbox-field>
+            <checkbox-field name="custom1" value="green" id="green" custom checked>Green</checkbox-field>
+            <checkbox-field name="custom1" value="blue" id="blue" custom>Blue</checkbox-field>
+            <checkbox-field name="custom1" value="yellow" id="yellow" custom readonly>Yellow (Readonly)</checkbox-field>
+
+            <h5 class="mt-4">Inline Layout</h5>
+
+            <checkbox-field name="custom2" value="red" id="red2" inline custom>Red</checkbox-field>
+            <checkbox-field name="custom2" value="green" id="green2" inline custom checked>Green</checkbox-field>
+            <checkbox-field name="custom2" value="blue" id="blue2" inline custom>Blue</checkbox-field>
+            <checkbox-field name="custom2" value="yellow" id="yellow2" inline custom readonly>Yellow (Readonly)</checkbox-field>
 
             <hr>
 

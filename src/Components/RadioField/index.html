@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>RadioField</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/dist/vue-toolbox.css">
     </head>
@@ -14,25 +15,28 @@
 
             <h5 class="mt-4">Block Layout</h5>
 
-            <radio-field name="color" value="red">Red</radio-field>
-            <radio-field name="color" value="green">Green</radio-field>
-            <radio-field name="color" value="blue">Blue</radio-field>
-            <radio-field name="color" value="yellow" readonly>Yellow (Readonly)</radio-field>
+            <p>Color: {{color}}</p>
+
+            <radio-field v-model="color" name="color" value="red">Red</radio-field>
+            <radio-field v-model="color" name="color" value="green">Green</radio-field>
+            <radio-field v-model="color" name="color" value="blue">Blue</radio-field>
+            <radio-field v-model="color" name="color" value="yellow" readonly>Yellow (Readonly)</radio-field>
+            <radio-field v-model="color" name="color" value="orange" disabled>Orange (Disabled)</radio-field>
 
             <h5 class="mt-4">Inline Layout</h5>
 
-            <radio-field name="color1" label="Red" value="red" :inline="true"></radio-field>
-            <radio-field name="color1" label="Green" value="green" :inline="true"></radio-field>
-            <radio-field name="color1" label="Blue" value="blue" :inline="true"></radio-field>
-            <radio-field name="color1" value="yellow" readonly :inline="true">Yellow (Readonly)</radio-field>
+            <radio-field label="Red" value="red" inline></radio-field>
+            <radio-field label="Green" value="green" inline></radio-field>
+            <radio-field label="Blue" value="blue" inline></radio-field>
+            <radio-field label="Yellow" value="yellow" readonly inline>Yellow (Readonly)</radio-field>
 
             <hr>
 
             <h3>Sizes</h3>
 
-            <radio-field size="sm" placeholder="Small">Small</radio-field>
-            <radio-field size="md" placeholder="Medium">Medium</radio-field>
-            <radio-field size="lg" placeholder="Large">Large</radio-field>
+            <radio-field name="size" size="sm" placeholder="Small">Small</radio-field>
+            <radio-field name="size" size="md" placeholder="Medium">Medium</radio-field>
+            <radio-field name="size" size="lg" placeholder="Large">Large</radio-field>
 
             <hr>
 
@@ -47,6 +51,24 @@
             <radio-field label="Dark" text-light bg-dark></radio-field>
             <radio-field label="Muted" text-dark bg-muted></radio-field>
             <radio-field label="White" text-dark bg-white></radio-field>
+
+            <hr>
+
+            <h3>Custom Elements</h3>
+
+            <h5 class="mt-4">Block Layout</h5>
+
+            <radio-field name="custom1" value="red" id="red" custom >Red</radio-field>
+            <radio-field name="custom1" value="green" id="green" custom checked>Green</radio-field>
+            <radio-field name="custom1" value="blue" id="blue" custom>Blue</radio-field>
+            <radio-field name="custom1" value="yellow" id="yellow" custom readonly>Yellow (Readonly)</radio-field>
+
+            <h5 class="mt-4">Inline Layout</h5>
+
+            <radio-field name="custom2" value="red" id="red" inline custom>Red</radio-field>
+            <radio-field name="custom2" value="green" id="green" inline custom checked>Green</radio-field>
+            <radio-field name="custom2" value="blue" id="blue" inline custom>Blue</radio-field>
+            <radio-field name="custom2" value="yellow" id="yellow" inline custom readonly>Yellow (Readonly)</radio-field>
 
             <hr>
 
@@ -65,7 +87,7 @@
                 el: '#app',
                 data() {
                     return {
-                        value: null
+                        color: 'orange'
                     };
                 }
             });
