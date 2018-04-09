@@ -2,7 +2,7 @@
 
     <div :class="$mergeClasses(controlClass, customControlClass, sizeableClass, inline ? inlineClass : '')">
 
-        <template v-if="id">
+        <template v-if="custom && id">
             <input
                 v-bind-events
                 type="checkbox"
@@ -15,7 +15,7 @@
                 :pattern="pattern"
                 :checked="checkedValue === value || checked"
                 :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
-                @change="test($event.target.value, 'change')">
+                @change="updated($event.target.value, 'change')">
 
             <label :for="id" :class="$mergeClasses(labelClass, colorableClasses)">
                 <slot>{{label}}</slot>
@@ -40,7 +40,7 @@
                     :pattern="pattern"
                     :checked="checkedValue === value || checked"
                     :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
-                    @change="test($event.target.value, 'change')">
+                    @change="updated($event.target.value, 'change')">
 
                 <slot>{{label}}</slot>
 

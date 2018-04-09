@@ -1,8 +1,11 @@
 <template>
+
     <form-group>
 
         <slot name="label">
-            <form-label v-if="label" :for="id" v-html="label" />
+            <form-label v-if="label || hasDefaultSlot" :for="id">
+                <slot>{{label}}</slot>
+            </form-label>
         </slot>
 
         <slot name="control">
@@ -30,6 +33,7 @@
         </slot>
 
     </form-group>
+
 </template>
 
 <script>

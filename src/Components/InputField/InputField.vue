@@ -3,7 +3,9 @@
     <form-group>
 
         <slot name="label">
-            <form-label v-if="label" :for="id" v-html="label" />
+            <form-label v-if="label || hasDefaultSlot" :for="id">
+                <slot>{{label}}</slot>
+            </form-label>
         </slot>
 
         <slot name="control">
@@ -17,6 +19,8 @@
                 :readonly="readonly"
                 :pattern="pattern"
                 :class="$mergeClasses(controlClasses, colorableClasses)"
+                :aria-label="label"
+                :aria-describedby="id"
                 v-bind-events="bindEvents"
                 v-on:input="updated($event.target.value)"
             />

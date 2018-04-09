@@ -18,9 +18,11 @@ export default {
     },
 
     computed: {
+
         sizeableClass() {
             return prefix(this.size, this.$options.name);
         }
+
     }
 
 }

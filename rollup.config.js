@@ -50,7 +50,8 @@ const SERVE_OPTIONS = {
 
 // The options for the watch plugin
 const WATCH_OPTIONS = {
-    include: `${SRC}**`
+    include: `${SRC}**`,
+    port: 35730
 };
 
 // The options for the livereload plugin (undefined or object).

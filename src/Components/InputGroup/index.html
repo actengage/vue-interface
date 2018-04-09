@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>InputGroup</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">input-group</h1>
+
+            <h3>Basic Usage</h3>
+
+            <form-group>
+                <input-group prepend="@">
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group append="@">
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group prepend="@" append="@">
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group prepend="@">
+                    <textarea class="form-control"></textarea>
+                </input-group>
+            </form-group>
+
+            <hr>
+
+            <h3>Sizing</h3>
+
+            <form-group>
+                <input-group prepend="Small" size="sm">
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group prepend="Default" size="md">
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group prepend="Large" size="lg">
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <hr>
+
+            <h3>Checkboxes and Radios</h3>
+
+            <form-group>
+                <input-group>
+                    <input-group-prepend text>
+                        <input type="checkbox" aria-label="Checkbox for following text input">
+                    </input-group-prepend>
+
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group>
+                    <input type="text" class="form-control" />
+                    <input-group-append text>
+                        <input type="checkbox" aria-label="Checkbox for following text input">
+                    </input-group-append>
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group>
+                    <input-group-prepend text>
+                        <input type="radio" aria-label="Radio for following text input">
+                    </input-group-prepend>
+
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group>
+                    <input type="text" class="form-control" />
+                    <input-group-append text>
+                        <input type="radio" aria-label="Radio for following text input">
+                    </input-group-append>
+                </input-group>
+            </form-group>
+
+            <hr>
+
+            <h3>Multiple Inputs</h3>
+
+            <form-group>
+                <input-group prepend="First and last name">
+                    <input type="text" class="form-control" />
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <hr>
+
+            <h3>Multiple Addons</h3>
+
+            <form-group>
+                <input-group :prepend="['$', '0.00']">
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group :append="['$', '0.00']">
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <hr>
+            
+            <h3>Button Addons</h3>
+
+            <form-group>
+                <input-group>
+                    <input-group-prepend>
+                        <btn variant="secondary" outline>Button</btn>
+                    </input-group-prepend>
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group>
+                    <input type="text" class="form-control" placeholder="Recipient's Username" />
+                    <input-group-append>
+                        <btn variant="secondary" outline>Button</btn>
+                    </input-group-append>
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group>
+                    <input-group-prepend>
+                        <btn variant="secondary" outline>Button</btn>
+                        <btn variant="secondary" outline>Button</btn>
+                    </input-group-prepend>
+
+                    <input type="text" class="form-control" />
+                </input-group>
+            </form-group>
+
+            <form-group>
+                <input-group>
+                    <input type="text" class="form-control" placeholder="Recipient's Username" />
+                    <input-group-append>
+                        <btn variant="secondary" outline>Button</btn>
+                        <btn variant="secondary" outline>Button</btn>
+                    </input-group-append>
+                </input-group>
+            </form-group>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        value: null
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

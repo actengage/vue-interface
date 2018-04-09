@@ -3,7 +3,9 @@
     <form-group>
 
         <slot name="label">
-            <form-label v-if="label" :for="id" v-html="label"></form-label>
+            <form-label v-if="label || hasDefaultSlot" :for="id">
+                <slot>{{label}}</slot>
+            </form-label>
         </slot>
 
         <div class="custom-file">

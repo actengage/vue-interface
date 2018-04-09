@@ -22,6 +22,10 @@ import FormGroup from './FormGroup';
 import FormLabel from './FormLabel';
 import HelpText from './HelpText';
 import InputField from './InputField';
+import InputGroup from './InputGroup';
+import InputGroupAppend from './InputGroup/InputGroupAppend';
+import InputGroupPrepend from './InputGroup/InputGroupPrepend';
+import InputGroupText from './InputGroup/InputGroupText';
 import LightSwitchField from './LightSwitchField';
 import ListGroup from './ListGroup';
 import ListGroupItem from './ListGroup/ListGroupItem';
@@ -59,6 +63,10 @@ export {
     FormLabel,
     HelpText,
     InputField,
+    InputGroup,
+    InputGroupAppend,
+    InputGroupPrepend,
+    InputGroupText,
     LightSwitchField,
     ListGroup,
     ListGroupItem,

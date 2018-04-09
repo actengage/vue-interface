@@ -16,14 +16,14 @@ export default {
          *
          * @property String
          */
-        id: String,
+        id: [Number, String],
 
         /**
          * The value of label element. If no value, no label will appear.
          *
          * @property String
          */
-        label: String,
+        label: [Number, String],
 
         /**
          * The field name attribute value.
@@ -54,6 +54,16 @@ export default {
          * @property String
          */
         required: Boolean,
+
+        /**
+         * Add form-group wrapper to input
+         *
+         * @property String
+         */
+        group: {
+            type: Boolean,
+            value: true
+        },
 
         /**
          * The regex pattern for validation.
@@ -246,6 +256,10 @@ export default {
                 (this.spacing || ''),
                 (this.invalidFeedback ? 'is-invalid' : '')
             ].join(' ');
+        },
+
+        hasDefaultSlot () {
+            return !!this.$slots.default
         }
 
     }

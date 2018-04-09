@@ -3,7 +3,7 @@
     <form-group>
 
         <slot name="label">
-            <form-label v-if="label" :for="id" v-html="label" />
+            <form-label v-if="label" :for="id" v-html="label"/>
         </slot>
 
         <slot name="control">
