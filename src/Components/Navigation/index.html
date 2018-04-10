@@ -100,6 +100,23 @@
             <h3>Fill and Justify</h3>
 
             <navigation pills fill>
+                <navigation-item>
+                    <navigation-link href="#" active>Active</navigation-link>
+                </navigation-item>
+                <navigation-item>
+                    <navigation-link href="#">Link</navigation-link>
+                </navigation-item>
+                <navigation-item>
+                    <navigation-link href="#">Link</navigation-link>
+                </navigation-item>
+                <navigation-item>
+                    <navigation-link href="#" disabled>Disabled</navigation-link>
+                </navigation-item>
+            </navigation>
+
+            <hr>
+
+            <navigation pills fill>
                 <navigation-link href="#" active>Active</navigation-link>
                 <navigation-link href="#">Link</navigation-link>
                 <navigation-link href="#">Link</navigation-link>
@@ -108,11 +125,45 @@
 
             <hr>
 
-            <h3>Fill and Justify</h3>
-
             <navigation pills fill justified>
                 <navigation-link href="#" active>Active</navigation-link>
                 <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+            <hr>
+
+            <h2>Using Dropdowns</h2>
+
+            <h3>Tabs with dropdowns</h3>
+
+            <navigation tabs>
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-dropdown label="Dropdown">
+                    <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+                    <dropdown-menu-header></dropdown-menu-header>
+                    <dropdown-menu-item href="#">Separated Link</dropdown-menu-item>
+                </navigation-dropdown>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+            <hr>
+
+            <h3>Pills with dropdowns</h3>
+
+            <navigation pills>
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-dropdown label="Dropdown">
+                    <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+                    <dropdown-menu-header></dropdown-menu-header>
+                    <dropdown-menu-item href="#">Separated Link</dropdown-menu-item>
+                </navigation-dropdown>
                 <navigation-link href="#">Link</navigation-link>
                 <navigation-link href="#" disabled>Disabled</navigation-link>
             </navigation>

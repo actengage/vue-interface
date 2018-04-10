@@ -2,7 +2,10 @@ import Card from './Card';
 import CardBody from './CardBody';
 import CardFooter from './CardFooter';
 import CardHeader from './CardHeader';
+import CardImg from './CardImg';
 import CardImgTop from './CardImgTop';
+import CardImgBottom from './CardImgBottom';
+import CardImgOverlay from './CardImgOverlay';
 import CardLink from './CardLink';
 import CardSubtitle from './CardSubtitle';
 import CardTitle from './CardTitle';
@@ -16,7 +19,10 @@ const plugin = VueInstaller.use({
             CardBody,
             CardFooter,
             CardHeader,
+            CardImg,
             CardImgTop,
+            CardImgBottom,
+            CardImgOverlay,
             CardLink,
             CardSubtitle,
             CardTitle
@@ -28,7 +34,10 @@ const plugin = VueInstaller.use({
 export * from './CardBody';
 export * from './CardFooter';
 export * from './CardHeader';
+export * from './CardImg';
 export * from './CardImgTop';
+export * from './CardImgBottom';
+export * from './CardImgOverlay';
 export * from './CardLink';
 export * from './CardSubtitle';
 export * from './CardTitle';

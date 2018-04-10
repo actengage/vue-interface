@@ -1,21 +1,19 @@
 <template>
 
-    <a :href="href" class="card-link" :class="colorableClasses" @click="onClick">
+    <a :href="href" :class="$mergeClasses(className, colorableClasses)" @click="onClick">
         <slot/>
     </h6>
 
 </template>
 
 <script>
-import Colorable from '@/Mixins/Colorable/Colorable';
+import Card from './Card';
 
 export default {
 
     name: 'card-title',
 
-    mixins: [
-        Colorable
-    ],
+    extends: Card,
 
     props: {
 

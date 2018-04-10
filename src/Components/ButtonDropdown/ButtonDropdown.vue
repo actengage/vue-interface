@@ -1,8 +1,7 @@
 <template>
 
     <div class="btn-group" :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}">
-
-        <slot name="button">
+        <slot name="toggle-button">
             <template v-if="split">
                 <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
                     <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
@@ -10,10 +9,10 @@
                 <button v-else :type="type" :class="actionClasses" @click="onClick">
                     <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
                 </button>
-                <button type="button" aria-haspopup="true" :aria-expanded="isDropdownShowing" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? showDropdown() : hideDropdown()" @blur="onBlur"></button>
+                <button type="button" aria-haspopup="true" :aria-expanded="isDropdownShowing" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur"></button>
             </template>
             <template v-else>
-                <button aria-haspopup="true" :aria-expanded="isDropdownShowing" :type="type" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? showDropdown() : hideDropdown()" @blur="onBlur">
+                <button aria-haspopup="true" :aria-expanded="isDropdownShowing" :type="type" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur">
                     <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
                 </button>
             </template>
@@ -25,8 +24,7 @@
                 :items="items"
                 :align="align"
                 :show.sync="isDropdownShowing"
-                @item:click="onItemClick"
-                v-transform-position>
+                @item:click="onItemClick">
                 <slot/>
             </dropdown-menu>
         </slot>
@@ -46,32 +44,6 @@ export default {
 
     components: {
         DropdownMenu
-    },
-
-    directives: {
-        transformPosition: {
-            update(el, binding, vnode) {
-                let top = null, bottom = null, left = null, right = null, x = 0, y = 0;
-
-                const offsetElement = getComputedStyle(vnode.context.$el.querySelector(
-                    vnode.context.split ? '.btn:not(.dropdown-toggle)' : '.btn.dropdown-toggle'
-                ));
-
-                //if(vnode.context.split) {
-                    if(vnode.context.split && vnode.context.align === 'left') {
-                        x = offsetElement.width;
-                    }
-                    else {
-                        right = 0;
-                        left = null
-                    }
-                //}
-
-                el.style.left = left === null ? 'auto' : left;
-                el.style.right = right === null ? 'auto' : right;
-                el.style.transform = `translate(${x}, ${y})`;
-            }
-        }
     },
 
     props: {
@@ -213,11 +185,20 @@ export default {
     methods: {
 
         /**
+         * Toggle the dropdown menu
+         *
+         * @return void
+         */
+        toggle() {
+            !this.isDropdownShowing ? this.show() : this.hide();
+        },
+
+        /**
          * Show the dropdown menu
          *
          * @return void
          */
-        showDropdown() {
+        show() {
             this.$emit('toggle', this.isDropdownShowing = true);
             this.$emit('show');
         },
@@ -227,7 +208,7 @@ export default {
          *
          * @return void
          */
-        hideDropdown() {
+        hide() {
             this.$emit('toggle', this.isDropdownShowing = false);
             this.$emit('hide');
         },
@@ -238,7 +219,7 @@ export default {
          * @return void
          */
         onClick(event) {
-            this.hideDropdown();
+            this.hide();
             this.$emit('click', event);
         },
 
@@ -249,7 +230,7 @@ export default {
          */
         onBlur(event) {
             if(!this.$el.contains(event.relatedTarget)) {
-                this.hideDropdown();
+                this.hide();
             }
         },
 

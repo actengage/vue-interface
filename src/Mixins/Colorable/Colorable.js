@@ -21,7 +21,7 @@ const COLORS = [
 
 const props = {};
 
-each(['text', 'bg', 'bg-gradient'], namespace => {
+each(['border', 'text', 'bg', 'bg-gradient'], namespace => {
     each(COLORS, color => {
         props[camelCase(prefix(color, namespace))] = Boolean;
     });
@@ -47,6 +47,10 @@ export default {
             return classes(this, 'bg');
         },
 
+        borderColor() {
+            return classes(this, 'border');
+        },
+
         bgGradientColor() {
             return classes(this, 'bg-gradient');
         }
@@ -57,6 +61,10 @@ export default {
 
         textColorClasses() {
             return this.textColor().join(' ').trim() || null;
+        },
+
+        borderColorClasses() {
+            return this.borderColor().join(' ').trim() || null;
         },
 
         bgColorClasses() {
@@ -71,6 +79,7 @@ export default {
             const classes = {};
 
             classes[this.textColorClasses] = !!this.textColorClasses;
+            classes[this.borderColorClasses] = !!this.borderColorClasses;
             classes[this.bgColorClasses] = !!this.bgColorClasses;
             classes[this.bgGradientColorClasses] = !!this.bgGradientColorClasses;
 

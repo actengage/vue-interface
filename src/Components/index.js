@@ -16,7 +16,10 @@ import Card from './Card';
 import CardBody from './Card/CardBody';
 import CardFooter from './Card/CardFooter'
 import CardHeader from './Card/CardHeader';
+import CardImg from './Card/CardImg';
 import CardImgTop from './Card/CardImgTop';
+import CardImgBottom from './Card/CardImgBottom';
+import CardImgOverlay from './Card/CardImgOverlay';
 import CardLink from './Card/CardLink';
 import CardSubtitle from './Card/CardSubtitle';
 import CardTitle from './Card/CardTitle';
@@ -45,6 +48,7 @@ import ListGroupItem from './ListGroup/ListGroupItem';
 import Navigation from './Navigation';
 import NavigationItem from './Navigation/NavigationItem';
 import NavigationLink from './Navigation/NavigationLink';
+import NavigationDropdown from './Navigation/NavigationDropdown';
 import Overlay from './Overlay';
 import Pagination from './Pagination';
 import ProgressBar from './ProgressBar';
@@ -73,7 +77,10 @@ export {
     CardBody,
     CardFooter,
     CardHeader,
+    CardImg,
     CardImgTop,
+    CardImgBottom,
+    CardImgOverlay,
     CardLink,
     CardSubtitle,
     CardTitle,
@@ -102,6 +109,7 @@ export {
     Navigation,
     NavigationItem,
     NavigationLink,
+    NavigationDropdown,
     Overlay,
     Pagination,
     ProgressBar,

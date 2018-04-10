@@ -20,6 +20,13 @@ export default {
     props: {
 
         /**
+         * Helper to add the justify-content-X class.
+         *
+         * @prop {Array}
+         */
+        align: String,
+
+        /**
          * An array of buttons
          *
          * @prop {Array}
@@ -27,11 +34,11 @@ export default {
         buttons: Array,
 
         /**
-         * Helper to add the justify-content-X class.
+         * The navigation inside a card
          *
-         * @prop {Array}
+         * @prop {Boolean}
          */
-        align: String,
+        card: Boolean,
 
         /**
          * Justify nav items to fill the width equally (using flex).
@@ -45,7 +52,7 @@ export default {
          *
          * @prop {Array}
          */
-        justfied: Boolean,
+        justified: Boolean,
 
         /**
          * Display items as pill shapes
@@ -80,10 +87,18 @@ export default {
     computed: {
 
         classes() {
+            this.$nextTick(() => {
+                if(!this.isCard) {
+                    this.isCard = this.$parent.$el.classList.contains('card-header');
+                }
+            });
+
             return this.$mergeClasses(
                 prefix(this.align, 'justify-content'),
                 this.colorableClasses, {
-                    'nav-justfied': this.justfied,
+                    'card-header-tabs': this.isCard && this.tabs,
+                    'card-header-pills': this.isCard && this.pills,
+                    'nav-justified': this.justified,
                     'nav-fill': this.fill,
                     'nav-pills': this.pills,
                     'nav-tabs': this.tabs,
@@ -92,6 +107,12 @@ export default {
             );
         }
 
+    },
+
+    data() {
+        return {
+            isCard: this.card
+        };
     }
 
 }

@@ -1,5 +1,5 @@
 <template>
-    <component :is="component" class="nav-item" :class="classes">
+    <component :is="component" :class="classes">
         <slot />
     </component>
 </template>
@@ -27,7 +27,17 @@ export default {
          *
          * @prop {Boolean}
          */
-        list: Boolean
+        list: Boolean,
+
+        /**
+         * Add the nav-item class to the link
+         *
+         * @prop {Boolean}
+         */
+        item: {
+            type: Boolean,
+            default: true
+        }
 
     },
 

@@ -1,6 +1,8 @@
 <template>
 
-    <div class="card"><slot/></div>
+    <div :class="$mergeClasses(className, colorableClasses)">
+        <slot/>
+    </div>
 
 </template>
 
@@ -13,7 +15,15 @@ export default {
 
     mixins: [
         Colorable
-    ]
+    ],
+
+    computed: {
+
+        className() {
+            return this.$options.name
+        }
+
+    }
 
 }
 

@@ -30,17 +30,17 @@ export default {
          *
          * @prop {String}
          */
-        href: String
+        href: String,
 
         /**
          * Add the nav-item class to the link
          *
          * @prop {Boolean}
+         */
         item: {
             type: Boolean,
-            default: true
+            default: false
         }
-        */
 
     },
 
@@ -48,25 +48,24 @@ export default {
 
         classes() {
             this.$nextTick(() => {
-                if(!this.$attrs.item) {
-                    this.item = !this.$parent.$el.classList.contains('nav-item');
+                if(!this.isItem) {
+                    this.isItem = !this.$parent.$el.classList.contains('nav-item');
                 }
             });
 
             return {
                 'nav-link': this.href,
-                'nav-item': this.item,
+                'nav-item': this.isItem,
                 'active': this.active,
                 'disabled': this.disabled
             }
-
         }
 
     },
 
     data() {
         return {
-            item: !!this.$attrs.item
+            isItem: this.item
         }
     }
 

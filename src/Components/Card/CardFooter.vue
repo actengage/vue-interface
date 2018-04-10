@@ -1,28 +1,11 @@
-<template>
-
-    <component :is="element" class="card-footer"><slot/></component>
-
-</template>
-
 <script>
+import CardHeader from './CardHeader';
 
 export default {
 
-    name: 'card-header',
+    name: 'card-footer',
 
-    props: {
-
-        /**
-         * The alt attribute
-         *
-         * @property String
-         */
-        element: {
-            type: String,
-            default: 'div'
-        }
-
-    }
+    extends: CardHeader
 
 }
 

@@ -2,30 +2,16 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>FormGroup</title>
+        <title>Card</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/dist/vue-toolbox.css">
     </head>
     <body>
         <div id="app" class="container">
-            <h1 class="mb-5">form-group</h1>
+            <h1 class="mb-5">card</h1>
 
             <h3>Basic Usage</h3>
-
-            <card style="width:18rem">
-                <card-body>
-                    <card-title>Card Title</card-title>
-                    <card-subtitle class="mb-2" text-muted>Card Subtitle</card-subtitle>
-                    <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <card-link href="#">Card Link</card-link>
-                    <card-link href="#">Another Link</card-link>
-                </card-body>
-            </card>
-
-            <hr>
-
-            <h3>Images</h3>
 
             <card style="width:18rem">
                 <card-img-top :src="src"></card-img-top>
@@ -33,8 +19,42 @@
                     <card-title>Card Title</card-title>
                     <card-subtitle class="mb-2" text-muted>Card Subtitle</card-subtitle>
                     <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <card-link href="#">Card Link</card-link>
-                    <card-link href="#">Another Link</card-link>
+                    <btn variant="primary">Go somewhere</btn>
+                </card-body>
+            </card>
+
+            <hr>
+
+            <h3>Body</h3>
+
+            <card>
+                <card-body>
+                    This is some text within a card body.
+                </card-body>
+            </card>
+
+            <hr>
+
+            <h3>Titles, text, and links</h3>
+
+            <card style="width: 18rem;">
+                <card-body>
+                    <card-title>Card title</card-title>
+                    <card-subtitle class="mb-2 text-muted">Card subtitle</card-subtitle>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <card-link href="#">Card link</card-link>
+                    <card-link href="#">Another link</card-link>
+                </card-body>
+            </card>
+
+            <hr>
+
+            <h3>Images</h3>
+
+            <card style="width: 18rem;">
+                <card-img-top :src="src" alt="Card image cap"></card-img-top>
+                <card-body>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </card-body>
             </card>
 
@@ -112,17 +132,11 @@
 
             <card class="mb-4 text-center">
                 <card-header>
-                    <ul class="nav nav-tabs card-header-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Active</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#">Disabled</a>
-                        </li>
-                    </ul>
+                    <navigation tabs>
+                        <navigation-link href="#" active>Active</navigation-link>
+                        <navigation-link href="#">Link</navigation-link>
+                        <navigation-link href="#" disabled>Disabled</navigation-link>
+                    </navigation>
                 </card-header>
                 <card-body>
                     <card-title>Special title treatment</card-title>
@@ -131,6 +145,198 @@
                 </card-body>
             </card>
 
+            <hr>
+
+            <card class="mb-4 text-center">
+                <card-header>
+                    <navigation pills>
+                        <navigation-link href="#" active>Active</navigation-link>
+                        <navigation-link href="#">Link</navigation-link>
+                        <navigation-link href="#" disabled>Disabled</navigation-link>
+                    </navigation>
+                </card-header>
+                <card-body>
+                    <card-title>Special title treatment</card-title>
+                    <p>With supporting text below as a natural lead-in to additional content.</p>
+                    <btn href="#" variant="primary">Go somewhere</btn>
+                </card-body>
+            </card>
+
+            <hr>
+
+            <h3>Image Caps</h3>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <card class="mb-3">
+                        <card-img-top :src="src" alt="Card image cap"></card-img-top>
+                        <card-body>
+                            <card-title>Card Title</card-title>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        </card-body>
+                    </card>
+                </div>
+                <div class="col-sm-6">
+                    <card>
+                        <card-body>
+                            <card-title>Card Title</card-title>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        </card-body>
+                        <card-img-bottom :src="src" alt="Card image cap"></card-img-bottom>
+                    </card>
+                </div>
+            </div>
+
+            <hr>
+
+            <h3>Image Overlays</h3>
+
+            <card class="bg-dark text-white">
+                <card-img :src="overlay" alt="Card image"></card-img>
+                <card-img-overlay>
+                    <card-title>Card title</card-title>
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <p class="card-text">Last updated 3 mins ago</p>
+                </card-img-overlay>
+            </card>
+
+            <hr>
+
+            <h3>Background and Color</h3>
+
+            <card class="mb-3" text-white bg-primary style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body>
+                    <card-title>Primary card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card class="mb-3" text-white bg-secondary style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body>
+                    <card-title>Secondary card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card class="mb-3" text-white bg-success style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body>
+                    <card-title>Success card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card class="mb-3" text-white bg-danger style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body>
+                    <card-title>Danger card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card class="mb-3" text-white bg-warning style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body>
+                    <card-title>Warning card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card class="mb-3" text-white bg-info style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body>
+                    <card-title>Info card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card class="mb-3" bg-light style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body>
+                    <card-title>Light card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card class="mb-3" text-white bg-dark style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body>
+                    <card-title>White card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <hr>
+
+            <h3>Border Color</h3>
+
+            <card border-primary class="mb-3" style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body text-primary>
+                    <card-title>Primary card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card border-secondary class="mb-3" style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body text-secondary>
+                    <card-title>Secondary card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card border-success class="mb-3" style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body text-success>
+                    <card-title>Success card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card border-danger class="mb-3" style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body text-danger>
+                    <card-title>Danger card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card border-warning class="mb-3" style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body text-warning>
+                    <card-title>Warning card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card border-info class="mb-3" style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body text-info>
+                    <card-title>Info card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card border-light class="mb-3" style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body>
+                    <card-title>Light card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
+
+            <card border-dark class="mb-3" style="max-width: 18rem;">
+                <card-header>Header</card-header>
+                <card-body text-dark>
+                    <card-title>Primary card title</card-title>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </card-body>
+            </card>
 
         </div>
 
@@ -141,7 +347,8 @@
                 el: '#app',
                 data() {
                     return {
-                        src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_162accad303%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_162accad303%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.1953125%22%20y%3D%2296.6%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E'
+                        src: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_162accad303%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_162accad303%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.1953125%22%20y%3D%2296.6%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E',
+                        overlay: 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22741%22%20height%3D%22270%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20741%20270%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_162ae273567%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A37pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_162ae273567%22%3E%3Crect%20width%3D%22741%22%20height%3D%22270%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22275.8671875%22%20y%3D%22152.1%22%3E741x270%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E'
                     };
                 }
             });

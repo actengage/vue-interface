@@ -1,14 +1,19 @@
 <template>
 
-    <component :is="element" class="card-header"><slot/></component>
+    <component :is="element" :class="$mergeClasses(className, colorableClasses)">
+        <slot/>
+    </component>
 
 </template>
 
 <script>
+import Card from './Card';
 
 export default {
 
     name: 'card-header',
+
+    extends: Card,
 
     props: {
 
