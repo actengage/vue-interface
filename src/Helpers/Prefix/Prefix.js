@@ -1,5 +1,7 @@
+import { isNull } from 'lodash';
 import { mapKeys } from 'lodash';
 import { isObject } from 'lodash';
+import { isUndefined } from 'lodash';
 
 export default function prefix(subject, prefix, delimeter = '-') {
     const prefixer = (value, key) => {
@@ -9,6 +11,10 @@ export default function prefix(subject, prefix, delimeter = '-') {
             prefix,
             string.replace(new RegExp(`^${prefix}${delimeter}?`), '')
         ].join(delimeter);
+    }
+
+    if(isNull(subject) || isUndefined(subject)){
+        return subject;
     }
 
     if(isObject(subject)) {

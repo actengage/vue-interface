@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Btn</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">btn</h1>
+
+            <h3>Basic Usage</h3>
+
+            <btn-group>
+                <btn variant="secondary">Left</btn>
+                <btn variant="secondary">Middle</btn>
+                <btn variant="secondary">Right</btn>
+            </btn-group>
+
+            <hr>
+
+            <h3>Button Toolbar</h3>
+
+            <btn-toolbar class="mb-3">
+                <btn-group class="mr-2">
+                    <btn variant="secondary">1</btn>
+                    <btn variant="secondary">2</btn>
+                    <btn variant="secondary">3</btn>
+                    <btn variant="secondary">4</btn>
+                </btn-group>
+
+                <btn-group class="mr-2">
+                    <btn variant="secondary">4</btn>
+                    <btn variant="secondary">5</btn>
+                    <btn variant="secondary">6</btn>
+                </btn-group>
+
+                <btn-group>
+                    <btn variant="secondary">8</btn>
+                </btn-group>
+            </btn-toolbar>
+
+            <btn-toolbar class="mb-3">
+                <btn-group class="mr-2">
+                    <btn variant="secondary">1</btn>
+                    <btn variant="secondary">2</btn>
+                    <btn variant="secondary">3</btn>
+                    <btn variant="secondary">4</btn>
+                </btn-group>
+
+                <input-group prepend="@">
+                    <form-control placeholder="Input group example" />
+                </input-group>
+            </btn-toolbar>
+
+            <btn-toolbar class="mb-3 justify-content-between">
+                <btn-group class="mr-2">
+                    <btn variant="secondary">1</btn>
+                    <btn variant="secondary">2</btn>
+                    <btn variant="secondary">3</btn>
+                    <btn variant="secondary">4</btn>
+                </btn-group>
+
+                <input-group prepend="@">
+                    <form-control placeholder="Input group example" />
+                </input-group>
+            </btn-toolbar>
+
+            <hr>
+
+            <h3>Sizing</h3>
+
+            <form-group>
+                <btn-group size="sm">
+                    <btn variant="secondary">Left</btn>
+                    <btn variant="secondary">Middle</btn>
+                    <btn variant="secondary">Right</btn>
+                </btn-group>
+            </form-group>
+
+            <form-group>
+                <btn-group size="md">
+                    <btn variant="secondary">Left</btn>
+                    <btn variant="secondary">Middle</btn>
+                    <btn variant="secondary">Right</btn>
+                </btn-group>
+            </form-group>
+
+            <form-group>
+                <btn-group size="lg">
+                    <btn variant="secondary">Left</btn>
+                    <btn variant="secondary">Middle</btn>
+                    <btn variant="secondary">Right</btn>
+                </btn-group>
+            </form-group>
+
+            <hr>
+
+            <h3>Nesting</h3>
+
+            <form-group>
+                <btn-group>
+                    <btn variant="secondary">1</btn>
+                    <btn variant="secondary">2</btn>
+                    <button-dropdown variant="secondary" label="Dropdown">
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                    </button-dropdown>
+                </btn-group>
+            </form-group>
+
+            <form-group>
+                <btn-group>
+                    <btn variant="secondary">1</btn>
+                    <btn variant="secondary">2</btn>
+                    <button-dropdown variant="secondary" label="Dropdown" split>
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                    </button-dropdown>
+                </btn-group>
+            </form-group>
+
+            <hr>
+
+            <h3>Vertical Variation</h3>
+
+            <form-group>
+                <btn-group vertical>
+                    <btn variant="secondary">Button</btn>
+                    <btn variant="secondary">Button</btn>
+                    <btn variant="secondary">Button</btn>
+                    <btn variant="secondary">Button</btn>
+                    <btn variant="secondary">Button</btn>
+                    <btn variant="secondary">Button</btn>
+                </btn-group>
+            </form-group>
+
+            <form-group>
+                <btn-group vertical>
+                    <btn variant="secondary">Button</btn>
+                    <btn variant="secondary">Button</btn>
+                    <button-dropdown variant="secondary" label="Dropdown">
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                    </button-dropdown>
+                    <btn variant="secondary">Button</btn>
+                    <btn variant="secondary">Button</btn>
+                    <button-dropdown variant="secondary" label="Dropdown">
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                    </button-dropdown>
+                    <button-dropdown variant="secondary" label="Dropdown">
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                    </button-dropdown>
+                    <button-dropdown variant="secondary" label="Dropdown">
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                        <dropdown-menu-item href="#">Dropdown link</dropdown-menu-item>
+                    </button-dropdown>
+                </btn-group>
+            </form-group>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app'
+            });
+        </script>
+    </body>
+</html>

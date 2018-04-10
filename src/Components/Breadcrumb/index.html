@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Breadcrumb</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">breadcrumb</h1>
+
+            <h3>Basic Usage</h3>
+
+            <breadcrumb>
+                <breadcrumb-item active>Home</breadcrumb-item>
+            </breadcrumb>
+
+            <breadcrumb>
+                <breadcrumb-item href="/">Home</breadcrumb-item>
+                <breadcrumb-item active>Library</breadcrumb-item>
+            </breadcrumb>
+
+            <breadcrumb>
+                <breadcrumb-item href="/">Home</breadcrumb-item>
+                <breadcrumb-item href="/library">Library</breadcrumb-item>
+                <breadcrumb-item active>Data</breadcrumb-item>
+            </breadcrumb>
+
+            <hr>
+
+            <h3>From Array</h3>
+
+            <breadcrumb :items="breadcrumbs"></breadcrumb>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        breadcrumbs: [{
+                            label: 'Home',
+                            href: '/'
+                        },{
+                            label: 'Library',
+                            href: '/library'
+                        },{
+                            label: 'Data',
+                            href: '/library/data',
+                            active: true
+                        }]
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

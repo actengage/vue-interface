@@ -1,7 +1,7 @@
 <template>
 
     <form-group>
-        
+
         <slot name="label">
             <form-label v-if="label" :for="id" v-html="label" />
         </slot>
@@ -14,7 +14,7 @@
         	</div>
         </div>
 
-        <input type="text" :name="name" :value="value" :id="id" class="form-control d-none">
+        <form-control :name="name" :value="value" :id="id" class="d-none"/>
 
         <slot name="feedback">
             <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
@@ -242,17 +242,17 @@ $light-switch-label-height: $light-switch-handle-height;
 
         .light-switch-label {
             &.on-value {
-                left: -1px;
+                left: 0;
             }
             &.off-value {
-                right: -1px;
+                right: 0;
             }
         }
     }
 
     .light-switch-handle {
-        top: -1px;
-        left: -1px;
+        top: 0;
+        left: 0;
         z-index: 1;
         position: absolute;
         border-radius: 100%;

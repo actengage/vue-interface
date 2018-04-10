@@ -15,7 +15,8 @@ const COLORS = [
     'info',
     'light',
     'dark',
-    'white'
+    'white',
+    'muted'
 ];
 
 const props = {};

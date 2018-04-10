@@ -1,5 +1,5 @@
 import Colorable from './Colorable';
-import FormControl from './FormControl';
+import FormControlMixin from './FormControl';
 import HasSlots from './HasSlots';
 import Proxy from './Proxy';
 import Screenreaders from './Screenreaders';
@@ -8,7 +8,7 @@ import Variant from './Variant';
 
 export {
     Colorable,
-    FormControl,
+    FormControlMixin,
     HasSlots,
     Proxy,
     Screenreaders,

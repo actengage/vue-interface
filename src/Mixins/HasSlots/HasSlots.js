@@ -2,6 +2,10 @@ export default {
 
     methods: {
 
+        getSlot(slot) {
+            return this.$slots[slot];
+        },
+
         hasSlot(slot) {
             return !!this.$slots[slot];
         },

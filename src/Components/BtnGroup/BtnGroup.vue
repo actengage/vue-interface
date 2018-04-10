@@ -1,0 +1,54 @@
+<template>
+    <div :class="classes" role="group">
+        <btn v-if="buttons" v-for="(button, i) in buttons" :key="i" v-bind="button" />
+        <slot/>
+    </div>
+</template>
+
+<script>
+import Sizeable from '@/Mixins/Sizeable/Sizeable';
+import Colorable from '@/Mixins/Colorable/Colorable';
+
+export default {
+
+    name: 'btn-group',
+
+    mixins: [
+        Colorable,
+        Sizeable
+    ],
+
+    props: {
+
+        /**
+         * An array of buttons
+         *
+         * @prop {Array}
+         */
+        buttons: Array,
+
+        /**
+         * Display the buttons vertically
+         *
+         * @prop {Boolean}
+         */
+        vertical: Boolean
+
+    },
+
+    computed: {
+
+        classes() {
+            return this.$mergeClasses(
+                this.sizeableClass,
+                this.colorableClasses, {
+                    'btn-group': !this.vertical,
+                    'btn-group-vertical': this.vertical
+                }
+            );
+        }
+
+    }
+
+}
+</script>

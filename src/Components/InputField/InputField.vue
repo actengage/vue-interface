@@ -9,9 +9,9 @@
         </slot>
 
         <slot name="control">
-            <input
-                :type="type"
+            <form-control
                 :id="id"
+                :type="type"
                 :value="value"
                 :placeholder="placeholder"
                 :required="required"

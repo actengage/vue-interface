@@ -26,6 +26,7 @@
             </label>
 
         </template>
+
         <template v-else>
             <label :for="id" :class="$mergeClasses(labelClass, colorableClasses)">
                 <input
@@ -55,36 +56,6 @@
             <help-text v-if="helpText" v-html="helpText" />
         </slot>
     </div>
-    <!--
-    <div class="form-check" :class="$mergeClasses({'form-check-inline': inline}, controlSizeClass)">
-        <label :for="id" :class="$mergeClasses('form-check-label', colorableClasses)">
-            <input
-                type="checkbox"
-                :name="name"
-                :id="id"
-                :value="value"
-                :required="required"
-                :disabled="disabled || readonly"
-                :readonly="readonly"
-                :pattern="pattern"
-                :checked="checkedValue.indexOf(value) !== -1"
-                :class="$mergeClasses(controlClass, (invalidFeedback ? 'is-invalid':''), !(label ? 'position-static' : ''))"
-                v-bind-events="bindEvents"
-                v-on:change="updated($event.target.value, 'change')">
-
-            <slot>{{label}}</slot>
-
-            <slot name="feedback">
-                <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-                <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
-            </slot>
-        </label>
-
-        <slot name="help">
-            <help-text v-if="helpText" v-html="helpText" />
-        </slot>
-    </div>
--->
 </template>
 
 <script>

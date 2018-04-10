@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>FormControl</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">form-control</h1>
+
+            <h3>Basic Usage</h3>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <form-group>
+                        <form-control type="text" label="Text Field"></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" label="Descriptive Text Field" help-text="Some helpful text goes here."></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="email" label="Email Field" placeholder="you@example.com"></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" label="Plain Text" placeholder="Type something here..." plaintext></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" label="Readonly" placeholder="Type something here..." readonly></form-control>
+                    </form-group>
+
+                    <hr>
+
+                    <h3>Sizes</h3>
+
+                    <form-group>
+                        <form-control type="text" size="sm" placeholder="Small"></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" size="md" placeholder="Medium"></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" size="lg" placeholder="Large"></form-control>
+                    </form-group>
+
+                    <hr>
+
+                    <h3>Colors</h3>
+
+                    <form-group>
+                        <form-control type="text" value="Primary" text-white bg-primary></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Secondary" text-white bg-secondary></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Success" text-white bg-success></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Danger" text-white bg-danger></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Warning" text-white bg-warning></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Info" text-white bg-info></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Dark" text-light bg-dark></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Muted" text-dark bg-muted></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="White" text-dark bg-white></form-control>
+                    </form-group>
+
+                    <hr>
+
+                    <h3>Validation</h3>
+
+                    <form-group>
+                        <form-control type="text" label="Single Inline Error" error="This is an inline error."></form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" name="test" label="Multiple Errors From Object" :errors="{'test': ['This is an inline error #1.', 'This is an inline error #2.']}"></form-control>
+                    </form-group>
+                </div>
+
+                <div class="col-sm-6">
+
+                    <form-group>
+                        <form-control type="text" label="Text Field" select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" label="Descriptive Text Field" help-text="Some helpful text goes here." select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="email" label="Email Field" placeholder="you@example.com" select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" label="Plain Text" placeholder="Type something here..." plaintext select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" label="Readonly" placeholder="Type something here..." readonly select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <hr>
+
+                    <h3>Sizes</h3>
+
+                    <form-group>
+                        <form-control type="text" size="sm" placeholder="Small" select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" size="md" placeholder="Medium" select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" size="lg" placeholder="Large" select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <hr>
+
+                    <h3>Colors</h3>
+
+                    <form-group>
+                        <form-control type="text" value="Primary" text-white bg-primary select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Secondary" text-white bg-secondary select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Success" text-white bg-success select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Danger" text-white bg-danger select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Warning" text-white bg-warning select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Info" text-white bg-info select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Dark" text-light bg-dark select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="Muted" text-dark bg-muted select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" value="White" text-dark bg-white select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <hr>
+
+                    <h3>Validation</h3>
+
+                    <form-group>
+                        <form-control type="text" label="Single Inline Error" error="This is an inline error." select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+
+                    <form-group>
+                        <form-control type="text" name="test" label="Multiple Errors From Object" :errors="{'test': ['This is an inline error #1.', 'This is an inline error #2.']}" select>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </form-control>
+                    </form-group>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        value: null
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

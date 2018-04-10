@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Navigation</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">navigation</h1>
+
+            <h3>Basic Usage</h3>
+
+            <navigation>
+                <navigation-item>
+                    <navigation-link href="#" active>Active</navigation-link>
+                </navigation-item>
+                <navigation-item>
+                    <navigation-link href="#">Link</navigation-link>
+                </navigation-item>
+                <navigation-item>
+                    <navigation-link href="#">Link</navigation-link>
+                </navigation-item>
+                <navigation-item>
+                    <navigation-link href="#" disabled>Disabled</navigation-link>
+                </navigation-item>
+            </navigation>
+
+            <hr>
+
+            <navigation>
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+            <hr>
+
+            <h3>Horizontal Alignment</h3>
+
+            <navigation align="left">
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+            <navigation align="center">
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+            <navigation align="end">
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+            <hr>
+
+            <h3>Vertical Alignment</h3>
+
+            <navigation vertical>
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+            <hr>
+
+            <h3>Tabs</h3>
+
+            <navigation tabs>
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+            <hr>
+
+            <h3>Pills</h3>
+
+            <navigation pills>
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+            <hr>
+
+            <h3>Fill and Justify</h3>
+
+            <navigation pills fill>
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+            <hr>
+
+            <h3>Fill and Justify</h3>
+
+            <navigation pills fill justified>
+                <navigation-link href="#" active>Active</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#">Link</navigation-link>
+                <navigation-link href="#" disabled>Disabled</navigation-link>
+            </navigation>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app'
+            });
+        </script>
+    </body>
+</html>

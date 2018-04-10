@@ -2903,12 +2903,12 @@ template {
     .light-switch.is-invalid:not(.is-active) .light-switch-handle {
       background: #dc3545; }
     .light-switch.is-invalid .light-switch-label.on-value {
-      left: -1px; }
+      left: 0; }
     .light-switch.is-invalid .light-switch-label.off-value {
-      right: -1px; }
+      right: 0; }
   .light-switch .light-switch-handle {
-    top: -1px;
-    left: -1px;
+    top: 0;
+    left: 0;
     z-index: 1;
     position: absolute;
     border-radius: 100%;
