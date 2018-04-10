@@ -25,7 +25,7 @@
             </slot>
         </div>
 
-        <table class="table" :class="{'table-hover': !loading}">
+        <table class="table" :class="{'table-hover': hover && !loading && data.length}">
 
             <slot name="thead">
             	<thead>
@@ -161,6 +161,12 @@ export default {
 
         // (string) The table heading
         heading: String,
+
+        // (string) Add table-hover to the table element
+        hover: {
+            type: Boolean,
+            default: true
+        },
 
         // (string) The table description
         description: String,

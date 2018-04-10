@@ -86,6 +86,16 @@ export default class Model {
     }
 
     /**
+     * Return an array of file properties that are sent to the API. If no fies
+     * are defined, then request will always be sent with JSON vs. multipart.
+     *
+     * @return array
+     */
+    files() {
+        return [];
+    }
+
+    /**
      * Set the attributes in the model with the data given.
      *
      * @param data object

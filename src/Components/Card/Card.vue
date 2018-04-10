@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import HasSlots from '@/Mixins/HasSlots/HasSlots';
 import Colorable from '@/Mixins/Colorable/Colorable';
 
 export default {
@@ -14,6 +15,7 @@ export default {
     name: 'card',
 
     mixins: [
+        HasSlots,
         Colorable
     ],
 

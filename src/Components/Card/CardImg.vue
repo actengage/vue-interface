@@ -1,15 +1,21 @@
 <template>
 
-    <img :class="className" :src="src" :alt="alt"/>
+    <img v-if="!hasDefaultSlot" :class="className" :src="src" :alt="alt"/>
+
+    <div v-else :class="className">
+        <slot/>
+    </div>
 
 </template>
 
 <script>
-
+import Card from './Card';
 
 export default {
 
     name: 'card-img',
+
+    extends: Card,
 
     props: {
 
@@ -26,14 +32,6 @@ export default {
          * @property String
          */
         src: String
-
-    },
-
-    computed: {
-
-        className() {
-            return this.$options.name
-        }
 
     }
 

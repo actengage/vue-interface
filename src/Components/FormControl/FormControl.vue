@@ -14,7 +14,7 @@
         :aria-label="label"
         :aria-describedby="id"
         v-bind-events="bindEvents"
-        v-on:input="updated($event.target.value)">
+        v-on:input="updated">
         <slot v-if="select"/>
     </component>
 

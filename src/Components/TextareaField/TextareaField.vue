@@ -12,6 +12,7 @@
             <textarea
                 :id="id"
                 :value="value"
+                :errors="errors"
                 :placeholder="placeholder"
                 :required="required"
                 :disabled="disabled || readonly"

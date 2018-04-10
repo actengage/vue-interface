@@ -13,6 +13,7 @@
                 :id="id"
                 :type="type"
                 :value="value"
+                :errors="errors"
                 :placeholder="placeholder"
                 :required="required"
                 :disabled="disabled || readonly"
