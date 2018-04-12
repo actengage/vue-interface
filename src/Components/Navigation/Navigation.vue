@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import prefix from '@/Helpers/Prefix/Prefix';
-import Colorable from '@/Mixins/Colorable/Colorable';
+import prefix from '../../Helpers/Prefix/Prefix';
+import Colorable from '../../Mixins/Colorable/Colorable';
 
 export default {
 

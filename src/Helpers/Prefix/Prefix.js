@@ -1,7 +1,7 @@
-import { isNull } from 'lodash';
-import { mapKeys } from 'lodash';
-import { isObject } from 'lodash';
-import { isUndefined } from 'lodash';
+import isNull from 'lodash-es/isNull';
+import mapKeys from 'lodash-es/mapKeys';
+import isObject from 'lodash-es/isObject';
+import isUndefined from 'lodash-es/isUndefined';
 
 export default function prefix(subject, prefix, delimeter = '-') {
     const prefixer = (value, key) => {

@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import HasSlots from '@/Mixins/HasSlots/HasSlots';
-import Colorable from '@/Mixins/Colorable/Colorable';
+import HasSlots from '../../Mixins/HasSlots/HasSlots';
+import Colorable from '../../Mixins/Colorable/Colorable';
 
 export default {
 

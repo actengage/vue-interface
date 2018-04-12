@@ -39,8 +39,8 @@
 
 <script>
 
-import Colorable from '@/Mixins/Colorable/Colorable';
-import FormControl from '@/Mixins/FormControl/FormControl';
+import Colorable from '../../Mixins/Colorable/Colorable';
+import FormControl from '../../Mixins/FormControl/FormControl';
 
 export default {
 

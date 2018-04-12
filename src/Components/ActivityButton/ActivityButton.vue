@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import { extend } from 'lodash';
 import ActivityIndicator from '../ActivityIndicator';
 
 const convertAnimationDelayToInt = function(delay) {

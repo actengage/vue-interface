@@ -11,8 +11,8 @@
 
 <script>
 
-import prefix from '@/Helpers/Prefix/Prefix';
-import Variant from '@/Mixins/Variant/Variant';
+import prefix from '../../Helpers/Prefix/Prefix';
+import Variant from '../../Mixins/Variant/Variant';
 
 export default {
 

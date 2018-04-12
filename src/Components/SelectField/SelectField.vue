@@ -36,8 +36,8 @@
 <script>
 
 //import BaseField from './BaseField';
-import Colorable from '@/Mixins/Colorable/Colorable';
-import FormControl from '@/Mixins/FormControl/FormControl';
+import Colorable from '../../Mixins/Colorable/Colorable';
+import FormControl from '../../Mixins/FormControl/FormControl';
 
 const CUSTOM_SELECT_PREFIX = 'custom-select-'
 

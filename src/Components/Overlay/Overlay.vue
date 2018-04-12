@@ -1,6 +1,6 @@
 <template>
-    <div class="overlay" :class="{'show': isVisible}" :style="{background: background}" @keyup.esc="hide">
-        <button v-if="closeButton" type="button" class="btn btn-link overlay-close" @click="onClickClose">
+    <div class="overlay" :class="{'show': isVisible}" :style="{background: background}" @keyup.esc="event => closeable && hide()">
+        <button v-if="closeable" type="button" class="btn btn-link overlay-close" @click="onClickClose">
             <i class="fa fa-times-circle"></i>
         </button>
 
@@ -11,9 +11,6 @@
 </template>
 
 <script>
-import { extend } from 'lodash';
-import { isObject } from 'lodash';
-
 export default {
 
     name: 'overlay',
@@ -49,7 +46,7 @@ export default {
          *
          * @property Boolean
          */
-        closeButton: {
+        closeable: {
             type: Boolean,
             default: true
         },

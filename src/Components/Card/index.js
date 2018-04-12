@@ -9,7 +9,7 @@ import CardImgOverlay from './CardImgOverlay';
 import CardLink from './CardLink';
 import CardSubtitle from './CardSubtitle';
 import CardTitle from './CardTitle';
-import VueInstaller from '@/Helpers/VueInstaller/VueInstaller';
+import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
 const plugin = VueInstaller.use({
 

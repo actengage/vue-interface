@@ -31,9 +31,9 @@
 
 <script>
 
-import HasSlots from '@/Mixins/HasSlots/HasSlots';
-import Sizeable from '@/Mixins/Sizeable/Sizeable';
-import Colorable from '@/Mixins/Colorable/Colorable';
+import HasSlots from '../../Mixins/HasSlots/HasSlots';
+import Sizeable from '../../Mixins/Sizeable/Sizeable';
+import Colorable from '../../Mixins/Colorable/Colorable';
 
 export default {
 

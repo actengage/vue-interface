@@ -8,9 +8,9 @@
 
 <script>
 
-import { each } from 'lodash';
+import each from 'lodash-es/each';
 import ListGroupItem from './ListGroupItem';
-import prefix from '@/Helpers/Prefix/Prefix';
+import prefix from '../../Helpers/Prefix/Prefix';
 
 export default {
 
@@ -73,8 +73,8 @@ export default {
 
         bindEventsToChildren() {
             each(this.$children, child => {
-                child.$off('click', this.onClickChild);
-                child.$on('click', this.onClickChild);
+                child.$off('click', this.onClickItem);
+                child.$on('click', this.onClickItem);
                 child.$off('activate', this.onActivate);
                 child.$on('activate', this.onActivate);
                 child.$off('deactivate', this.onDeactivate);
@@ -82,12 +82,12 @@ export default {
             });
         },
 
-        onClickChild(event, child) {
+        onClickItem(event, child) {
             if(this.activateable) {
                 child.toggle();
             }
 
-            this.$emit('click:child', event, child);
+            this.$emit('item:click', event, child);
         },
 
         onActivate(item) {
@@ -98,12 +98,16 @@ export default {
 
                 this.activeItem = item;
             }
+
+            this.$emit('item:activate', event, item);
         },
 
         onDeactivate(item) {
             if(!this.multiple && this.activeItem === item) {
                 this.activeItem = null;
             }
+
+            this.$emit('item:deactivate', event, item);
         }
     },
 

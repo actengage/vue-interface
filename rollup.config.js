@@ -15,6 +15,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import globals from 'rollup-plugin-node-globals';
 import builtins from 'rollup-plugin-node-builtins';
+import rootImport from 'rollup-plugin-root-import';
 
 //import postcss from 'rollup-plugin-postcss';
 
@@ -88,6 +89,15 @@ const plugins = [
         resolve: ['.js', '.vue'],
         '@': `${SRC}`
     }),
+
+    rootImport({
+      // Will first look in `client/src/*` and then `common/src/*`.
+      root: SRC,
+      useEntry: 'prepend',
+
+      // If we don't find the file verbatim, try adding these extensions
+      extensions: ['.vue', '.js']
+  }),
     resolve({
         main: true,
         jsnext: true,

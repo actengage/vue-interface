@@ -33,17 +33,14 @@
 </template>
 
 <script>
-import { pull } from 'lodash';
-import { each } from 'lodash';
-import { merge } from 'lodash';
-import { remove } from 'lodash';
-import { extend } from 'lodash';
-import { isArray } from 'lodash';
-import { findIndex } from 'lodash';
-import { isUndefined } from 'lodash';
-import FormControl from '@/Mixins/FormControl/FormControl';
-import FileField from '@/Components/FileField/FileField';
-import FilePreview from '@/Components/FilePreview/FilePreview';
+import each from 'lodash-es/each';
+import remove from 'lodash-es/remove';
+import isArray from 'lodash-es/isArray';
+import findIndex from 'lodash-es/findIndex';
+import isUndefined from 'lodash-es/isUndefined';
+import FormControl from '../../Mixins/FormControl/FormControl';
+import FileField from '../FileField/FileField';
+import FilePreview from '../FilePreview/FilePreview';
 
 export default {
 

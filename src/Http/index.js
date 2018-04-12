@@ -1,13 +1,13 @@
 import Model from './Model';
 import Request from './Request';
-import ResponseTransformer from './ResponseTransformer';
-import TableViewTransformer from './TableViewTransformer';
-import Transformer from './Transformer';
+import RequestOptions from './Request/RequestOptions';
+import transformRequest from './Request/TransformRequest';
+import transformResponse from './Request/TransformResponse';
 
 export {
     Model,
     Request,
-    ResponseTransformer,
-    TableViewTransformer,
-    Transformer
+    RequestOptions,
+    transformRequest,
+    transformResponse
 }

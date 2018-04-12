@@ -28,9 +28,9 @@
 
 <script>
 import moment from 'moment';
-import { isFunction } from 'lodash';
-import readFile from '@/Helpers/ReadFile/ReadFile';
-import ProgressBar from '@/Components/ProgressBar/ProgressBar';
+import isFunction from 'lodash-es/isFunction';
+import readFile from '../../Helpers/ReadFile/ReadFile';
+import ProgressBar from '../ProgressBar/ProgressBar';
 
 export default {
 

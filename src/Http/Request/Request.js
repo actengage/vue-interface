@@ -1,14 +1,25 @@
-import axios from 'axios/dist/axios';
+import axios from 'axios';
 import moment from 'moment';
-import { bind } from 'lodash';
-import { each } from 'lodash';
-import { extend } from 'lodash';
-import { isObject } from 'lodash';
-import { camelCase } from 'lodash';
+import bind from 'lodash-es/bind';
+import each from 'lodash-es/each';
+import first from 'lodash-es/first';
+import extend from 'lodash-es/extend';
+import isArray from 'lodash-es/isArray';
+import isObject from 'lodash-es/isObject';
+import cloneDeep from 'lodash-es/cloneDeep';
+import camelCase from 'lodash-es/camelCase';
+import mergeWith from 'lodash-es/mergeWith';
+import RequestOptions from './RequestOptions';
+import transformRequest from './TransformRequest';
+import transformResponse from './TransformResponse';
 
-const PROXY_CONFIG_PROPERTIES = ['headers', 'params', 'data'];
+const PROXY_OPTION_PROPERTIES = [
+    'headers',
+    'params',
+    'data'
+];
 
-const PROXY_CONFIG_METHODS = {
+const PROXY_OPTION_METHODS = {
     get(prop, context) {
         return () => {
             return context[prop];
@@ -56,25 +67,44 @@ const chainable = function(prop) {
     };
 };
 
+function merge() {
+    const args = [].slice.call(arguments);
+    const items = args.splice(1);
+    let subject = first(args);
+
+    for(let i in items) {
+        subject = mergeWith(subject, items[i], (subject, value) => {
+            if(isArray(subject)) {
+                return subject.concat(value);
+            }
+            else if(isObject(subject)) {
+                return extend(subject, value);
+            }
+
+            return value;
+        });
+    }
+
+    return subject;
+}
+
 export default class Request {
 
-    constructor(url, config = {}) {
-        this.$config = extend({
+    constructor(url, options = {}) {
+        this.$options = merge({
             url: url,
+            data: {},
             headers: {},
             params: {},
-            data: {}
-        }, config);
+        }, cloneDeep(RequestOptions), options);
 
-        each(PROXY_CONFIG_METHODS, (callback, key) => {
-            this[method(key, 'config')] = bind(callback)('$config', this);
+        each(PROXY_OPTION_METHODS, (callback, key) => {
+            this[method(key, 'option')] = bind(callback)('$options', this);
         });
 
-        this['config'] = bind(chainable, this)('config');
-
-        each(PROXY_CONFIG_PROPERTIES, (prop) => {
-            each(PROXY_CONFIG_METHODS, (callback, key) => {
-                this[method(key, prop)] = bind(callback)(prop, this.$config);
+        each(PROXY_OPTION_PROPERTIES, (prop) => {
+            each(PROXY_OPTION_METHODS, (callback, key) => {
+                this[method(key, prop)] = bind(callback)(prop, this.$options);
             });
 
             this[prop] = bind(chainable, this)(prop);
@@ -108,37 +138,29 @@ export default class Request {
         return this.hasResponse() && !!this.$error;
     }
 
-    getUrl() {
-        return this.$url;
-    }
-
-    setUrl(url) {
-        this.$url = url;
-    }
-
     get(params = {}, headers = {}) {
-        return this.params(params).headers(headers).request('get');
+        return this.params(params).headers(headers).send('get');
     }
 
     post(data = {}, headers = {}) {
-        return this.data(data).headers(headers).request('post');
+        return this.data(data).headers(headers).send('post');
     }
 
     put(data = {}, headers = {}) {
-        return this.data(data).headers(headers).request('put');
+        return this.data(data).headers(headers).send('put');
     }
 
     delete(headers = {}) {
-        return this.headers(headers).request('delete');
+        return this.headers(headers).send('delete');
     }
 
-    request(method) {
+    send(method) {
         this.reset();
         this.$requestSentAt = moment();
-        this.addConfig('method', method);
+        this.addOption('method', method);
 
-        const promise = new Promise((resolve, reject) => {
-            axios.request(this.$config).then(response => {
+        return new Promise((resolve, reject) => {
+            axios(this.$options).then(response => {
                 this.$response = response;
                 this.$responseReceivedAt = moment();
                 this.$status = response.status;
@@ -149,14 +171,54 @@ export default class Request {
                 this.$error = error;
                 this.$response = error.response;
                 this.$responseReceivedAt = moment();
-                this.$status = error.response.status;
-                this.$statusText = error.response.statusText;
+                this.$status = error.response ? error.response.status : null;
+                this.$statusText = error.response ? error.response.statusText : null;
 
-                reject(error.response.data.errors);
+                reject(error.response || error);
             });
         });
-
-        return promise;
     }
 
+    transformRequest(transformer) {
+        if(!this.$options.transformRequest) {
+            this.$options.transformRequest = [];
+        }
+
+        transformRequest(transformer, this.$options.transformRequest);
+    }
+
+    transformResponse(transformer) {
+        if(this.$options.transformResponse) {
+            this.$options.transformResponse = [];
+        }
+
+        transformResponse(transformer, this.$options.transformResponse);
+    }
+
+    static interceptRequest(success, error) {
+        this.interceptors().request.use(success, error);
+    }
+
+    static interceptResponse(success, error) {
+        this.interceptors().response.use(success, error);
+    }
+
+    static interceptors() {
+        return axios.interceptors;
+    }
+
+    static option(key, value) {
+        if(isObject(key)) {
+            merge(RequestOptions, key);
+        }
+        else {
+            const option = {};
+            option[key] = value;
+            merge(RequestOptions, option);
+        }
+    }
+
+    static make(url, params = {}) {
+        return new this(url, params);
+    }
 }

@@ -6,8 +6,8 @@
 
 <script>
 
-import { isFunction } from 'lodash';
-import Model from '@/Http/Model/Model';
+import isFunction from 'lodash-es/isFunction';
+import Model from '../../Http/Model/Model';
 
 export default {
 
@@ -82,7 +82,7 @@ export default {
         onSubmit: {
             type: Function,
             default(event) {
-                this.model && this.submit();
+                this.model && this.submit(event);
             }
         },
 

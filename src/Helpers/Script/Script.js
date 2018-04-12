@@ -1,5 +1,3 @@
-import { isFunction } from 'lodash';
-
 const loaded = {};
 
 function element(url) {

@@ -1,6 +1,6 @@
 import Breadcrumb from './Breadcrumb';
 import BreadcrumbItem from './BreadcrumbItem';
-import VueInstaller from '@/Helpers/VueInstaller/VueInstaller';
+import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
 const plugin = VueInstaller.use({
 

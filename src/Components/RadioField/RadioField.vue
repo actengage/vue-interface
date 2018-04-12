@@ -60,9 +60,9 @@
 
 <script>
 
-import prefix from '@/Helpers/Prefix/Prefix';
-import Colorable from '@/Mixins/Colorable/Colorable';
-import FormControl from '@/Mixins/FormControl/FormControl';
+import prefix from '../../Helpers/Prefix/Prefix';
+import Colorable from '../../Mixins/Colorable/Colorable';
+import FormControl from '../../Mixins/FormControl/FormControl';
 
 export default {
 

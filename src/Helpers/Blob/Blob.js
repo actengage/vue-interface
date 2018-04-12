@@ -1,5 +1,3 @@
-import { isFunction } from 'lodash';
-
 export default function blob(url, progress) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();

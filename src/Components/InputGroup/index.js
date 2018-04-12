@@ -2,7 +2,7 @@ import InputGroup from './InputGroup';
 import InputGroupAppend from './InputGroupAppend';
 import InputGroupPrepend from './InputGroupPrepend';
 import InputGroupText from './InputGroupText';
-import VueInstaller from '@/Helpers/VueInstaller/VueInstaller';
+import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
 const plugin = VueInstaller.use({
 

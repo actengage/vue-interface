@@ -7,9 +7,8 @@
 </template>
 
 <script>
-
-import { isNumber } from 'lodash';
-import Variant from '@/Mixins/Variant/Variant';
+import isNumber from 'lodash-es/isNumber';
+import Variant from '../../Mixins/Variant/Variant';
 
 export default {
 

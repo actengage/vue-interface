@@ -2,7 +2,7 @@ import Alert from './Alert';
 import AlertLink from './AlertLink';
 import AlertClose from './AlertClose';
 import AlertHeading from './AlertHeading';
-import VueInstaller from '@/Helpers/VueInstaller/VueInstaller';
+import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
 const plugin = VueInstaller.use({
 

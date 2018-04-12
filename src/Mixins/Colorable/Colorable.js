@@ -1,10 +1,9 @@
-import { map } from 'lodash';
-import { each } from 'lodash';
-import { filter } from 'lodash';
-import { isNull } from 'lodash';
-import { omitBy } from 'lodash';
-import { camelCase } from 'lodash';
-import prefix from '@/Helpers/Prefix/Prefix';
+import map from 'lodash-es/map';
+import each from 'lodash-es/each';
+import filter from 'lodash-es/filter';
+import omitBy from 'lodash-es/omitBy';
+import camelCase from 'lodash-es/camelCase';
+import prefix from '../../Helpers/Prefix/Prefix';
 
 const COLORS = [
     'primary',

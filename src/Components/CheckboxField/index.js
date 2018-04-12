@@ -1,5 +1,5 @@
 import CheckboxField from './CheckboxField';
-import VueInstaller from '@/Helpers/VueInstaller/VueInstaller';
+import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
 const plugin = VueInstaller.use({
 

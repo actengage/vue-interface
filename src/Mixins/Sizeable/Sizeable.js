@@ -1,4 +1,4 @@
-import prefix from '@/Helpers/Prefix/Prefix';
+import prefix from '../../Helpers/Prefix/Prefix';
 
 export default {
 

@@ -43,7 +43,7 @@
 
 <script>
 
-import InputField from '@/Components/InputField/InputField';
+import InputField from '../InputField/InputField';
 
 export default {
 

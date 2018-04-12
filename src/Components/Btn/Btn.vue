@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import Variant from '@/Mixins/Variant/Variant';
-import Sizeable from '@/Mixins/Sizeable/Sizeable';
-import transition from '@/Helpers/Transition/Transition';
+import Variant from '../../Mixins/Variant/Variant';
+import Sizeable from '../../Mixins/Sizeable/Sizeable';
+import transition from '../../Helpers/Transition/Transition';
 
 export default {
 

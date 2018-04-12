@@ -8,7 +8,7 @@
 
 <script>
 
-import Colorable from '@/Mixins/Colorable/Colorable';
+import Colorable from '../../Mixins/Colorable/Colorable';
 
 export default {
 

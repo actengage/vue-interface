@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Sizeable from '@/Mixins/Sizeable/Sizeable';
-import Colorable from '@/Mixins/Colorable/Colorable';
+import Sizeable from '../../Mixins/Sizeable/Sizeable';
+import Colorable from '../../Mixins/Colorable/Colorable';
 
 export default {
 

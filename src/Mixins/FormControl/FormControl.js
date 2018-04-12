@@ -1,11 +1,9 @@
-import { each } from 'lodash';
-import { merge } from 'lodash';
-import { extend } from 'lodash';
-import { isArray } from 'lodash';
-import { isObject } from 'lodash';
-import { camelCase } from 'lodash';
-import { isUndefined } from 'lodash';
-import prefix from '@/Helpers/Prefix/Prefix';
+import each from 'lodash-es/each';
+import isArray from 'lodash-es/isArray';
+import isObject from 'lodash-es/isObject';
+import camelCase from 'lodash-es/camelCase';
+import isUndefined from 'lodash-es/isUndefined';
+import prefix from '../../Helpers/Prefix/Prefix';
 
 export default {
 

@@ -1,4 +1,4 @@
-import { isFunction } from 'lodash';
+import isFunction from 'lodash-es/isFunction';
 
 export default function readFile(file, progress) {
     return new Promise((resolve, reject) => {

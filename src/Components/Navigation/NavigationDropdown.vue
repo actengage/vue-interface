@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import ButtonDropdown from '@/Components/ButtonDropdown/ButtonDropdown';
+import ButtonDropdown from '../ButtonDropdown/ButtonDropdown';
 
 export default {
 

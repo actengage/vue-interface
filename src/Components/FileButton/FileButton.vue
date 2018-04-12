@@ -20,8 +20,8 @@
 
 <script>
 
-import Btn from '@/Components/Btn/Btn';
-import FileField from '@/Components/FileField/FileField';
+import Btn from '../Btn/Btn';
+import FileField from '../FileField/FileField';
 
 export default {
 

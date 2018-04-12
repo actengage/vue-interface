@@ -1,15 +1,15 @@
-import { map } from 'lodash';
-import { each } from 'lodash';
-import { keys } from 'lodash';
-import { size } from 'lodash';
-import { extend } from 'lodash';
-import { filter } from 'lodash';
-import { isNull } from 'lodash';
-import { pickBy } from 'lodash';
-import { reduce } from 'lodash';
-import { isArray } from 'lodash';
-import { isObject } from 'lodash';
-import { isUndefined } from 'lodash';
+import map from 'lodash-es/map';
+import each from 'lodash-es/each';
+import keys from 'lodash-es/keys';
+import size from 'lodash-es/size';
+import extend from 'lodash-es/extend';
+import filter from 'lodash-es/filter';
+import isNull from 'lodash-es/isNull';
+import pickBy from 'lodash-es/pickBy';
+import reduce from 'lodash-es/reduce';
+import isArray from 'lodash-es/isArray';
+import isObject from 'lodash-es/isObject';
+import isUndefined from 'lodash-es/isUndefined';
 import Request from '../Request';
 
 export default class Model {
@@ -25,18 +25,13 @@ export default class Model {
         this.$exists = false;
         this.$attributes = {};
         this.$key = this.key();
-        this.$files = this.files();
-        this.$table = this.table();
-        this.$properties = this.properties();
         this.initialize(data);
+        this.$files = this.files();
+        this.$properties = this.properties();
 
         each(params, (value, key) => {
             this[key] = value;
         });
-
-        if(!this.$table) {
-            throw new Error('A table must be defined for every model.');
-        }
 
         this.$initialized = true;
     }
@@ -57,12 +52,35 @@ export default class Model {
     }
 
     /**
-     * Define the corresponding database table (aka API endpoint slug).
+     * Define the corresponding API endpoint slug
      *
      * @return string
      */
-    table() {
+    endpoint() {
         //
+    }
+
+    /**
+     * Define the corresponding uri schema.
+     *
+     * @return string
+     */
+    uri() {
+        return filter([
+            (this.endpoint() || ''),
+            (this.exists() ? this.id() : null)
+        ].concat([].slice.call(arguments)))
+        .join('/')
+        .replace(/^\//, '');
+    }
+
+    /**
+     * Return the primary key value for the model
+     *
+     * @return {Number}
+     */
+    id() {
+        return this.get(this.key());
     }
 
     /**
@@ -195,13 +213,11 @@ export default class Model {
      * @return void
      */
     setAttributes(data) {
-        if(!isArray(data) && !isObject(data)) {
-            throw new Error('Attributes must be set with an array or object.');
+        if(isArray(data) || isObject(data)) {
+            each(data, (value, key) => {
+                this.setAttribute(key, value);
+            });
         }
-
-        each(data, (value, key) => {
-            this.setAttribute(key, value);
-        });
     }
 
     /**
@@ -325,7 +341,7 @@ export default class Model {
      * @return bool
      */
     save(data = {}, config = {}) {
-        return this.exists() ? this.create(data, config) : this.update(data, config);
+        return !this.exists() ? this.create(data, config) : this.update(data, config);
     }
 
     /**
@@ -335,18 +351,14 @@ export default class Model {
      * @return bool
      */
     create(data = {}, config = {}) {
-        if(this.exists()) {
-            return this.update(data, config);
-        }
+        return new Promise((resolve, reject) => {
+            const request = this.constructor.request(this.uri(), extend({
+                data: !this.hasFiles() ? this.toJson() : this.toFormData()
+            }, config));
 
-        this.fill(data);
-
-        const request = this.request(`/api/${this.table()}`, extend({
-            data: !this.hasFiles() ? this.toJson() : this.toFormData()
-        }, config))
-
-        return request.post().then(response => {
-            return this.fill(response);
+            request.post(data).then(response => {
+                resolve(this.fill(response));
+            }, reject);
         });
     }
 
@@ -357,18 +369,14 @@ export default class Model {
      * @return bool
      */
     update(data = {}, config = {}) {
-        if(!this.exists()) {
-            return this.create(data, config);
-        }
+        return new Promise((resolve, reject) => {
+            const request = this.constructor.request(this.uri(), extend({
+                data: !this.hasFiles() ? this.toJson() : this.toFormData()
+            }, config));
 
-        this.fill(data);
-
-        const request = this.request(`/api/${this.table()}/${this.get(this.key())}`, extend({
-            data: !this.hasFiles() ? this.toJson() : this.toFormData()
-        }, config));
-
-        return request[this.hasFiles() ? 'post' : 'put']().then(response => {
-            return this.fill(response);
+            request[(this.hasFiles() ? 'post' : 'put')](data).then(response => {
+                resolve(this.fill(response));
+            }, reject);
         });
     }
 
@@ -379,59 +387,17 @@ export default class Model {
      * @return bool
      */
     delete(data = {}, config = {}) {
-        if(!this.exists()) {
-            throw new Error('The model must have a primary key before it can be delete.');
-        }
-
-        this.fill(data);
-
-        return this.request(`/api/${this.table()}/${this.get(this.key())}`, config).delete();
-    }
-
-    /**
-     * Find an existing model by id
-     *
-     * @param data object
-     * @return bool
-     */
-    search(params = {}, config = {}) {
         return new Promise((resolve, reject) => {
-            this.request(`/api/${this.table()}`, extend({
-                params: params
-            }, config)).get().then(response => {
-                resolve(map(response.data, data => {
-                    return new (this.constructor)(data);
-                }));
-            }, errors => {
-                reject(errors);
-            });
-        });
-    }
+            if(!this.exists()) {
+                reject(new Error('The model must have a primary key before it can be delete.'));
+            }
 
-    /**
-     * Find an existing model by id
-     *
-     * @param data object
-     * @return bool
-     */
-    find(id, config = {}) {
-        return new Promise((resolve, reject) => {
-            this.request(`/api/${this.table()}/${id}`, config).get().then(response => {
-                resolve(this.initialize(response));
-            }, errors => {
-                reject(errors);
-            });
-        });
-    }
+            this.constructor.request(this.uri(), config).delete();
 
-    /**
-     * Create a request from the model data
-     *
-     * @param data object
-     * @return bool
-     */
-    request(url, config = {}) {
-        return new Request(url, config);
+            request.delete().then(response => {
+                resolve(this.fill(response));
+            }, reject);
+        });
     }
 
     /**
@@ -483,6 +449,61 @@ export default class Model {
      */
     toJson() {
         return this.toJSON();
+    }
+
+    /**
+     * Search for a collection of models
+     *
+     * @param data object
+     * @return bool
+     */
+    static search(uri, params = {}, config = {}) {
+        const model = new this;
+
+        if(!uri) {
+            uri = model.uri();
+        }
+
+        return new Promise((resolve, reject) => {
+            const request = this.request(uri, extend({
+                params: params
+            }, config));
+
+            request.get().then(response => {
+                resolve(map(response.data, data => {
+                    return new this(data);
+                }));
+            }, errors => {
+                reject(errors);
+            });
+        });
+    }
+
+    /**
+     * Find an existing model by id
+     *
+     * @param data object
+     * @return bool
+     */
+    static find(id, config = {}) {
+        return new Promise((resolve, reject) => {
+            const model = new this;
+            this.request(model.uri(id), config).get().then(response => {
+                resolve(model.initialize(response));
+            }, error => {
+                reject(error);
+            });
+        });
+    }
+
+    /**
+     * Create a request from the model data
+     *
+     * @param data object
+     * @return bool
+     */
+    static request(url, config = {}) {
+        return new Request(url, config);
     }
 
 }

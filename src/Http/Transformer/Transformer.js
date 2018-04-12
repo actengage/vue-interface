@@ -1,6 +1,6 @@
-import { each } from 'lodash';
-import { isArray } from 'lodash';
-import { isObject } from 'lodash';
+import each from 'lodash-es/each';
+import isArray from 'lodash-es/isArray';
+import isObject from 'lodash-es/isObject';
 
 export default class Transformer {
 
@@ -35,7 +35,7 @@ export default class Transformer {
     }
 
     /**
-     * Define an array of required propertie with at least one value.
+     * Define an array of required properties with at least one value.
      *
      * @return void
      */

@@ -10,8 +10,8 @@
 
 <script>
 
-import uuid from '@/Helpers/Uuid/Uuid';
-import prefix from '@/Helpers/Prefix/Prefix';
+import uuid from '../../Helpers/Uuid/Uuid';
+import prefix from '../../Helpers/Prefix/Prefix';
 import DropdownMenuItem from './DropdownMenuItem';
 import DropdownMenuHeader from './DropdownMenuHeader';
 import DropdownMenuDivider from './DropdownMenuDivider';

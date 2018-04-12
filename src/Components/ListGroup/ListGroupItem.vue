@@ -2,9 +2,9 @@
     <a v-if="href" :href="href" class="list-group-item" :class="classes" @click="onClick">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </a>
-    <a v-else-if="action" href="#" class="list-group-item" :class="classes" @click.prevent="onClick">
+    <button v-else-if="action" type="button" class="list-group-item" :class="classes" @click.prevent="onClick">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
-    </a>
+    </button>
     <div v-else class="list-group-item" :class="classes" @click="onClick">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </div>
@@ -12,9 +12,9 @@
 
 <script>
 
-import { isObject } from 'lodash';
+import isObject from 'lodash-es/isObject';
 import Badge from '../Badge';
-import prefix from '@/Helpers/Prefix/Prefix';
+import prefix from '../../Helpers/Prefix/Prefix';
 
 export default {
 
@@ -25,14 +25,33 @@ export default {
     props: {
 
         /**
-         * The list item label.
+         * The badge label (if number or string) or object of options to pass to
+         * the component.
          *
-         * @property Object
+         * @property String|Object
          */
-        label: {
-            type: [Number, String],
-            value: null
-        },
+        badge: [Number, String, Object],
+
+        /**
+         * The list group item href attribute.
+         *
+         * @property String
+         */
+        href: String,
+
+        /**
+         * The list group item variant.
+         *
+         * @property String
+         */
+        variant: String,
+
+        /**
+         * Optionally pass the item as a object to use programmatically later.
+         *
+         * @property String
+         */
+        item: Object,
 
         /**
          * The list group item an action, or clickable item.
@@ -65,26 +84,14 @@ export default {
         },
 
         /**
-         * The list group item variant.
+         * The list item label.
          *
-         * @property String
+         * @property Object
          */
-        variant: String,
-
-        /**
-         * The list group item href attribute.
-         *
-         * @property String
-         */
-        href: String,
-
-        /**
-         * The badge label (if number or string) or object of options to pass to
-         * the component.
-         *
-         * @property String|Object
-         */
-        badge: [Number, String, Object]
+        label: {
+            type: [Number, String],
+            value: null
+        }
 
     },
 

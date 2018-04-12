@@ -2,7 +2,7 @@
     "name": "vue-toolbox",
     "version": "0.0.1",
     "main": "dist/vue-toolbox.js",
-    "module": "dist/vue-toolbox.es.js",
+    "module": "src/main.js",
     "devDependencies": {
         "@babel/cli": "^7.0.0-beta.44",
         "@babel/core": "^7.0.0-beta.44",
@@ -51,6 +51,7 @@
         "bootstrap": "^4.0.0",
         "font-awesome": "^4.7.0",
         "intersection-observer": "^0.5.0",
+        "lodash-es": "^4.17.8",
         "moment": "^2.22.0",
         "popper.js": "^1.14.3",
         "vue": "^2.5.16",

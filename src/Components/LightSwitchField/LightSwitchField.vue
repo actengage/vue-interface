@@ -31,10 +31,8 @@
 
 <script>
 
-import { extend } from 'lodash';
-import { isUndefined } from 'lodash';
-//import BaseField from './BaseField';
-import FormControl from '@/Mixins/FormControl/FormControl';
+import isUndefined from 'lodash-es/isUndefined';
+import FormControl from '../../Mixins/FormControl/FormControl';
 
 export default {
 

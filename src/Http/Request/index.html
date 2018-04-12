@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Request</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-toolbox.css">
+    </head>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.core.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.0/moment.min.js"></script>
+        <script type="text/javascript" src="/dist/vue-toolbox.js"></script>
+        <script type="text/javascript">
+            const Request = VueToolbox.Request;
+
+            Request.option('baseURL', 'https://giveworks.test/api/public/v1/');
+
+            const request = Request.make('page/2696', {
+                headers: {
+                    Authorization: 'Bearer $2y$10$3Y5oclad0vZxwgkNLeNR8e5ctVP4UHDxY6iQ/1Gohu23sZWrbhx8y'
+                }
+            });
+
+            /*
+            request.responseTransformer(function(data) {
+                console.log(data);
+            })
+
+            request.requestTranformer(function() {
+                console.log('requestTranformer 1', arguments);
+            });
+
+            request.requestTranformer(function() {
+                console.log('requestTranformer 2', arguments);
+            });
+            */
+
+            request.get().then(response => {
+                console.log(response);
+            }, error => {
+                console.log(error);
+            });
+
+            /*
+            const request2 = VueToolbox.Request.make(url, {
+                headers: {
+                    Authorization: 'test'
+                }
+            });
+
+            request2.requestTranformer(function() {
+                console.log('2', arguments);
+            });
+
+            request2.get().then(response => {
+                console.log(response);
+            }, error => {
+                console.log(error);
+            });
+            */
+
+        </script>
+    </body>
+</html>

@@ -13,7 +13,7 @@
                 :disabled="disabled || readonly"
                 :readonly="readonly"
                 :pattern="pattern"
-                :checked="checkedValue === value || checked"
+                :checked="checkedValues.indexOf(value) !== -1 || checked"
                 :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
                 @change="updated($event.target.value, 'change')">
 
@@ -39,7 +39,7 @@
                     :disabled="disabled || readonly"
                     :readonly="readonly"
                     :pattern="pattern"
-                    :checked="checkedValue === value || checked"
+                    :checked="checkedValues.indexOf(value) !== -1 || checked"
                     :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
                     @change="updated($event.target.value, 'change')">
 
@@ -60,13 +60,18 @@
 
 <script>
 
-import RadioField from '@/Components/RadioField/RadioField';
+import RadioField from '../RadioField/RadioField';
 
 export default {
 
     name: 'checkbox-field',
 
     extends: RadioField,
+
+    model: {
+        event: 'change',
+        prop: 'checkedValues'
+    },
 
     props: {
 
@@ -75,7 +80,7 @@ export default {
          *
          * @property String
          */
-        checkedValue: {
+        checkedValues: {
             type: Array,
             default() {
                 return [];
@@ -87,8 +92,8 @@ export default {
     methods: {
 
         updated(value) {
-            const checked = this.checkedValue.slice(0);
-            const index = this.checkedValue.indexOf(value);
+            const checked = this.checkedValues.slice(0);
+            const index = this.checkedValues.indexOf(value);
 
             if(index === -1) {
                 checked.push(value);

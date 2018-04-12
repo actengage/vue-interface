@@ -1,6 +1,6 @@
 <script>
 import BaseType from './BaseType';
-import { extend } from 'lodash';
+import extend from 'lodash-es/extend';
 
 export default {
 

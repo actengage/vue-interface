@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Variant from '@/Mixins/Variant/Variant';
-import transition from '@/Helpers/Transition/Transition';
+import Variant from '../../Mixins/Variant/Variant';
+import transition from '../../Helpers/Transition/Transition';
 
 export default {
 
