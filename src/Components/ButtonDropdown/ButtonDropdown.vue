@@ -34,6 +34,7 @@
 
 <script>
 
+import Btn from '../Btn';
 import uuid from '../../Helpers/Uuid/Uuid';
 import prefix from '../../Helpers/Prefix/Prefix';
 import DropdownMenu from '../DropdownMenu';
@@ -41,6 +42,8 @@ import DropdownMenu from '../DropdownMenu';
 export default {
 
     name: 'button-dropdown',
+
+    extends: Btn,
 
     components: {
         DropdownMenu
@@ -63,13 +66,6 @@ export default {
          * @property Array
          */
         items: Array,
-
-        /**
-         * The `href` attribute on the action button (if a split button).
-         *
-         * @property String
-         */
-        href: String,
 
         /**
          * The button icon that appears before the label.
@@ -95,36 +91,6 @@ export default {
         id: {
             type: String,
             default: uuid
-        },
-
-        /**
-         * The `type` attribute on the toggle button
-         *
-         * @property String
-         */
-        type: {
-            type: String,
-            default: 'button'
-        },
-
-        /**
-         * The size class of the toggle button
-         *
-         * @property String
-         */
-        size: {
-            type: String,
-            default: 'md'
-        },
-
-        /**
-         * The toggle button's variant class.
-         *
-         * @property String
-         */
-        variant: {
-            type: String,
-            default: 'primary'
         },
 
         /**
@@ -239,13 +205,21 @@ export default {
          *
          * @return void
          */
-        onItemClick(event, child) {
-            this.$emit('item:click', event, child);
+        onItemClick(event, item) {
+            this.$emit('item:click', event, item);
         }
 
     },
 
     computed: {
+
+        variantClassPrefix() {
+            return 'btn' + (this.outline ? '-outline' : '');
+        },
+
+        sizeableClassPrefix() {
+            return 'btn';
+        },
 
         actionClasses() {
             return [
@@ -259,8 +233,10 @@ export default {
             return [
                 'btn',
                 'dropdown-toggle',
-                prefix(this.size, 'btn'),
-                prefix(this.variant, 'btn'),
+                this.variantClass,
+                this.sizeableClass,
+                this.active ? 'active' : '',
+                this.block ? 'btn-block' : '',
                 (this.split ? 'dropdown-toggle-split' : ''),
             ].join(' ');
         }
