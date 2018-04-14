@@ -32,13 +32,13 @@
 </template>
 
 <script>
-import ButtonDropdown from '../ButtonDropdown/ButtonDropdown';
+import BtnDropdown from '../BtnDropdown';
 
 export default {
 
     name: 'navigation-dropdown',
 
-    extends: ButtonDropdown
+    extends: BtnDropdown
 
 }
 </script>

@@ -1,14 +1,14 @@
-import ButtonDropdown from './ButtonDropdown';
+import BtnDropdown from './BtnDropdown';
 import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
 const plugin = VueInstaller.use({
 
     install(Vue, options) {
         VueInstaller.components({
-            ButtonDropdown
+            BtnDropdown
         });
     }
 
 });
 
-export default ButtonDropdown;
+export default BtnDropdown;

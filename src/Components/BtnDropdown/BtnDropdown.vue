@@ -1,24 +1,17 @@
 <template>
 
-    <div class="btn-group" :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}">
-        <slot name="toggle-button">
-            <template v-if="split">
-                <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
-                    <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
-                </a>
-                <button v-else :type="type" :class="actionClasses" @click="onClick">
-                    <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
-                </button>
-                <button type="button" aria-haspopup="true" :aria-expanded="isDropdownShowing" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur"></button>
-            </template>
-            <template v-else>
-                <button aria-haspopup="true" :aria-expanded="isDropdownShowing" :type="type" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur">
-                    <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
-                </button>
-            </template>
-        </slot>
 
-        <slot name="dropdown-menu">
+    <btn-group v-if="split">
+        <template v-if="!dropleft">
+            <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
+                <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
+            </a>
+            <button v-else :type="type" :class="actionClasses" @click="onClick">
+                <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
+            </button>
+        </template>
+        <btn-group :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}">
+            <button type="button" aria-haspopup="true" :aria-expanded="isDropdownShowing" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur"></button>
             <dropdown-menu
                 :id="id"
                 :items="items"
@@ -27,8 +20,31 @@
                 @item:click="onItemClick">
                 <slot/>
             </dropdown-menu>
-        </slot>
-    </div>
+        </btn-group>
+        <template v-if="dropleft">
+            <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
+                <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
+            </a>
+            <button v-else :type="type" :class="actionClasses" @click="onClick">
+                <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
+            </button>
+        </template>
+    </btn-group>
+
+    <btn-group v-else :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}">
+        <button aria-haspopup="true" :aria-expanded="isDropdownShowing" :type="type" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur">
+            <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
+        </button>
+
+        <dropdown-menu
+            :id="id"
+            :items="items"
+            :align="align"
+            :show.sync="isDropdownShowing"
+            @item:click="onItemClick">
+            <slot/>
+        </dropdown-menu>
+    </btn-group>
 
 </template>
 
@@ -38,10 +54,11 @@ import Btn from '../Btn';
 import uuid from '../../Helpers/Uuid/Uuid';
 import prefix from '../../Helpers/Prefix/Prefix';
 import DropdownMenu from '../DropdownMenu';
+import Popper from 'popper.js';
 
 export default {
 
-    name: 'button-dropdown',
+    name: 'btn-dropdown',
 
     extends: Btn,
 
@@ -165,8 +182,31 @@ export default {
          * @return void
          */
         show() {
-            this.$emit('toggle', this.isDropdownShowing = true);
-            this.$emit('show');
+            this.isDropdownShowing = true;
+
+            this.$nextTick(() => {
+                let side = 'bottom';
+
+                if(this.dropup) {
+                    side = 'top'
+                }
+                else if(this.dropleft) {
+                    side = 'left'
+                }
+                else if(this.dropright) {
+                    side = 'right';
+                }
+
+                const menu = this.$el.querySelector('.dropdown-menu');
+                const toggle = this.$el.querySelector('.dropdown-toggle');
+                const position = [side, 'start'];
+
+                new Popper(toggle, menu, {
+                    placement: position.join('-')
+                });
+
+                this.$emit('show');
+            });
         },
 
         /**

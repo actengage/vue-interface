@@ -11,7 +11,7 @@ import BreadcrumbItem from './Breadcrumb/BreadcrumbItem';
 import Btn from './Btn';
 import BtnGroup from './BtnGroup';
 import BtnToolbar from './BtnGroup/BtnToolbar';
-import ButtonDropdown from './ButtonDropdown';
+import BtnDropdown from './BtnDropdown';
 import Card from './Card';
 import CardBody from './Card/CardBody';
 import CardFooter from './Card/CardFooter'
@@ -72,7 +72,7 @@ export {
     Btn,
     BtnGroup,
     BtnToolbar,
-    ButtonDropdown,
+    BtnDropdown,
     Card,
     CardBody,
     CardFooter,

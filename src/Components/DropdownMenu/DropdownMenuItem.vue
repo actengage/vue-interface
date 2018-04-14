@@ -4,6 +4,7 @@
         :href="href"
         class="dropdown-item"
         :class="{'active': active}"
+        :type="component === 'button' ? 'button' : false"
         @click="proxy(onClick, $event);onClicked($event);">
         <i v-if="icon" :class="icon"/>
         <slot>{{label}}</slot>
@@ -26,6 +27,13 @@ export default {
          * @property Object
          */
         active: Boolean,
+
+        /**
+         * Is the menu item a button
+         *
+         * @property Object
+         */
+        button: Boolean,
 
         /**
          * The `element` attribute.
@@ -67,7 +75,7 @@ export default {
     computed: {
 
         component() {
-            return this.element || (this.href ? 'a' : 'div');
+            return this.element || (this.href ? 'a' : (this.button ? 'button' : 'div'));
         }
 
     },

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>BtnDropdown</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-interface.css">
+    </head>
+    <body>
+        <div id="app" class="container px-5">
+            <h1 class="mb-5">btn-dropdown</h1>
+
+            <h3>Basic Usage</h3>
+
+            <btn-dropdown label="Dropdown" variant="secondary">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <hr>
+
+            <h3>Variants</h3>
+
+            <btn-dropdown label="Primary" variant="primary">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Secondary" variant="secondary">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Success" variant="success">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Info" variant="info">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Warning" variant="warning">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Danger" variant="danger">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Dark" variant="dark">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Light" variant="light">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Muted" variant="muted">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <hr>
+
+            <h3>Split button dropdowns</h3>
+
+            <btn-dropdown label="Primary" variant="primary" split>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Secondary" variant="secondary" split>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Success" variant="success" split>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Info" variant="info" split>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Warning" variant="warning" split>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Danger" variant="danger" split>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Dark" variant="dark" split>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Light" variant="light" split>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Muted" variant="muted" split>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <hr>
+
+            <h3>Split button dropdowns</h3>
+
+            <p>
+                <btn-dropdown label="Small button" size="sm" variant="secondary">
+                    <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+                </btn-dropdown>
+
+                <btn-dropdown label="Medium button" size="md" variant="secondary">
+                    <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+                </btn-dropdown>
+
+                <btn-dropdown label="Large button" size="lg" variant="secondary">
+                    <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+                </btn-dropdown>
+            </p>
+
+            <p>
+                <btn-dropdown label="Small button" size="sm" variant="secondary" split>
+                    <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+                </btn-dropdown>
+
+                <btn-dropdown label="Medium button" size="md" variant="secondary" split>
+                    <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+                </btn-dropdown>
+
+                <btn-dropdown label="Large button" size="lg" variant="secondary" split>
+                    <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                    <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+                </btn-dropdown>
+            </p>
+
+            <hr>
+
+            <h3>Dropup variation</h3>
+
+            <btn-dropdown label="Dropup" variant="secondary" dropup>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Split Dropup" variant="secondary" split dropup>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <hr>
+
+            <h3>Dropright variation</h3>
+
+            <btn-dropdown label="Dropup" variant="secondary" dropright>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Split Dropup" variant="secondary" split dropright>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <hr>
+
+            <h3>Dropleft variation</h3>
+
+            <btn-dropdown label="Dropleft" variant="secondary" dropleft>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Dropleft" variant="secondary" split dropleft>
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <hr>
+
+            <h3>Button Menu Items</h3>
+
+            <btn-dropdown label="Dropup" variant="secondary">
+                <dropdown-menu-item>Action</dropdown-menu-item>
+                <dropdown-menu-item>Another Action</dropdown-menu-item>
+                <dropdown-menu-item >Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+            <btn-dropdown label="Split Dropup" variant="secondary" split>
+                <dropdown-menu-item>Action</dropdown-menu-item>
+                <dropdown-menu-item>Another Action</dropdown-menu-item>
+                <dropdown-menu-item>Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app'
+            });
+        </script>
+    </body>
+</html>
