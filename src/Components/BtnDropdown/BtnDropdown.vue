@@ -1,12 +1,12 @@
 <template>
 
 
-    <btn-group v-if="split">
+    <btn-group v-if="split" @click="onClick">
         <template v-if="!dropleft">
-            <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
+            <a v-if="href" :href="href" :class="actionClasses">
                 <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
             </a>
-            <button v-else :type="type" :class="actionClasses" @click="onClick">
+            <button v-else :type="type" :class="actionClasses">
                 <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
             </button>
         </template>
@@ -17,21 +17,22 @@
                 :items="items"
                 :align="align"
                 :show.sync="isDropdownShowing"
+                @click="onMenuClick"
                 @item:click="onItemClick">
                 <slot/>
             </dropdown-menu>
         </btn-group>
         <template v-if="dropleft">
-            <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
+            <a v-if="href" :href="href" :class="actionClasses">
                 <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
             </a>
-            <button v-else :type="type" :class="actionClasses" @click="onClick">
+            <button v-else :type="type" :class="actionClasses">
                 <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
             </button>
         </template>
     </btn-group>
 
-    <btn-group v-else :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}">
+    <btn-group v-else :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}" @click="onClick">
         <button aria-haspopup="true" :aria-expanded="isDropdownShowing" :type="type" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur">
             <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
         </button>
@@ -41,6 +42,7 @@
             :items="items"
             :align="align"
             :show.sync="isDropdownShowing"
+            @click="onMenuClick"
             @item:click="onItemClick">
             <slot/>
         </dropdown-menu>
@@ -83,6 +85,13 @@ export default {
          * @property Array
          */
         items: Array,
+
+        /**
+         * The button icon that appears before the label.
+         *
+         * @property String
+         */
+        autoclose: Boolean,
 
         /**
          * The button icon that appears before the label.
@@ -235,9 +244,22 @@ export default {
          * @return void
          */
         onBlur(event) {
-            if(!this.$el.contains(event.relatedTarget)) {
-                this.hide();
-            }
+            this.$nextTick(() => {
+                console.log('blur');
+
+                if(!this.$el.contains(event.relatedTarget)) {
+                    this.hide();
+                }
+            });
+        },
+
+        /**
+         * A callback function for the `item:click` event for the action button
+         *
+         * @return void
+         */
+        onMenuClick(event, item) {
+            this.$el.querySelector('.btn').focus();
         },
 
         /**

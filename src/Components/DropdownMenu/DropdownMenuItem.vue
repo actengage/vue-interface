@@ -1,11 +1,12 @@
 <template>
     <component
         :is="component"
-        :href="href"
+        :href="href || (component === 'a' ? '#' : false)"
         class="dropdown-item"
         :class="{'active': active}"
         :type="component === 'button' ? 'button' : false"
-        @click="proxy(onClick, $event);onClicked($event);">
+        @click="onClick($event);"
+        tabindex="-1">
         <i v-if="icon" :class="icon"/>
         <slot>{{label}}</slot>
     </component>
@@ -61,21 +62,14 @@ export default {
          *
          * @property Object
          */
-        label: String,
-
-        /**
-         * A callback function for the `click` event.
-         *
-         * @property Object
-         */
-        onClick: Function
+        label: String
 
     },
 
     computed: {
 
         component() {
-            return this.element || (this.href ? 'a' : (this.button ? 'button' : 'div'));
+            return this.element || (this.button ? 'button' : 'a');
         }
 
     },
@@ -87,7 +81,7 @@ export default {
          *
          * @property Object
          */
-        onClicked(event) {
+        onClick(event) {
             this.$emit('click', event);
         }
 

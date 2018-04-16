@@ -95,8 +95,9 @@ import extend from 'lodash-es/extend';
 import isObject from 'lodash-es/isObject';
 import Pagination from '../Pagination';
 import ActivityIndicator from '../ActivityIndicator';
-import Proxy from '../../Mixins/Proxy/Proxy';
-import Request from '../../Http/Request/Request';
+import unit from '../../Helpers/Unit';
+import Proxy from '../../Mixins/Proxy';
+import Request from '../../Http/Request';
 import TableViewTransformer from '../../Http/TableViewTransformer/TableViewTransformer';
 
 export default {
@@ -270,7 +271,7 @@ export default {
                 height += el.getBoundingClientRect().height;
             });
 
-            return Math.max(min, height) + 'px';
+            return unit(Math.max(min, height));
         },
 
         onPaginate(page, event) {

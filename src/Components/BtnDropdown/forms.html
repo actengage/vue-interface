@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>BtnDropdown</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-interface.css">
+    </head>
+    <body>
+        <div id="app" class="container px-5">
+            <h1 class="mb-5">btn-dropdown</h1>
+
+            <alert>
+                <h3>Form Data</h3>
+                <p>Click the dropdown elements and change the form elements to watch the form data change.</p>
+                {{form}}
+            </alert>
+
+            <hr>
+
+            <h3>Dropdown with checkboxes</h3>
+
+            <btn-dropdown label="Dropdown" variant="secondary">
+                <dropdown-menu-item element="label" for="field1_1">
+                    <input type="checkbox" v-model="form.field1" name="field1[]" value="1" id="field1_1"/> Item 1
+                </dropdown-menu-item>
+                <dropdown-menu-item element="label" for="field1_2">
+                    <input type="checkbox" v-model="form.field1" name="field1[]" value="2" id="field1_2"/> Item 2
+                </dropdown-menu-item>
+                <dropdown-menu-item element="label" for="field1_3">
+                    <input type="checkbox" v-model="form.field1" name="field1[]" value="3" id="field1_3"/> Item 3
+                </dropdown-menu-item>
+            </btn-dropdown>
+
+            <hr>
+
+            <h3>Dropdown with radio</h3>
+
+            <btn-dropdown label="Dropdown" variant="secondary">
+                <dropdown-menu-item element="label" for="field2_1">
+                    <input type="radio" v-model="form.field2" name="field2" value="1" id="field2_1"/> Item 1
+                </dropdown-menu-item>
+                <dropdown-menu-item element="label" for="field2_2">
+                    <input type="radio" v-model="form.field2" name="field2" value="2" id="field2_2"/> Item 2
+                </dropdown-menu-item>
+                <dropdown-menu-item element="label" for="field2_3">
+                    <input type="radio" v-model="form.field2" name="field2" value="3" id="field2_3"/> Item 3
+                </dropdown-menu-item>
+            </btn-dropdown>
+
+            <hr>
+
+            <h3>Dropdown with login fields</h3>
+
+            <btn-dropdown label="Dropdown" variant="secondary">
+                <dropdown-menu-item>
+                    <input-field name="email" v-model="form.email"/>
+                </dropdown-menu-item>
+                <dropdown-menu-item>
+                    <input-field type="password" name="password" v-model="form.password"/>
+                </dropdown-menu-item>
+            </btn-dropdown>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        form: {
+                            field1: []
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

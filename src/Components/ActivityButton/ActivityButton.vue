@@ -83,6 +83,13 @@ export default {
         icon: String,
 
         /**
+         * The `type` attribute for the button.
+         *
+         * @property String
+         */
+        type: String,
+
+        /**
          * The size of the button.
          *
          * @property String
@@ -100,16 +107,6 @@ export default {
         variant: {
             type: String,
             default: 'primary'
-        },
-
-        /**
-         * The `type` attribute for the button.
-         *
-         * @property String
-         */
-        type: {
-            type: String,
-            default: 'button'
         },
 
         /**

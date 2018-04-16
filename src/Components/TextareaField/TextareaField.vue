@@ -11,6 +11,7 @@
         <slot name="control">
             <textarea
                 :id="id"
+                :rows="rows"
                 :value="value"
                 :errors="errors"
                 :placeholder="placeholder"
@@ -60,7 +61,14 @@ export default {
         type: {
             type: String,
             default: 'text'
-        }
+        },
+
+        /**
+         * The rows attribute
+         *
+         * @property String
+         */
+        rows: [Number, String]
     }
 
 }

@@ -3,6 +3,7 @@ import prefix from './Prefix';
 import readFile from './ReadFile';
 import script from './Script';
 import transition from './Transition';
+import unit from './Unit';
 import uuid from './Uuid';
 
 export {
@@ -11,5 +12,6 @@ export {
     readFile,
     script,
     transition,
+    unit,
     uuid
 }

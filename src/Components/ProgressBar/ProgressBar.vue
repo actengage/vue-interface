@@ -8,6 +8,7 @@
 
 <script>
 import isNumber from 'lodash-es/isNumber';
+import unit from '../../Helpers/Unit';
 import Variant from '../../Mixins/Variant/Variant';
 
 export default {
@@ -91,9 +92,7 @@ export default {
         },
 
         formattedHeight() {
-            return !this.height ? null : (
-                isNumber(this.height) ? this.height + 'px' : this.height
-            );
+            return this.height ? unit(this.height) : null;
         },
 
         progressClasses() {

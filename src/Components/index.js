@@ -29,6 +29,7 @@ import DropdownMenu from './DropdownMenu';
 import DropdownMenuDivider from './DropdownMenu/DropdownMenuDivider';
 import DropdownMenuHeader from './DropdownMenu/DropdownMenuHeader';
 import DropdownMenuItem from './DropdownMenu/DropdownMenuItem';
+import Dropzone from './Dropzone';
 import FileButton from './FileButton';
 import FileField from './FileField';
 import FilePreview from './FilePreview';
@@ -56,6 +57,8 @@ import RadioField from './RadioField';
 import SelectField from './SelectField';
 import TableView from './TableView';
 import TextareaField from './TextareaField';
+import ThumbnailList from './ThumbnailList';
+import ThumbnailListItem from './ThumbnailList/ThumbnailListItem';
 import UploadField from './UploadField';
 
 export {
@@ -90,6 +93,7 @@ export {
     DropdownMenuItem,
     DropdownMenuHeader,
     DropdownMenuDivider,
+    Dropzone,
     FileButton,
     FileField,
     FilePreview,
@@ -117,5 +121,7 @@ export {
     SelectField,
     TableView,
     TextareaField,
+    ThumbnailList,
+    ThumbnailListItem,
     UploadField
 }

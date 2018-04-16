@@ -1,15 +1,14 @@
 <template>
-    <div class="dropdown-menu" :class="{'dropdown-menu-right': align === 'right', 'show': show}" :aria-labelledby="id">
-        <slot>
-            <template v-for="item in items">
-                <component :is="prefix(item.type || 'item', 'dropdown-menu')" v-bind="item" @click="onClick($event, item)" />
-            </template>
-        </slot>
+    <div class="dropdown-menu" :class="{'dropdown-menu-right': align === 'right', 'show': show}" :aria-labelledby="id" tabindex="-1" @click="onClick">
+        <template v-for="item in items">
+            <component :is="prefix(item.type || 'item', 'dropdown-menu')" v-bind="item"/>
+        </template>
+        <slot/>
     </div>
 </template>
 
 <script>
-
+import { each } from 'lodash';
 import uuid from '../../Helpers/Uuid/Uuid';
 import prefix from '../../Helpers/Prefix/Prefix';
 import DropdownMenuItem from './DropdownMenuItem';
@@ -86,11 +85,29 @@ export default {
          * @param Object item
          * @return void
          */
-        onClick(event, item) {
+        onClick(event) {
+            this.$emit('click', event, this);
+        },
+
+        /**
+         * A callback function for the `click` event.
+         *
+         * @param Object event
+         * @param Object item
+         * @return void
+         */
+        onItemClick(event, item) {
             this.$emit('item:click', event, item);
-            this.$emit('update:show', false);
         }
 
+    },
+
+    mounted() {
+        each(this.$children, child => {
+            child.$on('click', event => {
+                this.onItemClick(event, child);
+            });
+        });
     }
 
 }
