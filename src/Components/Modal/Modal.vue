@@ -16,7 +16,7 @@
                             <activity-button :activity="activity" variant="primary" @click="close()">{{okLabel}}</activity-button>
                         </modal-footer>
                     </template>
-                    <template v-else-if="type && type === 'confirm' || 'prompt'">
+                    <template v-else-if="type === 'confirm' || type === 'prompt'">
                         <modal-footer>
                             <btn type="button" variant="secondary" @click="cancel">{{cancelLabel}}</btn>
                             <activity-button :activity="activity" variant="primary" @click="confirm">{{okLabel}}</activity-button>
