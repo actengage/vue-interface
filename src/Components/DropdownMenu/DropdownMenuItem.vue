@@ -5,8 +5,7 @@
         class="dropdown-item"
         :class="{'active': active}"
         :type="component === 'button' ? 'button' : false"
-        @click="onClick($event);"
-        tabindex="-1">
+        @click="onClick($event);">
         <i v-if="icon" :class="icon"/>
         <slot>{{label}}</slot>
     </component>

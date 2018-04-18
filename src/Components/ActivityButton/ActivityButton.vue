@@ -54,6 +54,13 @@ export default {
         activity: Boolean,
 
         /**
+         * Should show the button as active.
+         *
+         * @property Boolean
+         */
+        disabled: Boolean,
+
+        /**
          * Should show the button as disabled.
          *
          * @property Boolean
@@ -198,6 +205,8 @@ export default {
          */
         classes() {
             const classes = {
+                'disabled': this.disabled,
+                'active': this.active,
                 'btn-block': this.block,
                 'btn-activity': this.activity
             };

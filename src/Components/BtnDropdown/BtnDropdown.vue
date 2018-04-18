@@ -53,10 +53,19 @@
 <script>
 
 import Btn from '../Btn';
+import { each } from 'lodash';
 import uuid from '../../Helpers/Uuid/Uuid';
 import prefix from '../../Helpers/Prefix/Prefix';
 import DropdownMenu from '../DropdownMenu';
 import Popper from 'popper.js';
+
+const TAB_KEYCODE = 9;
+const LEFT_ARROW_KEYCODE = 37;
+const RIGHT_ARROW_KEYCODE = 39;
+const UP_ARROW_KEYCODE = 38;
+const DOWN_ARROW_KEYCODE = 40;
+
+let ignoreBlurEvent = false;
 
 export default {
 
@@ -120,6 +129,16 @@ export default {
         },
 
         /**
+         * The button type attribute.
+         *
+         * @property String
+         */
+        type: {
+            type: String,
+            default: 'button'
+        },
+
+        /**
          * Display the dropdown menu aligned left or right
          *
          * @property String
@@ -177,6 +196,41 @@ export default {
     methods: {
 
         /**
+         * Focus on the the dropdown toggle button
+         *
+         * @return void
+         */
+        focus() {
+            this.$el.querySelector('.dropdown-toggle').focus();
+        },
+
+        /**
+         * Focus on the the dropdown toggle button
+         *
+         * @return void
+         */
+        queryFocusable() {
+            return this.$el.querySelector('.dropdown-menu').querySelectorAll('label, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        },
+
+        /**
+         * Method to check if the given element is focusable.
+         *
+         * @return void
+         */
+        isFocusable(element) {
+            const nodes = this.queryFocusable();
+
+            for(let i in nodes) {
+                if(element === nodes[i]) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+        /**
          * Toggle the dropdown menu
          *
          * @return void
@@ -208,11 +262,15 @@ export default {
 
                 const menu = this.$el.querySelector('.dropdown-menu');
                 const toggle = this.$el.querySelector('.dropdown-toggle');
-                const position = [side, 'start'];
+                const position = [side, this.align === 'left' ? 'start' : 'end'];
 
                 new Popper(toggle, menu, {
                     placement: position.join('-')
                 });
+
+                if(this.queryFocusable().item(0)) {
+                    this.$el.querySelector('input, select, textarea').focus();
+                }
 
                 this.$emit('show');
             });
@@ -234,6 +292,8 @@ export default {
          * @return void
          */
         onClick(event) {
+            console.log('click');
+
             this.hide();
             this.$emit('click', event);
         },
@@ -244,13 +304,9 @@ export default {
          * @return void
          */
         onBlur(event) {
-            this.$nextTick(() => {
-                console.log('blur');
-
-                if(!this.$el.contains(event.relatedTarget)) {
-                    this.hide();
-                }
-            });
+            if(!this.$el.contains(event.relatedTarget)) {
+                this.hide();
+            }
         },
 
         /**
@@ -259,7 +315,9 @@ export default {
          * @return void
          */
         onMenuClick(event, item) {
-            this.$el.querySelector('.btn').focus();
+            if(event.target === this.$el.querySelector('.dropdown-menu')) {
+                this.focus();
+            }
         },
 
         /**
@@ -268,6 +326,10 @@ export default {
          * @return void
          */
         onItemClick(event, item) {
+            if(!this.isFocusable(event.target)) {
+                this.hide();
+            }
+
             this.$emit('item:click', event, item);
         }
 
@@ -308,6 +370,45 @@ export default {
         return {
             isDropdownShowing: false
         };
+    },
+
+    mounted() {
+        each(this.$el.querySelectorAll('[type=submit], input, select, textarea, [tabindex]:not([tabindex="-1"]'), el => {
+            const keydown = event => {
+                const ignore = [
+                    LEFT_ARROW_KEYCODE,
+                    RIGHT_ARROW_KEYCODE,
+                    UP_ARROW_KEYCODE,
+                    DOWN_ARROW_KEYCODE,
+                    TAB_KEYCODE
+                ];
+
+                if(ignore.indexOf(event.keyCode) !== -1) {
+                    ignoreBlurEvent = true;
+                }
+            };
+
+            const blur = event => {
+                if(!ignoreBlurEvent) {
+                    this.focus();
+                }
+
+                ignoreBlurEvent = false;
+            };
+
+            const focus = event => {
+                ignoreBlurEvent = false;
+            };
+
+            const mousedown = event => {
+                ignoreBlurEvent = true;
+            };
+
+            el.addEventListener('blur', blur);
+            el.addEventListener('focus', focus);
+            el.addEventListener('keydown', keydown);
+            el.addEventListener('mousedown', mousedown);
+        });
     }
 
 }

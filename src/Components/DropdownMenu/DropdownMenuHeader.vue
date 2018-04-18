@@ -1,8 +1,6 @@
 <template>
     <h5 class="dropdown-header">
-        {{header}}
-
-        <slot></slot>
+        <slot>{{header}}</slot>
     </h5>
 </template>
 

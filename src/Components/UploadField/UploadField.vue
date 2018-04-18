@@ -1,32 +1,48 @@
 <template>
 
-    <form-group class="upload-field" :class="{'enable-dropzone': dropzone, 'enable-multiple': multiple}" @dragenter.prevent="onDragEnter" @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave">
+    <form-group class="upload-field" :class="{'enable-dropzone': dropzone, 'enable-multiple': multiple}">
 
-        <file-field
-            v-if="multiple && (!maxUploads || maxUploads > value.length) || !multiple && !value"
-            :name="name"
-            :label="label"
-            :placeholder="placeholder"
-            :help-text="helpText"
-            :multiple="multiple"
-            :width="width"
-            :height="height"
-            :errors="errors"
-            @change="onChange"
-        />
+        <dropzone @drop="onDrop">
 
-        <div v-if="multiple && value && value.length" class="upload-field-preview mt-4">
-            <file-preview v-for="(file, key) in value" :key="file.id || key" :file="file" @close="removeFile(file)"/>
-        </div>
+            <file-field
+                v-if="multiple && (!maxUploads || maxUploads > value.length) || !multiple && !value"
+                :name="name"
+                :label="label"
+                :placeholder="placeholder"
+                :help-text="helpText"
+                :multiple="multiple"
+                :errors="errors"
+                @change="onChange"
+            />
 
-        <div v-else-if="!multiple && value" class="upload-field-preview mt-4">
-            <file-preview :file="value" @close="removeFile(value)"/>
-        </div>
+            <thumbnail-list v-if="multiple && value && value.length" class="mt-4" wrap>
+                <thumbnail-list-item v-for="(file, key) in value" :key="file.id || key" :width="width" :min-width="minWidth" :max-width="maxWidth" :height="height" :min-height="minHeight" :max-height="maxHeight">
+                    <file-preview :file="file" @close="removeFile(file)"/>
+                <thumbnail-list-item>
+            </thumbnail-list>
 
-        <div v-if="showDropElement" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
-            <i class="fa fa-cloud-upload"></i>
-            <div>Drag and drop files to upload</div>
-        </div>
+            <thumbnail-list v-else-if="!multiple && value" class="mt-4" wrap>
+                <thumbnail-list-item :width="width" :min-width="minWidth" :max-width="maxWidth" :height="height" :min-height="minHeight" :max-height="maxHeight">
+                    <file-preview :file="value" @close="removeFile(value)"/>
+                <thumbnail-list-item>
+            </thumbnail-list>
+
+            <!--
+            <div v-if="multiple && value && value.length" class="upload-field-preview mt-4">
+                <file-preview v-for="(file, key) in value" :key="file.id || key" :file="file" @close="removeFile(file)"/>
+            </div>
+
+            <div v-else-if="!multiple && value" class="upload-field-preview mt-4">
+                <file-preview :file="value" @close="removeFile(value)"/>
+            </div>
+            -->
+
+            <div v-if="showDropElement" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
+                <i class="fa fa-cloud-upload"></i>
+                <div>Drag and drop files to upload</div>
+            </div>
+
+        </dropzone>
 
     </form-group>
 
@@ -37,10 +53,13 @@ import each from 'lodash-es/each';
 import remove from 'lodash-es/remove';
 import isArray from 'lodash-es/isArray';
 import findIndex from 'lodash-es/findIndex';
+import Dropzone from '../Dropzone/Dropzone';
 import isUndefined from 'lodash-es/isUndefined';
 import FormControl from '../../Mixins/FormControl/FormControl';
 import FileField from '../FileField/FileField';
 import FilePreview from '../FilePreview/FilePreview';
+import ThumbnailList from '../ThumbnailList/ThumbnailList';
+import ThumbnailListItem from '../ThumbnailList/ThumbnailListItem';
 
 export default {
 
@@ -49,8 +68,11 @@ export default {
     mixins: [FormControl],
 
     components: {
+        Dropzone,
         FileField,
-        FilePreview
+        FilePreview,
+        ThumbnailList,
+        ThumbnailListItem
     },
 
     model: {
@@ -82,11 +104,39 @@ export default {
         height: [Number, String],
 
         /**
+         * The minimum height attribute for the control element
+         *
+         * @property String
+         */
+        minHeight: [Number, String],
+
+        /**
+         * The maximum height attribute for the control element
+         *
+         * @property String
+         */
+        maxHeight: [Number, String],
+
+        /**
          * The width attribute for the control element
          *
          * @property String
          */
         width: [Number, String],
+
+        /**
+         * The minimum width attribute for the control element
+         *
+         * @property String
+         */
+        minWidth: [Number, String],
+
+        /**
+         * The maximum width attribute for the control element
+         *
+         * @property String
+         */
+        maxWidth: [Number, String],
 
         /**
          * Can user drag/drop files into browser to upload them.
@@ -190,6 +240,10 @@ export default {
             event.target.value = null;
         },
 
+        onDrop(event) {
+            this.onChange(event.dataTransfer.files);
+        },
+
         onChange(files) {
             if(files instanceof FileList) {
                 this.addFiles(files);
@@ -259,96 +313,3 @@ export default {
 
 }
 </script>
-
-<style lang="scss">
-@import './node_modules/bootstrap/scss/bootstrap-reboot.scss';
-
-@mixin file-preview($total) {
-    & .file-preview-inner {
-        margin-right: 0;
-    }
-
-    &:nth-last-child(#{$total}) .file-preview-inner {
-        margin-right: 1rem;
-    }
-
-    &:nth-last-child(#{$total}),
-    &:nth-last-child(#{$total}) ~ .file-preview {
-        width: 100% / $total;
-    }
-}
-
-.upload-field {
-
-    &.enable-dropzone {
-        position: relative;
-    }
-
-    .file-preview {
-        max-width: 300px;
-    }
-
-    &.enable-multiple .file-preview {
-
-        &:first-child:nth-last-child(1) {
-            width: 100%;
-        }
-
-        @include file-preview(2);
-        @include file-preview(3);
-        @include file-preview(4);
-        @include file-preview(5);
-    }
-
-    &:not(.enable-dropzone) .upload-field-dropzone {
-        position: fixed;
-    }
-
-    .upload-field-dropzone {
-        color: $info;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 100;
-        background: lighten($info, 45%);
-        border: 2px dashed lighten($info, 25%);
-        text-shadow: 0 1px 0 white;
-
-        & > i {
-            display: block;
-            font-size: 32px;
-        }
-    }
-
-    .upload-field-preview {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-
-    /*
-    .upload-field-preview .file-preview.is-image {
-        width: 22.75%;
-        margin-right: 3%;
-
-        &:nth-child(4n) {
-            margin-right: 0;
-        }
-    }
-    */
-
-    .upload-field-preview .file-preview {
-        display: inline-block;
-    }
-
-    .upload-field-preview .file-preview-name-label {
-        max-width: 200px;
-    }
-}
-</style>

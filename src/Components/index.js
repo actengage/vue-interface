@@ -9,6 +9,7 @@ import BaseForm from './BaseForm';
 import Breadcrumb from './Breadcrumb';
 import BreadcrumbItem from './Breadcrumb/BreadcrumbItem';
 import Btn from './Btn';
+import BtnFile from './BtnFile';
 import BtnGroup from './BtnGroup';
 import BtnToolbar from './BtnGroup/BtnToolbar';
 import BtnDropdown from './BtnDropdown';
@@ -30,7 +31,6 @@ import DropdownMenuDivider from './DropdownMenu/DropdownMenuDivider';
 import DropdownMenuHeader from './DropdownMenu/DropdownMenuHeader';
 import DropdownMenuItem from './DropdownMenu/DropdownMenuItem';
 import Dropzone from './Dropzone';
-import FileButton from './FileButton';
 import FileField from './FileField';
 import FilePreview from './FilePreview';
 import FormControl from './FormControl';
@@ -46,6 +46,13 @@ import InputGroupText from './InputGroup/InputGroupText';
 import LightSwitchField from './LightSwitchField';
 import ListGroup from './ListGroup';
 import ListGroupItem from './ListGroup/ListGroupItem';
+import Modal from './Modal';
+import ModalBody from './Modal/ModalBody';
+import ModalContent from './Modal/ModalContent';
+import ModalDialog from './Modal/ModalDialog';
+import ModalFooter from './Modal/ModalFooter';
+import ModalHeader from './Modal/ModalHeader';
+import ModalTitle from './Modal/ModalTitle';
 import Navigation from './Navigation';
 import NavigationItem from './Navigation/NavigationItem';
 import NavigationLink from './Navigation/NavigationLink';
@@ -73,6 +80,7 @@ export {
     Breadcrumb,
     BreadcrumbItem,
     Btn,
+    BtnFile,
     BtnGroup,
     BtnToolbar,
     BtnDropdown,
@@ -94,7 +102,6 @@ export {
     DropdownMenuHeader,
     DropdownMenuDivider,
     Dropzone,
-    FileButton,
     FileField,
     FilePreview,
     FormControl,
@@ -110,6 +117,13 @@ export {
     LightSwitchField,
     ListGroup,
     ListGroupItem,
+    Modal,
+    ModalBody,
+    ModalContent,
+    ModalDialog,
+    ModalFooter,
+    ModalHeader,
+    ModalTitle,
     Navigation,
     NavigationItem,
     NavigationLink,

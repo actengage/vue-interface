@@ -25,7 +25,7 @@ import FileField from '../FileField/FileField';
 
 export default {
 
-    name: 'file-field',
+    name: 'btn-file',
 
     mixins: [
         Btn,

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Modal</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-interface.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">overlay</h1>
+
+            <h3>Basic Usage</h3>
+            <p>Show a basic modal without any button except close.</p>
+
+            <button type="button" class="btn btn-primary" @click="isShowing1 = true">
+                Regular Modal
+            </button>
+
+            <modal title="Modal title" :show.sync="isShowing1">
+                modal body content
+            </modal>
+
+            <hr>
+
+            <h3>Alert Modal</h3>
+            <p>Show an modal with a single dismiss button.</p>
+
+            <button type="button" class="btn btn-primary" @click="isShowing2 = true">
+                Alert Modal
+            </button>
+
+            <modal title="Modal title" type="alert" ok-label="Dismiss" :show.sync="isShowing2">
+                modal body content
+            </modal>
+
+            <hr>
+
+            <h3>Confirm Modal</h3>
+            <p>Show an modal asking for confirmation.</p>
+
+            <button type="button" class="btn btn-primary" @click="isShowing3 = true">
+                <span v-if="!isShowing3Confirmed">Alert Modal</span>
+                <span v-else><i class="fa fa-check"></i> Confirmed!</span>
+            </button>
+
+            <modal title="Modal title" type="confirm" :show.sync="isShowing3" @confirm="isShowing3Confirmed = true; isShowing3 = false">
+                Are you sure you want confirm this modal?
+            </modal>
+
+            <hr>
+
+            <h3>Promp Modal</h3>
+            <p>Show an modal asking for user input.</p>
+
+            <p>Prompt Data: {{prompt}}</p>
+
+            <button type="button" class="btn btn-primary" @click="isShowing4 = true">
+                Prompt Modal
+            </button>
+
+            <modal title="Modal title" type="prompt" :show.sync="isShowing4" @cancel="onCancelPrompt" @confirm="onConfirmPrompt">
+                <input-field v-model="prompt.first" name="first" label="Enter your first name..."/>
+            </modal>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.core.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        isShowing1: false,
+                        isShowing2: false,
+                        isShowing3: false,
+                        isShowing3Confirmed: false,
+                        isShowing4: false,
+                        prompt: {}
+                    };
+                },
+                methods: {
+
+                    onCancelPrompt() {
+                        this.prompt = {};
+                    },
+
+                    onConfirmPrompt() {
+                        this.isShowing4 = false;
+                    }
+
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -5,9 +5,8 @@
 </template>
 
 <script>
-
-import isFunction from 'lodash-es/isFunction';
 import Model from '../../Http/Model/Model';
+import isFunction from 'lodash-es/isFunction';
 
 export default {
 

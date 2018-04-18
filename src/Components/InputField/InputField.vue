@@ -9,7 +9,7 @@
         </slot>
 
         <slot name="control">
-            <form-control
+            <input
                 :id="id"
                 :type="type"
                 :value="value"

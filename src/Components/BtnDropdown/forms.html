@@ -17,6 +17,14 @@
                 {{form}}
             </alert>
 
+            <h3>Basic Usage</h3>
+
+            <btn-dropdown label="Dropdown" variant="secondary">
+                <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+            </btn-dropdown>
+
             <hr>
 
             <h3>Dropdown with checkboxes</h3>
@@ -54,12 +62,13 @@
             <h3>Dropdown with login fields</h3>
 
             <btn-dropdown label="Dropdown" variant="secondary">
-                <dropdown-menu-item>
-                    <input-field name="email" v-model="form.email"/>
-                </dropdown-menu-item>
-                <dropdown-menu-item>
-                    <input-field type="password" name="password" v-model="form.password"/>
-                </dropdown-menu-item>
+                <form class="px-4 py-3" style="min-width:300px">
+                    <input-field v-model="form.email" label="Email Address" name="email"></input-field>
+                    <input-field v-model="form.password" type="password" label="Password" name="password"></input-field>
+                    <checkbox-field v-model="form.remember" label="Remember me?" value="1"></checkbox-field>
+                    <hr>
+                    <btn variant="primary">Submit</btn>
+                </form>
             </btn-dropdown>
 
         </div>

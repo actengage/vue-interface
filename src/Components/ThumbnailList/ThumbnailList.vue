@@ -1,6 +1,6 @@
 <template>
     <div class="thumbnail-list" :class="classes">
-        <thumbnail-list-item v-if="!!images" v-for="image in images" :src="image.url || image" :width="width" />
+        <thumbnail-list-item v-if="!!images" v-for="image in images" :src="image" :width="width" />
         <slot/>
     </div>
 </template>
@@ -13,6 +13,8 @@ export default {
         fill: Boolean,
 
         flex: Boolean,
+
+        noFlex: Boolean,
 
         grid: Boolean,
 
@@ -33,6 +35,7 @@ export default {
             return {
                 'thumbnail-list-fill': this.fill,
                 'thumbnail-list-flex': this.flex,
+                'thumbnail-list-noflex': this.noFlex,
                 'thumbnail-list-grid': this.grid,
                 'thumbnail-list-wrap': this.wrap
             }
@@ -53,8 +56,13 @@ export default {
         padding-bottom: 10px;
     }
 
-    &.thumbnail-list-flex > * {
-        flex: 1;
+    &.thumbnail-list-fill,
+    &.thumbnail-list-wrap {
+        flex-flow: row wrap;
+    }
+
+    &.thumbnail-list-noflex > * {
+        flex: 0;
     }
 
     &.thumbnail-list-fill > * {
@@ -65,16 +73,9 @@ export default {
         flex: 0 0 auto;
     }
 
-    &.thumbnail-list-fill,
-    &.thumbnail-list-wrap {
-        flex-flow: row wrap;
+    &.thumbnail-list-flex > * {
+        flex: 1;
     }
 
-    /*
-    &.thumbnail-list-grid {
-        display: grid;
-        grid-gap: 10px;
-    }
-    */
 }
 </style>

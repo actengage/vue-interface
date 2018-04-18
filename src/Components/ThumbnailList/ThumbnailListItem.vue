@@ -1,6 +1,7 @@
 <template>
-    <div class="thumbnail-list-item" :style="{width: unit(width)}">
-        <img :src="src" :alt="alt" :class="{'img-fluid': fluid}" />
+    <div class="thumbnail-list-item" :style="{height: unit(height), width: unit(width), minHeight: unit(minHeight), maxHeight: unit(maxHeight), minWidth: unit(minWidth), maxWidth: unit(maxWidth)}">
+        <img v-if="src" :src="src" :alt="alt" :class="{'img-fluid': fluid}" />
+        <slot/>
     </div>
 </template>
 
@@ -16,6 +17,16 @@ export default {
         src: String,
 
         width: [String, Number],
+
+        height: [String, Number],
+
+        minHeight: [String, Number],
+
+        maxHeight: [String, Number],
+
+        minWidth: [String, Number],
+
+        maxWidth: [String, Number],
 
         fluid: {
             type: Boolean,

@@ -1,10 +1,10 @@
 <template>
-    <div v-if="center" class="center-wrapper">
+    <div v-if="center" class="center-wrapper" :class="{'position-relative': relative, 'position-fixed': fixed}" :style="{minHeight: computedMinHeight}">
         <div class="center-content">
             <component :is="component" :size="size" :prefix="prefix"></component>
         </div>
     </div>
-    <component v-else :is="component" :size="size"  :prefix="prefix"></component>
+    <component v-else :is="component" :style="{minHeight: computedMinHeight}" :size="size" :prefix="prefix"></component>
 </template>
 
 <script>
@@ -12,6 +12,7 @@ import kebabCase from 'lodash-es/kebabCase';
 import BaseType from './Types/BaseType';
 import ActivityIndicatorDots from './Types/Dots';
 import ActivityIndicatorSpinner from './Types/Spinner';
+import unit from '../../Helpers/Unit';
 
 export default {
 
@@ -21,15 +22,18 @@ export default {
 
     props: {
 
-        center: {
-            type: Boolean,
-            default: false
-        },
+        center: Boolean,
+
+        fixed: Boolean,
+
+        relative: Boolean,
 
         type: {
             type: String,
             default: 'dots'
-        }
+        },
+
+        minHeight: [String, Number]
 
     },
 
@@ -39,7 +43,12 @@ export default {
     },
 
     computed: {
-        component: function() {
+
+        computedMinHeight() {
+            return unit(this.minHeight);
+        },
+
+        component() {
             return kebabCase(this.prefix + this.type.replace(this.prefix, ''));
         }
     }
@@ -49,17 +58,6 @@ export default {
 
 <style lang="scss">
 @import './node_modules/bootstrap/scss/bootstrap-reboot.scss';
-
-// ActivityIndicators Mixins
-
-@mixin spinner-color($color) {
-
-}
-
-@keyframes activity-indicator-spinner {
-    0%, 39%, 100% { opacity: 0; }
-    40% { opacity: 1; }
-}
 
 // Content Positioning Helpers
 .center-wrapper {

@@ -154,7 +154,7 @@ export default [{
     watch: WATCH_OPTIONS,
     external: EXTERNAL,
     plugins: plugins
-}, {
+}/*, {
     input: MAINJS,
     output: {
         name: NAMESPACE,
@@ -167,4 +167,5 @@ export default [{
     watch: WATCH_OPTIONS,
     external: EXTERNAL,
     plugins: plugins
-}];
+}
+*/];
