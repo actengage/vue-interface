@@ -1,4 +1,5 @@
 import Modal from './Modal';
+import ModalBackdrop from './ModalBackdrop';
 import ModalBody from './ModalBody';
 import ModalContent from './ModalContent';
 import ModalDialog from './ModalDialog';
@@ -17,6 +18,7 @@ const plugin = VueInstaller.use({
 });
 
 export {
+    ModalBackdrop,
     ModalBody,
     ModalContent,
     ModalDialog,

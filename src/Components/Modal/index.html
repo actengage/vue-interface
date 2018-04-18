@@ -108,35 +108,32 @@
                     },
 
                     showModal() {
-                        const modal = this.$modal(VueInterface.InputField, {
-                            propsData: {
-                                label: 'Test'
-                            }
-                        }, {
-                            propsData: {
-                                title: 'test'
-                            }
-                        });
+                        const modal = this.$modal('Some modal title', VueInterface.InputField);
                     },
 
                     showAlert() {
-                        const Component = Vue.extend({
-                            template: '<div>This is an alert!</div>'
-                        });
+                        this.$alert('ALERT!', 'This is an alert!').then(modal => {
+                            console.log('alert cleared!', modal);
 
-                        this.$alert(Component).then(modal => {
-                            console.log('alert cleared!', modal)
+                            return true;
                         });
                     },
 
                     showConfirm() {
-                        const Component = Vue.extend({
-                            template: '<div>This is an alert!</div>'
-                        });
+                        this.$confirm('Confirmation Title', 'This is a confirmation.').then(modal => {
+                            // Prevent the modal from closing...
+                            modal.preventDefault();
+                            modal.activity = true;
 
-                        this.$confirm(Component).then(modal => {
-                            console.log('confirmation confirmed!', modal)
+                            setTimeout(() => {
+                                modal.activity = false;
+                                setTimeout(modal.close);
+                            }, 500);
                         }, modal => {
+                            //console.log('cancel!!');
+
+                            //modal.preventDefault();
+
                             console.log('confirmation cancel!', modal);
                         });
                     },
@@ -150,14 +147,20 @@
                             `
                         });
 
-                        this.$prompt(Component, null, {
-                            propsData: {
-                                title: 'Some Title'
-                            }
-                        }).then(modal => {
-                            console.log('confirmation confirmed!', modal)
+                        const promise = this.$prompt('Prompt Title', Component, null, {
+                            center: true
+                        });
+
+                        promise.then(modal => {
+                            modal.preventDefault();
+                            modal.activity = true;
+
+                            setTimeout(() => {
+                                modal.activity = false;
+                                setTimeout(modal.close);
+                            }, 500);
                         }, modal => {
-                            console.log('confirmation cancel!', modal);
+                            modal.preventDefault();
                         });
                     },
 

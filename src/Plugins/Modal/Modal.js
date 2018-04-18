@@ -1,23 +1,61 @@
 import defaultsDeep from 'lodash-es/extend';
+import isString from 'lodash-es/isString';
 import isObject from 'lodash-es/isObject';
 import isFunction from 'lodash-es/isFunction';
 import Modal from '../../Components/Modal/Modal';
 
-function ensureDefault(type, modalOptions) {
-    if(!modalOptions) {
-        modalOptions = {};
+function ensure(options, values) {
+    if(!options) {
+        options = {};
     }
 
     return {
-        propsData: defaultsDeep(modalOptions.propsData, {
-            type: type
-        })
+        propsData: defaultsDeep(options.propsData || options, values || {})
     };
 }
 
 export default function(Vue, options) {
+    function remove(modal) {
+        modal.$destroy();
+        modal.$el.remove();
+    };
 
-    Vue.prototype.$modal = function(ContentComponent, options, modalOptions, ModalComponent) {
+    function promise(modal) {
+        const promise = new Promise((resolve, reject) => {
+            let preventDefault = false;
+
+            function finish(modal) {
+                console.log('finish', preventDefault);
+
+                if(!preventDefault) {
+                    modal.close();
+                }
+            }
+
+            modal.preventDefault = function() {
+                return preventDefault = true;
+            };
+
+            modal.$on('confirm', event => {
+                promise.then(finish);
+                resolve(modal);
+            });
+
+            modal.$on('cancel', event => {
+                reject(modal);
+            });
+        });
+
+        return promise;
+    }
+
+    Vue.prototype.$modal = function(title, content, options, modalOptions, ModalComponent) {
+        if(isString(content)) {
+            content = Vue.extend({
+                template: `<div>${content}</div>`
+            });
+        }
+
         const component = (vue, options) => {
             if(!(vue instanceof Vue) && isObject(vue)) {
                 vue = Vue.extend(vue);
@@ -29,68 +67,35 @@ export default function(Vue, options) {
         }
 
         const modal = component(ModalComponent || Modal, modalOptions);
-        modal.$content = component(ContentComponent, options);
+        modal.$content = component(content, options);
         modal.open(modal.$content);
+        modal.$on('close', event => {
+            modal.$content.$emit('modal:close');
+        });
 
-        const remove = function(event) {
-            modal.$destroy();
-            modal.$el.remove();
-        };
-
-        modal.$on('close', remove);
-        modal.$on('confirm', remove);
+        modal.$on('confirm', event => {
+            modal.$content.$emit('modal:confirm');
+        });
 
         return modal;
     };
 
-    Vue.prototype.$alert = function(ContentComponent, options, modalOptions, ModalComponent) {
-        return new Promise((resolve, reject) => {
-            const modal = this.$modal(
-                ContentComponent, options, ensureDefault('alert', modalOptions), ModalComponent
-            );
-
-            modal.$on('confirm', event => {
-                resolve(modal);
-            });
-
-            modal.$on('close', event => {
-                resolve(modal);
-            });
-        });
+    Vue.prototype.$alert = function(title, content, options, modalOptions, ModalComponent) {
+        return promise(this.$modal(
+            title, content, options, ensure({type: 'alert', title: title}, modalOptions), ModalComponent
+        ));
     };
 
-    Vue.prototype.$confirm = function(ContentComponent, options, modalOptions, ModalComponent) {
-        return new Promise((resolve, reject) => {
-            const modal = this.$modal(
-                ContentComponent, options, ensureDefault('confirm', modalOptions), ModalComponent
-            );
-
-            modal.$on('confirm', event => {
-                resolve(modal);
-            });
-
-            modal.$on('cancel', event => {
-                reject(modal);
-            });
-        });
+    Vue.prototype.$confirm = function(title, content, options, modalOptions, ModalComponent) {
+        return promise(this.$modal(
+            title, content, options, ensure({type: 'confirm', title: title}, modalOptions), ModalComponent
+        ));
     };
 
-    Vue.prototype.$prompt = function(ContentComponent, options, modalOptions, ModalComponent) {
-        return new Promise((resolve, reject) => {
-            console.log(modalOptions, ensureDefault('prompt', modalOptions));
-
-            const modal = this.$modal(
-                ContentComponent, options, ensureDefault('prompt', modalOptions), ModalComponent
-            );
-
-            modal.$on('confirm', event => {
-                resolve(modal);
-            });
-
-            modal.$on('cancel', event => {
-                reject(modal);
-            });
-        });
+    Vue.prototype.$prompt = function(title, content, options, modalOptions, ModalComponent) {
+        return promise(this.$modal(
+            title, content, options, ensure({type: 'prompt', title: title}, modalOptions), ModalComponent
+        ));
     };
 
 }

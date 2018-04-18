@@ -1,31 +1,44 @@
 <template>
-    <div class="modal" tabindex="-1" role="dialog" :class="classes" :style="{display: show ? 'block' : 'none'}" @keydown.esc="type === 'confirm' || 'prompt' ? cancel() : close()">
-        <modal-dialog>
-            <modal-content>
-                <slot name="header">
-                    <modal-header @close="close">{{title}}</modal-header>
-                </slot>
 
-                <modal-body>
-                    <slot/>
-                </modal-body>
+    <div>
+        <modal-backdrop v-if="isShowing" :fade="fade" :show="show"/>
 
-                <slot name="footer">
-                    <template v-if="type === 'alert'">
-                        <modal-footer>
-                            <activity-button :activity="activity" variant="primary" @click="confirm">{{okLabel}}</activity-button>
-                        </modal-footer>
-                    </template>
-                    <template v-else-if="type === 'confirm' || type === 'prompt'">
-                        <modal-footer>
-                            <btn type="button" variant="secondary" @click="cancel">{{cancelLabel}}</btn>
-                            <activity-button :activity="activity" variant="primary" @click="confirm">{{okLabel}}</activity-button>
-                        </modal-footer>
-                    </template>
-                </slot>
-            </modal-content>
-        </modal-dialog>
+        <div class="modal" tabindex="-1" role="dialog" :style="styles" :class="classes" @keydown.esc="onEsc">
+
+            <modal-dialog :class="{'modal-dialog-centered': center}">
+
+                <modal-content>
+
+                    <slot name="header">
+                        <modal-header @close="cancel">{{title}}</modal-header>
+                    </slot>
+
+                    <modal-body>
+                        <slot/>
+                    </modal-body>
+
+                    <slot name="footer">
+                        <template v-if="type === 'alert'">
+                            <modal-footer>
+                                <activity-button :activity="activity" variant="primary" @click="confirm">{{okLabel}}</activity-button>
+                            </modal-footer>
+                        </template>
+                        <template v-else-if="type === 'confirm' || type === 'prompt'">
+                            <modal-footer>
+                                <btn type="button" variant="secondary" @click="cancel">{{cancelLabel}}</btn>
+                                <activity-button :activity="activity" variant="primary" @click="confirm">{{okLabel}}</activity-button>
+                            </modal-footer>
+                        </template>
+                    </slot>
+
+                </modal-content>
+
+            </modal-dialog>
+
+        </div>
+
     </div>
+
 </template>
 
 <script>
@@ -34,6 +47,7 @@ import ModalContent from './ModalContent';
 import ModalDialog from './ModalDialog';
 import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';
+import transition from '../../Helpers/Transition';
 
 export default {
 
@@ -50,11 +64,15 @@ export default {
     watch: {
 
         show(value) {
-            if(value) {
-                this.$nextTick(() => {
-                    this.focus();
-                });
-            }
+            this.isDisplaying = value;
+
+            value && this.$nextTick(() => {
+                this.focus();
+            });
+        },
+
+        isShowing(value) {
+            this.$emit('update:show', value);
         }
 
     },
@@ -90,11 +108,11 @@ export default {
         title: String,
 
         /**
-         * Is the modal showing.
+         * Show the modal with a backdrop.
          *
          * @property Boolean
          */
-        show: {
+        backdrop: {
             type: Boolean,
             default: true
         },
@@ -105,6 +123,26 @@ export default {
          * @property Boolean
          */
         closeable: {
+            type: Boolean,
+            default: true
+        },
+
+        /**
+         * Show the modal with a fade effect.
+         *
+         * @property Boolean
+         */
+        fade: {
+            type: Boolean,
+            default: true
+        },
+
+        /**
+         * Is the modal showing.
+         *
+         * @property Boolean
+         */
+        show: {
             type: Boolean,
             default: true
         },
@@ -144,36 +182,33 @@ export default {
 
     },
 
-    computed: {
-
-        classes() {
-            return {
-                'fade': this.fade,
-                'show': this.show,
-                'modal-dialog-centered': this.center
-            }
-        }
-
-    },
-
     methods: {
 
-        cancel(event) {
-            this.$emit('cancel', event, this);
-            this.close();
-        },
-
+        /**
+         * Confirm the modal
+         *
+         * @return void
+         */
         confirm(event) {
             this.$emit('confirm', event, this);
         },
 
+        /**
+         * Focus on the first field in the modal (if exists).
+         *
+         * @return void
+         */
         focus() {
             const el = this.$el.querySelector('.form-control, input, select, textarea');
 
             if(el) {
                 el.focus();
             }
+            else {
+                this.$el.querySelector('.modal').focus();
+            }
         },
+
 
         /**
          * Show the modal
@@ -192,7 +227,28 @@ export default {
 
             this.focus();
             this.$emit('open');
-            this.$emit('update:show', this.isShowing = true);
+        },
+
+        /**
+         * Cancel the modal
+         *
+         * @return void
+         */
+        cancel(event) {
+            this.$emit('cancel', event, this);
+            this.close(event);
+        },
+
+        /**
+         * Close the modal
+         *
+         * @return void
+         */
+        close(event) {
+            return this.hide().then(delay => {
+                this.isDisplaying = false;
+                this.$emit('closed', event, this);
+            });
         },
 
         /**
@@ -200,19 +256,36 @@ export default {
          *
          * @return void
          */
-        close(event) {
-            this.$emit('close');
-            this.$emit('update:show', this.isShowing = false);
+        hide() {
+            return (this.isShowing = false) || transition(this.$el.querySelector('.modal'));
         },
 
         /**
-         * The callback for the `click` event on the close button.
+         * A callback for the escape function.
          *
          * @return void
          */
-        onClickClose() {
-            this.$emit('click:close');
-            this.close();
+        onEsc(event) {
+            console.log(this.type);
+
+            (this.type === 'confirm' || this.type ===  'prompt') ? this.cancel(event) : this.close(event);
+        }
+
+    },
+
+    computed: {
+
+        classes() {
+            return {
+                'fade': this.fade,
+                'show': this.isShowing
+            };
+        },
+
+        styles() {
+            return {
+                display: this.isDisplaying ? 'block' : 'none'
+            }
         }
 
     },
@@ -229,12 +302,19 @@ export default {
                     this.confirm(event);
                 });
             }
+
+            if(this.show) {
+                this.$nextTick(() => {
+                    this.isShowing = true;
+                });
+            }
         });
     },
 
     data() {
         return {
-            isShowing: !!this.show
+            isShowing: false,
+            isDisplaying: this.show
         }
     }
 

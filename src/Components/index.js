@@ -47,6 +47,7 @@ import LightSwitchField from './LightSwitchField';
 import ListGroup from './ListGroup';
 import ListGroupItem from './ListGroup/ListGroupItem';
 import Modal from './Modal';
+import ModalBackdrop from './Modal/ModalBackdrop';
 import ModalBody from './Modal/ModalBody';
 import ModalContent from './Modal/ModalContent';
 import ModalDialog from './Modal/ModalDialog';
@@ -118,6 +119,7 @@ export {
     ListGroup,
     ListGroupItem,
     Modal,
+    ModalBackdrop,
     ModalBody,
     ModalContent,
     ModalDialog,
