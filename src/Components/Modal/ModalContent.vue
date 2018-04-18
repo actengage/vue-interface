@@ -1,17 +1,13 @@
 <template>
-    <base-form :data="data" :model="model" class="modal-content">
+    <div class="modal-content">
         <slot/>
-    </base-form>
+    </div>
 </template>
 
 <script>
-import BaseForm from '../BaseForm/BaseForm';
-
 export default {
 
-    name: 'modal-content',
-
-    extends: BaseForm
+    name: 'modal-content'
 
 }
 </script>

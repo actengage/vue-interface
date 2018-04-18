@@ -3,7 +3,7 @@
         <modal-dialog>
             <modal-content>
                 <slot name="header">
-                    <modal-header @close="close()">{{title}}</modal-header>
+                    <modal-header @close="close">{{title}}</modal-header>
                 </slot>
 
                 <modal-body>
@@ -13,7 +13,7 @@
                 <slot name="footer">
                     <template v-if="type === 'alert'">
                         <modal-footer>
-                            <activity-button :activity="activity" variant="primary" @click="close()">{{okLabel}}</activity-button>
+                            <activity-button :activity="activity" variant="primary" @click="confirm">{{okLabel}}</activity-button>
                         </modal-footer>
                     </template>
                     <template v-else-if="type === 'confirm' || type === 'prompt'">
@@ -94,7 +94,10 @@ export default {
          *
          * @property Boolean
          */
-        show: Boolean,
+        show: {
+            type: Boolean,
+            default: true
+        },
 
         /**
          * Is the modal content fixed position
@@ -156,8 +159,8 @@ export default {
     methods: {
 
         cancel(event) {
-            this.close();
             this.$emit('cancel', event, this);
+            this.close();
         },
 
         confirm(event) {
@@ -183,12 +186,12 @@ export default {
             if(contents.$mount) {
                 contents.$parent = this;
                 contents.$mount(
-                    this.$el.querySelector('.modal-content').appendChild(document.createElement('div'))
+                    this.$el.querySelector('.modal-body').appendChild(document.createElement('div'))
                 );
             }
 
             this.focus();
-            this.$emit('show');
+            this.$emit('open');
             this.$emit('update:show', this.isShowing = true);
         },
 
@@ -197,8 +200,8 @@ export default {
          *
          * @return void
          */
-        close() {
-            this.$emit('hide');
+        close(event) {
+            this.$emit('close');
             this.$emit('update:show', this.isShowing = false);
         },
 
@@ -217,6 +220,16 @@ export default {
     mounted() {
         this.show && this.focus();
 
+        this.$nextTick(() => {
+            const form = this.$el.querySelector('form');
+
+            if(form) {
+                form.addEventListener('submit', event => {
+                    event.preventDefault();
+                    this.confirm(event);
+                });
+            }
+        });
     },
 
     data() {

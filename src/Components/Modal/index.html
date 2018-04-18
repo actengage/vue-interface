@@ -18,6 +18,10 @@
                 Regular Modal
             </button>
 
+            <button type="button" class="btn btn-primary" @click="showModal">
+                Programmatic Modal
+            </button>
+
             <modal title="Modal title" :show.sync="isShowing1">
                 modal body content
             </modal>
@@ -31,7 +35,11 @@
                 Alert Modal
             </button>
 
-            <modal title="Modal title" type="alert" ok-label="Dismiss" :show.sync="isShowing2">
+            <button type="button" class="btn btn-primary" @click="showAlert">
+                Programmatic Alert
+            </button>
+
+            <modal title="Modal title" type="alert" ok-label="Dismiss" :show.sync="isShowing2" @confirm="isShowing2 = false">
                 modal body content
             </modal>
 
@@ -45,13 +53,17 @@
                 <span v-else><i class="fa fa-check"></i> Confirmed!</span>
             </button>
 
+            <button type="button" class="btn btn-primary" @click="showConfirm">
+                Programmatic Confirm
+            </button>
+
             <modal title="Modal title" type="confirm" :show.sync="isShowing3" @confirm="isShowing3Confirmed = true; isShowing3 = false">
                 Are you sure you want confirm this modal?
             </modal>
 
             <hr>
 
-            <h3>Promp Modal</h3>
+            <h3>Prompt Modal</h3>
             <p>Show an modal asking for user input.</p>
 
             <p>Prompt Data: {{prompt}}</p>
@@ -60,8 +72,14 @@
                 Prompt Modal
             </button>
 
+            <button type="button" class="btn btn-primary" @click="showPrompt">
+                Programmatic Prompt
+            </button>
+
             <modal title="Modal title" type="prompt" :show.sync="isShowing4" @cancel="onCancelPrompt" @confirm="onConfirmPrompt">
-                <input-field v-model="prompt.first" name="first" label="Enter your first name..."/>
+                <form @submit="onSubmit">
+                    <input-field v-model="prompt.first" name="first" label="Enter your first name..."/>
+                </form>
             </modal>
 
         </div>
@@ -79,10 +97,69 @@
                         isShowing3: false,
                         isShowing3Confirmed: false,
                         isShowing4: false,
+                        test: false,
                         prompt: {}
                     };
                 },
                 methods: {
+
+                    onSubmit(event) {
+                        console.log('submit', event);
+                    },
+
+                    showModal() {
+                        const modal = this.$modal(VueInterface.InputField, {
+                            propsData: {
+                                label: 'Test'
+                            }
+                        }, {
+                            propsData: {
+                                title: 'test'
+                            }
+                        });
+                    },
+
+                    showAlert() {
+                        const Component = Vue.extend({
+                            template: '<div>This is an alert!</div>'
+                        });
+
+                        this.$alert(Component).then(modal => {
+                            console.log('alert cleared!', modal)
+                        });
+                    },
+
+                    showConfirm() {
+                        const Component = Vue.extend({
+                            template: '<div>This is an alert!</div>'
+                        });
+
+                        this.$confirm(Component).then(modal => {
+                            console.log('confirmation confirmed!', modal)
+                        }, modal => {
+                            console.log('confirmation cancel!', modal);
+                        });
+                    },
+
+                    showPrompt() {
+                        const Component = Vue.extend({
+                            template: `
+                                <form>
+                                    <input-field label="Test" name="test"/>
+                                </form>
+                            `
+                        });
+
+                        this.$prompt(Component, null, {
+                            propsData: {
+                                title: 'Some Title'
+                            }
+                        }).then(modal => {
+                            console.log('confirmation confirmed!', modal)
+                        }, modal => {
+                            console.log('confirmation cancel!', modal);
+                        });
+                    },
 
                     onCancelPrompt() {
                         this.prompt = {};
