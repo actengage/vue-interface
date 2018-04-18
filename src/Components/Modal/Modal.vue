@@ -247,7 +247,7 @@ export default {
         close(event) {
             return this.hide().then(delay => {
                 this.isDisplaying = false;
-                this.$emit('closed', event, this);
+                this.$emit('close', event, this);
             });
         },
 
@@ -266,8 +266,6 @@ export default {
          * @return void
          */
         onEsc(event) {
-            console.log(this.type);
-
             (this.type === 'confirm' || this.type ===  'prompt') ? this.cancel(event) : this.close(event);
         }
 

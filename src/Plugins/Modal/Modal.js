@@ -25,8 +25,6 @@ export default function(Vue, options) {
             let preventDefault = false;
 
             function finish(modal) {
-                console.log('finish', preventDefault);
-
                 if(!preventDefault) {
                     modal.close();
                 }
@@ -69,6 +67,11 @@ export default function(Vue, options) {
         const modal = component(ModalComponent || Modal, modalOptions);
         modal.$content = component(content, options);
         modal.open(modal.$content);
+
+        modal.$on('cancel', event => {
+            modal.$content.$emit('modal:cancel');
+        });
+
         modal.$on('close', event => {
             modal.$content.$emit('modal:close');
         });
