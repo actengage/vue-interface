@@ -2767,7 +2767,7 @@
           return this.hide().then(function (delay) {
             _this2.isDisplaying = false;
 
-            _this2.$emit('closed', event, _this2);
+            _this2.$emit('close', event, _this2);
           });
         },
 
@@ -2786,7 +2786,6 @@
          * @return void
          */
         onEsc: function onEsc(event) {
-          console.log(this.type);
           this.type === 'confirm' || this.type === 'prompt' ? this.cancel(event) : this.close(event);
         }
       },
@@ -2850,8 +2849,6 @@
           var preventDefault = false;
 
           function finish(modal) {
-            console.log('finish', preventDefault);
-
             if (!preventDefault) {
               modal.close();
             }
@@ -2894,6 +2891,9 @@
         var modal = component(ModalComponent || Modal, modalOptions);
         modal.$content = component(content, options);
         modal.open(modal.$content);
+        modal.$on('cancel', function (event) {
+          modal.$content.$emit('modal:cancel');
+        });
         modal.$on('close', function (event) {
           modal.$content.$emit('modal:close');
         });
