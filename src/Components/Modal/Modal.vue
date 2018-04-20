@@ -9,23 +9,23 @@
 
                 <modal-content>
 
-                    <slot name="header">
+                    <slot v-if="header" name="header">
                         <modal-header @close="cancel">{{title}}</modal-header>
                     </slot>
 
-                    <modal-body>
+                    <component :is="!flush ? 'modal-body' : 'div'" class="child-component">
                         <slot/>
-                    </modal-body>
+                    </component>
 
-                    <slot name="footer">
-                        <template v-if="type === 'alert'">
+                    <slot name="footer" v-if="footer">
+                        <template v-if="type === 'confirm' || type === 'prompt'">
                             <modal-footer>
+                                <btn type="button" variant="secondary" @click="cancel">{{cancelLabel}}</btn>
                                 <activity-button :activity="activity" variant="primary" @click="confirm">{{okLabel}}</activity-button>
                             </modal-footer>
                         </template>
-                        <template v-else-if="type === 'confirm' || type === 'prompt'">
+                        <template v-else>
                             <modal-footer>
-                                <btn type="button" variant="secondary" @click="cancel">{{cancelLabel}}</btn>
                                 <activity-button :activity="activity" variant="primary" @click="confirm">{{okLabel}}</activity-button>
                             </modal-footer>
                         </template>
@@ -72,6 +72,13 @@ export default {
         },
 
         isShowing(value) {
+            if(value) {
+                document.querySelector('body').classList.add('modal-open');
+            }
+            else {
+                document.querySelector('body').classList.remove('modal-open');
+            }
+
             this.$emit('update:show', value);
         }
 
@@ -101,6 +108,24 @@ export default {
         fluid: Boolean,
 
         /**
+         * Is the modal content flush with the modal edges? If true, no modal-body
+         * will be used to wrap the content.
+         *
+         * @property Boolean
+         */
+        flush: Boolean,
+
+        /**
+         * Show the modal header
+         *
+         * @property Boolean
+         */
+        header: {
+            type: Boolean,
+            default: true
+        },
+
+        /**
          * The modal title.
          *
          * @property String
@@ -113,6 +138,16 @@ export default {
          * @property Boolean
          */
         backdrop: {
+            type: Boolean,
+            default: true
+        },
+
+        /**
+         * Hide the modal footer
+         *
+         * @property Boolean
+         */
+        footer: {
             type: Boolean,
             default: true
         },
@@ -221,7 +256,7 @@ export default {
             if(contents.$mount) {
                 contents.$parent = this;
                 contents.$mount(
-                    this.$el.querySelector('.modal-body').appendChild(document.createElement('div'))
+                    this.$el.querySelector('.child-component').appendChild(document.createElement('div'))
                 );
             }
 
@@ -246,6 +281,7 @@ export default {
          */
         close(event) {
             return this.hide().then(delay => {
+                this.isShowing = false;
                 this.isDisplaying = false;
                 this.$emit('close', event, this);
             });

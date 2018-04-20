@@ -84,7 +84,12 @@ export default {
          *
          * @property Object|Boolean
          */
-        errors: [Object, Array],
+        errors: {
+            type: Object,
+            default() {
+                return {}
+            }
+        },
 
         /**
          * Some feedback to add to the field once the field is successfully

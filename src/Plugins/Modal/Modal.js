@@ -64,8 +64,8 @@ export default function(Vue, options) {
             return isFunction(vue) ? new vue(options) : vue;
         }
 
-        const modal = component(ModalComponent || Modal, modalOptions);
-        modal.$content = component(content, options);
+        const modal = component(ModalComponent || Modal, ensure(modalOptions));
+        modal.$content = component(content, ensure(options));
         modal.open(modal.$content);
 
         modal.$on('cancel', event => {
@@ -78,6 +78,10 @@ export default function(Vue, options) {
 
         modal.$on('confirm', event => {
             modal.$content.$emit('modal:confirm');
+        });
+
+        modal.$content.$on('modal:close', event => {
+            modal.close();
         });
 
         return modal;

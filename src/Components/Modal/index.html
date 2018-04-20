@@ -109,6 +109,10 @@
 
                     showModal() {
                         const modal = this.$modal('Some modal title', VueInterface.InputField);
+
+                        modal.$on('confirm', event => {
+                            modal.close();
+                        });
                     },
 
                     showAlert() {
@@ -148,7 +152,10 @@
                         });
 
                         const promise = this.$prompt('Prompt Title', Component, null, {
-                            center: true
+                            center: true,
+                            footer: false,
+                            header: false,
+                            flush: true
                         });
 
                         promise.then(modal => {
