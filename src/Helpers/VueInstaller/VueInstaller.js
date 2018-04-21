@@ -1,4 +1,5 @@
 import each from 'lodash-es/each';
+import isFunction from 'lodash-es/isFunction';
 import script from '../Script';
 
 const VueInstaller = {
@@ -64,7 +65,12 @@ export function components(Vue, components) {
 
 export function directive(Vue, name, def) {
     if(!VueInstaller.$directives[name]) {
-        Vue.directive(name, VueInstaller.$directives[name] = def);
+        if(isFunction(def)) {
+            Vue.use(VueInstaller.$directives[name] = def);
+        }
+        else {
+            Vue.directive(name, def);
+        }
     }
 }
 

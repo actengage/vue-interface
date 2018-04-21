@@ -13,7 +13,6 @@
                 :id="id"
                 :type="type"
                 :value="value"
-                :errors="errors"
                 :placeholder="placeholder"
                 :required="required"
                 :disabled="disabled || readonly"
@@ -42,8 +41,12 @@
 
 <script>
 
-import Colorable from '../../Mixins/Colorable/Colorable';
-import FormControl from '../../Mixins/FormControl/FormControl';
+import HelpText from '../HelpText';
+import FormGroup from '../FormGroup';
+import FormLabel from '../FormLabel';
+import FormFeedback from '../FormFeedback';
+import Colorable from '../../Mixins/Colorable';
+import FormControl from '../../Mixins/FormControl';
 
 export default {
 
@@ -53,6 +56,13 @@ export default {
         Colorable,
         FormControl
     ],
+
+    components: {
+        HelpText,
+        FormGroup,
+        FormLabel,
+        FormFeedback
+    },
 
     props: {
 
