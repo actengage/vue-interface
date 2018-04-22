@@ -19,7 +19,7 @@ function append(script) {
     return script;
 }
 
-function script(url) {
+export default function script(url) {
     if(loaded[url] instanceof Promise) {
         return loaded[url];
     }
