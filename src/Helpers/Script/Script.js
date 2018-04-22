@@ -19,12 +19,16 @@ function append(script) {
     return script;
 }
 
-export default function script(url) {
-    return new Promise((resolve, reject) => {
+function script(url) {
+    if(loaded[url] instanceof Promise) {
+        return loaded[url];
+    }
+
+    return loaded[url] = new Promise((resolve, reject) => {
         try {
             if(!loaded[url]) {
-                append(element(url)).addEventListener('load', e => {
-                    resolve(loaded[url] = e);
+                append(element(url)).addEventListener('load', event => {
+                    resolve(loaded[url] = event);
                 });
             }
             else {

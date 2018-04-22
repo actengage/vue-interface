@@ -111,10 +111,6 @@ export default {
         }
 
         init(el, binding.value);
-    },
-
-    unbind(el) {
-        el.removeEventListener('keydown');
     }
 
 }

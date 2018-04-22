@@ -3,9 +3,7 @@
     <form-group>
 
         <slot name="label">
-            <form-label v-if="label || hasDefaultSlot" :for="id">
-                <slot>{{label}}</slot>
-            </form-label>
+            <form-label v-if="label || hasDefaultSlot" :for="id" v-html="label"/>
         </slot>
 
         <slot name="control">
@@ -25,6 +23,8 @@
                 v-on:input="updated($event.target.value)"
             />
         </slot>
+
+        <slot/>
 
         <slot name="help">
             <help-text v-if="helpText" v-html="helpText" />

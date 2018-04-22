@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <modal-backdrop v-if="isShowing" :fade="fade" :show="show"/>
+        <modal-backdrop v-if="isShowing" :fade="fade" :show="show" @click.self="onEsc"/>
 
         <div class="modal" tabindex="-1" role="dialog" :style="styles" :class="classes" @keydown.esc="onEsc">
 
@@ -350,6 +350,10 @@ export default {
             isShowing: false,
             isDisplaying: this.show
         }
+    },
+
+    beforeRouteLeave(to, from, next) {
+        modal.close();
     }
 
 }

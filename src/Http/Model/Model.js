@@ -15,15 +15,12 @@ import Request from '../Request';
 export default class Model {
 
     /**
-     * Initialize the model instance
+     * Construct the model instance
      *
      * @param data object
      * @return void
      */
     constructor(data = {}, params = {}) {
-        this.$changed = {};
-        this.$exists = false;
-        this.$attributes = {};
         this.$key = this.key();
         this.initialize(data);
         this.$files = this.files();
@@ -44,7 +41,9 @@ export default class Model {
      * @return this
      */
     initialize(data) {
-        this.$initialized = false;
+        this.$exists = false;
+        this.$changed = {};
+        this.$attributes = {};
         this.fill(data);
         this.$initialized = true;
 
@@ -397,7 +396,8 @@ export default class Model {
             const request = this.constructor.request(this.uri(), config);
 
             request.delete().then(response => {
-                resolve(this.fill(response));
+                resolve(response);
+                //resolve(this.fill(response));
             }, reject);
         });
     }
