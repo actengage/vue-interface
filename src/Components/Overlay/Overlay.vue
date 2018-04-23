@@ -133,7 +133,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import './node_modules/bootstrap/scss/bootstrap-reboot.scss';
+@import './node_modules/bootstrap/scss/functions.scss';
+@import './node_modules/bootstrap/scss/variables.scss';
 
 .overlay {
     position: fixed;

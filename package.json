@@ -1,8 +1,8 @@
 {
     "name": "vue-interface",
-    "version": "0.1.14",
-    "main": "dist/vue-interface.js",
-    "module": "src/vue-interface.es.js",
+    "version": "0.1.15",
+    "main": "./dist/vue-interface.js",
+    "module": "./dist/vue-interface.es.js",
     "devDependencies": {
         "@babel/cli": "^7.0.0-beta.44",
         "@babel/core": "^7.0.0-beta.44",
@@ -64,7 +64,7 @@
         "release-patch": "npm version patch --no-git-tag-version; npm run release;",
         "release-minor": "npm version minor --no-git-tag-version; npm run release;",
         "release-major": "npm version major --no-git-tag-version; npm run release;",
-        "release": "npm run build; npm run uglify; npm run commit; npm publish;",
+        "release": "npm run build; npm run uglify; npm run commit; npm publish; git push;",
         "uglify": "rollup -c rollup.uglify.js"
     },
     "jest": {
