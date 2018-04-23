@@ -53,7 +53,7 @@
 <script>
 
 import Btn from '../Btn';
-import { each } from 'lodash';
+import { each } from 'lodash-es';
 import uuid from '../../Helpers/Uuid/Uuid';
 import prefix from '../../Helpers/Prefix/Prefix';
 import DropdownMenu from '../DropdownMenu';

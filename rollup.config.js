@@ -73,7 +73,8 @@ const OUTPUT_GLOBALS = {
 const EXTERNAL = [
     'vue',
     'axios',
-    'moment'
+    'moment',
+    'lodash'
 ];
 
 // Define the plugins used for the rollup process
@@ -87,7 +88,8 @@ const plugins = [
     json(),
     alias({
         resolve: ['.js', '.vue'],
-        '@': `${SRC}`
+        '@': `${SRC}`,
+        'moment': 'moment/src/moment'
     }),
 
     rootImport({
@@ -107,7 +109,8 @@ const plugins = [
     commonjs({
         include: NODE_MODULES,
         namedExports: {
-            'node_modules/axios/index.js': 'axios'
+            // 'moment': 'moment/src/moment'
+            // 'node_modules/axios/index.js': 'axios'
         }
     }),
     vue({

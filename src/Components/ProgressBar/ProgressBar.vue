@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import isNumber from 'lodash-es/isNumber';
+import { isNumber } from 'lodash-es'
 import unit from '../../Helpers/Unit';
 import Variant from '../../Mixins/Variant/Variant';
 

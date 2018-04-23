@@ -1,9 +1,5 @@
 import moment from 'moment';
 
 export default function(value, format) {
-    if(value) {
-        return moment(String(value)).format(format);
-    }
-
-    return '';
+    return value ? moment(String(value)) : null;
 }

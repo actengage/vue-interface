@@ -6,7 +6,7 @@
 
 <script>
 
-import extend from 'lodash-es/extend';
+import { extend } from 'lodash-es';
 import Colorable from '../../Mixins/Colorable/Colorable';
 import Screenreaders from '../../Mixins/Screenreaders/Screenreaders';
 

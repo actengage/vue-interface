@@ -55,12 +55,12 @@
 </template>
 
 <script>
-import each from 'lodash-es/each';
-import remove from 'lodash-es/remove';
-import isArray from 'lodash-es/isArray';
-import findIndex from 'lodash-es/findIndex';
+import { each } from 'lodash-es';
+import { remove } from 'lodash-es';
+import { isArray } from 'lodash-es';
+import { findIndex } from 'lodash-es';
+import { isUndefined } from 'lodash-es'
 import Dropzone from '../Dropzone/Dropzone';
-import isUndefined from 'lodash-es/isUndefined';
 import FormControl from '../../Mixins/FormControl/FormControl';
 import FileField from '../FileField/FileField';
 import FilePreview from '../FilePreview/FilePreview';

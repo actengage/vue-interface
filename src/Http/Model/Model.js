@@ -1,15 +1,15 @@
-import map from 'lodash-es/map';
-import each from 'lodash-es/each';
-import keys from 'lodash-es/keys';
-import size from 'lodash-es/size';
-import extend from 'lodash-es/extend';
-import filter from 'lodash-es/filter';
-import isNull from 'lodash-es/isNull';
-import pickBy from 'lodash-es/pickBy';
-import reduce from 'lodash-es/reduce';
-import isArray from 'lodash-es/isArray';
-import isObject from 'lodash-es/isObject';
-import isUndefined from 'lodash-es/isUndefined';
+import { map } from 'lodash-es';
+import { each } from 'lodash-es';
+import { keys } from 'lodash-es';
+import { size } from 'lodash-es';
+import { extend } from 'lodash-es';
+import { filter } from 'lodash-es';
+import { isNull } from 'lodash-es';
+import { pickBy } from 'lodash-es';
+import { reduce } from 'lodash-es';
+import { isArray } from 'lodash-es';
+import { isObject } from 'lodash-es';
+import { isUndefined } from 'lodash-es'
 import Request from '../Request';
 
 export default class Model {

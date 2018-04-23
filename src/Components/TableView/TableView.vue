@@ -89,10 +89,10 @@
 </template>
 
 <script>
-import keys from 'lodash-es/keys';
-import each from 'lodash-es/each';
-import extend from 'lodash-es/extend';
-import isObject from 'lodash-es/isObject';
+import { keys } from 'lodash-es';
+import { each } from 'lodash-es';
+import { extend } from 'lodash-es';
+import { isObject } from 'lodash-es';
 import Pagination from '../Pagination';
 import ActivityIndicator from '../ActivityIndicator';
 import unit from '../../Helpers/Unit';

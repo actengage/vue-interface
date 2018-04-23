@@ -1,5 +1,5 @@
-import isObject from 'lodash-es/isObject';
-import isFunction from 'lodash-es/isFunction';
+import { isObject } from 'lodash-es';
+import { isFunction } from 'lodash-es';
 import Overlay from '../../Components/Overlay/Overlay';
 
 export default function(Vue, options) {

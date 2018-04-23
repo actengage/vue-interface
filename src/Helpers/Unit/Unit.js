@@ -1,4 +1,4 @@
-import isNumeric from 'lodash-es/isFinite';
+import { isFinite } from 'lodash-es';
 
 export default function(height) {
     return isFinite(height) ? height + 'px' : height;

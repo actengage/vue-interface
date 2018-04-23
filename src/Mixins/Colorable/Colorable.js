@@ -1,8 +1,8 @@
-import map from 'lodash-es/map';
-import each from 'lodash-es/each';
-import filter from 'lodash-es/filter';
-import omitBy from 'lodash-es/omitBy';
-import camelCase from 'lodash-es/camelCase';
+import { map } from 'lodash-es';
+import { each } from 'lodash-es';
+import { filter } from 'lodash-es';
+import { omitBy } from 'lodash-es';
+import { camelCase } from 'lodash-es';
 import prefix from '../../Helpers/Prefix/Prefix';
 
 const COLORS = [

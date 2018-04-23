@@ -6,7 +6,7 @@
 
 <script>
 import Model from '../../Http/Model/Model';
-import isFunction from 'lodash-es/isFunction';
+import { isFunction } from 'lodash-es';
 
 export default {
 

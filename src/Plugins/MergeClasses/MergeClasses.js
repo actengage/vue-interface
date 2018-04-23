@@ -1,8 +1,8 @@
-import each from 'lodash-es/each';
-import merge from 'lodash-es/merge';
-import extend from 'lodash-es/extend';
-import isArray from 'lodash-es/isArray';
-import isObject from 'lodash-es/isObject';
+import { each } from 'lodash-es';
+import { merge } from 'lodash-es';
+import { extend } from 'lodash-es';
+import { isArray } from 'lodash-es';
+import { isObject } from 'lodash-es';
 
 export default function(Vue, options) {
 

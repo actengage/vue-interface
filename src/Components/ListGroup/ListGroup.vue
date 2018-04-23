@@ -8,7 +8,7 @@
 
 <script>
 
-import each from 'lodash-es/each';
+import { each } from 'lodash-es';
 import ListGroupItem from './ListGroupItem';
 import prefix from '../../Helpers/Prefix/Prefix';
 

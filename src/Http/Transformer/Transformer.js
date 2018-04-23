@@ -1,6 +1,6 @@
-import each from 'lodash-es/each';
-import isArray from 'lodash-es/isArray';
-import isObject from 'lodash-es/isObject';
+import { each } from 'lodash-es';
+import { isArray } from 'lodash-es';
+import { isObject } from 'lodash-es';
 
 export default class Transformer {
 

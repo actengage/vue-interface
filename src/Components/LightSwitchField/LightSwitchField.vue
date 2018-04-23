@@ -31,7 +31,7 @@
 
 <script>
 
-import isUndefined from 'lodash-es/isUndefined';
+import { isUndefined } from 'lodash-es'
 import FormControl from '../../Mixins/FormControl/FormControl';
 
 export default {

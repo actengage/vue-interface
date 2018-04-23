@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import kebabCase from 'lodash-es/kebabCase';
+import { kebabCase } from 'lodash-es';
 import BaseType from './Types/BaseType';
 import ActivityIndicatorDots from './Types/Dots';
 import ActivityIndicatorSpinner from './Types/Spinner';

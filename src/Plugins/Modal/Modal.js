@@ -1,7 +1,7 @@
-import defaultsDeep from 'lodash-es/extend';
-import isString from 'lodash-es/isString';
-import isObject from 'lodash-es/isObject';
-import isFunction from 'lodash-es/isFunction';
+import { isString } from 'lodash-es';
+import { isObject } from 'lodash-es';
+import { isFunction } from 'lodash-es';
+import { defaultsDeep } from 'lodash-es';
 import Modal from '../../Components/Modal/Modal';
 
 function ensure(options, values) {

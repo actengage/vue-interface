@@ -12,7 +12,7 @@
 
 <script>
 
-import isObject from 'lodash-es/isObject';
+import { isObject } from 'lodash-es';
 import Badge from '../Badge';
 import prefix from '../../Helpers/Prefix/Prefix';
 

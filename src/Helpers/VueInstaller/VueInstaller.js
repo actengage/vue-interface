@@ -1,5 +1,5 @@
-import each from 'lodash-es/each';
-import isFunction from 'lodash-es/isFunction';
+import { each } from 'lodash-es';
+import { isFunction } from 'lodash-es';
 import script from '../Script';
 
 const VueInstaller = {
