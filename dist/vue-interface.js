@@ -17857,7 +17857,9 @@
                 _vm.removeFile(file);
               }
             }
-          }), _vm._v(" "), _c('thumbnail-list-item')], 1);
+          }), _vm._v(" "), _vm._t("default", null, {
+            file: file
+          }), _vm._v(" "), _c('thumbnail-list-item')], 2);
         })) : !_vm.multiple && _vm.value ? _c('thumbnail-list', {
           staticClass: "mt-4",
           attrs: {
@@ -17881,7 +17883,9 @@
               _vm.removeFile(_vm.value);
             }
           }
-        }), _vm._v(" "), _c('thumbnail-list-item')], 1)], 1) : _vm._e(), _vm._v(" "), _vm.showDropElement ? _c('div', {
+        }), _vm._v(" "), _vm._t("default", null, {
+          file: _vm.value
+        }), _vm._v(" "), _c('thumbnail-list-item')], 2)], 1) : _vm._e(), _vm._v(" "), _vm.showDropElement ? _c('div', {
           staticClass: "upload-field-dropzone",
           style: {
             'min-height': _vm.dropzoneMinHeight

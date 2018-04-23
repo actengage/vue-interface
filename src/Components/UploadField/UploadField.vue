@@ -16,26 +16,32 @@
             />
 
             <thumbnail-list v-if="multiple && value && value.length" class="mt-4" wrap>
-                <thumbnail-list-item v-for="(file, key) in value" :key="file.id || key" :width="width" :min-width="minWidth" :max-width="maxWidth" :height="height" :min-height="minHeight" :max-height="maxHeight">
-                    <file-preview :file="file" @close="removeFile(file)"/>
+                <thumbnail-list-item
+                    v-for="(file, key) in value"
+                    :key="file.id || key"
+                    :width="width"
+                    :min-width="minWidth"
+                    :max-width="maxWidth"
+                    :height="height"
+                    :min-height="minHeight"
+                    :max-height="maxHeight">
+                        <file-preview :file="file" @close="removeFile(file)"/>
+                        <slot :file="file"/>
                 <thumbnail-list-item>
             </thumbnail-list>
 
             <thumbnail-list v-else-if="!multiple && value" class="mt-4" wrap>
-                <thumbnail-list-item :width="width" :min-width="minWidth" :max-width="maxWidth" :height="height" :min-height="minHeight" :max-height="maxHeight">
-                    <file-preview :file="value" @close="removeFile(value)"/>
+                <thumbnail-list-item
+                    :width="width"
+                    :min-width="minWidth"
+                    :max-width="maxWidth"
+                    :height="height"
+                    :min-height="minHeight"
+                    :max-height="maxHeight">
+                        <file-preview :file="value" @close="removeFile(value)"/>
+                        <slot :file="value"/>
                 <thumbnail-list-item>
             </thumbnail-list>
-
-            <!--
-            <div v-if="multiple && value && value.length" class="upload-field-preview mt-4">
-                <file-preview v-for="(file, key) in value" :key="file.id || key" :file="file" @close="removeFile(file)"/>
-            </div>
-
-            <div v-else-if="!multiple && value" class="upload-field-preview mt-4">
-                <file-preview :file="value" @close="removeFile(value)"/>
-            </div>
-            -->
 
             <div v-if="showDropElement" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
                 <i class="fa fa-cloud-upload"></i>
