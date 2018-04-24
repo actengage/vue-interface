@@ -45,7 +45,7 @@
                 },
                 methods: {
                     showOverlay1() {
-                        const Child = Vue.extend(VueToolbox.InputField);
+                        const Child = Vue.extend(VueInterface.InputField);
 
                         this.$overlay(new Child({
                             propsData: {
@@ -55,7 +55,7 @@
                     },
 
                     showOverlay2() {
-                        this.$overlay(Vue.extend(VueToolbox.InputField), {
+                        this.$overlay(Vue.extend(VueInterface.InputField), {
                             propsData: {
                                 label: 'Some Field'
                             }
@@ -63,7 +63,7 @@
                     },
 
                     showOverlay3() {
-                        this.$overlay(VueToolbox.InputField, {
+                        this.$overlay(VueInterface.InputField, {
                             propsData: {
                                 label: 'Some Field'
                             }
@@ -71,8 +71,8 @@
                     },
 
                     showOverlay4() {
-                        const Child = Vue.extend(VueToolbox.InputField);
-                        const OverlayComponent = Vue.extend(VueToolbox.Overlay);
+                        const Child = Vue.extend(VueInterface.InputField);
+                        const OverlayComponent = Vue.extend(VueInterface.Overlay);
                         const overlay = new OverlayComponent;
 
                         overlay.show(new Child({

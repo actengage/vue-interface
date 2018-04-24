@@ -14,7 +14,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
         <script type="text/javascript" src="/dist/vue-interface.js"></script>
         <script type="text/javascript">
-            const Request = VueToolbox.Request;
+            const Request = VueInterface.Request;
 
             Request.option('baseURL', 'https://giveworks.test/api/public/v1/');
 
@@ -45,7 +45,7 @@
             });
 
             /*
-            const request2 = VueToolbox.Request.make(url, {
+            const request2 = VueInterface.Request.make(url, {
                 headers: {
                     Authorization: 'test'
                 }
