@@ -38,6 +38,7 @@ import FormFeedback from './FormFeedback';
 import FormGroup from './FormGroup';
 import FormLabel from './FormLabel';
 import HelpText from './HelpText';
+import InfiniteScrolling from './InfiniteScrolling';
 import InputField from './InputField';
 import InputGroup from './InputGroup';
 import InputGroupAppend from './InputGroup/InputGroupAppend';
@@ -110,6 +111,7 @@ export {
     FormGroup,
     FormLabel,
     HelpText,
+    InfiniteScrolling,
     InputField,
     InputGroup,
     InputGroupAppend,

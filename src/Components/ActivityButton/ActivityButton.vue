@@ -1,6 +1,6 @@
 <template>
     <button :type="type" class="btn" :class="classes" @click="onClick">
-        <slot><i v-if="icon" :class="icon"/> {{label}}</slot>
+        <i v-if="icon" :class="icon"/> {{label}} <slot/>
         <activity-indicator :type="indicator" />
     </button>
 </template>
@@ -47,59 +47,59 @@ export default {
     props: {
 
         /**
-         * Should show the activity indicator inside the button.
+         * Make the button appear with the active state.
          *
-         * @property Boolean
+         * @property {Boolea}n}
+         */
+        active: Boolean,
+
+        /**
+         * Show the activity indicator inside the button.
+         *
+         * @property {Boolea}n}
          */
         activity: Boolean,
 
         /**
-         * Should show the button as active.
-         *
-         * @property Boolean
-         */
-        disabled: Boolean,
-
-        /**
-         * Should show the button as disabled.
-         *
-         * @property Boolean
-         */
-        disabled: Boolean,
-
-        /**
          * Display the button as block width.
          *
-         * @property Boolean
+         * @property {Boolea}n}
          */
         block: Boolean,
+
+        /**
+         * Make the button appear with the disabled state.
+         *
+         * @property {Boolea}n}
+         */
+        disabled: Boolean,
 
         /**
          * The button label. If not passed as a property, label must be passed
          * inside the element's html.
          *
-         * @property String
+         * @property {String}
          */
         label: String,
 
         /**
          * The button icon
          *
-         * @property String
+         * @property {String}
          */
         icon: String,
 
         /**
-         * The `type` attribute for the button.
+         * The `type` attribute for the button element.
          *
-         * @property String
+         * @property {String}
          */
         type: String,
 
         /**
          * The size of the button.
          *
-         * @property String
+         * @property {String}
          */
         size: {
             type: String,
@@ -107,9 +107,9 @@ export default {
         },
 
         /**
-         * The bootstrap variant of the button.
+         * The variant of the button.
          *
-         * @property String
+         * @property {String}
          */
         variant: {
             type: String,
@@ -119,7 +119,7 @@ export default {
         /**
          * The type of activity indicator inside the button.
          *
-         * @property String
+         * @property {String}
          */
         indicator: {
             type: String,
@@ -129,7 +129,7 @@ export default {
         /**
          * The orientation of the activity button inside the button.
          *
-         * @property String
+         * @property {String}
          */
         orientation: {
             type: String,
@@ -187,13 +187,14 @@ export default {
         },
 
         /**
-         * Disable the button.
+         * The click callback function
          *
          * @return void
          */
         onClick(event) {
             this.$emit('click', event, this);
-        },
+        }
+
     },
 
     computed: {
