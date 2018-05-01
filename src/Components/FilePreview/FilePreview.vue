@@ -30,7 +30,7 @@
 import moment from 'moment';
 import { isFunction } from 'lodash-es';
 import readFile from '../../Helpers/ReadFile/ReadFile';
-import ProgressBar from '../ProgressBar/ProgressBar';
+import ProgressBar from '../ProgressBar';
 
 export default {
 

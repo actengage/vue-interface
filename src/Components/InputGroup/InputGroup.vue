@@ -30,7 +30,9 @@
 </template>
 
 <script>
-
+import InputGroupText from './InputGroupText';
+import InputGroupAppend from './InputGroupAppend';
+import InputGroupPrepend from './InputGroupPrepend';
 import HasSlots from '../../Mixins/HasSlots/HasSlots';
 import Sizeable from '../../Mixins/Sizeable/Sizeable';
 import Colorable from '../../Mixins/Colorable/Colorable';
@@ -38,6 +40,12 @@ import Colorable from '../../Mixins/Colorable/Colorable';
 export default {
 
     name: 'input-group',
+
+    components: {
+        InputGroupText,
+        InputGroupAppend,
+        InputGroupPrepend
+    },
 
     mixins: [
         HasSlots,

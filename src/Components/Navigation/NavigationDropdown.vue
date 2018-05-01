@@ -32,13 +32,23 @@
 </template>
 
 <script>
+import NavigationItem from './NavigationItem';
+import NavigationLink from './NavigationLink';
+import DropdownMenu from '../DropdownMenu';
 import BtnDropdown from '../BtnDropdown';
 
 export default {
 
     name: 'navigation-dropdown',
 
-    extends: BtnDropdown
+    extends: BtnDropdown,
+
+    components: {
+        BtnDropdown,
+        DropdownMenu,
+        NavigationItem,
+        NavigationLink
+    }
 
 }
 </script>

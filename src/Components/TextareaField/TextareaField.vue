@@ -39,13 +39,23 @@
 </template>
 
 <script>
-
+import HelpText from '../HelpText';
+import FormGroup from '../FormGroup';
+import FormLabel from '../FormLabel';
+import FormFeedback from '../FormFeedback';
 import Colorable from '../../Mixins/Colorable/Colorable';
 import FormControl from '../../Mixins/FormControl/FormControl';
 
 export default {
 
     name: 'textarea-field',
+
+    components: {
+        HelpText,
+        FormGroup,
+        FormLabel,
+        FormFeedback
+    },
 
     mixins: [
         Colorable,

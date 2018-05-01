@@ -6,12 +6,17 @@
 </template>
 
 <script>
+import Btn from '../Btn';
 import Sizeable from '../../Mixins/Sizeable/Sizeable';
 import Colorable from '../../Mixins/Colorable/Colorable';
 
 export default {
 
     name: 'btn-group',
+
+    components: {
+        Btn
+    },
 
     mixins: [
         Colorable,

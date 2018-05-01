@@ -34,8 +34,10 @@
 </template>
 
 <script>
-
-//import BaseField from './BaseField';
+import HelpText from '../HelpText';
+import FormGroup from '../FormGroup';
+import FormLabel from '../FormLabel';
+import FormFeedback from '../FormFeedback';
 import Colorable from '../../Mixins/Colorable/Colorable';
 import FormControl from '../../Mixins/FormControl/FormControl';
 
@@ -44,6 +46,13 @@ const CUSTOM_SELECT_PREFIX = 'custom-select-'
 export default {
 
     name: 'select-field',
+
+    components: {
+        HelpText,
+        FormGroup,
+        FormLabel,
+        FormFeedback
+    },
 
     extends: FormControl,
 

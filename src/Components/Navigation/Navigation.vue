@@ -6,12 +6,17 @@
 </template>
 
 <script>
+import NavigationItem from './NavigationItem';
 import prefix from '../../Helpers/Prefix/Prefix';
 import Colorable from '../../Mixins/Colorable/Colorable';
 
 export default {
 
     name: 'navigation',
+
+    components: {
+        NavigationItem
+    },
 
     mixins: [
         Colorable

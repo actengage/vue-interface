@@ -1,56 +1,3 @@
-.overlay {
-  position: fixed;
-  display: flex;
-  min-height: 0;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  flex-direction: column;
-  transition: all 333ms ease-out; }
-  .overlay.show {
-    z-index: 10000;
-    opacity: 100; }
-  .overlay .overlay-header {
-    margin-top: 1.5rem; }
-  .overlay .overlay-close {
-    font-size: 1.25rem;
-    color: #495057;
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 1; }
-  .overlay .overlay-content {
-    overflow-y: auto;
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-    padding-bottom: 6rem; }
-    .overlay .overlay-content.fixed {
-      top: 0;
-      left: 0;
-      padding: 0;
-      height: 100%;
-      position: fixed;
-      max-width: none; }
-    .overlay .overlay-content .overlay-controls {
-      float: right;
-      position: relative;
-      top: 4px;
-      padding-right: 0;
-      padding-bottom: 1rem; }
-      .overlay .overlay-content .overlay-controls.left {
-        left: 0; }
-      .overlay .overlay-content .overlay-controls.right {
-        right: 0; }
-      .overlay .overlay-content .overlay-controls + * {
-        clear: both; }
-
 @keyframes btn-activity-in {
   0%, 100% {
     transform: scale(1); }
@@ -1000,6 +947,59 @@
 
 .btn-activity-indicator-spinner:not(.btn-warning) .activity-indicator-spinner > div:before {
   background-color: white; }
+
+.overlay {
+  position: fixed;
+  display: flex;
+  min-height: 0;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: all 333ms ease-out; }
+  .overlay.show {
+    z-index: 10000;
+    opacity: 100; }
+  .overlay .overlay-header {
+    margin-top: 1.5rem; }
+  .overlay .overlay-close {
+    font-size: 1.25rem;
+    color: #495057;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1; }
+  .overlay .overlay-content {
+    overflow-y: auto;
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 6rem; }
+    .overlay .overlay-content.fixed {
+      top: 0;
+      left: 0;
+      padding: 0;
+      height: 100%;
+      position: fixed;
+      max-width: none; }
+    .overlay .overlay-content .overlay-controls {
+      float: right;
+      position: relative;
+      top: 4px;
+      padding-right: 0;
+      padding-bottom: 1rem; }
+      .overlay .overlay-content .overlay-controls.left {
+        left: 0; }
+      .overlay .overlay-content .overlay-controls.right {
+        right: 0; }
+      .overlay .overlay-content .overlay-controls + * {
+        clear: both; }
 
 .btn-file {
   cursor: pointer;

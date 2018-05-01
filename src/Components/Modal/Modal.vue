@@ -42,7 +42,9 @@
 </template>
 
 <script>
+import ActivityButton from '../ActivityButton';
 import ModalBody from './ModalBody';
+import ModalBackdrop from './ModalBackdrop';
 import ModalContent from './ModalContent';
 import ModalDialog from './ModalDialog';
 import ModalHeader from './ModalHeader';
@@ -54,7 +56,9 @@ export default {
     name: 'modal',
 
     components: {
+        ActivityButton,
         ModalBody,
+        ModalBackdrop,
         ModalContent,
         ModalDialog,
         ModalHeader,

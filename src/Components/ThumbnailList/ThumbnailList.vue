@@ -6,7 +6,13 @@
 </template>
 
 <script>
+import ThumbnailListItem from './ThumbnailListItem';
+
 export default {
+
+    components: {
+        ThumbnailListItem
+    },
 
     props: {
 

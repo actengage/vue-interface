@@ -30,7 +30,10 @@
 </template>
 
 <script>
-
+import HelpText from '../HelpText';
+import FormGroup from '../FormGroup';
+import FormLabel from '../FormLabel';
+import FormFeedback from '../FormFeedback';
 import { isUndefined } from 'lodash-es'
 import FormControl from '../../Mixins/FormControl/FormControl';
 
@@ -38,7 +41,16 @@ export default {
 
     name: 'light-switch-field',
 
-    mixins: [FormControl],
+    components: {
+        HelpText,
+        FormGroup,
+        FormLabel,
+        FormFeedback
+    },
+
+    mixins: [
+        FormControl
+    ],
 
     props: {
 

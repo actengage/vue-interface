@@ -1,6 +1,5 @@
 <template>
 
-
     <btn-group v-if="split" @click="onClick">
         <template v-if="!dropleft">
             <a v-if="href" :href="href" :class="actionClasses">
@@ -52,10 +51,11 @@
 
 <script>
 
-import Btn from '../Btn';
 import { each } from 'lodash-es';
 import uuid from '../../Helpers/Uuid/Uuid';
 import prefix from '../../Helpers/Prefix/Prefix';
+import Btn from '../Btn';
+import BtnGroup from '../BtnGroup';
 import DropdownMenu from '../DropdownMenu';
 import Popper from 'popper.js';
 
@@ -74,6 +74,7 @@ export default {
     extends: Btn,
 
     components: {
+        BtnGroup,
         DropdownMenu
     },
 

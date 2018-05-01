@@ -5,11 +5,9 @@
             <div class="dropzone-placeholder text-center">
                 <card>
                     <card-body>
-                        <div class="card-body d-flex align-items-between justify-content-center flex-column">
-                            <h1 class="mt-4">Drag & Drop</h1>
-                            <p>Drag and drop your files here to upload them!</p>
-                            <div class="mt-3 mb-4"><i class="fa fa-image"/></div>
-                        </div>
+                        <h1 class="mt-4">Drag & Drop</h1>
+                        <p>Drag and drop your files here to upload them!</p>
+                        <div class="mt-3 mb-4"><i class="fa fa-image"/></div>
                     </card-body>
                 </card>
             </div>
@@ -20,9 +18,17 @@
 </template>
 
 <script>
+import Card from '../Card';
+import CardBody from '../Card/CardBody';
+
 export default {
 
     name: 'dropzone',
+
+    components: {
+        Card,
+        CardBody
+    },
 
     methods: {
 

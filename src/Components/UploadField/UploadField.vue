@@ -60,6 +60,7 @@ import { remove } from 'lodash-es';
 import { isArray } from 'lodash-es';
 import { findIndex } from 'lodash-es';
 import { isUndefined } from 'lodash-es'
+import FormGroup from '../FormGroup';
 import Dropzone from '../Dropzone/Dropzone';
 import FormControl from '../../Mixins/FormControl/FormControl';
 import FileField from '../FileField/FileField';
@@ -75,6 +76,7 @@ export default {
 
     components: {
         Dropzone,
+        FormGroup,
         FileField,
         FilePreview,
         ThumbnailList,

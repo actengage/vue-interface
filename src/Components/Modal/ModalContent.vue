@@ -1,7 +1,5 @@
 <template>
-    <div class="modal-content">
-        <slot/>
-    </div>
+    <div class="modal-content"><slot/></div>
 </template>
 
 <script>

@@ -2456,785 +2456,6 @@ function isString(value) {
     (!isArray(value) && isObjectLike(value) && baseGetTag(value) == stringTag$1);
 }
 
-var ModalBody = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', {
-      staticClass: "modal-body"
-    }, [_vm._t("default")], 2);
-  },
-  staticRenderFns: [],
-  name: 'modal-body'
-};
-
-var ModalContent = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', {
-      staticClass: "modal-content"
-    }, [_vm._t("default")], 2);
-  },
-  staticRenderFns: [],
-  name: 'modal-content'
-};
-
-var ModalDialog = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', {
-      staticClass: "modal-dialog",
-      attrs: {
-        "role": "document"
-      }
-    }, [_vm._t("default")], 2);
-  },
-  staticRenderFns: [],
-  name: 'modal-dialog'
-};
-
-var ModalHeader = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', {
-      staticClass: "modal-header"
-    }, [_c('modal-title', [_vm._t("default")], 2), _vm._v(" "), _vm.closeable ? _c('button', {
-      staticClass: "close",
-      attrs: {
-        "type": "button",
-        "aria-label": "ariaLabel"
-      },
-      on: {
-        "click": function click($event) {
-          _vm.$emit('close');
-        }
-      }
-    }, [_c('span', {
-      attrs: {
-        "aria-hidden": "true"
-      }
-    }, [_vm._v("×")])]) : _vm._e()], 1);
-  },
-  staticRenderFns: [],
-  name: 'modal-header',
-  props: {
-    ariaLabel: {
-      type: String,
-      default: 'Close'
-    },
-    closeable: {
-      type: Boolean,
-      default: true
-    }
-  }
-};
-
-var ModalFooter = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', {
-      staticClass: "modal-footer"
-    }, [_vm._t("default")], 2);
-  },
-  staticRenderFns: [],
-  name: 'modal-footer'
-};
-
-function duration(el) {
-  var duration = getComputedStyle(el).transitionDuration;
-  var numeric = parseFloat(duration, 10) || 0;
-  var unit = duration.match(/m?s/);
-
-  switch (unit[0]) {
-    case 's':
-      return numeric * 1000;
-
-    case 'ms':
-      return numeric;
-  }
-}
-
-function transition(el) {
-  return new Promise(function (resolve, reject) {
-    try {
-      var delay = duration(el);
-      setTimeout(function () {
-        return resolve(delay);
-      }, delay);
-    } catch (e) {
-      reject(e);
-    }
-  });
-}
-
-var Modal = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', [_vm.isShowing ? _c('modal-backdrop', {
-      attrs: {
-        "fade": _vm.fade,
-        "show": _vm.show
-      },
-      on: {
-        "click": function click($event) {
-          if ($event.target !== $event.currentTarget) {
-            return null;
-          }
-
-          return _vm.onEsc($event);
-        }
-      }
-    }) : _vm._e(), _vm._v(" "), _c('div', {
-      staticClass: "modal",
-      class: _vm.classes,
-      style: _vm.styles,
-      attrs: {
-        "tabindex": "-1",
-        "role": "dialog"
-      },
-      on: {
-        "keydown": function keydown($event) {
-          if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")) {
-            return null;
-          }
-
-          return _vm.onEsc($event);
-        }
-      }
-    }, [_c('modal-dialog', {
-      class: {
-        'modal-dialog-centered': _vm.center
-      }
-    }, [_c('modal-content', [_vm.header ? _vm._t("header", [_c('modal-header', {
-      on: {
-        "close": _vm.cancel
-      }
-    }, [_vm._v(_vm._s(_vm.title))])]) : _vm._e(), _vm._v(" "), _c(!_vm.flush ? 'modal-body' : 'div', {
-      tag: "component",
-      staticClass: "child-component"
-    }, [_vm._t("default")], 2), _vm._v(" "), _vm.footer ? _vm._t("footer", [_vm.type === 'confirm' || _vm.type === 'prompt' ? [_c('modal-footer', [_c('btn', {
-      attrs: {
-        "type": "button",
-        "variant": "secondary"
-      },
-      on: {
-        "click": _vm.cancel
-      }
-    }, [_vm._v(_vm._s(_vm.cancelLabel))]), _vm._v(" "), _c('activity-button', {
-      attrs: {
-        "activity": _vm.activity,
-        "variant": "primary"
-      },
-      on: {
-        "click": _vm.confirm
-      }
-    }, [_vm._v(_vm._s(_vm.okLabel))])], 1)] : [_c('modal-footer', [_c('activity-button', {
-      attrs: {
-        "activity": _vm.activity,
-        "variant": "primary"
-      },
-      on: {
-        "click": _vm.confirm
-      }
-    }, [_vm._v(_vm._s(_vm.okLabel))])], 1)]]) : _vm._e()], 2)], 1)], 1)], 1);
-  },
-  staticRenderFns: [],
-  name: 'modal',
-  components: {
-    ModalBody: ModalBody,
-    ModalContent: ModalContent,
-    ModalDialog: ModalDialog,
-    ModalHeader: ModalHeader,
-    ModalFooter: ModalFooter
-  },
-  watch: {
-    show: function show(value) {
-      var _this = this;
-
-      this.isDisplaying = value;
-      value && this.$nextTick(function () {
-        _this.focus();
-      });
-    },
-    isShowing: function isShowing(value) {
-      if (value) {
-        document.querySelector('body').classList.add('modal-open');
-      } else {
-        document.querySelector('body').classList.remove('modal-open');
-      }
-
-      this.$emit('update:show', value);
-    }
-  },
-  props: {
-    /**
-     * Show the modal activity indicator.
-     *
-     * @property Boolean
-     */
-    activity: Boolean,
-
-    /**
-     * Is the modal centered in the screen.
-     *
-     * @property Boolean
-     */
-    center: Boolean,
-
-    /**
-     * Is the modal content fluid
-     *
-     * @property Boolean
-     */
-    fluid: Boolean,
-
-    /**
-     * Is the modal content flush with the modal edges? If true, no modal-body
-     * will be used to wrap the content.
-     *
-     * @property Boolean
-     */
-    flush: Boolean,
-
-    /**
-     * Show the modal header
-     *
-     * @property Boolean
-     */
-    header: {
-      type: Boolean,
-      default: true
-    },
-
-    /**
-     * The modal title.
-     *
-     * @property String
-     */
-    title: String,
-
-    /**
-     * Show the modal with a backdrop.
-     *
-     * @property Boolean
-     */
-    backdrop: {
-      type: Boolean,
-      default: true
-    },
-
-    /**
-     * Hide the modal footer
-     *
-     * @property Boolean
-     */
-    footer: {
-      type: Boolean,
-      default: true
-    },
-
-    /**
-     * Is the modal content fixed position
-     *
-     * @property Boolean
-     */
-    closeable: {
-      type: Boolean,
-      default: true
-    },
-
-    /**
-     * Show the modal with a fade effect.
-     *
-     * @property Boolean
-     */
-    fade: {
-      type: Boolean,
-      default: true
-    },
-
-    /**
-     * Is the modal showing.
-     *
-     * @property Boolean
-     */
-    show: {
-      type: Boolean,
-      default: true
-    },
-
-    /**
-     * The ok label text.
-     *
-     * @property String
-     */
-    okLabel: {
-      type: String,
-      default: 'Ok'
-    },
-
-    /**
-     * The cancel label text.
-     *
-     * @property String
-     */
-    cancelLabel: {
-      type: String,
-      default: 'Cancel'
-    },
-
-    /**
-     * Is the modal type.
-     *
-     * @property Boolean
-     */
-    type: {
-      type: [Boolean, String],
-      default: false,
-      validate: function validate(value) {
-        return ['none', 'alert', 'confirm', 'prompt'].indexOf(value) !== -1;
-      }
-    }
-  },
-  methods: {
-    /**
-     * Confirm the modal
-     *
-     * @return void
-     */
-    confirm: function confirm(event) {
-      this.$emit('confirm', event, this);
-    },
-
-    /**
-     * Focus on the first field in the modal (if exists).
-     *
-     * @return void
-     */
-    focus: function focus() {
-      var el = this.$el.querySelector('.form-control, input, select, textarea');
-
-      if (el) {
-        el.focus();
-      } else {
-        this.$el.querySelector('.modal').focus();
-      }
-    },
-
-    /**
-     * Show the modal
-     *
-     * @return void
-     */
-    open: function open(contents, options) {
-      this.$mount(document.body.appendChild(document.createElement('div')));
-
-      if (contents.$mount) {
-        contents.$parent = this;
-        contents.$mount(this.$el.querySelector('.child-component').appendChild(document.createElement('div')));
-      }
-
-      this.focus();
-      this.$emit('open');
-    },
-
-    /**
-     * Cancel the modal
-     *
-     * @return void
-     */
-    cancel: function cancel(event) {
-      this.$emit('cancel', event, this);
-      this.close(event);
-    },
-
-    /**
-     * Close the modal
-     *
-     * @return void
-     */
-    close: function close(event) {
-      var _this2 = this;
-
-      return this.hide().then(function (delay) {
-        _this2.isShowing = false;
-        _this2.isDisplaying = false;
-
-        _this2.$emit('close', event, _this2);
-      });
-    },
-
-    /**
-     * Hide the modal
-     *
-     * @return void
-     */
-    hide: function hide() {
-      return (this.isShowing = false) || transition(this.$el.querySelector('.modal'));
-    },
-
-    /**
-     * A callback for the escape function.
-     *
-     * @return void
-     */
-    onEsc: function onEsc(event) {
-      this.type === 'confirm' || this.type === 'prompt' ? this.cancel(event) : this.close(event);
-    }
-  },
-  computed: {
-    classes: function classes() {
-      return {
-        'fade': this.fade,
-        'show': this.isShowing
-      };
-    },
-    styles: function styles() {
-      return {
-        display: this.isDisplaying ? 'block' : 'none'
-      };
-    }
-  },
-  mounted: function mounted() {
-    var _this3 = this;
-
-    this.show && this.focus();
-    this.$nextTick(function () {
-      var form = _this3.$el.querySelector('form');
-
-      if (form) {
-        form.addEventListener('submit', function (event) {
-          event.preventDefault();
-
-          _this3.confirm(event);
-        });
-      }
-
-      if (_this3.show) {
-        _this3.$nextTick(function () {
-          _this3.isShowing = true;
-        });
-      }
-    });
-  },
-  data: function data() {
-    return {
-      isShowing: false,
-      isDisplaying: this.show
-    };
-  },
-  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
-    modal.close();
-  }
-};
-
-function ensure(options, values) {
-  if (!options) {
-    options = {};
-  }
-
-  return {
-    propsData: defaultsDeep(options.propsData || options, values || {})
-  };
-}
-
-function modal$1 (Vue, options) {
-
-  function promise(modal) {
-    var promise = new Promise(function (resolve, reject) {
-      var preventDefault = false;
-
-      function finish(modal) {
-        if (!preventDefault) {
-          modal.close();
-        }
-      }
-
-      modal.preventDefault = function () {
-        return preventDefault = true;
-      };
-
-      modal.$on('confirm', function (event) {
-        promise.then(finish);
-        resolve(modal);
-      });
-      modal.$on('cancel', function (event) {
-        reject(modal);
-      });
-    });
-    return promise;
-  }
-
-  Vue.prototype.$modal = function (title, content, options, modalOptions, ModalComponent) {
-    var _this = this;
-
-    if (isString(content)) {
-      content = Vue.extend({
-        template: "<div>".concat(content, "</div>")
-      });
-    }
-
-    var component = function component(vue, options) {
-      if (!(vue instanceof Vue) && isObject(vue)) {
-        vue = Vue.extend(vue);
-        vue.options.route = _this.$route;
-        vue.options.router = _this.$router;
-      }
-
-      return isFunction$1(vue) ? new vue(options) : vue;
-    };
-
-    var modal = component(ModalComponent || Modal, ensure(modalOptions));
-    modal.$content = component(content, ensure(options));
-    modal.open(modal.$content);
-    modal.$on('cancel', function (event) {
-      modal.$content.$emit('modal:cancel');
-    });
-    modal.$on('close', function (event) {
-      modal.$content.$emit('modal:close');
-    });
-    modal.$on('confirm', function (event) {
-      modal.$content.$emit('modal:confirm');
-    });
-    modal.$content.$on('modal:close', function (event) {
-      modal.close();
-    });
-    return modal;
-  };
-
-  Vue.prototype.$alert = function (title, content, options, modalOptions, ModalComponent) {
-    return promise(this.$modal(title, content, options, ensure({
-      type: 'alert',
-      title: title
-    }, modalOptions), ModalComponent));
-  };
-
-  Vue.prototype.$confirm = function (title, content, options, modalOptions, ModalComponent) {
-    return promise(this.$modal(title, content, options, ensure({
-      type: 'confirm',
-      title: title
-    }, modalOptions), ModalComponent));
-  };
-
-  Vue.prototype.$prompt = function (title, content, options, modalOptions, ModalComponent) {
-    return promise(this.$modal(title, content, options, ensure({
-      type: 'prompt',
-      title: title
-    }, modalOptions), ModalComponent));
-  };
-}
-
-var Overlay = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', {
-      staticClass: "overlay",
-      class: {
-        'show': _vm.isVisible
-      },
-      style: {
-        background: _vm.background
-      },
-      on: {
-        "keyup": function keyup($event) {
-          if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")) {
-            return null;
-          }
-
-          return function (event) {
-            return _vm.closeable && _vm.hide();
-          }($event);
-        }
-      }
-    }, [_vm.closeable ? _c('button', {
-      staticClass: "btn btn-link overlay-close",
-      attrs: {
-        "type": "button"
-      },
-      on: {
-        "click": _vm.onClickClose
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-times-circle"
-    })]) : _vm._e(), _vm._v(" "), _c('div', {
-      staticClass: "overlay-content container",
-      class: {
-        'fixed': _vm.fixedContent
-      },
-      style: {
-        minHeight: _vm.minHeight
-      }
-    }, [_vm._t("default")], 2)]);
-  },
-  staticRenderFns: [],
-  name: 'overlay',
-  props: {
-    /**
-     * The overlay background color.
-     *
-     * @property String
-     */
-    background: {
-      type: String,
-      default: 'rgba(255, 255, 255, .925)'
-    },
-
-    /**
-     * Is the overlay showing.
-     *
-     * @property Boolean
-     */
-    visible: Boolean,
-
-    /**
-     * Is the overlay content fixed position
-     *
-     * @property Boolean
-     */
-    fixedContent: Boolean,
-
-    /**
-     * Is the overlay content fixed position
-     *
-     * @property Boolean
-     */
-    closeable: {
-      type: Boolean,
-      default: true
-    },
-
-    /**
-     * Is the overlay content minimum height.
-     *
-     * @property Boolean
-     */
-    minHeight: [String, Number]
-  },
-  watch: {
-    visible: function visible(value) {
-      (this.isVisible = value) && this.focus();
-    }
-  },
-  methods: {
-    focus: function focus() {
-      var el = this.$el.querySelector('.form-control, input, select, textarea');
-
-      if (el) {
-        el.focus();
-      }
-    },
-
-    /**
-     * Show the overlay
-     *
-     * @return void
-     */
-    show: function show(contents, options) {
-      this.$mount(document.body.appendChild(document.createElement('div')));
-
-      if (contents.$mount) {
-        contents.$parent = this;
-        contents.$mount(this.$el.querySelector('.overlay-content').appendChild(document.createElement('div')));
-      }
-
-      this.focus();
-      this.$emit('show');
-      this.$emit('update:visible', this.isVisible = true);
-    },
-
-    /**
-     * Hide the overlay
-     *
-     * @return void
-     */
-    hide: function hide() {
-      this.$emit('hide');
-      this.$emit('update:visible', this.isVisible = false);
-    },
-
-    /**
-     * The callback for the `click` event on the close button.
-     *
-     * @return void
-     */
-    onClickClose: function onClickClose() {
-      this.$emit('click:close');
-      this.hide();
-    }
-  },
-  mounted: function mounted() {
-    this.visible && this.focus();
-  },
-  data: function data() {
-    return {
-      isVisible: this.visible
-    };
-  }
-};
-
-function overlay (Vue, options) {
-  Vue.prototype.$overlay = function (ContentComponent, options, overlayOptions, CustomOverlayComponent) {
-    var _this = this;
-
-    var component = function component(vue, options) {
-      if (!(vue instanceof Vue) && isObject(vue)) {
-        vue = Vue.extend(vue);
-        vue.options.route = _this.$route;
-        vue.options.router = _this.$router;
-      }
-
-      return isFunction$1(vue) ? new vue(options) : vue;
-    };
-
-    var overlay = component(CustomOverlayComponent || Overlay, overlayOptions);
-    overlay.$content = component(ContentComponent, options);
-    overlay.show(overlay.$content);
-    return overlay;
-  };
-}
-
-
-
-var plugins = /*#__PURE__*/Object.freeze({
-    mergeClasses: MergeClasses,
-    modal: modal$1,
-    overlay: overlay
-});
-
 /**
  * A specialized version of `_.reduce` for arrays without support for
  * iteratee shorthands.
@@ -3852,7 +3073,7 @@ var VueInstaller = {
   use: use,
   script: script,
   plugin: plugin,
-  plugins: plugins$1,
+  plugins: plugins,
   filter: filter,
   filters: filters$1,
   component: component,
@@ -3876,7 +3097,7 @@ function plugin(Vue, name, def) {
     Vue.use(VueInstaller.$plugins[name] = def);
   }
 }
-function plugins$1(Vue, plugins) {
+function plugins(Vue, plugins) {
   forEach(plugins, function (def, name) {
     plugin(Vue, name, def);
   });
@@ -4173,6 +3394,896 @@ var plugin$2 = VueInstaller.use({
     });
   }
 });
+
+var ModalBody = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "modal-body"
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'modal-body'
+};
+
+var ModalBackdrop = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "modal-backdrop",
+      class: {
+        'fade': _vm.fade,
+        'show': _vm.show
+      }
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'modal-backdrop',
+  props: {
+    /**
+     * Show the modal with a fade effect.
+     *
+     * @property Boolean
+     */
+    fade: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * Is the modal showing.
+     *
+     * @property Boolean
+     */
+    show: {
+      type: Boolean,
+      default: true
+    }
+  }
+};
+
+var ModalContent = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "modal-content"
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'modal-content'
+};
+
+var ModalDialog = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "modal-dialog",
+      attrs: {
+        "role": "document"
+      }
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'modal-dialog'
+};
+
+var ModalTitle = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('h5', {
+      staticClass: "modal-title"
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'modal-title'
+};
+
+var ModalHeader = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "modal-header"
+    }, [_c('modal-title', [_vm._t("default")], 2), _vm._v(" "), _vm.closeable ? _c('button', {
+      staticClass: "close",
+      attrs: {
+        "type": "button",
+        "aria-label": "ariaLabel"
+      },
+      on: {
+        "click": function click($event) {
+          _vm.$emit('close');
+        }
+      }
+    }, [_c('span', {
+      attrs: {
+        "aria-hidden": "true"
+      }
+    }, [_vm._v("×")])]) : _vm._e()], 1);
+  },
+  staticRenderFns: [],
+  name: 'modal-header',
+  components: {
+    ModalTitle: ModalTitle
+  },
+  props: {
+    ariaLabel: {
+      type: String,
+      default: 'Close'
+    },
+    closeable: {
+      type: Boolean,
+      default: true
+    }
+  }
+};
+
+var ModalFooter = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "modal-footer"
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'modal-footer'
+};
+
+function duration(el) {
+  var duration = getComputedStyle(el).transitionDuration;
+  var numeric = parseFloat(duration, 10) || 0;
+  var unit = duration.match(/m?s/);
+
+  switch (unit[0]) {
+    case 's':
+      return numeric * 1000;
+
+    case 'ms':
+      return numeric;
+  }
+}
+
+function transition(el) {
+  return new Promise(function (resolve, reject) {
+    try {
+      var delay = duration(el);
+      setTimeout(function () {
+        return resolve(delay);
+      }, delay);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+var Modal = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', [_vm.isShowing ? _c('modal-backdrop', {
+      attrs: {
+        "fade": _vm.fade,
+        "show": _vm.show
+      },
+      on: {
+        "click": function click($event) {
+          if ($event.target !== $event.currentTarget) {
+            return null;
+          }
+
+          return _vm.onEsc($event);
+        }
+      }
+    }) : _vm._e(), _vm._v(" "), _c('div', {
+      staticClass: "modal",
+      class: _vm.classes,
+      style: _vm.styles,
+      attrs: {
+        "tabindex": "-1",
+        "role": "dialog"
+      },
+      on: {
+        "keydown": function keydown($event) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")) {
+            return null;
+          }
+
+          return _vm.onEsc($event);
+        }
+      }
+    }, [_c('modal-dialog', {
+      class: {
+        'modal-dialog-centered': _vm.center
+      }
+    }, [_c('modal-content', [_vm.header ? _vm._t("header", [_c('modal-header', {
+      on: {
+        "close": _vm.cancel
+      }
+    }, [_vm._v(_vm._s(_vm.title))])]) : _vm._e(), _vm._v(" "), _c(!_vm.flush ? 'modal-body' : 'div', {
+      tag: "component",
+      staticClass: "child-component"
+    }, [_vm._t("default")], 2), _vm._v(" "), _vm.footer ? _vm._t("footer", [_vm.type === 'confirm' || _vm.type === 'prompt' ? [_c('modal-footer', [_c('btn', {
+      attrs: {
+        "type": "button",
+        "variant": "secondary"
+      },
+      on: {
+        "click": _vm.cancel
+      }
+    }, [_vm._v(_vm._s(_vm.cancelLabel))]), _vm._v(" "), _c('activity-button', {
+      attrs: {
+        "activity": _vm.activity,
+        "variant": "primary"
+      },
+      on: {
+        "click": _vm.confirm
+      }
+    }, [_vm._v(_vm._s(_vm.okLabel))])], 1)] : [_c('modal-footer', [_c('activity-button', {
+      attrs: {
+        "activity": _vm.activity,
+        "variant": "primary"
+      },
+      on: {
+        "click": _vm.confirm
+      }
+    }, [_vm._v(_vm._s(_vm.okLabel))])], 1)]]) : _vm._e()], 2)], 1)], 1)], 1);
+  },
+  staticRenderFns: [],
+  name: 'modal',
+  components: {
+    ActivityButton: ActivityButton,
+    ModalBody: ModalBody,
+    ModalBackdrop: ModalBackdrop,
+    ModalContent: ModalContent,
+    ModalDialog: ModalDialog,
+    ModalHeader: ModalHeader,
+    ModalFooter: ModalFooter
+  },
+  watch: {
+    show: function show(value) {
+      var _this = this;
+
+      this.isDisplaying = value;
+      value && this.$nextTick(function () {
+        _this.focus();
+      });
+    },
+    isShowing: function isShowing(value) {
+      if (value) {
+        document.querySelector('body').classList.add('modal-open');
+      } else {
+        document.querySelector('body').classList.remove('modal-open');
+      }
+
+      this.$emit('update:show', value);
+    }
+  },
+  props: {
+    /**
+     * Show the modal activity indicator.
+     *
+     * @property Boolean
+     */
+    activity: Boolean,
+
+    /**
+     * Is the modal centered in the screen.
+     *
+     * @property Boolean
+     */
+    center: Boolean,
+
+    /**
+     * Is the modal content fluid
+     *
+     * @property Boolean
+     */
+    fluid: Boolean,
+
+    /**
+     * Is the modal content flush with the modal edges? If true, no modal-body
+     * will be used to wrap the content.
+     *
+     * @property Boolean
+     */
+    flush: Boolean,
+
+    /**
+     * Show the modal header
+     *
+     * @property Boolean
+     */
+    header: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * The modal title.
+     *
+     * @property String
+     */
+    title: String,
+
+    /**
+     * Show the modal with a backdrop.
+     *
+     * @property Boolean
+     */
+    backdrop: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * Hide the modal footer
+     *
+     * @property Boolean
+     */
+    footer: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * Is the modal content fixed position
+     *
+     * @property Boolean
+     */
+    closeable: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * Show the modal with a fade effect.
+     *
+     * @property Boolean
+     */
+    fade: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * Is the modal showing.
+     *
+     * @property Boolean
+     */
+    show: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * The ok label text.
+     *
+     * @property String
+     */
+    okLabel: {
+      type: String,
+      default: 'Ok'
+    },
+
+    /**
+     * The cancel label text.
+     *
+     * @property String
+     */
+    cancelLabel: {
+      type: String,
+      default: 'Cancel'
+    },
+
+    /**
+     * Is the modal type.
+     *
+     * @property Boolean
+     */
+    type: {
+      type: [Boolean, String],
+      default: false,
+      validate: function validate(value) {
+        return ['none', 'alert', 'confirm', 'prompt'].indexOf(value) !== -1;
+      }
+    }
+  },
+  methods: {
+    /**
+     * Confirm the modal
+     *
+     * @return void
+     */
+    confirm: function confirm(event) {
+      this.$emit('confirm', event, this);
+    },
+
+    /**
+     * Focus on the first field in the modal (if exists).
+     *
+     * @return void
+     */
+    focus: function focus() {
+      var el = this.$el.querySelector('.form-control, input, select, textarea');
+
+      if (el) {
+        el.focus();
+      } else {
+        this.$el.querySelector('.modal').focus();
+      }
+    },
+
+    /**
+     * Show the modal
+     *
+     * @return void
+     */
+    open: function open(contents, options) {
+      this.$mount(document.body.appendChild(document.createElement('div')));
+
+      if (contents.$mount) {
+        contents.$parent = this;
+        contents.$mount(this.$el.querySelector('.child-component').appendChild(document.createElement('div')));
+      }
+
+      this.focus();
+      this.$emit('open');
+    },
+
+    /**
+     * Cancel the modal
+     *
+     * @return void
+     */
+    cancel: function cancel(event) {
+      this.$emit('cancel', event, this);
+      this.close(event);
+    },
+
+    /**
+     * Close the modal
+     *
+     * @return void
+     */
+    close: function close(event) {
+      var _this2 = this;
+
+      return this.hide().then(function (delay) {
+        _this2.isShowing = false;
+        _this2.isDisplaying = false;
+
+        _this2.$emit('close', event, _this2);
+      });
+    },
+
+    /**
+     * Hide the modal
+     *
+     * @return void
+     */
+    hide: function hide() {
+      return (this.isShowing = false) || transition(this.$el.querySelector('.modal'));
+    },
+
+    /**
+     * A callback for the escape function.
+     *
+     * @return void
+     */
+    onEsc: function onEsc(event) {
+      this.type === 'confirm' || this.type === 'prompt' ? this.cancel(event) : this.close(event);
+    }
+  },
+  computed: {
+    classes: function classes() {
+      return {
+        'fade': this.fade,
+        'show': this.isShowing
+      };
+    },
+    styles: function styles() {
+      return {
+        display: this.isDisplaying ? 'block' : 'none'
+      };
+    }
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    this.show && this.focus();
+    this.$nextTick(function () {
+      var form = _this3.$el.querySelector('form');
+
+      if (form) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+
+          _this3.confirm(event);
+        });
+      }
+
+      if (_this3.show) {
+        _this3.$nextTick(function () {
+          _this3.isShowing = true;
+        });
+      }
+    });
+  },
+  data: function data() {
+    return {
+      isShowing: false,
+      isDisplaying: this.show
+    };
+  },
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    modal.close();
+  }
+};
+
+function ensure(options, values) {
+  if (!options) {
+    options = {};
+  }
+
+  return {
+    propsData: defaultsDeep(options.propsData || options, values || {})
+  };
+}
+
+function modal$1 (Vue, options) {
+
+  function promise(modal) {
+    var promise = new Promise(function (resolve, reject) {
+      var preventDefault = false;
+
+      function finish(modal) {
+        if (!preventDefault) {
+          modal.close();
+        }
+      }
+
+      modal.preventDefault = function () {
+        return preventDefault = true;
+      };
+
+      modal.$on('confirm', function (event) {
+        promise.then(finish);
+        resolve(modal);
+      });
+      modal.$on('cancel', function (event) {
+        reject(modal);
+      });
+    });
+    return promise;
+  }
+
+  Vue.prototype.$modal = function (title, content, options, modalOptions, ModalComponent) {
+    var _this = this;
+
+    if (isString(content)) {
+      content = Vue.extend({
+        template: "<div>".concat(content, "</div>")
+      });
+    }
+
+    var component = function component(vue, options) {
+      if (!(vue instanceof Vue) && isObject(vue)) {
+        vue = Vue.extend(vue);
+        vue.options.route = _this.$route;
+        vue.options.router = _this.$router;
+      }
+
+      return isFunction$1(vue) ? new vue(options) : vue;
+    };
+
+    var modal = component(ModalComponent || Modal, ensure(modalOptions));
+    modal.$content = component(content, ensure(options));
+    modal.open(modal.$content);
+    modal.$on('cancel', function (event) {
+      modal.$content.$emit('modal:cancel');
+    });
+    modal.$on('close', function (event) {
+      modal.$content.$emit('modal:close');
+    });
+    modal.$on('confirm', function (event) {
+      modal.$content.$emit('modal:confirm');
+    });
+    modal.$content.$on('modal:close', function (event) {
+      modal.close();
+    });
+    return modal;
+  };
+
+  Vue.prototype.$alert = function (title, content, options, modalOptions, ModalComponent) {
+    return promise(this.$modal(title, content, options, ensure({
+      type: 'alert',
+      title: title
+    }, modalOptions), ModalComponent));
+  };
+
+  Vue.prototype.$confirm = function (title, content, options, modalOptions, ModalComponent) {
+    return promise(this.$modal(title, content, options, ensure({
+      type: 'confirm',
+      title: title
+    }, modalOptions), ModalComponent));
+  };
+
+  Vue.prototype.$prompt = function (title, content, options, modalOptions, ModalComponent) {
+    return promise(this.$modal(title, content, options, ensure({
+      type: 'prompt',
+      title: title
+    }, modalOptions), ModalComponent));
+  };
+}
+
+var Overlay = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "overlay",
+      class: {
+        'show': _vm.isVisible
+      },
+      style: {
+        background: _vm.background
+      },
+      on: {
+        "keyup": function keyup($event) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")) {
+            return null;
+          }
+
+          return function (event) {
+            return _vm.closeable && _vm.hide();
+          }($event);
+        }
+      }
+    }, [_vm.closeable ? _c('button', {
+      staticClass: "btn btn-link overlay-close",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": _vm.onClickClose
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-times-circle"
+    })]) : _vm._e(), _vm._v(" "), _c('div', {
+      staticClass: "overlay-content container",
+      class: {
+        'fixed': _vm.fixedContent
+      },
+      style: {
+        minHeight: _vm.minHeight
+      }
+    }, [_vm._t("default")], 2)]);
+  },
+  staticRenderFns: [],
+  name: 'overlay',
+  props: {
+    /**
+     * The overlay background color.
+     *
+     * @property String
+     */
+    background: {
+      type: String,
+      default: 'rgba(255, 255, 255, .925)'
+    },
+
+    /**
+     * Is the overlay showing.
+     *
+     * @property Boolean
+     */
+    visible: Boolean,
+
+    /**
+     * Is the overlay content fixed position
+     *
+     * @property Boolean
+     */
+    fixedContent: Boolean,
+
+    /**
+     * Is the overlay content fixed position
+     *
+     * @property Boolean
+     */
+    closeable: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * Is the overlay content minimum height.
+     *
+     * @property Boolean
+     */
+    minHeight: [String, Number]
+  },
+  watch: {
+    visible: function visible(value) {
+      (this.isVisible = value) && this.focus();
+    }
+  },
+  methods: {
+    focus: function focus() {
+      var el = this.$el.querySelector('.form-control, input, select, textarea');
+
+      if (el) {
+        el.focus();
+      }
+    },
+
+    /**
+     * Show the overlay
+     *
+     * @return void
+     */
+    show: function show(contents, options) {
+      this.$mount(document.body.appendChild(document.createElement('div')));
+
+      if (contents.$mount) {
+        contents.$parent = this;
+        contents.$mount(this.$el.querySelector('.overlay-content').appendChild(document.createElement('div')));
+      }
+
+      this.focus();
+      this.$emit('show');
+      this.$emit('update:visible', this.isVisible = true);
+    },
+
+    /**
+     * Hide the overlay
+     *
+     * @return void
+     */
+    hide: function hide() {
+      this.$emit('hide');
+      this.$emit('update:visible', this.isVisible = false);
+    },
+
+    /**
+     * The callback for the `click` event on the close button.
+     *
+     * @return void
+     */
+    onClickClose: function onClickClose() {
+      this.$emit('click:close');
+      this.hide();
+    }
+  },
+  mounted: function mounted() {
+    this.visible && this.focus();
+  },
+  data: function data() {
+    return {
+      isVisible: this.visible
+    };
+  }
+};
+
+function overlay (Vue, options) {
+  Vue.prototype.$overlay = function (ContentComponent, options, overlayOptions, CustomOverlayComponent) {
+    var _this = this;
+
+    var component = function component(vue, options) {
+      if (!(vue instanceof Vue) && isObject(vue)) {
+        vue = Vue.extend(vue);
+        vue.options.route = _this.$route;
+        vue.options.router = _this.$router;
+      }
+
+      return isFunction$1(vue) ? new vue(options) : vue;
+    };
+
+    var overlay = component(CustomOverlayComponent || Overlay, overlayOptions);
+    overlay.$content = component(ContentComponent, options);
+    overlay.show(overlay.$content);
+    return overlay;
+  };
+}
+
+
+
+var plugins$1 = /*#__PURE__*/Object.freeze({
+    mergeClasses: MergeClasses,
+    modal: modal$1,
+    overlay: overlay
+});
+
+var AlertClose = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('button', {
+      staticClass: "close",
+      attrs: {
+        "type": "button",
+        "data-dismiss": "alert",
+        "aria-label": "Close"
+      },
+      on: {
+        "click": _vm.onClick
+      }
+    }, [_c('span', {
+      attrs: {
+        "aria-hidden": "true"
+      }
+    }, [_vm._v("×")])]);
+  },
+  staticRenderFns: [],
+  name: 'alert-close',
+  methods: {
+    onClick: function onClick(event) {
+      this.$emit('click', event);
+    }
+  }
+};
+
+var AlertHeading = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('h4', {
+      staticClass: "alert-heading"
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'alert-heading'
+};
 
 /**
  * Checks if `value` is `undefined`.
@@ -5479,6 +5590,122 @@ var Variant = {
   }
 };
 
+var ProgressBar = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "progress",
+      style: {
+        'height': _vm.formattedHeight
+      }
+    }, [_c('div', {
+      staticClass: "progress-bar",
+      class: _vm.$mergeClasses(_vm.progressClasses, _vm.variantClass),
+      style: {
+        'width': _vm.offsetValue + '%'
+      },
+      attrs: {
+        "role": "progressbar",
+        "aria-valuenow": _vm.offsetValue,
+        "aria-valuemin": _vm.min,
+        "aria-valuemax": _vm.max
+      }
+    }, [_vm.label ? _c('span', [_vm._v(_vm._s(_vm.offsetValue) + "%")]) : _vm._e()])]);
+  },
+  staticRenderFns: [],
+  name: 'progress-bar',
+  mixins: [Variant],
+  props: {
+    /**
+     * The progress bar percentage value
+     *
+     * @property String
+     */
+    value: {
+      type: Number,
+      required: true
+    },
+
+    /**
+     * The height of the progress bar
+     *
+     * @property String
+     */
+    height: [Number, String],
+
+    /**
+     * Show the progress bar value as a label inside the bar
+     *
+     * @property String
+     */
+    label: Boolean,
+
+    /**
+     * Should the progress bar appear with stripes
+     *
+     * @property String
+     */
+    striped: Boolean,
+
+    /**
+     * Should the progress bar appear with animated stripes
+     *
+     * @property String
+     */
+    animated: Boolean,
+
+    /**
+     * The minimum value
+     *
+     * @property String
+     */
+    min: {
+      type: Number,
+      default: 0
+    },
+
+    /**
+     * The max value
+     *
+     * @property String
+     */
+    max: {
+      type: Number,
+      default: 100
+    }
+  },
+  computed: {
+    variantClassPrefix: function variantClassPrefix() {
+      return 'bg';
+    },
+    offsetValue: function offsetValue() {
+      return this.value / this.max * 100;
+    },
+    formattedHeight: function formattedHeight() {
+      return this.height ? unit(this.height) : null;
+    },
+    progressClasses: function progressClasses() {
+      return {
+        'progress-bar-striped': this.striped,
+        'progress-bar-animated': this.animated
+      };
+    }
+  }
+};
+
+var plugin$3 = VueInstaller.use({
+  install: function install(Vue, options) {
+    VueInstaller.components({
+      ProgressBar: ProgressBar
+    });
+  }
+});
+
 var Alert = {
   render: function render() {
     var _vm = this;
@@ -5496,7 +5723,7 @@ var Alert = {
       attrs: {
         "role": "alert"
       }
-    }, [_vm._t("default"), _vm._v(" "), _vm.dismissible ? _c('alert-close', {
+    }, [_vm.title || _vm.heading ? _c('alert-heading', [_vm._v(_vm._s(_vm.title || _vm.heading))]) : _vm._e(), _vm._v(" "), _vm._t("default"), _vm._v(" "), _vm.dismissible ? _c('alert-close', {
       on: {
         "click": function click($event) {
           _vm.dismiss();
@@ -5514,6 +5741,11 @@ var Alert = {
   },
   staticRenderFns: [],
   name: 'alert',
+  components: {
+    AlertClose: AlertClose,
+    AlertHeading: AlertHeading,
+    ProgressBar: ProgressBar
+  },
   mixins: [Variant],
   props: {
     /**
@@ -5522,6 +5754,20 @@ var Alert = {
      * @property Boolean
      */
     dismissible: Boolean,
+
+    /**
+     * The alert's title/heading
+     *
+     * @property Boolean
+     */
+    heading: String,
+
+    /**
+     * The alert's title/heading
+     *
+     * @property Boolean
+     */
+    title: String,
 
     /**
      * Should the alert fade when hidden
@@ -5596,56 +5842,7 @@ var AlertLink = {
   name: 'alert-link'
 };
 
-var AlertClose = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('button', {
-      staticClass: "close",
-      attrs: {
-        "type": "button",
-        "data-dismiss": "alert",
-        "aria-label": "Close"
-      },
-      on: {
-        "click": _vm.onClick
-      }
-    }, [_c('span', {
-      attrs: {
-        "aria-hidden": "true"
-      }
-    }, [_vm._v("×")])]);
-  },
-  staticRenderFns: [],
-  name: 'alert-close',
-  methods: {
-    onClick: function onClick(event) {
-      this.$emit('click', event);
-    }
-  }
-};
-
-var AlertHeading = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('h4', {
-      staticClass: "alert-heading"
-    }, [_vm._t("default")], 2);
-  },
-  staticRenderFns: [],
-  name: 'alert-heading'
-};
-
-var plugin$3 = VueInstaller.use({
+var plugin$4 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Alert: Alert,
@@ -5734,7 +5931,7 @@ var Badge = {
   }
 };
 
-var plugin$4 = VueInstaller.use({
+var plugin$5 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Badge: Badge
@@ -8597,15 +8794,14 @@ function () {
     _classCallCheck(this, Model);
 
     this.$key = this.key();
-    this.initialize(data);
-    this.$files = this.files();
     this.$properties = this.properties();
+    this.$files = this.files();
 
     forEach(params, function (value, key) {
       _this[key] = value;
     });
 
-    this.$initialized = true;
+    this.initialize(data);
   }
   /**
    * Initialize the model with the given data without considering the data
@@ -8963,6 +9159,7 @@ function () {
     value: function save() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      console.log('save', data, config, this.exists());
       return !this.exists() ? this.create(data, config) : this.update(data, config);
     }
     /**
@@ -9319,48 +9516,13 @@ var BaseForm = {
   }
 };
 
-var plugin$5 = VueInstaller.use({
+var plugin$6 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       BaseForm: BaseForm
     });
   }
 });
-
-var Breadcrumb = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('nav', {
-      attrs: {
-        "aria-label": "breadcrumb"
-      }
-    }, [_c('ol', {
-      staticClass: "breadcrumb"
-    }, [_vm._l(_vm.items, function (item, i) {
-      return _vm.items.length ? _c('breadcrumb-item', _vm._b({
-        key: i,
-        attrs: {
-          "current": i === item.length - 1
-        }
-      }, 'breadcrumb-item', item, false)) : _vm._e();
-    }), _vm._v(" "), _vm._t("default")], 2)]);
-  },
-  staticRenderFns: [],
-  name: 'breadcrumb',
-  props: {
-    /**
-     * An array of breadcrumbs
-     *
-     * @prop {Array}
-     */
-    items: Array
-  }
-};
 
 var BreadcrumbItem = {
   render: function render() {
@@ -9410,7 +9572,45 @@ var BreadcrumbItem = {
   }
 };
 
-var plugin$6 = VueInstaller.use({
+var Breadcrumb = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('nav', {
+      attrs: {
+        "aria-label": "breadcrumb"
+      }
+    }, [_c('ol', {
+      staticClass: "breadcrumb"
+    }, [_vm._l(_vm.items, function (item, i) {
+      return _vm.items.length ? _c('breadcrumb-item', _vm._b({
+        key: i,
+        attrs: {
+          "current": i === item.length - 1
+        }
+      }, 'breadcrumb-item', item, false)) : _vm._e();
+    }), _vm._v(" "), _vm._t("default")], 2)]);
+  },
+  staticRenderFns: [],
+  name: 'breadcrumb',
+  components: {
+    BreadcrumbItem: BreadcrumbItem
+  },
+  props: {
+    /**
+     * An array of breadcrumbs
+     *
+     * @prop {Array}
+     */
+    items: Array
+  }
+};
+
+var plugin$7 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Breadcrumb: Breadcrumb,
@@ -9555,7 +9755,7 @@ var Btn = {
   }
 };
 
-var plugin$7 = VueInstaller.use({
+var plugin$8 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Btn: Btn
@@ -9732,7 +9932,7 @@ var HelpText = {
   }
 };
 
-var plugin$8 = VueInstaller.use({
+var plugin$9 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       HelpText: HelpText
@@ -9756,7 +9956,7 @@ var FormGroup = {
   name: 'form-group'
 };
 
-var plugin$9 = VueInstaller.use({
+var plugin$10 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       FormGroup: FormGroup
@@ -9786,7 +9986,7 @@ var FormLabel = {
   }
 };
 
-var plugin$10 = VueInstaller.use({
+var plugin$11 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       FormLabel: FormLabel
@@ -9836,7 +10036,7 @@ var FormFeedback = {
   }
 };
 
-var plugin$11 = VueInstaller.use({
+var plugin$12 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       FormFeedback: FormFeedback
@@ -10173,6 +10373,14 @@ var InputField = {
   }
 };
 
+var plugin$13 = VueInstaller.use({
+  install: function install(Vue, options) {
+    VueInstaller.components({
+      InputField: InputField
+    });
+  }
+});
+
 var FileField = {
   render: function render() {
     var _vm = this;
@@ -10238,6 +10446,12 @@ var FileField = {
   staticRenderFns: [],
   name: 'file-field',
   extends: InputField,
+  components: {
+    HelpText: HelpText,
+    FormGroup: FormGroup,
+    FormLabel: FormLabel,
+    FormFeedback: FormFeedback
+  },
   model: {
     event: 'change'
   },
@@ -10353,7 +10567,7 @@ var BtnFile = {
   }
 };
 
-var plugin$12 = VueInstaller.use({
+var plugin$14 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       BtnFile: BtnFile
@@ -10382,6 +10596,9 @@ var BtnGroup = {
   },
   staticRenderFns: [],
   name: 'btn-group',
+  components: {
+    Btn: Btn
+  },
   mixins: [Colorable, Sizeable],
   props: {
     /**
@@ -10427,7 +10644,7 @@ var BtnToolbar = {
   name: 'btn-toolbar'
 };
 
-var plugin$13 = VueInstaller.use({
+var plugin$15 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       BtnGroup: BtnGroup,
@@ -10701,7 +10918,7 @@ var DropdownMenu = {
   }
 };
 
-var plugin$14 = VueInstaller.use({
+var plugin$16 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       DropdownMenu: DropdownMenu,
@@ -13357,6 +13574,7 @@ var BtnDropdown = {
   name: 'btn-dropdown',
   extends: Btn,
   components: {
+    BtnGroup: BtnGroup,
     DropdownMenu: DropdownMenu
   },
   props: {
@@ -13665,7 +13883,7 @@ var BtnDropdown = {
   }
 };
 
-var plugin$15 = VueInstaller.use({
+var plugin$17 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       BtnDropdown: BtnDropdown
@@ -13887,7 +14105,7 @@ var CardTitle = {
   mixins: [Card]
 };
 
-var plugin$16 = VueInstaller.use({
+var plugin$18 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Card: Card,
@@ -14009,6 +14227,10 @@ var RadioField = {
   },
   staticRenderFns: [],
   name: 'radio-field',
+  components: {
+    HelpText: HelpText,
+    FormFeedback: FormFeedback
+  },
   mixins: [Colorable, FormControl],
   model: {
     event: 'change',
@@ -14225,7 +14447,7 @@ var CheckboxField = {
   }
 };
 
-var plugin$17 = VueInstaller.use({
+var plugin$19 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       CheckboxField: CheckboxField
@@ -14249,7 +14471,7 @@ var Container = {
   name: 'container'
 };
 
-var plugin$18 = VueInstaller.use({
+var plugin$20 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Container: Container
@@ -14290,19 +14512,21 @@ var Dropzone = {
       }
     }, [_vm._t("placeholder", [_c('div', {
       staticClass: "dropzone-placeholder text-center"
-    }, [_c('card', [_c('card-body', [_c('div', {
-      staticClass: "card-body d-flex align-items-between justify-content-center flex-column"
-    }, [_c('h1', {
+    }, [_c('card', [_c('card-body', [_c('h1', {
       staticClass: "mt-4"
     }, [_vm._v("Drag & Drop")]), _vm._v(" "), _c('p', [_vm._v("Drag and drop your files here to upload them!")]), _vm._v(" "), _c('div', {
       staticClass: "mt-3 mb-4"
     }, [_c('i', {
       staticClass: "fa fa-image"
-    })])])])], 1)], 1)]), _vm._v(" "), _vm._t("default")], 2);
+    })])])], 1)], 1)]), _vm._v(" "), _vm._t("default")], 2);
   },
   staticRenderFns: [],
   _scopeId: 'data-v-744e8f62',
   name: 'dropzone',
+  components: {
+    Card: Card,
+    CardBody: CardBody
+  },
   methods: {
     onDrop: function onDrop(event) {
       this.isDragging = false;
@@ -14330,7 +14554,7 @@ var Dropzone = {
   }
 };
 
-var plugin$19 = VueInstaller.use({
+var plugin$21 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Dropzone: Dropzone
@@ -14338,7 +14562,7 @@ var plugin$19 = VueInstaller.use({
   }
 });
 
-var plugin$20 = VueInstaller.use({
+var plugin$22 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       FileField: FileField
@@ -14369,114 +14593,6 @@ function readFile(file, progress) {
     reader.readAsDataURL(file);
   });
 }
-
-var ProgressBar = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', {
-      staticClass: "progress",
-      style: {
-        'height': _vm.formattedHeight
-      }
-    }, [_c('div', {
-      staticClass: "progress-bar",
-      class: _vm.$mergeClasses(_vm.progressClasses, _vm.variantClass),
-      style: {
-        'width': _vm.offsetValue + '%'
-      },
-      attrs: {
-        "role": "progressbar",
-        "aria-valuenow": _vm.offsetValue,
-        "aria-valuemin": _vm.min,
-        "aria-valuemax": _vm.max
-      }
-    }, [_vm.label ? _c('span', [_vm._v(_vm._s(_vm.offsetValue) + "%")]) : _vm._e()])]);
-  },
-  staticRenderFns: [],
-  name: 'progress-bar',
-  mixins: [Variant],
-  props: {
-    /**
-     * The progress bar percentage value
-     *
-     * @property String
-     */
-    value: {
-      type: Number,
-      required: true
-    },
-
-    /**
-     * The height of the progress bar
-     *
-     * @property String
-     */
-    height: [Number, String],
-
-    /**
-     * Show the progress bar value as a label inside the bar
-     *
-     * @property String
-     */
-    label: Boolean,
-
-    /**
-     * Should the progress bar appear with stripes
-     *
-     * @property String
-     */
-    striped: Boolean,
-
-    /**
-     * Should the progress bar appear with animated stripes
-     *
-     * @property String
-     */
-    animated: Boolean,
-
-    /**
-     * The minimum value
-     *
-     * @property String
-     */
-    min: {
-      type: Number,
-      default: 0
-    },
-
-    /**
-     * The max value
-     *
-     * @property String
-     */
-    max: {
-      type: Number,
-      default: 100
-    }
-  },
-  computed: {
-    variantClassPrefix: function variantClassPrefix() {
-      return 'bg';
-    },
-    offsetValue: function offsetValue() {
-      return this.value / this.max * 100;
-    },
-    formattedHeight: function formattedHeight() {
-      return this.height ? unit(this.height) : null;
-    },
-    progressClasses: function progressClasses() {
-      return {
-        'progress-bar-striped': this.striped,
-        'progress-bar-animated': this.animated
-      };
-    }
-  }
-};
 
 var FilePreview = {
   render: function render() {
@@ -14686,7 +14802,7 @@ var FilePreview = {
   }
 };
 
-var plugin$21 = VueInstaller.use({
+var plugin$23 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       FilePreview: FilePreview
@@ -14751,7 +14867,7 @@ var FormControl$1 = {
   }
 };
 
-var plugin$22 = VueInstaller.use({
+var plugin$24 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       FormControl: FormControl$1
@@ -15594,15 +15710,7 @@ var InfiniteScrolling = {
   }
 };
 
-var plugin$23 = VueInstaller.use({
-  install: function install(Vue, options) {
-    VueInstaller.components({
-      InputField: InputField
-    });
-  }
-});
-
-var InputGroup = {
+var InputGroupText = {
   render: function render() {
     var _vm = this;
 
@@ -15610,37 +15718,29 @@ var InputGroup = {
 
     var _c = _vm._self._c || _h;
 
-    return _c('div', {
-      staticClass: "input-group",
-      class: _vm.$mergeClasses(_vm.colorableClasses, _vm.sizeableClass)
-    }, [_vm._t("prepend", [_vm.prepend instanceof Array ? [_c('input-group-prepend', _vm._l(_vm.prepend, function (value) {
-      return _c('input-group-text', {
-        attrs: {
-          "text": value
-        }
-      });
-    }))] : _vm.prepend ? [_c('input-group-prepend', {
+    return _c('span', {
+      staticClass: "input-group-text",
       attrs: {
-        "text": ""
+        "id": _vm.id
       }
-    }, [_vm._v(_vm._s(_vm.prepend))])] : _vm._e()]), _vm._v(" "), _vm._t("default"), _vm._v(" "), _vm._t("append", [_vm.append instanceof Array ? [_c('input-group-append', _vm._l(_vm.append, function (value) {
-      return _c('input-group-text', {
-        attrs: {
-          "text": value
-        }
-      });
-    }))] : _vm.append ? [_c('input-group-append', {
-      attrs: {
-        "text": ""
-      }
-    }, [_vm._v(_vm._s(_vm.append))])] : _vm._e()])], 2);
+    }, [_vm._t("default", [_vm._v(_vm._s(_vm.text))])], 2);
   },
   staticRenderFns: [],
-  name: 'input-group',
-  mixins: [HasSlots, Sizeable, Colorable],
+  name: 'input-group-text',
   props: {
-    append: [Array, Number, String],
-    prepend: [Array, Number, String]
+    /**
+     * The id attribute
+     *
+     * @property String
+     */
+    id: String,
+
+    /**
+     * The type attribute
+     *
+     * @property String
+     */
+    text: [Array, Number, String]
   }
 };
 
@@ -15692,7 +15792,7 @@ var InputGroupPrepend = {
   }
 };
 
-var InputGroupText = {
+var InputGroup = {
   render: function render() {
     var _vm = this;
 
@@ -15700,33 +15800,46 @@ var InputGroupText = {
 
     var _c = _vm._self._c || _h;
 
-    return _c('span', {
-      staticClass: "input-group-text",
+    return _c('div', {
+      staticClass: "input-group",
+      class: _vm.$mergeClasses(_vm.colorableClasses, _vm.sizeableClass)
+    }, [_vm._t("prepend", [_vm.prepend instanceof Array ? [_c('input-group-prepend', _vm._l(_vm.prepend, function (value) {
+      return _c('input-group-text', {
+        attrs: {
+          "text": value
+        }
+      });
+    }))] : _vm.prepend ? [_c('input-group-prepend', {
       attrs: {
-        "id": _vm.id
+        "text": ""
       }
-    }, [_vm._t("default", [_vm._v(_vm._s(_vm.text))])], 2);
+    }, [_vm._v(_vm._s(_vm.prepend))])] : _vm._e()]), _vm._v(" "), _vm._t("default"), _vm._v(" "), _vm._t("append", [_vm.append instanceof Array ? [_c('input-group-append', _vm._l(_vm.append, function (value) {
+      return _c('input-group-text', {
+        attrs: {
+          "text": value
+        }
+      });
+    }))] : _vm.append ? [_c('input-group-append', {
+      attrs: {
+        "text": ""
+      }
+    }, [_vm._v(_vm._s(_vm.append))])] : _vm._e()])], 2);
   },
   staticRenderFns: [],
-  name: 'input-group-text',
+  name: 'input-group',
+  components: {
+    InputGroupText: InputGroupText,
+    InputGroupAppend: InputGroupAppend,
+    InputGroupPrepend: InputGroupPrepend
+  },
+  mixins: [HasSlots, Sizeable, Colorable],
   props: {
-    /**
-     * The id attribute
-     *
-     * @property String
-     */
-    id: String,
-
-    /**
-     * The type attribute
-     *
-     * @property String
-     */
-    text: [Array, Number, String]
+    append: [Array, Number, String],
+    prepend: [Array, Number, String]
   }
 };
 
-var plugin$24 = VueInstaller.use({
+var plugin$25 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       InputGroup: InputGroup,
@@ -15818,6 +15931,12 @@ var LightSwitchField = {
   },
   staticRenderFns: [],
   name: 'light-switch-field',
+  components: {
+    HelpText: HelpText,
+    FormGroup: FormGroup,
+    FormLabel: FormLabel,
+    FormFeedback: FormFeedback
+  },
   mixins: [FormControl],
   props: {
     /**
@@ -15903,7 +16022,7 @@ var LightSwitchField = {
   }
 };
 
-var plugin$25 = VueInstaller.use({
+var plugin$26 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       LightSwitchField: LightSwitchField
@@ -16232,7 +16351,7 @@ var ListGroup = {
   }
 };
 
-var plugin$26 = VueInstaller.use({
+var plugin$27 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       ListGroup: ListGroup
@@ -16240,184 +16359,13 @@ var plugin$26 = VueInstaller.use({
   }
 });
 
-var ModalBackdrop = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', {
-      staticClass: "modal-backdrop",
-      class: {
-        'fade': _vm.fade,
-        'show': _vm.show
-      }
-    }, [_vm._t("default")], 2);
-  },
-  staticRenderFns: [],
-  name: 'modal-backdrop',
-  props: {
-    /**
-     * Show the modal with a fade effect.
-     *
-     * @property Boolean
-     */
-    fade: {
-      type: Boolean,
-      default: true
-    },
-
-    /**
-     * Is the modal showing.
-     *
-     * @property Boolean
-     */
-    show: {
-      type: Boolean,
-      default: true
-    }
-  }
-};
-
-var plugin$27 = VueInstaller.use({
+var plugin$28 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Modal: Modal
     });
   }
 });
-
-var ModalTitle = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('h5', {
-      staticClass: "modal-title"
-    }, [_vm._t("default")], 2);
-  },
-  staticRenderFns: [],
-  name: 'modal-title'
-};
-
-var Navigation = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('nav', {
-      staticClass: "nav",
-      class: _vm.classes,
-      attrs: {
-        "role": _vm.role
-      }
-    }, [_vm._l(_vm.items, function (item, i) {
-      return _vm.items ? _c('navigation-item', _vm._b({
-        key: i
-      }, 'navigation-item', item, false)) : _vm._e();
-    }), _vm._v(" "), _vm._t("default")], 2);
-  },
-  staticRenderFns: [],
-  name: 'navigation',
-  mixins: [Colorable],
-  props: {
-    /**
-     * Helper to add the justify-content-X class.
-     *
-     * @prop {Array}
-     */
-    align: String,
-
-    /**
-     * An array of buttons
-     *
-     * @prop {Array}
-     */
-    buttons: Array,
-
-    /**
-     * The navigation inside a card
-     *
-     * @prop {Boolean}
-     */
-    card: Boolean,
-
-    /**
-     * Justify nav items to fill the width equally (using flex).
-     *
-     * @prop {Array}
-     */
-    fill: Boolean,
-
-    /**
-     * Add `nav-justified` class to the component.
-     *
-     * @prop {Array}
-     */
-    justified: Boolean,
-
-    /**
-     * Display items as pill shapes
-     *
-     * @prop {Array}
-     */
-    pills: Boolean,
-
-    /**
-     * Display items as tab shapes
-     *
-     * @prop {Array}
-     */
-    tabs: Boolean,
-
-    /**
-     * Display the buttons vertically
-     *
-     * @prop {Boolean}
-     */
-    vertical: Boolean,
-
-    /**
-     * The role attribute
-     *
-     * @prop {String}
-     */
-    role: String
-  },
-  computed: {
-    classes: function classes() {
-      var _this = this;
-
-      this.$nextTick(function () {
-        if (!_this.isCard) {
-          _this.isCard = _this.$parent.$el.classList.contains('card-header');
-        }
-      });
-      return this.$mergeClasses(prefix(this.align, 'justify-content'), this.colorableClasses, {
-        'card-header-tabs': this.isCard && this.tabs,
-        'card-header-pills': this.isCard && this.pills,
-        'nav-justified': this.justified,
-        'nav-fill': this.fill,
-        'nav-pills': this.pills,
-        'nav-tabs': this.tabs,
-        'flex-column': this.vertical
-      });
-    }
-  },
-  data: function data() {
-    return {
-      isCard: this.card
-    };
-  }
-};
 
 var NavigationLink = {
   render: function render() {
@@ -16548,6 +16496,123 @@ var NavigationItem = {
   }
 };
 
+var Navigation = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('nav', {
+      staticClass: "nav",
+      class: _vm.classes,
+      attrs: {
+        "role": _vm.role
+      }
+    }, [_vm._l(_vm.items, function (item, i) {
+      return _vm.items ? _c('navigation-item', _vm._b({
+        key: i
+      }, 'navigation-item', item, false)) : _vm._e();
+    }), _vm._v(" "), _vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'navigation',
+  components: {
+    NavigationItem: NavigationItem
+  },
+  mixins: [Colorable],
+  props: {
+    /**
+     * Helper to add the justify-content-X class.
+     *
+     * @prop {Array}
+     */
+    align: String,
+
+    /**
+     * An array of buttons
+     *
+     * @prop {Array}
+     */
+    buttons: Array,
+
+    /**
+     * The navigation inside a card
+     *
+     * @prop {Boolean}
+     */
+    card: Boolean,
+
+    /**
+     * Justify nav items to fill the width equally (using flex).
+     *
+     * @prop {Array}
+     */
+    fill: Boolean,
+
+    /**
+     * Add `nav-justified` class to the component.
+     *
+     * @prop {Array}
+     */
+    justified: Boolean,
+
+    /**
+     * Display items as pill shapes
+     *
+     * @prop {Array}
+     */
+    pills: Boolean,
+
+    /**
+     * Display items as tab shapes
+     *
+     * @prop {Array}
+     */
+    tabs: Boolean,
+
+    /**
+     * Display the buttons vertically
+     *
+     * @prop {Boolean}
+     */
+    vertical: Boolean,
+
+    /**
+     * The role attribute
+     *
+     * @prop {String}
+     */
+    role: String
+  },
+  computed: {
+    classes: function classes() {
+      var _this = this;
+
+      this.$nextTick(function () {
+        if (!_this.isCard) {
+          _this.isCard = _this.$parent.$el.classList.contains('card-header');
+        }
+      });
+      return this.$mergeClasses(prefix(this.align, 'justify-content'), this.colorableClasses, {
+        'card-header-tabs': this.isCard && this.tabs,
+        'card-header-pills': this.isCard && this.pills,
+        'nav-justified': this.justified,
+        'nav-fill': this.fill,
+        'nav-pills': this.pills,
+        'nav-tabs': this.tabs,
+        'flex-column': this.vertical
+      });
+    }
+  },
+  data: function data() {
+    return {
+      isCard: this.card
+    };
+  }
+};
+
 var NavigationDropdown = {
   render: function render() {
     var _vm = this;
@@ -16594,10 +16659,16 @@ var NavigationDropdown = {
   },
   staticRenderFns: [],
   name: 'navigation-dropdown',
-  extends: BtnDropdown
+  extends: BtnDropdown,
+  components: {
+    BtnDropdown: BtnDropdown,
+    DropdownMenu: DropdownMenu,
+    NavigationItem: NavigationItem,
+    NavigationLink: NavigationLink
+  }
 };
 
-var plugin$28 = VueInstaller.use({
+var plugin$29 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Navigation: Navigation,
@@ -16608,7 +16679,7 @@ var plugin$28 = VueInstaller.use({
   }
 });
 
-var plugin$29 = VueInstaller.use({
+var plugin$30 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Overlay: Overlay
@@ -16851,18 +16922,10 @@ var Pagination = {
   }
 };
 
-var plugin$30 = VueInstaller.use({
-  install: function install(Vue, options) {
-    VueInstaller.components({
-      Pagination: Pagination
-    });
-  }
-});
-
 var plugin$31 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
-      ProgressBar: ProgressBar
+      Pagination: Pagination
     });
   }
 });
@@ -16875,7 +16938,6 @@ var plugin$32 = VueInstaller.use({
   }
 });
 
-//import BaseField from './BaseField';
 var CUSTOM_SELECT_PREFIX = 'custom-select-';
 var SelectField = {
   render: function render() {
@@ -16931,6 +16993,12 @@ var SelectField = {
   },
   staticRenderFns: [],
   name: 'select-field',
+  components: {
+    HelpText: HelpText,
+    FormGroup: FormGroup,
+    FormLabel: FormLabel,
+    FormFeedback: FormFeedback
+  },
   extends: FormControl,
   mixins: [FormControl, Colorable],
   props: {
@@ -17554,6 +17622,12 @@ var TextareaField = {
   },
   staticRenderFns: [],
   name: 'textarea-field',
+  components: {
+    HelpText: HelpText,
+    FormGroup: FormGroup,
+    FormLabel: FormLabel,
+    FormFeedback: FormFeedback
+  },
   mixins: [Colorable, FormControl],
   props: {
     /**
@@ -17582,52 +17656,6 @@ var plugin$35 = VueInstaller.use({
     });
   }
 });
-
-var ThumbnailList = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', {
-      staticClass: "thumbnail-list",
-      class: _vm.classes
-    }, [_vm._l(_vm.images, function (image) {
-      return !!_vm.images ? _c('thumbnail-list-item', {
-        attrs: {
-          "src": image,
-          "width": _vm.width
-        }
-      }) : _vm._e();
-    }), _vm._v(" "), _vm._t("default")], 2);
-  },
-  staticRenderFns: [],
-  props: {
-    fill: Boolean,
-    flex: Boolean,
-    noFlex: Boolean,
-    grid: Boolean,
-    wrap: Boolean,
-    images: Array,
-    width: {
-      type: [String, Number],
-      default: 75
-    }
-  },
-  computed: {
-    classes: function classes() {
-      return {
-        'thumbnail-list-fill': this.fill,
-        'thumbnail-list-flex': this.flex,
-        'thumbnail-list-noflex': this.noFlex,
-        'thumbnail-list-grid': this.grid,
-        'thumbnail-list-wrap': this.wrap
-      };
-    }
-  }
-};
 
 var ThumbnailListItem = {
   render: function render() {
@@ -17674,6 +17702,55 @@ var ThumbnailListItem = {
   },
   methods: {
     unit: unit
+  }
+};
+
+var ThumbnailList = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "thumbnail-list",
+      class: _vm.classes
+    }, [_vm._l(_vm.images, function (image) {
+      return !!_vm.images ? _c('thumbnail-list-item', {
+        attrs: {
+          "src": image,
+          "width": _vm.width
+        }
+      }) : _vm._e();
+    }), _vm._v(" "), _vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  components: {
+    ThumbnailListItem: ThumbnailListItem
+  },
+  props: {
+    fill: Boolean,
+    flex: Boolean,
+    noFlex: Boolean,
+    grid: Boolean,
+    wrap: Boolean,
+    images: Array,
+    width: {
+      type: [String, Number],
+      default: 75
+    }
+  },
+  computed: {
+    classes: function classes() {
+      return {
+        'thumbnail-list-fill': this.fill,
+        'thumbnail-list-flex': this.flex,
+        'thumbnail-list-noflex': this.noFlex,
+        'thumbnail-list-grid': this.grid,
+        'thumbnail-list-wrap': this.wrap
+      };
+    }
   }
 };
 
@@ -17965,6 +18042,7 @@ var UploadField = {
   mixins: [FormControl],
   components: {
     Dropzone: Dropzone,
+    FormGroup: FormGroup,
     FileField: FileField,
     FilePreview: FilePreview,
     ThumbnailList: ThumbnailList,
@@ -18387,7 +18465,7 @@ var main = VueInstaller.use({
   install: function install(Vue) {
     
 
-    VueInstaller.plugins(Vue, plugins);
+    VueInstaller.plugins(Vue, plugins$1);
     VueInstaller.filters(Vue, filters);
     VueInstaller.directives(Vue, directives$1);
     VueInstaller.components(Vue, components$1);

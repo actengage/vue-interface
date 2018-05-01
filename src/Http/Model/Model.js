@@ -22,15 +22,14 @@ export default class Model {
      */
     constructor(data = {}, params = {}) {
         this.$key = this.key();
-        this.initialize(data);
-        this.$files = this.files();
         this.$properties = this.properties();
+        this.$files = this.files();
 
         each(params, (value, key) => {
             this[key] = value;
         });
 
-        this.$initialized = true;
+        this.initialize(data);
     }
 
     /**
@@ -340,6 +339,8 @@ export default class Model {
      * @return bool
      */
     save(data = {}, config = {}) {
+        console.log('save', data, config, this.exists());
+
         return !this.exists() ? this.create(data, config) : this.update(data, config);
     }
 

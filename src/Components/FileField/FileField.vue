@@ -42,14 +42,24 @@
 </template>
 
 <script>
-
-import InputField from '../InputField/InputField';
+import HelpText from '../HelpText';
+import FormGroup from '../FormGroup';
+import FormLabel from '../FormLabel';
+import FormFeedback from '../FormFeedback';
+import InputField from '../InputField';
 
 export default {
 
     name: 'file-field',
 
     extends: InputField,
+
+    components: {
+        HelpText,
+        FormGroup,
+        FormLabel,
+        FormFeedback
+    },
 
     model: {
         event: 'change'

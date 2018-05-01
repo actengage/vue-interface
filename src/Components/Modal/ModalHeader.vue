@@ -9,9 +9,15 @@
 </template>
 
 <script>
+import ModalTitle from './ModalTitle';
+
 export default {
 
     name: 'modal-header',
+
+    components: {
+        ModalTitle
+    },
 
     props: {
 

@@ -1,5 +1,6 @@
 <template>
     <div class="alert" :class="$mergeClasses(variantClass, {show: isVisible, fade: fade})" role="alert">
+        <alert-heading v-if="title || heading">{{ title || heading }}</alert-heading>
         <slot/>
         <alert-close v-if="dismissible" @click="dismiss()"/>
         <progress-bar v-if="typeof show === 'number'" :variant="variant" :height="5" :value="dismissCount" :max="show" class="my-3"/>
@@ -7,12 +8,21 @@
 </template>
 
 <script>
+import AlertClose from './AlertClose';
+import AlertHeading from './AlertHeading';
+import ProgressBar from '../ProgressBar';
 import Variant from '../../Mixins/Variant/Variant';
 import transition from '../../Helpers/Transition/Transition';
 
 export default {
 
     name: 'alert',
+
+    components: {
+        AlertClose,
+        AlertHeading,
+        ProgressBar
+    },
 
     mixins: [
         Variant
@@ -26,6 +36,20 @@ export default {
          * @property Boolean
          */
         dismissible: Boolean,
+
+        /**
+         * The alert's title/heading
+         *
+         * @property Boolean
+         */
+        heading: String,
+
+        /**
+         * The alert's title/heading
+         *
+         * @property Boolean
+         */
+        title: String,
 
         /**
          * Should the alert fade when hidden

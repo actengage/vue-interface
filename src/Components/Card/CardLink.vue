@@ -2,7 +2,7 @@
 
     <a :href="href" :class="$mergeClasses(className, colorableClasses)" @click="onClick">
         <slot/>
-    </h6>
+    </a>
 
 </template>
 

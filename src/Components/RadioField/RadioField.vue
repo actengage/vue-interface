@@ -59,7 +59,8 @@
 </template>
 
 <script>
-
+import HelpText from '../HelpText';
+import FormFeedback from '../FormFeedback';
 import prefix from '../../Helpers/Prefix/Prefix';
 import Colorable from '../../Mixins/Colorable/Colorable';
 import FormControl from '../../Mixins/FormControl/FormControl';
@@ -67,6 +68,11 @@ import FormControl from '../../Mixins/FormControl/FormControl';
 export default {
 
     name: 'radio-field',
+
+    components: {
+        HelpText,
+        FormFeedback
+    },
 
     mixins: [
         Colorable,

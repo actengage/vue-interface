@@ -14,12 +14,18 @@
 </template>
 
 <script>
+import BreadcrumbItem from './BreadcrumbItem';
+
 export default {
 
     name: 'breadcrumb',
 
+    components: {
+        BreadcrumbItem
+    },
+
     props: {
-        
+
         /**
          * An array of breadcrumbs
          *
