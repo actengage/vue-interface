@@ -18315,6 +18315,8 @@
         div.style[key] = styles[key];
       }
 
+      div.style.position = 'absolute';
+      div.style.bottom = '100%';
       div.style.zIndex = -1;
       div.style.visibility = 'hidden';
       return div;

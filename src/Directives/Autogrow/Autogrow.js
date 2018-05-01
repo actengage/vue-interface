@@ -78,6 +78,8 @@ function mimic(el) {
         div.style[key] = styles[key];
     }
 
+    div.style.position = 'absolute';
+    div.style.bottom = '100%';
     div.style.zIndex = -1;
     div.style.visibility = 'hidden';
 
@@ -88,7 +90,7 @@ function init(el, maxHeight) {
     const div = mimic(el);
     const minHeight = height(el);
 
-    el.addEventListener('input', function(event) {
+    el.addEventListener('input', event => {
         input(div, event);
         resize(el, div, minHeight, maxHeight);
     });
