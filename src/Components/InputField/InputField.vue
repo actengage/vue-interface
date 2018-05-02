@@ -19,6 +19,7 @@
                 :class="$mergeClasses(controlClasses, colorableClasses)"
                 :aria-label="label"
                 :aria-describedby="id"
+                :autocomplete="autocomplete"
                 v-bind-events="bindEvents"
                 v-on:input="updated($event.target.value)"
             />

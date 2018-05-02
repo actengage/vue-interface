@@ -10047,6 +10047,13 @@ var plugin$12 = VueInstaller.use({
 var FormControl = {
   props: {
     /**
+     * The autocomplete attribute value.
+     *
+     * @property String
+     */
+    autocomplete: String,
+
+    /**
      * The field id attribute value.
      *
      * @property String
@@ -10321,7 +10328,8 @@ var InputField = {
         "readonly": _vm.readonly,
         "pattern": _vm.pattern,
         "aria-label": _vm.label,
-        "aria-describedby": _vm.id
+        "aria-describedby": _vm.id,
+        "autocomplete": _vm.autocomplete
       },
       domProps: {
         "value": _vm.value

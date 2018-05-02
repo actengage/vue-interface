@@ -10,6 +10,13 @@ export default {
     props: {
 
         /**
+         * The autocomplete attribute value.
+         *
+         * @property String
+         */
+        autocomplete: String,
+
+        /**
          * The field id attribute value.
          *
          * @property String
