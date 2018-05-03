@@ -293,8 +293,6 @@ export default {
          * @return void
          */
         onClick(event) {
-            console.log('click');
-
             this.hide();
             this.$emit('click', event);
         },

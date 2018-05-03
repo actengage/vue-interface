@@ -9159,7 +9159,6 @@ function () {
     value: function save() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      console.log('save', data, config, this.exists());
       return !this.exists() ? this.create(data, config) : this.update(data, config);
     }
     /**
@@ -13796,7 +13795,6 @@ var BtnDropdown = {
      * @return void
      */
     onClick: function onClick(event) {
-      console.log('click');
       this.hide();
       this.$emit('click', event);
     },
@@ -13957,7 +13955,7 @@ var CardHeader = {
 
     var _c = _vm._self._c || _h;
 
-    return _c(_vm.element, {
+    return _c(_vm.tag, {
       tag: "component",
       class: _vm.$mergeClasses(_vm.className, _vm.colorableClasses)
     }, [_vm._t("default")], 2);
@@ -13967,13 +13965,13 @@ var CardHeader = {
   extends: Card,
   props: {
     /**
-     * The alt attribute
+     * The component's HTML tag name
      *
      * @property String
      */
-    element: {
+    tag: {
       type: String,
-      default: 'div'
+      default: 'h5'
     }
   }
 };

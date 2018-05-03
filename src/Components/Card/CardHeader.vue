@@ -1,6 +1,6 @@
 <template>
 
-    <component :is="element" :class="$mergeClasses(className, colorableClasses)">
+    <component :is="tag" :class="$mergeClasses(className, colorableClasses)">
         <slot/>
     </component>
 
@@ -18,13 +18,13 @@ export default {
     props: {
 
         /**
-         * The alt attribute
+         * The component's HTML tag name
          *
          * @property String
          */
-        element: {
+        tag: {
             type: String,
-            default: 'div'
+            default: 'h5'
         }
 
     }

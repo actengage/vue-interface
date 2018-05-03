@@ -339,8 +339,6 @@ export default class Model {
      * @return bool
      */
     save(data = {}, config = {}) {
-        console.log('save', data, config, this.exists());
-
         return !this.exists() ? this.create(data, config) : this.update(data, config);
     }
 
