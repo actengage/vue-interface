@@ -1,8 +1,8 @@
 <template>
 
-    <a :href="href" :class="$mergeClasses(className, colorableClasses)" @click="onClick">
+    <router-link :to="href" :class="$mergeClasses(className, colorableClasses)" @click="onClick">
         <slot/>
-    </a>
+    </router-link>
 
 </template>
 
@@ -11,7 +11,7 @@ import Card from './Card';
 
 export default {
 
-    name: 'card-title',
+    name: 'card-link',
 
     extends: Card,
 
@@ -25,11 +25,18 @@ export default {
         alt: String,
 
         /**
-         * The src attribute
+         * The href attribute
          *
          * @property String
          */
-        href: String
+        href: String,
+
+        /**
+         * The to attribute
+         *
+         * @property String
+         */
+        to: [Object, String]
 
     },
 

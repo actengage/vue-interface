@@ -1,5 +1,7 @@
 import Card from './Card';
 import CardBody from './CardBody';
+import CardBtnGroup from './CardBtnGroup';
+import CardDeck from './CardDeck';
 import CardFooter from './CardFooter';
 import CardHeader from './CardHeader';
 import CardImg from './CardImg';
@@ -17,6 +19,8 @@ const plugin = VueInstaller.use({
         VueInstaller.components({
             Card,
             CardBody,
+            CardBtnGroup,
+            CardDeck,
             CardFooter,
             CardHeader,
             CardImg,
@@ -32,6 +36,8 @@ const plugin = VueInstaller.use({
 });
 
 export * from './CardBody';
+export * from './CardBtnGroup';
+export * from './CardDeck';
 export * from './CardFooter';
 export * from './CardHeader';
 export * from './CardImg';

@@ -1,18 +1,22 @@
 <template>
-    <label v-if="label" class="btn" :disabled="disabled" :class="classes" @click="onClick">
+    <label v-if="label" :disabled="disabled" :class="classes" @click="onClick">
         <slot/>
     </label>
-    <a v-else-if="href" class="btn" :href="href" :disabled="disabled" :class="classes" @click="onClick">
+    <router-link v-else-if="to" :to="to" :disabled="disabled" :class="classes" @click="onClick">
+        <slot/>
+    </router-link>
+    <a v-else-if="href" :href="href" :disabled="disabled" :class="classes" @click="onClick">
         <slot/>
     </a>
-    <button v-else class="btn" :type="type" :disabled="disabled" :class="classes" @click="onClick">
+    <button v-else :type="type" :disabled="disabled" :class="classes" @click="onClick">
         <slot/>
     </button>
 </template>
 
 <script>
-import Variant from '../../Mixins/Variant/Variant';
-import Sizeable from '../../Mixins/Sizeable/Sizeable';
+import Variant from '../../Mixins/Variant';
+import Sizeable from '../../Mixins/Sizeable';
+import Colorable from '../../Mixins/Colorable';
 import transition from '../../Helpers/Transition/Transition';
 
 export default {
@@ -21,35 +25,11 @@ export default {
 
     mixins: [
         Variant,
-        Sizeable
+        Sizeable,
+        Colorable
     ],
 
     props: {
-
-        /**
-         * Should use <label> as the element for the button. Used for inputs
-         * wrappers (toggles).
-         *
-         * @property Boolean
-         */
-        label: Boolean,
-
-        /**
-         * If an href is passed, button is an anchor element
-         *
-         * @property Boolean
-         */
-        href: String,
-
-        /**
-         * The type attribute for the button. Not applied if an anchor
-         *
-         * @property String
-         */
-        type: {
-            type: String,
-            default: 'submit'
-        },
 
         /**
          * Display button with active state
@@ -73,11 +53,43 @@ export default {
         disabled: Boolean,
 
         /**
+         * If an href is passed, button is an router-link element
+         *
+         * @property Boolean
+         */
+        href: String,
+
+        /**
+         * Should use <label> as the element for the button. Used for inputs
+         * wrappers (toggles).
+         *
+         * @property Boolean
+         */
+        label: Boolean,
+
+        /**
          * Display as an outline button
          *
          * @property String
          */
-        outline: Boolean
+        outline: Boolean,
+
+        /**
+         * If an to is passed, button is an router-link element
+         *
+         * @property Boolean
+         */
+        to: [Object, String],
+
+        /**
+         * The type attribute for the button. Not applied if an anchor
+         *
+         * @property String
+         */
+        type: {
+            type: String,
+            default: 'submit'
+        }
 
     },
 
@@ -97,8 +109,10 @@ export default {
 
         classes() {
             return this.$mergeClasses(
+                'btn',
                 this.variantClass,
                 this.sizeableClass,
+                this.colorableClasses,
                 this.block ? 'btn-block' : '',
                 this.active ? 'active' : ''
             );

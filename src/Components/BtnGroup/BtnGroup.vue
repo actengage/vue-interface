@@ -7,7 +7,6 @@
 
 <script>
 import Btn from '../Btn';
-import Sizeable from '../../Mixins/Sizeable/Sizeable';
 import Colorable from '../../Mixins/Colorable/Colorable';
 
 export default {
@@ -19,8 +18,7 @@ export default {
     },
 
     mixins: [
-        Colorable,
-        Sizeable
+        Colorable
     ],
 
     props: {
@@ -45,7 +43,6 @@ export default {
 
         classes() {
             return this.$mergeClasses(
-                this.sizeableClass,
                 this.colorableClasses, {
                     'btn-group': !this.vertical,
                     'btn-group-vertical': this.vertical

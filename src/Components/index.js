@@ -15,6 +15,8 @@ import BtnToolbar from './BtnGroup/BtnToolbar';
 import BtnDropdown from './BtnDropdown';
 import Card from './Card';
 import CardBody from './Card/CardBody';
+import CardBtnGroup from './Card/CardBtnGroup';
+import CardDeck from './Card/CardDeck';
 import CardFooter from './Card/CardFooter'
 import CardHeader from './Card/CardHeader';
 import CardImg from './Card/CardImg';
@@ -88,6 +90,8 @@ export {
     BtnDropdown,
     Card,
     CardBody,
+    CardBtnGroup,
+    CardDeck,
     CardFooter,
     CardHeader,
     CardImg,

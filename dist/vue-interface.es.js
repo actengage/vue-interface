@@ -9643,125 +9643,6 @@ var Sizeable = {
   }
 };
 
-var Btn = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _vm.label ? _c('label', {
-      staticClass: "btn",
-      class: _vm.classes,
-      attrs: {
-        "disabled": _vm.disabled
-      },
-      on: {
-        "click": _vm.onClick
-      }
-    }, [_vm._t("default")], 2) : _vm.href ? _c('a', {
-      staticClass: "btn",
-      class: _vm.classes,
-      attrs: {
-        "href": _vm.href,
-        "disabled": _vm.disabled
-      },
-      on: {
-        "click": _vm.onClick
-      }
-    }, [_vm._t("default")], 2) : _c('button', {
-      staticClass: "btn",
-      class: _vm.classes,
-      attrs: {
-        "type": _vm.type,
-        "disabled": _vm.disabled
-      },
-      on: {
-        "click": _vm.onClick
-      }
-    }, [_vm._t("default")], 2);
-  },
-  staticRenderFns: [],
-  name: 'btn',
-  mixins: [Variant, Sizeable],
-  props: {
-    /**
-     * Should use <label> as the element for the button. Used for inputs
-     * wrappers (toggles).
-     *
-     * @property Boolean
-     */
-    label: Boolean,
-
-    /**
-     * If an href is passed, button is an anchor element
-     *
-     * @property Boolean
-     */
-    href: String,
-
-    /**
-     * The type attribute for the button. Not applied if an anchor
-     *
-     * @property String
-     */
-    type: {
-      type: String,
-      default: 'submit'
-    },
-
-    /**
-     * Display button with active state
-     *
-     * @property String
-     */
-    active: Boolean,
-
-    /**
-     * Display button with blocked state
-     *
-     * @property String
-     */
-    block: Boolean,
-
-    /**
-     * Display button with disabled state
-     *
-     * @property String
-     */
-    disabled: Boolean,
-
-    /**
-     * Display as an outline button
-     *
-     * @property String
-     */
-    outline: Boolean
-  },
-  methods: {
-    onClick: function onClick(event) {
-      this.$emit('click', event, this);
-    }
-  },
-  computed: {
-    variantClassPrefix: function variantClassPrefix() {
-      return this.$options.name + (this.outline ? '-outline' : '');
-    },
-    classes: function classes() {
-      return this.$mergeClasses(this.variantClass, this.sizeableClass, this.block ? 'btn-block' : '', this.active ? 'active' : '');
-    }
-  }
-};
-
-var plugin$8 = VueInstaller.use({
-  install: function install(Vue, options) {
-    VueInstaller.components({
-      Btn: Btn
-    });
-  }
-});
-
 /** Error message constants. */
 var FUNC_ERROR_TEXT$2 = 'Expected a function';
 
@@ -9881,6 +9762,138 @@ var Colorable = {
     }
   }
 };
+
+var Btn = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _vm.label ? _c('label', {
+      class: _vm.classes,
+      attrs: {
+        "disabled": _vm.disabled
+      },
+      on: {
+        "click": _vm.onClick
+      }
+    }, [_vm._t("default")], 2) : _vm.to ? _c('router-link', {
+      class: _vm.classes,
+      attrs: {
+        "to": _vm.to,
+        "disabled": _vm.disabled
+      },
+      on: {
+        "click": _vm.onClick
+      }
+    }, [_vm._t("default")], 2) : _vm.href ? _c('a', {
+      class: _vm.classes,
+      attrs: {
+        "href": _vm.href,
+        "disabled": _vm.disabled
+      },
+      on: {
+        "click": _vm.onClick
+      }
+    }, [_vm._t("default")], 2) : _c('button', {
+      class: _vm.classes,
+      attrs: {
+        "type": _vm.type,
+        "disabled": _vm.disabled
+      },
+      on: {
+        "click": _vm.onClick
+      }
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'btn',
+  mixins: [Variant, Sizeable, Colorable],
+  props: {
+    /**
+     * Display button with active state
+     *
+     * @property String
+     */
+    active: Boolean,
+
+    /**
+     * Display button with blocked state
+     *
+     * @property String
+     */
+    block: Boolean,
+
+    /**
+     * Display button with disabled state
+     *
+     * @property String
+     */
+    disabled: Boolean,
+
+    /**
+     * If an href is passed, button is an router-link element
+     *
+     * @property Boolean
+     */
+    href: String,
+
+    /**
+     * Should use <label> as the element for the button. Used for inputs
+     * wrappers (toggles).
+     *
+     * @property Boolean
+     */
+    label: Boolean,
+
+    /**
+     * Display as an outline button
+     *
+     * @property String
+     */
+    outline: Boolean,
+
+    /**
+     * If an to is passed, button is an router-link element
+     *
+     * @property Boolean
+     */
+    to: [Object, String],
+
+    /**
+     * The type attribute for the button. Not applied if an anchor
+     *
+     * @property String
+     */
+    type: {
+      type: String,
+      default: 'submit'
+    }
+  },
+  methods: {
+    onClick: function onClick(event) {
+      this.$emit('click', event, this);
+    }
+  },
+  computed: {
+    variantClassPrefix: function variantClassPrefix() {
+      return this.$options.name + (this.outline ? '-outline' : '');
+    },
+    classes: function classes() {
+      return this.$mergeClasses('btn', this.variantClass, this.sizeableClass, this.colorableClasses, this.block ? 'btn-block' : '', this.active ? 'active' : '');
+    }
+  }
+};
+
+var plugin$8 = VueInstaller.use({
+  install: function install(Vue, options) {
+    VueInstaller.components({
+      Btn: Btn
+    });
+  }
+});
 
 var Screenreaders = {
   props: {
@@ -10224,7 +10237,14 @@ var FormControl = {
      *
      * @property String
      */
-    helpText: String
+    helpText: String,
+
+    /**
+     * The maxlength attribute
+     *
+     * @property String
+     */
+    maxlength: [Number, String]
   },
   directives: {
     bindEvents: {
@@ -10321,11 +10341,12 @@ var InputField = {
       attrs: {
         "id": _vm.id,
         "type": _vm.type,
-        "placeholder": _vm.placeholder,
-        "required": _vm.required,
-        "disabled": _vm.disabled || _vm.readonly,
-        "readonly": _vm.readonly,
         "pattern": _vm.pattern,
+        "readonly": _vm.readonly,
+        "required": _vm.required,
+        "maxlength": _vm.maxlength,
+        "placeholder": _vm.placeholder,
+        "disabled": _vm.disabled || _vm.readonly,
         "aria-label": _vm.label,
         "aria-describedby": _vm.id,
         "autocomplete": _vm.autocomplete
@@ -10606,7 +10627,7 @@ var BtnGroup = {
   components: {
     Btn: Btn
   },
-  mixins: [Colorable, Sizeable],
+  mixins: [Colorable],
   props: {
     /**
      * An array of buttons
@@ -10624,7 +10645,7 @@ var BtnGroup = {
   },
   computed: {
     classes: function classes() {
-      return this.$mergeClasses(this.sizeableClass, this.colorableClasses, {
+      return this.$mergeClasses(this.colorableClasses, {
         'btn-group': !this.vertical,
         'btn-group-vertical': this.vertical
       });
@@ -13947,6 +13968,39 @@ var CardBody = {
   extends: Card
 };
 
+var CardBtnGroup = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('btn-group', {
+      staticClass: "card-btn-group"
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'card-btn-group',
+  extends: Card
+};
+
+var CardDeck = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "card-deck"
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'card-deck'
+};
+
 var CardHeader = {
   render: function render() {
     var _vm = this;
@@ -13978,7 +14032,18 @@ var CardHeader = {
 
 var CardFooter = {
   name: 'card-footer',
-  extends: CardHeader
+  extends: CardHeader,
+  props: {
+    /**
+     * The component's HTML tag name
+     *
+     * @property String
+     */
+    tag: {
+      type: String,
+      default: 'div'
+    }
+  }
 };
 
 var CardImg = {
@@ -13989,15 +14054,31 @@ var CardImg = {
 
     var _c = _vm._self._c || _h;
 
-    return !_vm.hasDefaultSlot ? _c('img', {
-      class: _vm.className,
+    return _c('div', {
+      staticClass: "d-flex justify-content-center align-items-center",
+      class: _vm.$mergeClasses(_vm.className),
+      style: {
+        height: _vm.unit(_vm.height)
+      }
+    }, [_vm.background ? _c('div', {
+      staticClass: "card-img-bg",
+      style: {
+        background: _vm.background ? "url(".concat(this.src, ")") : null,
+        overflow: _vm.blur ? 'hidden' : 'inherit',
+        filter: _vm.blur ? "blur(".concat(_vm.unit(_vm.blur), ")") : null
+      }
+    }) : _vm._e(), _vm._v(" "), !_vm.background ? _c('img', {
+      staticClass: "img-fluid",
       attrs: {
         "src": _vm.src,
         "alt": _vm.alt
       }
-    }) : _c('div', {
-      class: _vm.className
-    }, [_vm._t("default")], 2);
+    }) : _vm._e(), _vm._v(" "), _c('div', {
+      staticClass: "card-img-content",
+      class: {
+        'text-truncate': _vm.textTruncate
+      }
+    }, [_vm._t("default")], 2)]);
   },
   staticRenderFns: [],
   name: 'card-img',
@@ -14011,11 +14092,44 @@ var CardImg = {
     alt: String,
 
     /**
+     * Display the image as a background image fit with CSS cover.
+     *
+     * @property String
+     */
+    background: Boolean,
+
+    /**
+     * The amount to blur the background image.
+     *
+     * @property String
+     */
+    blur: [Number, String],
+
+    /**
+     * The height attribute
+     *
+     * @property String
+     */
+    height: [Number, String],
+
+    /**
+     * Truncate the text in the content
+     *
+     * @property String
+     */
+    textTruncate: Boolean,
+
+    /**
      * The src attribute
      *
      * @property String
      */
     src: String
+  },
+  methods: {
+    unit: function unit$$1(value) {
+      return unit(value);
+    }
   }
 };
 
@@ -14042,10 +14156,10 @@ var CardLink = {
 
     var _c = _vm._self._c || _h;
 
-    return _c('a', {
+    return _c('router-link', {
       class: _vm.$mergeClasses(_vm.className, _vm.colorableClasses),
       attrs: {
-        "href": _vm.href
+        "to": _vm.href
       },
       on: {
         "click": _vm.onClick
@@ -14053,7 +14167,7 @@ var CardLink = {
     }, [_vm._t("default")], 2);
   },
   staticRenderFns: [],
-  name: 'card-title',
+  name: 'card-link',
   extends: Card,
   props: {
     /**
@@ -14064,11 +14178,18 @@ var CardLink = {
     alt: String,
 
     /**
-     * The src attribute
+     * The href attribute
      *
      * @property String
      */
-    href: String
+    href: String,
+
+    /**
+     * The to attribute
+     *
+     * @property String
+     */
+    to: [Object, String]
   },
   methods: {
     onClick: function onClick(event) {
@@ -14116,6 +14237,8 @@ var plugin$18 = VueInstaller.use({
     VueInstaller.components({
       Card: Card,
       CardBody: CardBody,
+      CardBtnGroup: CardBtnGroup,
+      CardDeck: CardDeck,
       CardFooter: CardFooter,
       CardHeader: CardHeader,
       CardImg: CardImg,
@@ -17592,11 +17715,12 @@ var TextareaField = {
         "id": _vm.id,
         "rows": _vm.rows,
         "errors": _vm.errors,
-        "placeholder": _vm.placeholder,
-        "required": _vm.required,
-        "disabled": _vm.disabled || _vm.readonly,
+        "pattern": _vm.pattern,
         "readonly": _vm.readonly,
-        "pattern": _vm.pattern
+        "required": _vm.required,
+        "maxlength": _vm.maxlength,
+        "placeholder": _vm.placeholder,
+        "disabled": _vm.disabled || _vm.readonly
       },
       domProps: {
         "value": _vm.value
@@ -18299,6 +18423,8 @@ var components$1 = /*#__PURE__*/Object.freeze({
     BtnDropdown: BtnDropdown,
     Card: Card,
     CardBody: CardBody,
+    CardBtnGroup: CardBtnGroup,
+    CardDeck: CardDeck,
     CardFooter: CardFooter,
     CardHeader: CardHeader,
     CardImg: CardImg,
@@ -18479,5 +18605,5 @@ var main = VueInstaller.use({
 });
 
 export default main;
-export { Model, Request, RequestOptions, transformRequest, transformResponse, Colorable, FormControl as FormControlMixin, HasSlots, Proxy, Screenreaders, Sizeable, Variant, MergeClasses as mergeClasses, modal$1 as modal, overlay, ActivityButton, ActivityIndicator, Alert, AlertClose, AlertHeading, AlertLink, Badge, BaseForm, Breadcrumb, BreadcrumbItem, Btn, BtnFile, BtnGroup, BtnToolbar, BtnDropdown, Card, CardBody, CardFooter, CardHeader, CardImg, CardImgTop, CardImgBottom, CardImgOverlay, CardLink, CardSubtitle, CardTitle, CheckboxField, Container, DropdownMenu, DropdownMenuItem, DropdownMenuHeader, DropdownMenuDivider, Dropzone, FileField, FilePreview, FormControl$1 as FormControl, FormFeedback, FormGroup, FormLabel, HelpText, InfiniteScrolling, InputField, InputGroup, InputGroupAppend, InputGroupPrepend, InputGroupText, LightSwitchField, ListGroup, ListGroupItem, Modal, ModalBackdrop, ModalBody, ModalContent, ModalDialog, ModalFooter, ModalHeader, ModalTitle, Navigation, NavigationItem, NavigationLink, NavigationDropdown, Overlay, Pagination, ProgressBar, RadioField, SelectField, TableView, TextareaField, ThumbnailList, ThumbnailListItem, UploadField, index$1 as Autogrow, index as DateFilter, index as MomentFilter, blob, prefix, readFile, script, transition, unit, uuid };
+export { Model, Request, RequestOptions, transformRequest, transformResponse, Colorable, FormControl as FormControlMixin, HasSlots, Proxy, Screenreaders, Sizeable, Variant, MergeClasses as mergeClasses, modal$1 as modal, overlay, ActivityButton, ActivityIndicator, Alert, AlertClose, AlertHeading, AlertLink, Badge, BaseForm, Breadcrumb, BreadcrumbItem, Btn, BtnFile, BtnGroup, BtnToolbar, BtnDropdown, Card, CardBody, CardBtnGroup, CardDeck, CardFooter, CardHeader, CardImg, CardImgTop, CardImgBottom, CardImgOverlay, CardLink, CardSubtitle, CardTitle, CheckboxField, Container, DropdownMenu, DropdownMenuItem, DropdownMenuHeader, DropdownMenuDivider, Dropzone, FileField, FilePreview, FormControl$1 as FormControl, FormFeedback, FormGroup, FormLabel, HelpText, InfiniteScrolling, InputField, InputGroup, InputGroupAppend, InputGroupPrepend, InputGroupText, LightSwitchField, ListGroup, ListGroupItem, Modal, ModalBackdrop, ModalBody, ModalContent, ModalDialog, ModalFooter, ModalHeader, ModalTitle, Navigation, NavigationItem, NavigationLink, NavigationDropdown, Overlay, Pagination, ProgressBar, RadioField, SelectField, TableView, TextareaField, ThumbnailList, ThumbnailListItem, UploadField, index$1 as Autogrow, index as DateFilter, index as MomentFilter, blob, prefix, readFile, script, transition, unit, uuid };
 //# sourceMappingURL=vue-interface.es.js.map

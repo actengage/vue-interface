@@ -188,6 +188,13 @@ export default {
          */
         helpText: String,
 
+        /**
+         * The maxlength attribute
+         *
+         * @property String
+         */
+        maxlength: [Number, String]
+
     },
 
     directives: {
