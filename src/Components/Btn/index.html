@@ -15,7 +15,8 @@
 
             <btn variant="primary">Button Element</btn>
             <btn href="http://google.com" variant="primary">Anchor Element</btn>
-            <btn label variant="primary">Label Element</btn>
+            <btn label class="mb-0" variant="primary">Label Element</btn>
+            <btn :to="{name: 'Home'}" variant="primary">Router Link</btn>
 
             <hr>
 
@@ -68,9 +69,21 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-router@2.0.0/dist/vue-router.js"></script>
         <script type="text/javascript" src="/dist/vue-interface.js"></script>
         <script type="text/javascript">
+            Vue.use(VueRouter);
+
+            const router = new VueRouter({
+                routes: [{
+                    path: '/test',
+                    name: 'Home'
+                }]
+            });
+
+
             const vue = new Vue({
+                router: router,
                 el: '#app'
             });
         </script>

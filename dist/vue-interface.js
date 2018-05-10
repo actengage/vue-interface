@@ -9777,15 +9777,7 @@
 
         var _c = _vm._self._c || _h;
 
-        return _vm.label ? _c('label', {
-          class: _vm.classes,
-          attrs: {
-            "disabled": _vm.disabled
-          },
-          on: {
-            "click": _vm.onClick
-          }
-        }, [_vm._t("default")], 2) : _vm.to ? _c('router-link', {
+        return _vm.to ? _c('router-link', {
           class: _vm.classes,
           attrs: {
             "to": _vm.to,
@@ -9798,6 +9790,14 @@
           class: _vm.classes,
           attrs: {
             "href": _vm.href,
+            "disabled": _vm.disabled
+          },
+          on: {
+            "click": _vm.onClick
+          }
+        }, [_vm._t("default")], 2) : _vm.label ? _c('label', {
+          class: _vm.classes,
+          attrs: {
             "disabled": _vm.disabled
           },
           on: {

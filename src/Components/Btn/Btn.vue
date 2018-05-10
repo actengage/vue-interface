@@ -1,13 +1,13 @@
 <template>
-    <label v-if="label" :disabled="disabled" :class="classes" @click="onClick">
-        <slot/>
-    </label>
-    <router-link v-else-if="to" :to="to" :disabled="disabled" :class="classes" @click="onClick">
+    <router-link v-if="to" :to="to" :disabled="disabled" :class="classes" @click="onClick">
         <slot/>
     </router-link>
     <a v-else-if="href" :href="href" :disabled="disabled" :class="classes" @click="onClick">
         <slot/>
     </a>
+    <label v-else-if="label" :disabled="disabled" :class="classes" @click="onClick">
+        <slot/>
+    </label>
     <button v-else :type="type" :disabled="disabled" :class="classes" @click="onClick">
         <slot/>
     </button>
