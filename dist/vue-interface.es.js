@@ -16167,17 +16167,15 @@ var ListGroupItem = {
 
     var _c = _vm._self._c || _h;
 
-    return _vm.href ? _c('a', {
-      staticClass: "list-group-item",
+    return _vm.to ? _c('router-link', {
       class: _vm.classes,
       attrs: {
-        "href": _vm.href
+        "to": _vm.to
       },
       on: {
         "click": _vm.onClick
       }
     }, [_vm._t("default", [_vm._v(_vm._s(_vm.label))]), _vm._v(" "), _vm.badge ? _c('badge', _vm._b({}, 'badge', _vm.badgeOptions, false)) : _vm._e()], 2) : _vm.action ? _c('button', {
-      staticClass: "list-group-item",
       class: _vm.classes,
       attrs: {
         "type": "button"
@@ -16189,7 +16187,6 @@ var ListGroupItem = {
         }
       }
     }, [_vm._t("default", [_vm._v(_vm._s(_vm.label))]), _vm._v(" "), _vm.badge ? _c('badge', _vm._b({}, 'badge', _vm.badgeOptions, false)) : _vm._e()], 2) : _c('div', {
-      staticClass: "list-group-item",
       class: _vm.classes,
       on: {
         "click": _vm.onClick
@@ -16268,13 +16265,21 @@ var ListGroupItem = {
     label: {
       type: [Number, String],
       value: null
-    }
+    },
+
+    /**
+     * The to attribute to be passed to a <router-link> component.
+     *
+     * @property String
+     */
+    to: [String, Object]
   },
   computed: {
     classes: function classes() {
       var classes = prefix({
         'action': this.action
       }, 'list-group-item');
+      classes['list-group-item'] = true;
       classes['active'] = this.isActive;
       classes['disabled'] = this.isDisabled;
 

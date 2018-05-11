@@ -1,11 +1,14 @@
 <template>
-    <a v-if="href" :href="href" class="list-group-item" :class="classes" @click="onClick">
+    <router-link v-if="to" :to="to" :class="classes" @click="onClick">
+        <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
+    </router-link>
+    <a v-elseif="href" :href="href" :class="classes" @click="onClick">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </a>
-    <button v-else-if="action" type="button" class="list-group-item" :class="classes" @click.prevent="onClick">
+    <button v-else-if="action" type="button" :class="classes" @click.prevent="onClick">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </button>
-    <div v-else class="list-group-item" :class="classes" @click="onClick">
+    <div v-else :class="classes" @click="onClick">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </div>
 </template>
@@ -91,7 +94,14 @@ export default {
         label: {
             type: [Number, String],
             value: null
-        }
+        },
+
+        /**
+         * The to attribute to be passed to a <router-link> component.
+         *
+         * @property String
+         */
+        to: [String, Object]
 
     },
 
@@ -102,6 +112,7 @@ export default {
                 'action': this.action,
             }, 'list-group-item');
 
+            classes['list-group-item'] = true;
             classes['active'] = this.isActive;
             classes['disabled'] = this.isDisabled;
 
