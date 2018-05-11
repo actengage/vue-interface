@@ -1,11 +1,11 @@
 <template>
 
-    <btn-group v-if="split" @click="onClick">
+    <btn-group v-if="split">
         <template v-if="!dropleft">
-            <a v-if="href" :href="href" :class="actionClasses">
+            <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
                 <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
             </a>
-            <button v-else :type="type" :class="actionClasses">
+            <button v-else :type="type" :class="actionClasses" @click="onClick">
                 <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
             </button>
         </template>
@@ -22,10 +22,10 @@
             </dropdown-menu>
         </btn-group>
         <template v-if="dropleft">
-            <a v-if="href" :href="href" :class="actionClasses">
+            <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
                 <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
             </a>
-            <button v-else :type="type" :class="actionClasses">
+            <button v-else :type="type" :class="actionClasses" @click="onClick">
                 <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
             </button>
         </template>

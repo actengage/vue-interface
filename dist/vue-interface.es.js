@@ -10719,9 +10719,7 @@ var DropdownMenuItem = {
         "type": _vm.component === 'button' ? 'button' : false
       },
       on: {
-        "click": function click($event) {
-          _vm.onClick($event);
-        }
+        "click": _vm.onClick
       }
     }, [_vm.icon ? _c('i', {
       class: _vm.icon
@@ -10784,7 +10782,11 @@ var DropdownMenuItem = {
      * @property Object
      */
     onClick: function onClick(event) {
-      this.$emit('click', event);
+      if (isFunction$1(this.$attrs.onClick)) {
+        this.$attrs.onClick(event, this);
+      }
+
+      this.$emit('click', event, this);
     }
   }
 };
@@ -13489,14 +13491,13 @@ var BtnDropdown = {
 
     var _c = _vm._self._c || _h;
 
-    return _vm.split ? _c('btn-group', {
-      on: {
-        "click": _vm.onClick
-      }
-    }, [!_vm.dropleft ? [_vm.href ? _c('a', {
+    return _vm.split ? _c('btn-group', [!_vm.dropleft ? [_vm.href ? _c('a', {
       class: _vm.actionClasses,
       attrs: {
         "href": _vm.href
+      },
+      on: {
+        "click": _vm.onClick
       }
     }, [_vm._t("label", [_vm.icon ? _c('i', {
       class: _vm.icon
@@ -13504,6 +13505,9 @@ var BtnDropdown = {
       class: _vm.actionClasses,
       attrs: {
         "type": _vm.type
+      },
+      on: {
+        "click": _vm.onClick
       }
     }, [_vm._t("label-wrapper", [_vm.icon ? _c('i', {
       class: _vm.icon
@@ -13546,6 +13550,9 @@ var BtnDropdown = {
       class: _vm.actionClasses,
       attrs: {
         "href": _vm.href
+      },
+      on: {
+        "click": _vm.onClick
       }
     }, [_vm._t("label", [_vm.icon ? _c('i', {
       class: _vm.icon
@@ -13553,6 +13560,9 @@ var BtnDropdown = {
       class: _vm.actionClasses,
       attrs: {
         "type": _vm.type
+      },
+      on: {
+        "click": _vm.onClick
       }
     }, [_vm._t("label-wrapper", [_vm.icon ? _c('i', {
       class: _vm.icon
@@ -18600,8 +18610,13 @@ function blob(url, progress) {
 
 var main = VueInstaller.use({
   install: function install(Vue) {
-    
-
+    /*
+    if("production" === 'development') {
+        const domain = (location.host || 'localhost').split(':')[0];
+        const port = {"watch":"/Users/justinkimbrell/Github/vue-interface/src/","port":35730} && {"watch":"/Users/justinkimbrell/Github/vue-interface/src/","port":35730}.port;
+        VueInstaller.script(`http://${domain}:${port}/livereload.js?snipver=1`);
+    }
+    */
     VueInstaller.plugins(Vue, plugins$1);
     VueInstaller.filters(Vue, filters);
     VueInstaller.directives(Vue, directives$1);

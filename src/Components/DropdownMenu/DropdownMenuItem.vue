@@ -5,14 +5,14 @@
         class="dropdown-item"
         :class="{'active': active}"
         :type="component === 'button' ? 'button' : false"
-        @click="onClick($event);">
+        @click="onClick">
         <i v-if="icon" :class="icon"/>
         <slot>{{label}}</slot>
     </component>
 </template>
 
 <script>
-
+import { isFunction } from 'lodash-es';
 import Proxy from '../../Mixins/Proxy/Proxy';
 
 export default {
@@ -81,7 +81,11 @@ export default {
          * @property Object
          */
         onClick(event) {
-            this.$emit('click', event);
+            if(isFunction(this.$attrs.onClick)) {
+                this.$attrs.onClick(event, this);
+            }
+            
+            this.$emit('click', event, this);
         }
 
     }
