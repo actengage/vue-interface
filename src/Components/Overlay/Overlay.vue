@@ -1,6 +1,6 @@
 <template>
     <div class="overlay" :class="{'show': isVisible}" :style="{background: background}" @keyup.esc="event => closeable && hide()">
-        <button v-if="closeable" type="button" class="btn btn-link overlay-close" @click="onClickClose">
+        <button v-if="closeable || !hideCloseButton" type="button" class="btn btn-link overlay-close" @click="onClickClose">
             <i class="fa fa-times-circle"></i>
         </button>
 
@@ -26,6 +26,13 @@ export default {
             type: String,
             default: 'rgba(255, 255, 255, .925)'
         },
+
+        /**
+         * Is the overlay close button hidden but still closeable.
+         *
+         * @property Boolean
+         */
+        hideCloseButton: Boolean,
 
         /**
          * Is the overlay showing.

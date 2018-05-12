@@ -4081,7 +4081,7 @@ var Overlay = {
           }($event);
         }
       }
-    }, [_vm.closeable ? _c('button', {
+    }, [_vm.closeable || !_vm.hideCloseButton ? _c('button', {
       staticClass: "btn btn-link overlay-close",
       attrs: {
         "type": "button"
@@ -4113,6 +4113,13 @@ var Overlay = {
       type: String,
       default: 'rgba(255, 255, 255, .925)'
     },
+
+    /**
+     * Is the overlay close button hidden but still closeable.
+     *
+     * @property Boolean
+     */
+    hideCloseButton: Boolean,
 
     /**
      * Is the overlay showing.
