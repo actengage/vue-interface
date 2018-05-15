@@ -1,11 +1,11 @@
 <template>
-    <router-link v-if="to" :to="to" :disabled="disabled" :class="classes" @click="onClick">
+    <router-link v-if="to" :to="to" :disabled="disabled" :class="classes" @click="onClick" role="button">
         <slot/>
     </router-link>
-    <a v-else-if="href" :href="href" :disabled="disabled" :class="classes" @click="onClick">
+    <a v-else-if="href" :href="href" :disabled="disabled" :class="classes" @click="onClick" role="button">
         <slot/>
     </a>
-    <label v-else-if="label" :disabled="disabled" :class="classes" @click="onClick">
+    <label v-else-if="label" :disabled="disabled" :class="classes" @click="onClick" role="button">
         <slot/>
     </label>
     <button v-else :type="type" :disabled="disabled" :class="classes" @click="onClick">
@@ -122,3 +122,81 @@ export default {
 
 }
 </script>
+
+<style lang="scss">
+@import './node_modules/bootstrap/scss/mixins.scss';
+@import './node_modules/bootstrap/scss/functions.scss';
+@import './node_modules/bootstrap/scss/variables.scss';
+
+@mixin button-block($size) {
+    width: 100%;
+    display: block;
+}
+
+@include media-breakpoint-up(xs) {
+    .btn-block,
+    .btn-xs-block {
+        @include button-block(xs);
+
+        + .btn-block,
+        + .btn-xs-block {
+            margin-top: $btn-block-spacing-y;
+        }
+    }
+}
+
+@include media-breakpoint-up(sm) {
+    .btn-sm-block {
+        @include button-block(sm);
+
+        + .btn-block,
+        + .btn-xs-block,
+        + .btn-sm-block {
+            margin-top: $btn-block-spacing-y;
+        }
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .btn-md-block {
+        @include button-block(md);
+
+        + .btn-block,
+        + .btn-xs-block,
+        + .btn-sm-block,
+        + .btn-md-block {
+            margin-top: $btn-block-spacing-y;
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .btn-lg-block {
+        @include button-block(lg);
+
+        + .btn-block,
+        + .btn-xs-block,
+        + .btn-sm-block,
+        + .btn-md-block,
+        + .btn-lg-block {
+            margin-top: $btn-block-spacing-y;
+        }
+    }
+}
+
+@include media-breakpoint-up(xl) {
+    .btn-xl-block {
+        @include button-block(xl);
+
+        + .btn-block,
+        + .btn-xs-block,
+        + .btn-sm-block,
+        + .btn-md-block,
+        + .btn-lg-block,
+        + .btn-xl-block {
+            margin-top: $btn-block-spacing-y;
+        }
+    }
+}
+
+</style>

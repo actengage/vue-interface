@@ -1001,6 +1001,58 @@
       .overlay .overlay-content .overlay-controls + * {
         clear: both; }
 
+.btn-block,
+.btn-xs-block {
+  width: 100%;
+  display: block; }
+  .btn-block + .btn-block,
+  .btn-block + .btn-xs-block,
+  .btn-xs-block + .btn-block,
+  .btn-xs-block + .btn-xs-block {
+    margin-top: 0.5rem; }
+
+@media (min-width: 576px) {
+  .btn-sm-block {
+    width: 100%;
+    display: block; }
+    .btn-sm-block + .btn-block,
+    .btn-sm-block + .btn-xs-block,
+    .btn-sm-block + .btn-sm-block {
+      margin-top: 0.5rem; } }
+
+@media (min-width: 768px) {
+  .btn-md-block {
+    width: 100%;
+    display: block; }
+    .btn-md-block + .btn-block,
+    .btn-md-block + .btn-xs-block,
+    .btn-md-block + .btn-sm-block,
+    .btn-md-block + .btn-md-block {
+      margin-top: 0.5rem; } }
+
+@media (min-width: 992px) {
+  .btn-lg-block {
+    width: 100%;
+    display: block; }
+    .btn-lg-block + .btn-block,
+    .btn-lg-block + .btn-xs-block,
+    .btn-lg-block + .btn-sm-block,
+    .btn-lg-block + .btn-md-block,
+    .btn-lg-block + .btn-lg-block {
+      margin-top: 0.5rem; } }
+
+@media (min-width: 1200px) {
+  .btn-xl-block {
+    width: 100%;
+    display: block; }
+    .btn-xl-block + .btn-block,
+    .btn-xl-block + .btn-xs-block,
+    .btn-xl-block + .btn-sm-block,
+    .btn-xl-block + .btn-md-block,
+    .btn-xl-block + .btn-lg-block,
+    .btn-xl-block + .btn-xl-block {
+      margin-top: 0.5rem; } }
+
 .btn-file {
   cursor: pointer;
   position: relative; }
@@ -1262,6 +1314,10 @@
     .light-switch .custom-select.is-valid ~ .valid-feedback,
     .light-switch .custom-select.is-valid ~ .valid-tooltip {
       display: block; }
+  .was-validated .light-switch .form-control-file:valid ~ .valid-feedback,
+  .was-validated .light-switch .form-control-file:valid ~ .valid-tooltip, .light-switch .form-control-file.is-valid ~ .valid-feedback,
+  .light-switch .form-control-file.is-valid ~ .valid-tooltip {
+    display: block; }
   .was-validated .light-switch .form-check-input:valid ~ .form-check-label, .light-switch .form-check-input.is-valid ~ .form-check-label {
     color: #28a745; }
   .was-validated .light-switch .form-check-input:valid ~ .valid-feedback,
@@ -1327,6 +1383,10 @@
     .light-switch .custom-select.is-invalid ~ .invalid-feedback,
     .light-switch .custom-select.is-invalid ~ .invalid-tooltip {
       display: block; }
+  .was-validated .light-switch .form-control-file:invalid ~ .invalid-feedback,
+  .was-validated .light-switch .form-control-file:invalid ~ .invalid-tooltip, .light-switch .form-control-file.is-invalid ~ .invalid-feedback,
+  .light-switch .form-control-file.is-invalid ~ .invalid-tooltip {
+    display: block; }
   .was-validated .light-switch .form-check-input:invalid ~ .form-check-label, .light-switch .form-check-input.is-invalid ~ .form-check-label {
     color: #dc3545; }
   .was-validated .light-switch .form-check-input:invalid ~ .invalid-feedback,

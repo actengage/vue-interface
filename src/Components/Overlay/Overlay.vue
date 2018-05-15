@@ -1,6 +1,6 @@
 <template>
     <div class="overlay" :class="{'show': isVisible}" :style="{background: background}" @keyup.esc="event => closeable && hide()">
-        <button v-if="closeable || !hideCloseButton" type="button" class="btn btn-link overlay-close" @click="onClickClose">
+        <button v-if="closeable && !hideCloseButton" type="button" class="btn btn-link overlay-close" @click="onClickClose">
             <i class="fa fa-times-circle"></i>
         </button>
 

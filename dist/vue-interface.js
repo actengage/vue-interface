@@ -3179,7 +3179,7 @@
       }, convertAnimationDelayToInt(defaultView.getComputedStyle(el).animationDuration));
     };
 
-    var ActivityButton = {
+    var BtnActivity = {
       render: function render() {
         var _vm = this;
 
@@ -3396,7 +3396,7 @@
     var plugin$2 = VueInstaller.use({
       install: function install(Vue, options) {
         VueInstaller.components({
-          ActivityButton: ActivityButton
+          BtnActivity: BtnActivity
         });
       }
     });
@@ -3654,7 +3654,7 @@
           on: {
             "click": _vm.cancel
           }
-        }, [_vm._v(_vm._s(_vm.cancelLabel))]), _vm._v(" "), _c('activity-button', {
+        }, [_vm._v(_vm._s(_vm.cancelLabel))]), _vm._v(" "), _c('btn-activity', {
           attrs: {
             "activity": _vm.activity,
             "variant": "primary"
@@ -3662,7 +3662,7 @@
           on: {
             "click": _vm.confirm
           }
-        }, [_vm._v(_vm._s(_vm.okLabel))])], 1)] : [_c('modal-footer', [_c('activity-button', {
+        }, [_vm._v(_vm._s(_vm.okLabel))])], 1)] : [_c('modal-footer', [_c('btn-activity', {
           attrs: {
             "activity": _vm.activity,
             "variant": "primary"
@@ -3675,7 +3675,7 @@
       staticRenderFns: [],
       name: 'modal',
       components: {
-        ActivityButton: ActivityButton,
+        BtnActivity: BtnActivity,
         ModalBody: ModalBody,
         ModalBackdrop: ModalBackdrop,
         ModalContent: ModalContent,
@@ -4087,7 +4087,7 @@
               }($event);
             }
           }
-        }, [_vm.closeable || !_vm.hideCloseButton ? _c('button', {
+        }, [_vm.closeable && !_vm.hideCloseButton ? _c('button', {
           staticClass: "btn btn-link overlay-close",
           attrs: {
             "type": "button"
@@ -4220,6 +4220,16 @@
       }
     };
 
+    function ensure$1(options, values) {
+      if (!options) {
+        options = {};
+      }
+
+      return {
+        propsData: defaultsDeep(options.propsData || options, values || {})
+      };
+    }
+
     function overlay (Vue, options) {
       Vue.prototype.$overlay = function (ContentComponent, options, overlayOptions, CustomOverlayComponent) {
         var _this = this;
@@ -4234,8 +4244,8 @@
           return isFunction$1(vue) ? new vue(options) : vue;
         };
 
-        var overlay = component(CustomOverlayComponent || Overlay, overlayOptions);
-        overlay.$content = component(ContentComponent, options);
+        var overlay = component(CustomOverlayComponent || Overlay, ensure$1(overlayOptions));
+        overlay.$content = component(ContentComponent, ensure$1(options));
         overlay.show(overlay.$content);
         return overlay;
       };
@@ -9788,7 +9798,8 @@
           class: _vm.classes,
           attrs: {
             "to": _vm.to,
-            "disabled": _vm.disabled
+            "disabled": _vm.disabled,
+            "role": "button"
           },
           on: {
             "click": _vm.onClick
@@ -9797,7 +9808,8 @@
           class: _vm.classes,
           attrs: {
             "href": _vm.href,
-            "disabled": _vm.disabled
+            "disabled": _vm.disabled,
+            "role": "button"
           },
           on: {
             "click": _vm.onClick
@@ -9805,7 +9817,8 @@
         }, [_vm._t("default")], 2) : _vm.label ? _c('label', {
           class: _vm.classes,
           attrs: {
-            "disabled": _vm.disabled
+            "disabled": _vm.disabled,
+            "role": "button"
           },
           on: {
             "click": _vm.onClick
@@ -10795,10 +10808,6 @@
          * @property Object
          */
         onClick: function onClick(event) {
-          if (isFunction$1(this.$attrs.onClick)) {
-            this.$attrs.onClick(event, this);
-          }
-
           this.$emit('click', event, this);
         }
       }
@@ -13548,7 +13557,6 @@
         }), _vm._v(" "), _c('dropdown-menu', {
           attrs: {
             "id": _vm.id,
-            "items": _vm.items,
             "align": _vm.align,
             "show": _vm.isDropdownShowing
           },
@@ -13608,7 +13616,6 @@
         }) : _vm._e(), _vm._v(" " + _vm._s(_vm.label))])], 2), _vm._v(" "), _c('dropdown-menu', {
           attrs: {
             "id": _vm.id,
-            "items": _vm.items,
             "align": _vm.align,
             "show": _vm.isDropdownShowing
           },
@@ -13629,22 +13636,6 @@
         DropdownMenu: DropdownMenu
       },
       props: {
-        /**
-         * An array of dropdown items. If an key/value pair isn't defined, the
-         * default value will be used. If no items are defined, then the slot
-         * named "items" can be used to define the options with HTML.
-         *
-         * [{
-         *      type: 'item', // String [item|header|divider]
-         *      href: '#', // String
-         *      label: 'Some label', // String
-         *      onClick: (event) => {} // Function
-         * }]
-         *
-         * @property Array
-         */
-        items: Array,
-
         /**
          * The button icon that appears before the label.
          *
@@ -18434,7 +18425,6 @@
 
 
     var components$1 = /*#__PURE__*/Object.freeze({
-        ActivityButton: ActivityButton,
         ActivityIndicator: ActivityIndicator,
         Alert: Alert,
         AlertClose: AlertClose,
@@ -18445,6 +18435,7 @@
         Breadcrumb: Breadcrumb,
         BreadcrumbItem: BreadcrumbItem,
         Btn: Btn,
+        BtnActivity: BtnActivity,
         BtnFile: BtnFile,
         BtnGroup: BtnGroup,
         BtnToolbar: BtnToolbar,
@@ -18653,7 +18644,6 @@
     exports.mergeClasses = MergeClasses;
     exports.modal = modal$1;
     exports.overlay = overlay;
-    exports.ActivityButton = ActivityButton;
     exports.ActivityIndicator = ActivityIndicator;
     exports.Alert = Alert;
     exports.AlertClose = AlertClose;
@@ -18664,6 +18654,7 @@
     exports.Breadcrumb = Breadcrumb;
     exports.BreadcrumbItem = BreadcrumbItem;
     exports.Btn = Btn;
+    exports.BtnActivity = BtnActivity;
     exports.BtnFile = BtnFile;
     exports.BtnGroup = BtnGroup;
     exports.BtnToolbar = BtnToolbar;

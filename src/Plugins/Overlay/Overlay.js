@@ -1,6 +1,17 @@
 import { isObject } from 'lodash-es';
 import { isFunction } from 'lodash-es';
+import { defaultsDeep } from 'lodash-es';
 import Overlay from '../../Components/Overlay/Overlay';
+
+function ensure(options, values) {
+    if(!options) {
+        options = {};
+    }
+
+    return {
+        propsData: defaultsDeep(options.propsData || options, values || {})
+    };
+}
 
 export default function(Vue, options) {
     Vue.prototype.$overlay = function(ContentComponent, options, overlayOptions, CustomOverlayComponent) {
@@ -14,8 +25,8 @@ export default function(Vue, options) {
             return isFunction(vue) ? new vue(options) : vue;
         }
 
-        const overlay = component(CustomOverlayComponent || Overlay, overlayOptions);
-        overlay.$content = component(ContentComponent, options);
+        const overlay = component(CustomOverlayComponent || Overlay, ensure(overlayOptions));
+        overlay.$content = component(ContentComponent, ensure(options));
         overlay.show(overlay.$content);
         return overlay;
     };

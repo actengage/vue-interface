@@ -13,7 +13,6 @@
             <button type="button" aria-haspopup="true" :aria-expanded="isDropdownShowing" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur"></button>
             <dropdown-menu
                 :id="id"
-                :items="items"
                 :align="align"
                 :show.sync="isDropdownShowing"
                 @click="onMenuClick"
@@ -38,7 +37,6 @@
 
         <dropdown-menu
             :id="id"
-            :items="items"
             :align="align"
             :show.sync="isDropdownShowing"
             @click="onMenuClick"
@@ -79,22 +77,6 @@ export default {
     },
 
     props: {
-
-        /**
-         * An array of dropdown items. If an key/value pair isn't defined, the
-         * default value will be used. If no items are defined, then the slot
-         * named "items" can be used to define the options with HTML.
-         *
-         * [{
-         *      type: 'item', // String [item|header|divider]
-         *      href: '#', // String
-         *      label: 'Some label', // String
-         *      onClick: (event) => {} // Function
-         * }]
-         *
-         * @property Array
-         */
-        items: Array,
 
         /**
          * The button icon that appears before the label.

@@ -21,12 +21,12 @@
                         <template v-if="type === 'confirm' || type === 'prompt'">
                             <modal-footer>
                                 <btn type="button" variant="secondary" @click="cancel">{{cancelLabel}}</btn>
-                                <activity-button :activity="activity" variant="primary" @click="confirm">{{okLabel}}</activity-button>
+                                <btn-activity :activity="activity" variant="primary" @click="confirm">{{okLabel}}</btn-activity>
                             </modal-footer>
                         </template>
                         <template v-else>
                             <modal-footer>
-                                <activity-button :activity="activity" variant="primary" @click="confirm">{{okLabel}}</activity-button>
+                                <btn-activity :activity="activity" variant="primary" @click="confirm">{{okLabel}}</btn-activity>
                             </modal-footer>
                         </template>
                     </slot>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import ActivityButton from '../ActivityButton';
+import BtnActivity from '../BtnActivity';
 import ModalBody from './ModalBody';
 import ModalBackdrop from './ModalBackdrop';
 import ModalContent from './ModalContent';
@@ -56,7 +56,7 @@ export default {
     name: 'modal',
 
     components: {
-        ActivityButton,
+        BtnActivity,
         ModalBody,
         ModalBackdrop,
         ModalContent,

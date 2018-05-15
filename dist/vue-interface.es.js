@@ -3173,7 +3173,7 @@ var animated = function animated(el, callback) {
   }, convertAnimationDelayToInt(defaultView.getComputedStyle(el).animationDuration));
 };
 
-var ActivityButton = {
+var BtnActivity = {
   render: function render() {
     var _vm = this;
 
@@ -3390,7 +3390,7 @@ var ActivityButton = {
 var plugin$2 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
-      ActivityButton: ActivityButton
+      BtnActivity: BtnActivity
     });
   }
 });
@@ -3648,7 +3648,7 @@ var Modal = {
       on: {
         "click": _vm.cancel
       }
-    }, [_vm._v(_vm._s(_vm.cancelLabel))]), _vm._v(" "), _c('activity-button', {
+    }, [_vm._v(_vm._s(_vm.cancelLabel))]), _vm._v(" "), _c('btn-activity', {
       attrs: {
         "activity": _vm.activity,
         "variant": "primary"
@@ -3656,7 +3656,7 @@ var Modal = {
       on: {
         "click": _vm.confirm
       }
-    }, [_vm._v(_vm._s(_vm.okLabel))])], 1)] : [_c('modal-footer', [_c('activity-button', {
+    }, [_vm._v(_vm._s(_vm.okLabel))])], 1)] : [_c('modal-footer', [_c('btn-activity', {
       attrs: {
         "activity": _vm.activity,
         "variant": "primary"
@@ -3669,7 +3669,7 @@ var Modal = {
   staticRenderFns: [],
   name: 'modal',
   components: {
-    ActivityButton: ActivityButton,
+    BtnActivity: BtnActivity,
     ModalBody: ModalBody,
     ModalBackdrop: ModalBackdrop,
     ModalContent: ModalContent,
@@ -4081,7 +4081,7 @@ var Overlay = {
           }($event);
         }
       }
-    }, [_vm.closeable || !_vm.hideCloseButton ? _c('button', {
+    }, [_vm.closeable && !_vm.hideCloseButton ? _c('button', {
       staticClass: "btn btn-link overlay-close",
       attrs: {
         "type": "button"
@@ -4214,6 +4214,16 @@ var Overlay = {
   }
 };
 
+function ensure$1(options, values) {
+  if (!options) {
+    options = {};
+  }
+
+  return {
+    propsData: defaultsDeep(options.propsData || options, values || {})
+  };
+}
+
 function overlay (Vue, options) {
   Vue.prototype.$overlay = function (ContentComponent, options, overlayOptions, CustomOverlayComponent) {
     var _this = this;
@@ -4228,8 +4238,8 @@ function overlay (Vue, options) {
       return isFunction$1(vue) ? new vue(options) : vue;
     };
 
-    var overlay = component(CustomOverlayComponent || Overlay, overlayOptions);
-    overlay.$content = component(ContentComponent, options);
+    var overlay = component(CustomOverlayComponent || Overlay, ensure$1(overlayOptions));
+    overlay.$content = component(ContentComponent, ensure$1(options));
     overlay.show(overlay.$content);
     return overlay;
   };
@@ -9782,7 +9792,8 @@ var Btn = {
       class: _vm.classes,
       attrs: {
         "to": _vm.to,
-        "disabled": _vm.disabled
+        "disabled": _vm.disabled,
+        "role": "button"
       },
       on: {
         "click": _vm.onClick
@@ -9791,7 +9802,8 @@ var Btn = {
       class: _vm.classes,
       attrs: {
         "href": _vm.href,
-        "disabled": _vm.disabled
+        "disabled": _vm.disabled,
+        "role": "button"
       },
       on: {
         "click": _vm.onClick
@@ -9799,7 +9811,8 @@ var Btn = {
     }, [_vm._t("default")], 2) : _vm.label ? _c('label', {
       class: _vm.classes,
       attrs: {
-        "disabled": _vm.disabled
+        "disabled": _vm.disabled,
+        "role": "button"
       },
       on: {
         "click": _vm.onClick
@@ -10789,10 +10802,6 @@ var DropdownMenuItem = {
      * @property Object
      */
     onClick: function onClick(event) {
-      if (isFunction$1(this.$attrs.onClick)) {
-        this.$attrs.onClick(event, this);
-      }
-
       this.$emit('click', event, this);
     }
   }
@@ -13542,7 +13551,6 @@ var BtnDropdown = {
     }), _vm._v(" "), _c('dropdown-menu', {
       attrs: {
         "id": _vm.id,
-        "items": _vm.items,
         "align": _vm.align,
         "show": _vm.isDropdownShowing
       },
@@ -13602,7 +13610,6 @@ var BtnDropdown = {
     }) : _vm._e(), _vm._v(" " + _vm._s(_vm.label))])], 2), _vm._v(" "), _c('dropdown-menu', {
       attrs: {
         "id": _vm.id,
-        "items": _vm.items,
         "align": _vm.align,
         "show": _vm.isDropdownShowing
       },
@@ -13623,22 +13630,6 @@ var BtnDropdown = {
     DropdownMenu: DropdownMenu
   },
   props: {
-    /**
-     * An array of dropdown items. If an key/value pair isn't defined, the
-     * default value will be used. If no items are defined, then the slot
-     * named "items" can be used to define the options with HTML.
-     *
-     * [{
-     *      type: 'item', // String [item|header|divider]
-     *      href: '#', // String
-     *      label: 'Some label', // String
-     *      onClick: (event) => {} // Function
-     * }]
-     *
-     * @property Array
-     */
-    items: Array,
-
     /**
      * The button icon that appears before the label.
      *
@@ -18428,7 +18419,6 @@ var plugin$37 = VueInstaller.use({
 
 
 var components$1 = /*#__PURE__*/Object.freeze({
-    ActivityButton: ActivityButton,
     ActivityIndicator: ActivityIndicator,
     Alert: Alert,
     AlertClose: AlertClose,
@@ -18439,6 +18429,7 @@ var components$1 = /*#__PURE__*/Object.freeze({
     Breadcrumb: Breadcrumb,
     BreadcrumbItem: BreadcrumbItem,
     Btn: Btn,
+    BtnActivity: BtnActivity,
     BtnFile: BtnFile,
     BtnGroup: BtnGroup,
     BtnToolbar: BtnToolbar,
@@ -18632,5 +18623,5 @@ var main = VueInstaller.use({
 });
 
 export default main;
-export { Model, Request, RequestOptions, transformRequest, transformResponse, Colorable, FormControl as FormControlMixin, HasSlots, Proxy, Screenreaders, Sizeable, Variant, MergeClasses as mergeClasses, modal$1 as modal, overlay, ActivityButton, ActivityIndicator, Alert, AlertClose, AlertHeading, AlertLink, Badge, BaseForm, Breadcrumb, BreadcrumbItem, Btn, BtnFile, BtnGroup, BtnToolbar, BtnDropdown, Card, CardBody, CardBtnGroup, CardDeck, CardFooter, CardHeader, CardImg, CardImgTop, CardImgBottom, CardImgOverlay, CardLink, CardSubtitle, CardTitle, CheckboxField, Container, DropdownMenu, DropdownMenuItem, DropdownMenuHeader, DropdownMenuDivider, Dropzone, FileField, FilePreview, FormControl$1 as FormControl, FormFeedback, FormGroup, FormLabel, HelpText, InfiniteScrolling, InputField, InputGroup, InputGroupAppend, InputGroupPrepend, InputGroupText, LightSwitchField, ListGroup, ListGroupItem, Modal, ModalBackdrop, ModalBody, ModalContent, ModalDialog, ModalFooter, ModalHeader, ModalTitle, Navigation, NavigationItem, NavigationLink, NavigationDropdown, Overlay, Pagination, ProgressBar, RadioField, SelectField, TableView, TextareaField, ThumbnailList, ThumbnailListItem, UploadField, index$1 as Autogrow, index as DateFilter, index as MomentFilter, blob, prefix, readFile, script, transition, unit, uuid };
+export { Model, Request, RequestOptions, transformRequest, transformResponse, Colorable, FormControl as FormControlMixin, HasSlots, Proxy, Screenreaders, Sizeable, Variant, MergeClasses as mergeClasses, modal$1 as modal, overlay, ActivityIndicator, Alert, AlertClose, AlertHeading, AlertLink, Badge, BaseForm, Breadcrumb, BreadcrumbItem, Btn, BtnActivity, BtnFile, BtnGroup, BtnToolbar, BtnDropdown, Card, CardBody, CardBtnGroup, CardDeck, CardFooter, CardHeader, CardImg, CardImgTop, CardImgBottom, CardImgOverlay, CardLink, CardSubtitle, CardTitle, CheckboxField, Container, DropdownMenu, DropdownMenuItem, DropdownMenuHeader, DropdownMenuDivider, Dropzone, FileField, FilePreview, FormControl$1 as FormControl, FormFeedback, FormGroup, FormLabel, HelpText, InfiniteScrolling, InputField, InputGroup, InputGroupAppend, InputGroupPrepend, InputGroupText, LightSwitchField, ListGroup, ListGroupItem, Modal, ModalBackdrop, ModalBody, ModalContent, ModalDialog, ModalFooter, ModalHeader, ModalTitle, Navigation, NavigationItem, NavigationLink, NavigationDropdown, Overlay, Pagination, ProgressBar, RadioField, SelectField, TableView, TextareaField, ThumbnailList, ThumbnailListItem, UploadField, index$1 as Autogrow, index as DateFilter, index as MomentFilter, blob, prefix, readFile, script, transition, unit, uuid };
 //# sourceMappingURL=vue-interface.es.js.map

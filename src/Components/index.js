@@ -1,4 +1,3 @@
-import ActivityButton from './ActivityButton';
 import ActivityIndicator from './ActivityIndicator';
 import Alert from './Alert';
 import AlertClose from './Alert/AlertClose';
@@ -9,6 +8,7 @@ import BaseForm from './BaseForm';
 import Breadcrumb from './Breadcrumb';
 import BreadcrumbItem from './Breadcrumb/BreadcrumbItem';
 import Btn from './Btn';
+import BtnActivity from './BtnActivity';
 import BtnFile from './BtnFile';
 import BtnGroup from './BtnGroup';
 import BtnToolbar from './BtnGroup/BtnToolbar';
@@ -73,7 +73,6 @@ import ThumbnailListItem from './ThumbnailList/ThumbnailListItem';
 import UploadField from './UploadField';
 
 export {
-    ActivityButton,
     ActivityIndicator,
     Alert,
     AlertClose,
@@ -84,6 +83,7 @@ export {
     Breadcrumb,
     BreadcrumbItem,
     Btn,
+    BtnActivity,
     BtnFile,
     BtnGroup,
     BtnToolbar,

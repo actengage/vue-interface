@@ -81,10 +81,6 @@ export default {
          * @property Object
          */
         onClick(event) {
-            if(isFunction(this.$attrs.onClick)) {
-                this.$attrs.onClick(event, this);
-            }
-            
             this.$emit('click', event, this);
         }
 
