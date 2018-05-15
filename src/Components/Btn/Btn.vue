@@ -133,7 +133,7 @@ export default {
     display: block;
 }
 
-@include media-breakpoint-up(xs) {
+@include media-breakpoint-down(xs) {
     .btn-xs-block {
         @include button-block(xs);
 
@@ -143,7 +143,7 @@ export default {
     }
 }
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-down(sm) {
     .btn-sm-block {
         @include button-block(sm);
 
@@ -154,7 +154,7 @@ export default {
     }
 }
 
-@include media-breakpoint-up(md) {
+@include media-breakpoint-down(md) {
     .btn-md-block {
         @include button-block(md);
 
@@ -166,7 +166,7 @@ export default {
     }
 }
 
-@include media-breakpoint-up(lg) {
+@include media-breakpoint-down(lg) {
     .btn-lg-block {
         @include button-block(lg);
 
@@ -179,7 +179,7 @@ export default {
     }
 }
 
-@include media-breakpoint-up(xl) {
+@include media-breakpoint-down(xl) {
     .btn-xl-block {
         @include button-block(xl);
 
