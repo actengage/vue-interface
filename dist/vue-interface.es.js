@@ -16509,6 +16509,298 @@ var plugin$28 = VueInstaller.use({
   }
 });
 
+/** `Object#toString` result references. */
+var boolTag$4 = '[object Boolean]';
+
+/**
+ * Checks if `value` is classified as a boolean primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a boolean, else `false`.
+ * @example
+ *
+ * _.isBoolean(false);
+ * // => true
+ *
+ * _.isBoolean(null);
+ * // => false
+ */
+function isBoolean(value) {
+  return value === true || value === false ||
+    (isObjectLike(value) && baseGetTag(value) == boolTag$4);
+}
+
+var NavbarBrand = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c(_vm.component, {
+      tag: "component",
+      staticClass: "navbar-brand",
+      class: {
+        'h1': _vm.h1
+      },
+      attrs: {
+        "to": _vm.to,
+        "href": _vm.href
+      }
+    }, [_vm.src ? _c('img', {
+      staticClass: "d-inline-block align-center",
+      attrs: {
+        "src": _vm.src,
+        "width": _vm.unit(_vm.width),
+        "height": _vm.unit(_vm.height),
+        "alt": _vm.alt
+      }
+    }) : _vm._e(), _vm._v(" "), _vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  props: {
+    /**
+     * The img `alt` attribute. `src` must be define before this prop has
+     * any affect.
+     *
+     * @property Object
+     */
+    alt: String,
+
+    /**
+     * The HTML wrapping tag.
+     *
+     * @property Object
+     */
+    tag: String,
+
+    /**
+     * The img `width` attribute. `src` must be define before this prop has
+     * any affect.
+     *
+     * @property Object
+     */
+    width: [Number, String],
+
+    /**
+     * The img `height` attribute. `src` must be define before this prop has
+     * any affect.
+     *
+     * @property Object
+     */
+    height: [Number, String],
+
+    /**
+     * The `to` attribute that is passed to the component.
+     *
+     * @property Object
+     */
+    to: [Object, String],
+
+    /**
+     * The `href` attribute that is passed to the component.
+     *
+     * @property Object
+     */
+    href: String,
+
+    /**
+     * Append the `h1` class to increase the display size
+     *
+     * @property Object
+     */
+    h1: Boolean,
+
+    /**
+     * If a `src` attribute is passed, then use it to add an img tag
+     *
+     * @property Object
+     */
+    src: String
+  },
+  computed: {
+    component: function component() {
+      return this.tag || (this.to ? 'router-link' : 'a');
+    }
+  },
+  methods: {
+    unit: function unit$$1(value) {
+      return unit(value);
+    }
+  }
+};
+
+var NavbarCollapse = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "navbar-collapse",
+      class: {
+        'collapse': _vm.collapse
+      }
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'navbar-collapse',
+  props: {
+    collapse: {
+      type: Boolean,
+      default: true
+    }
+  }
+};
+
+var NavbarText = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('span', {
+      staticClass: "navbar-text"
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'navbar-text'
+};
+
+var NavbarTogglerIcon = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('span', {
+      staticClass: "navbar-toggler-icon"
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'navbar-toggler-icon'
+};
+
+var NavbarToggler = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('button', {
+      staticClass: "navbar-toggler",
+      attrs: {
+        "type": "button",
+        "data-toggle": "collapse",
+        "data-target": "#".concat(_vm.target),
+        "aria-controls": _vm.target,
+        "aria-expanded": _vm.expanded,
+        "aria-label": _vm.label
+      },
+      on: {
+        "click": _vm.onClick
+      }
+    }, [_vm._t("default", [_c('navbar-toggler-icon')])], 2);
+  },
+  staticRenderFns: [],
+  name: 'navbar-toggler',
+  components: {
+    NavbarTogglerIcon: NavbarTogglerIcon
+  },
+  props: {
+    expanded: Boolean,
+    label: {
+      type: String,
+      default: 'Toggle navigation'
+    },
+    target: String
+  },
+  methods: {
+    onClick: function onClick(event) {
+      this.$emit('click', event, this);
+    }
+  }
+};
+
+var Navbar = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('nav', {
+      class: _vm.classes
+    }, [_vm._t("default"), _vm._v(" "), _c('navbar-toggler')], 2);
+  },
+  staticRenderFns: [],
+  name: 'navbar',
+  components: {
+    NavbarBrand: NavbarBrand,
+    NavbarCollapse: NavbarCollapse,
+    NavbarText: NavbarText,
+    NavbarToggler: NavbarToggler,
+    NavbarTogglerIcon: NavbarTogglerIcon
+  },
+  mixins: [Variant, Colorable],
+  props: {
+    /**
+     * Expand the navbar. If true, applies to all size, otherwise pass a string.
+     *
+     * @property Object
+     */
+    expand: {
+      type: [Boolean, String],
+      default: 'lg',
+      validate: function validate(value) {
+        ['xs', 'sm', 'md', 'lg', 'xl'].indexOf(value) !== -1 || isBoolean(value);
+      }
+    },
+
+    /**
+     * The variant attribute
+     *
+     * @property String
+     */
+    variant: {
+      type: String,
+      default: 'light',
+      validate: function validate(value) {
+        return ['light', 'dark'].indexOf(value) !== -1;
+      }
+    }
+  },
+  computed: {
+    expandedClass: function expandedClass() {
+      if (isBoolean(this.expand)) {
+        return this.expand;
+      }
+
+      return prefix(prefix(this.expand, 'expand'), 'navbar');
+    },
+    classes: function classes() {
+      return this.$mergeClasses('navbar', this.expandedClass, this.variantClass, this.colorableClasses);
+    }
+  },
+  data: function data() {
+    return {};
+  }
+};
+
 var NavigationLink = {
   render: function render() {
     var _vm = this;
@@ -16652,11 +16944,7 @@ var Navigation = {
       attrs: {
         "role": _vm.role
       }
-    }, [_vm._l(_vm.items, function (item, i) {
-      return _vm.items ? _c('navigation-item', _vm._b({
-        key: i
-      }, 'navigation-item', item, false)) : _vm._e();
-    }), _vm._v(" "), _vm._t("default")], 2);
+    }, [_vm._t("default")], 2);
   },
   staticRenderFns: [],
   name: 'navigation',
@@ -16821,7 +17109,44 @@ var plugin$29 = VueInstaller.use({
   }
 });
 
+var NavbarNav = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('ul', {
+      staticClass: "navbar-nav",
+      class: _vm.classes,
+      attrs: {
+        "role": _vm.role
+      }
+    }, [_vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'navbar-nav',
+  components: {
+    Navigation: Navigation
+  }
+};
+
 var plugin$30 = VueInstaller.use({
+  install: function install(Vue, options) {
+    VueInstaller.components({
+      Navbar: Navbar,
+      NavbarBrand: NavbarBrand,
+      NavbarCollapse: NavbarCollapse,
+      NavbarNav: NavbarNav,
+      NavbarText: NavbarText,
+      NavbarToggler: NavbarToggler,
+      NavbarTogglerIcon: NavbarTogglerIcon
+    });
+  }
+});
+
+var plugin$31 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Overlay: Overlay
@@ -17064,7 +17389,7 @@ var Pagination = {
   }
 };
 
-var plugin$31 = VueInstaller.use({
+var plugin$32 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       Pagination: Pagination
@@ -17072,7 +17397,7 @@ var plugin$31 = VueInstaller.use({
   }
 });
 
-var plugin$32 = VueInstaller.use({
+var plugin$33 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       RadioField: RadioField
@@ -17162,7 +17487,7 @@ var SelectField = {
   }
 };
 
-var plugin$33 = VueInstaller.use({
+var plugin$34 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       SelectField: SelectField
@@ -17696,7 +18021,7 @@ var TableView = {
   }
 };
 
-var plugin$34 = VueInstaller.use({
+var plugin$35 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       TableView: TableView
@@ -17792,7 +18117,7 @@ var TextareaField = {
   }
 };
 
-var plugin$35 = VueInstaller.use({
+var plugin$36 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       TextareaField: TextareaField
@@ -17897,7 +18222,7 @@ var ThumbnailList = {
   }
 };
 
-var plugin$36 = VueInstaller.use({
+var plugin$37 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       ThumbnailList: ThumbnailList
@@ -18408,7 +18733,7 @@ var UploadField = {
   }
 };
 
-var plugin$37 = VueInstaller.use({
+var plugin$38 = VueInstaller.use({
   install: function install(Vue, options) {
     VueInstaller.components({
       UploadField: UploadField
@@ -18470,6 +18795,13 @@ var components$1 = /*#__PURE__*/Object.freeze({
     LightSwitchField: LightSwitchField,
     ListGroup: ListGroup,
     ListGroupItem: ListGroupItem,
+    Navbar: Navbar,
+    NavbarBrand: NavbarBrand,
+    NavbarCollapse: NavbarCollapse,
+    NavbarNav: NavbarNav,
+    NavbarText: NavbarText,
+    NavbarToggler: NavbarToggler,
+    NavbarTogglerIcon: NavbarTogglerIcon,
     Modal: Modal,
     ModalBackdrop: ModalBackdrop,
     ModalBody: ModalBody,
@@ -18568,10 +18900,73 @@ function index$1 (Vue, options) {
   Vue.directive('autogrow', Autogrow);
 }
 
+function show(el, target, vnode) {
+  target.classList.remove('collapse');
+  target.classList.add('collapsing');
+  vnode.context.$nextTick(function () {
+    target.style.height = target.$collapsedHeight;
+  });
+  transition(target).then(function (delay) {
+    target.style.height = null;
+    target.classList.add('show', 'collapse');
+    target.classList.remove('collapsing');
+    el.classList.remove('collapsed');
+  });
+}
+
+function hide$1(el, target, vnode) {
+  target.style.height = target.$collapsedHeight;
+  target.classList.add('collapsing');
+  target.classList.remove('collapse');
+  vnode.context.$nextTick(function () {
+    target.style.height = 0;
+  });
+  transition(target).then(function (delay) {
+    target.classList.add('collapse');
+    target.classList.remove('show', 'collapsing');
+    el.classList.add('collapsed');
+  });
+}
+
+var Collapse = {
+  inserted: function inserted(el, binding, vnode) {
+    if (isUndefined(binding.value) || binding.value === true) {
+      el.classList.add('collapsed');
+      el.setAttribute('data-toggle', 'collapse');
+      var target = el.getAttribute('data-target') || el.getAttribute('href');
+      var elements = document.querySelectorAll(target);
+      el.addEventListener('click', function (event) {
+        elements.forEach(function (element) {
+          if (!element.classList.contains('show')) {
+            show(el, element, vnode);
+          } else {
+            hide$1(el, element, vnode);
+          }
+        });
+        event.preventDefault();
+      });
+      elements.forEach(function (element) {
+        if (!element.$collapsedHeight) {
+          element.$collapsedHeight = getComputedStyle(element).height;
+        }
+
+        if (!element.classList.contains('collapse')) {
+          element.classList.add('collapse');
+        }
+      });
+    }
+  }
+};
+
+function index$2 (Vue, options) {
+  Vue.directive('collapse', Collapse);
+}
+
 
 
 var directives$1 = /*#__PURE__*/Object.freeze({
-    Autogrow: index$1
+    Autogrow: index$1,
+    Collapse: index$2
 });
 
 function blob(url, progress) {
@@ -18623,5 +19018,5 @@ var main = VueInstaller.use({
 });
 
 export default main;
-export { Model, Request, RequestOptions, transformRequest, transformResponse, Colorable, FormControl as FormControlMixin, HasSlots, Proxy, Screenreaders, Sizeable, Variant, MergeClasses as mergeClasses, modal$1 as modal, overlay, ActivityIndicator, Alert, AlertClose, AlertHeading, AlertLink, Badge, BaseForm, Breadcrumb, BreadcrumbItem, Btn, BtnActivity, BtnFile, BtnGroup, BtnToolbar, BtnDropdown, Card, CardBody, CardBtnGroup, CardDeck, CardFooter, CardHeader, CardImg, CardImgTop, CardImgBottom, CardImgOverlay, CardLink, CardSubtitle, CardTitle, CheckboxField, Container, DropdownMenu, DropdownMenuItem, DropdownMenuHeader, DropdownMenuDivider, Dropzone, FileField, FilePreview, FormControl$1 as FormControl, FormFeedback, FormGroup, FormLabel, HelpText, InfiniteScrolling, InputField, InputGroup, InputGroupAppend, InputGroupPrepend, InputGroupText, LightSwitchField, ListGroup, ListGroupItem, Modal, ModalBackdrop, ModalBody, ModalContent, ModalDialog, ModalFooter, ModalHeader, ModalTitle, Navigation, NavigationItem, NavigationLink, NavigationDropdown, Overlay, Pagination, ProgressBar, RadioField, SelectField, TableView, TextareaField, ThumbnailList, ThumbnailListItem, UploadField, index$1 as Autogrow, index as DateFilter, index as MomentFilter, blob, prefix, readFile, script, transition, unit, uuid };
+export { Model, Request, RequestOptions, transformRequest, transformResponse, Colorable, FormControl as FormControlMixin, HasSlots, Proxy, Screenreaders, Sizeable, Variant, MergeClasses as mergeClasses, modal$1 as modal, overlay, ActivityIndicator, Alert, AlertClose, AlertHeading, AlertLink, Badge, BaseForm, Breadcrumb, BreadcrumbItem, Btn, BtnActivity, BtnFile, BtnGroup, BtnToolbar, BtnDropdown, Card, CardBody, CardBtnGroup, CardDeck, CardFooter, CardHeader, CardImg, CardImgTop, CardImgBottom, CardImgOverlay, CardLink, CardSubtitle, CardTitle, CheckboxField, Container, DropdownMenu, DropdownMenuItem, DropdownMenuHeader, DropdownMenuDivider, Dropzone, FileField, FilePreview, FormControl$1 as FormControl, FormFeedback, FormGroup, FormLabel, HelpText, InfiniteScrolling, InputField, InputGroup, InputGroupAppend, InputGroupPrepend, InputGroupText, LightSwitchField, ListGroup, ListGroupItem, Navbar, NavbarBrand, NavbarCollapse, NavbarNav, NavbarText, NavbarToggler, NavbarTogglerIcon, Modal, ModalBackdrop, ModalBody, ModalContent, ModalDialog, ModalFooter, ModalHeader, ModalTitle, Navigation, NavigationItem, NavigationLink, NavigationDropdown, Overlay, Pagination, ProgressBar, RadioField, SelectField, TableView, TextareaField, ThumbnailList, ThumbnailListItem, UploadField, index$1 as Autogrow, index$2 as Collapse, index as DateFilter, index as MomentFilter, blob, prefix, readFile, script, transition, unit, uuid };
 //# sourceMappingURL=vue-interface.es.js.map

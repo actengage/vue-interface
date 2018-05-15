@@ -1,6 +1,5 @@
 <template>
     <nav class="nav" :class="classes" :role="role">
-        <navigation-item v-if="items" v-for="(item, i) in items" v-bind="item" :key="i"/>
         <slot/>
     </nav>
 </template>

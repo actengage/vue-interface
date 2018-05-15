@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Navbar</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-interface.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>navbar</h1>
+
+            <h3>Basic Field</h3>
+
+            <navbar bg-light>
+                <navbar-brand href="#">Brand Name</navbar-brand>
+                <navbar-collapse>
+                    <navbar-nav>
+                        <navigation-link href="#" active>Active</navigation-link>
+                        <navigation-dropdown label="Dropdown">
+                            <dropdown-menu-item href="#">Action</dropdown-menu-item>
+                            <dropdown-menu-item href="#">Another Action</dropdown-menu-item>
+                            <dropdown-menu-item href="#">Something else here</dropdown-menu-item>
+                            <dropdown-menu-header>Some Dropdown Header</dropdown-menu-header>
+                            <dropdown-menu-item href="#">Separated Link</dropdown-menu-item>
+                        </navigation-dropdown>
+                        <navigation-link href="#">Link</navigation-link>
+                        <navigation-link href="#" disabled>Disabled</navigation-link>
+                    </navbar-nav>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </navbar-collapse>
+            </navbar>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-router@2.0.0/dist/vue-router.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript">
+            Vue.use(VueRouter);
+
+            const vue = new Vue({
+                el: '#app'
+            });
+        </script>
+    </body>
+</html>

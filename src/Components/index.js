@@ -57,6 +57,13 @@ import ModalDialog from './Modal/ModalDialog';
 import ModalFooter from './Modal/ModalFooter';
 import ModalHeader from './Modal/ModalHeader';
 import ModalTitle from './Modal/ModalTitle';
+import Navbar from './Navbar';
+import NavbarBrand from './Navbar/NavbarBrand';
+import NavbarCollapse from './Navbar/NavbarCollapse';
+import NavbarNav from './Navbar/NavbarNav';
+import NavbarText from './Navbar/NavbarText';
+import NavbarToggler from './Navbar/NavbarToggler';
+import NavbarTogglerIcon from './Navbar/NavbarTogglerIcon';
 import Navigation from './Navigation';
 import NavigationItem from './Navigation/NavigationItem';
 import NavigationLink from './Navigation/NavigationLink';
@@ -124,6 +131,13 @@ export {
     LightSwitchField,
     ListGroup,
     ListGroupItem,
+    Navbar,
+    NavbarBrand,
+    NavbarCollapse,
+    NavbarNav,
+    NavbarText,
+    NavbarToggler,
+    NavbarTogglerIcon,
     Modal,
     ModalBackdrop,
     ModalBody,
