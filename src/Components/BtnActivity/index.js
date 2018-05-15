@@ -1,14 +1,14 @@
-import ActivityButton from './ActivityButton';
+import BtnActivity from './BtnActivity';
 import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
 const plugin = VueInstaller.use({
 
     install(Vue, options) {
         VueInstaller.components({
-            ActivityButton
+            BtnActivity
         })
     }
 
 });
 
-export default ActivityButton;
+export default BtnActivity;

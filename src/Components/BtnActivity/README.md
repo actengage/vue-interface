@@ -1,4 +1,4 @@
-# ActivityButton
+# BtnActivity
 
 This component combines the `<activity-indicator>` and `<btn>` components all into one.
 
@@ -6,9 +6,9 @@ This component combines the `<activity-indicator>` and `<btn>` components all in
 ![Autofill Usage](./screenshots/spinner.gif)
 
 ## Basic Usage
-    <activity-button type="spinner" label="Click Me!"/>
+    <btn-activity type="spinner" label="Click Me!"/>
 
-    <activity-button type="dots">Click Me!</activity-button>
+    <btn-activity type="dots">Click Me!</btn-activity>
 
 ## Properties
 
