@@ -1001,13 +1001,9 @@
       .overlay .overlay-content .overlay-controls + * {
         clear: both; }
 
-.btn-block,
 .btn-xs-block {
   width: 100%;
   display: block; }
-  .btn-block + .btn-block,
-  .btn-block + .btn-xs-block,
-  .btn-xs-block + .btn-block,
   .btn-xs-block + .btn-xs-block {
     margin-top: 0.5rem; }
 
@@ -1015,7 +1011,6 @@
   .btn-sm-block {
     width: 100%;
     display: block; }
-    .btn-sm-block + .btn-block,
     .btn-sm-block + .btn-xs-block,
     .btn-sm-block + .btn-sm-block {
       margin-top: 0.5rem; } }
@@ -1024,7 +1019,6 @@
   .btn-md-block {
     width: 100%;
     display: block; }
-    .btn-md-block + .btn-block,
     .btn-md-block + .btn-xs-block,
     .btn-md-block + .btn-sm-block,
     .btn-md-block + .btn-md-block {
@@ -1034,7 +1028,6 @@
   .btn-lg-block {
     width: 100%;
     display: block; }
-    .btn-lg-block + .btn-block,
     .btn-lg-block + .btn-xs-block,
     .btn-lg-block + .btn-sm-block,
     .btn-lg-block + .btn-md-block,
@@ -1045,7 +1038,6 @@
   .btn-xl-block {
     width: 100%;
     display: block; }
-    .btn-xl-block + .btn-block,
     .btn-xl-block + .btn-xs-block,
     .btn-xl-block + .btn-sm-block,
     .btn-xl-block + .btn-md-block,

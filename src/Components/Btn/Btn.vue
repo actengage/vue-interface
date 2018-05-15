@@ -133,22 +133,20 @@ export default {
     display: block;
 }
 
-@include media-breakpoint-down(xs) {
+@include media-breakpoint-up(xs) {
     .btn-xs-block {
         @include button-block(xs);
 
-        + .btn-block,
         + .btn-xs-block {
             margin-top: $btn-block-spacing-y;
         }
     }
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-up(sm) {
     .btn-sm-block {
         @include button-block(sm);
 
-        + .btn-block,
         + .btn-xs-block,
         + .btn-sm-block {
             margin-top: $btn-block-spacing-y;
@@ -156,11 +154,10 @@ export default {
     }
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-up(md) {
     .btn-md-block {
         @include button-block(md);
 
-        + .btn-block,
         + .btn-xs-block,
         + .btn-sm-block,
         + .btn-md-block {
@@ -169,11 +166,10 @@ export default {
     }
 }
 
-@include media-breakpoint-down(lg) {
+@include media-breakpoint-up(lg) {
     .btn-lg-block {
         @include button-block(lg);
 
-        + .btn-block,
         + .btn-xs-block,
         + .btn-sm-block,
         + .btn-md-block,
@@ -187,7 +183,6 @@ export default {
     .btn-xl-block {
         @include button-block(xl);
 
-        + .btn-block,
         + .btn-xs-block,
         + .btn-sm-block,
         + .btn-md-block,
