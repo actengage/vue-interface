@@ -134,7 +134,6 @@ export default {
 }
 
 @include media-breakpoint-up(xs) {
-    .btn-block,
     .btn-xs-block {
         @include button-block(xs);
 
