@@ -76,7 +76,7 @@ export default {
     computed: {
 
         component() {
-            return this.tag || (this.to ? 'router-link' : 'a');
+            return this.tag || (this.to ? 'router-link' : (this.href ? 'a' : 'span'));
         }
 
     },

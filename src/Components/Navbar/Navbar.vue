@@ -1,7 +1,6 @@
 <template>
     <nav :class="classes">
         <slot/>
-        <navbar-toggler/>
     </nav>
 </template>
 
@@ -50,6 +49,30 @@ export default {
         },
 
         /**
+         * The should the navbar be fixed at the top.
+         *
+         * @property String
+         */
+        fixed: {
+            type: [String, Boolean],
+            validate(value) {
+                ['top', 'bottom'].indexOf(value) !== -1 || isBoolean(value);
+            }
+        },
+
+        /**
+         * The should the navbar be stickied at the top.
+         *
+         * @property String
+         */
+        sticky: {
+            type: [String, Boolean],
+            validate(value) {
+                ['top', 'bottom'].indexOf(value) !== -1 || isBoolean(value);
+            }
+        },
+
+        /**
          * The variant attribute
          *
          * @property String
@@ -77,6 +100,8 @@ export default {
         classes() {
             return this.$mergeClasses(
                 'navbar',
+                prefix(this.sticky === true ? 'top' : this.sticky, 'sticky'),
+                prefix(this.fixed === true ? 'top' : this.fixed, 'fixed'),
                 this.expandedClass,
                 this.variantClass,
                 this.colorableClasses

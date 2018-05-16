@@ -4329,6 +4329,31 @@
       return value === undefined;
     }
 
+    /** `Object#toString` result references. */
+    var boolTag$1 = '[object Boolean]';
+
+    /**
+     * Checks if `value` is classified as a boolean primitive or object.
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Lang
+     * @param {*} value The value to check.
+     * @returns {boolean} Returns `true` if `value` is a boolean, else `false`.
+     * @example
+     *
+     * _.isBoolean(false);
+     * // => true
+     *
+     * _.isBoolean(null);
+     * // => false
+     */
+    function isBoolean(value) {
+      return value === true || value === false ||
+        (isObjectLike(value) && baseGetTag(value) == boolTag$1);
+    }
+
     /** Used to stand-in for `undefined` hash values. */
     var HASH_UNDEFINED$2 = '__lodash_hash_undefined__';
 
@@ -4533,7 +4558,7 @@
         COMPARE_UNORDERED_FLAG$1 = 2;
 
     /** `Object#toString` result references. */
-    var boolTag$1 = '[object Boolean]',
+    var boolTag$2 = '[object Boolean]',
         dateTag$1 = '[object Date]',
         errorTag$1 = '[object Error]',
         mapTag$1 = '[object Map]',
@@ -4584,7 +4609,7 @@
           }
           return true;
 
-        case boolTag$1:
+        case boolTag$2:
         case dateTag$1:
         case numberTag$1:
           // Coerce booleans to `1` or `0` and dates to milliseconds.
@@ -5580,7 +5605,7 @@
         return [prefix, string.replace(new RegExp("^".concat(prefix).concat(delimeter, "?")), '')].join(delimeter);
       };
 
-      if (isNull(subject) || isUndefined(subject)) {
+      if (isBoolean(subject) || isNull(subject) || isUndefined(subject)) {
         return subject;
       }
 
@@ -6796,7 +6821,7 @@
     }
 
     /** `Object#toString` result references. */
-    var boolTag$2 = '[object Boolean]',
+    var boolTag$3 = '[object Boolean]',
         dateTag$2 = '[object Date]',
         mapTag$4 = '[object Map]',
         numberTag$2 = '[object Number]',
@@ -6835,7 +6860,7 @@
         case arrayBufferTag$2:
           return cloneArrayBuffer(object);
 
-        case boolTag$2:
+        case boolTag$3:
         case dateTag$2:
           return new Ctor(+object);
 
@@ -6945,7 +6970,7 @@
     /** `Object#toString` result references. */
     var argsTag$3 = '[object Arguments]',
         arrayTag$2 = '[object Array]',
-        boolTag$3 = '[object Boolean]',
+        boolTag$4 = '[object Boolean]',
         dateTag$3 = '[object Date]',
         errorTag$2 = '[object Error]',
         funcTag$2 = '[object Function]',
@@ -6975,7 +7000,7 @@
     var cloneableTags = {};
     cloneableTags[argsTag$3] = cloneableTags[arrayTag$2] =
     cloneableTags[arrayBufferTag$3] = cloneableTags[dataViewTag$4] =
-    cloneableTags[boolTag$3] = cloneableTags[dateTag$3] =
+    cloneableTags[boolTag$4] = cloneableTags[dateTag$3] =
     cloneableTags[float32Tag$2] = cloneableTags[float64Tag$2] =
     cloneableTags[int8Tag$2] = cloneableTags[int16Tag$2] =
     cloneableTags[int32Tag$2] = cloneableTags[mapTag$6] =
@@ -16515,31 +16540,6 @@
       }
     });
 
-    /** `Object#toString` result references. */
-    var boolTag$4 = '[object Boolean]';
-
-    /**
-     * Checks if `value` is classified as a boolean primitive or object.
-     *
-     * @static
-     * @memberOf _
-     * @since 0.1.0
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is a boolean, else `false`.
-     * @example
-     *
-     * _.isBoolean(false);
-     * // => true
-     *
-     * _.isBoolean(null);
-     * // => false
-     */
-    function isBoolean(value) {
-      return value === true || value === false ||
-        (isObjectLike(value) && baseGetTag(value) == boolTag$4);
-    }
-
     var NavbarBrand = {
       render: function render() {
         var _vm = this;
@@ -16631,7 +16631,7 @@
       },
       computed: {
         component: function component() {
-          return this.tag || (this.to ? 'router-link' : 'a');
+          return this.tag || (this.to ? 'router-link' : this.href ? 'a' : 'span');
         }
       },
       methods: {
@@ -16653,6 +16653,9 @@
           staticClass: "navbar-collapse",
           class: {
             'collapse': _vm.collapse
+          },
+          attrs: {
+            "id": "navbarCollapse"
           }
         }, [_vm._t("default")], 2);
       },
@@ -16711,7 +16714,7 @@
           attrs: {
             "type": "button",
             "data-toggle": "collapse",
-            "data-target": "#".concat(_vm.target),
+            "data-target": _vm.target,
             "aria-controls": _vm.target,
             "aria-expanded": _vm.expanded,
             "aria-label": _vm.label
@@ -16732,7 +16735,10 @@
           type: String,
           default: 'Toggle navigation'
         },
-        target: String
+        target: {
+          type: String,
+          default: '.navbar-collapse'
+        }
       },
       methods: {
         onClick: function onClick(event) {
@@ -16751,7 +16757,7 @@
 
         return _c('nav', {
           class: _vm.classes
-        }, [_vm._t("default"), _vm._v(" "), _c('navbar-toggler')], 2);
+        }, [_vm._t("default")], 2);
       },
       staticRenderFns: [],
       name: 'navbar',
@@ -16778,6 +16784,30 @@
         },
 
         /**
+         * The should the navbar be fixed at the top.
+         *
+         * @property String
+         */
+        fixed: {
+          type: [String, Boolean],
+          validate: function validate(value) {
+            ['top', 'bottom'].indexOf(value) !== -1 || isBoolean(value);
+          }
+        },
+
+        /**
+         * The should the navbar be stickied at the top.
+         *
+         * @property String
+         */
+        sticky: {
+          type: [String, Boolean],
+          validate: function validate(value) {
+            ['top', 'bottom'].indexOf(value) !== -1 || isBoolean(value);
+          }
+        },
+
+        /**
          * The variant attribute
          *
          * @property String
@@ -16799,7 +16829,7 @@
           return prefix(prefix(this.expand, 'expand'), 'navbar');
         },
         classes: function classes() {
-          return this.$mergeClasses('navbar', this.expandedClass, this.variantClass, this.colorableClasses);
+          return this.$mergeClasses('navbar', prefix(this.sticky === true ? 'top' : this.sticky, 'sticky'), prefix(this.fixed === true ? 'top' : this.fixed, 'fixed'), this.expandedClass, this.variantClass, this.colorableClasses);
         }
       },
       data: function data() {
@@ -18908,13 +18938,15 @@
 
     function show(el, target, vnode) {
       target.classList.remove('collapse');
+      target.classList.add('show');
+      target.$collapsedHeight = getComputedStyle(target).height;
       target.classList.add('collapsing');
       vnode.context.$nextTick(function () {
         target.style.height = target.$collapsedHeight;
       });
       transition(target).then(function (delay) {
         target.style.height = null;
-        target.classList.add('show', 'collapse');
+        target.classList.add('collapse');
         target.classList.remove('collapsing');
         el.classList.remove('collapsed');
       });
@@ -18928,6 +18960,7 @@
         target.style.height = 0;
       });
       transition(target).then(function (delay) {
+        target.style.height = null;
         target.classList.add('collapse');
         target.classList.remove('show', 'collapsing');
         el.classList.add('collapsed');
@@ -18952,10 +18985,11 @@
             event.preventDefault();
           });
           elements.forEach(function (element) {
-            if (!element.$collapsedHeight) {
-              element.$collapsedHeight = getComputedStyle(element).height;
+            /*
+            if(!element.$collapsedHeight) {
+                element.$collapsedHeight = getComputedStyle(element).height;
             }
-
+            */
             if (!element.classList.contains('collapse')) {
               element.classList.add('collapse');
             }

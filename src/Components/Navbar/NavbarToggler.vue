@@ -3,7 +3,7 @@
         type="button"
         class="navbar-toggler"
         data-toggle="collapse"
-        :data-target="`#${target}`"
+        :data-target="target"
         :aria-controls="target"
         :aria-expanded="expanded"
         :aria-label="label"
@@ -32,7 +32,10 @@ export default {
             default: 'Toggle navigation'
         },
 
-        target: String
+        target: {
+            type: String,
+            default: '.navbar-collapse'
+        }
 
     },
 

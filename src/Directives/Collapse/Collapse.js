@@ -3,6 +3,8 @@ import transition from '../../Helpers/Transition';
 
 function show(el, target, vnode) {
     target.classList.remove('collapse');
+    target.classList.add('show');
+    target.$collapsedHeight = getComputedStyle(target).height;
     target.classList.add('collapsing');
 
     vnode.context.$nextTick(() => {
@@ -11,7 +13,7 @@ function show(el, target, vnode) {
 
     transition(target).then(delay => {
         target.style.height = null;
-        target.classList.add('show', 'collapse');
+        target.classList.add('collapse');
         target.classList.remove('collapsing');
         el.classList.remove('collapsed');
     });
@@ -27,6 +29,7 @@ function hide(el, target, vnode) {
     });
 
     transition(target).then(delay => {
+        target.style.height = null;
         target.classList.add('collapse');
         target.classList.remove('show', 'collapsing');
         el.classList.add('collapsed');
@@ -57,9 +60,11 @@ export default {
             });
 
             elements.forEach(element => {
+                /*
                 if(!element.$collapsedHeight) {
                     element.$collapsedHeight = getComputedStyle(element).height;
                 }
+                */
 
                 if(!element.classList.contains('collapse')) {
                     element.classList.add('collapse');
