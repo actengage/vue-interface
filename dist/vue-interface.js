@@ -16849,7 +16849,8 @@
           tag: "component",
           class: _vm.classes,
           attrs: {
-            "href": _vm.href
+            "href": _vm.href,
+            "to": _vm.to
           }
         }, [_vm._t("default")], 2);
       },

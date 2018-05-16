@@ -1,5 +1,5 @@
 <template>
-    <component :is="component" :href="href" :class="classes">
+    <component :is="component" :href="href" :to="to" :class="classes">
         <slot />
     </component>
 </template>
