@@ -53,7 +53,7 @@ export default {
          */
         item: {
             type: Boolean,
-            default: false
+            default: true
         }
 
     },
@@ -62,7 +62,7 @@ export default {
 
         component() {
             return this.tag || (this.to ? 'router-link' : 'a');
-        }
+        },
 
         classes() {
             this.$nextTick(() => {
@@ -73,18 +73,12 @@ export default {
 
             return {
                 'nav-link': this.href,
-                'nav-item': this.isItem,
+                'nav-item': this.item,
                 'active': this.active,
                 'disabled': this.disabled
             }
         }
 
-    },
-
-    data() {
-        return {
-            isItem: this.item
-        }
     }
 
 }

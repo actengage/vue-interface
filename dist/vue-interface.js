@@ -16845,7 +16845,8 @@
 
         var _c = _vm._self._c || _h;
 
-        return _c('a', {
+        return _c(_vm.component, {
+          tag: "component",
           class: _vm.classes,
           attrs: {
             "href": _vm.href
@@ -16877,16 +16878,33 @@
         href: String,
 
         /**
+         * The component HTML tag
+         *
+         * @prop {String}
+         */
+        tag: String,
+
+        /**
+         * The to attribute, will be passed to router-link.
+         *
+         * @prop {String}
+         */
+        to: [Object, String],
+
+        /**
          * Add the nav-item class to the link
          *
          * @prop {Boolean}
          */
         item: {
           type: Boolean,
-          default: false
+          default: true
         }
       },
       computed: {
+        component: function component() {
+          return this.tag || (this.to ? 'router-link' : 'a');
+        },
         classes: function classes() {
           var _this = this;
 
@@ -16897,16 +16915,11 @@
           });
           return {
             'nav-link': this.href,
-            'nav-item': this.isItem,
+            'nav-item': this.item,
             'active': this.active,
             'disabled': this.disabled
           };
         }
-      },
-      data: function data() {
-        return {
-          isItem: this.item
-        };
       }
     };
 
