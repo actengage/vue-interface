@@ -1,7 +1,7 @@
 <template>
-    <a :href="href" :class="classes">
+    <component :is="component" :href="href" :class="classes">
         <slot />
-    </a>
+    </component>
 </template>
 
 <script>
@@ -33,6 +33,20 @@ export default {
         href: String,
 
         /**
+         * The component HTML tag
+         *
+         * @prop {String}
+         */
+        tag: String,
+
+        /**
+         * The to attribute, will be passed to router-link.
+         *
+         * @prop {String}
+         */
+        to: [Object, String],
+
+        /**
          * Add the nav-item class to the link
          *
          * @prop {Boolean}
@@ -45,6 +59,10 @@ export default {
     },
 
     computed: {
+
+        component() {
+            return this.tag || (this.to ? 'router-link' : 'a');
+        }
 
         classes() {
             this.$nextTick(() => {
