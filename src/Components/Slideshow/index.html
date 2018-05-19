@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Slideshow</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-interface.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">slideshow</h1>
+
+            <h3>Basic Usage</h3>
+            <p>
+                A slideshow is an abstract component that adds a slide effect between components.
+                The height of the slideshow will automatically grow to the next slide. Since each
+                element must be different, or a key must be defined for Vue transitions, the
+                component will automatically add the slide index as a key if a key isn't define.
+                The component handles the differing animations for going backwards and forwards.
+            </p>
+
+            <div class="w-25">
+                <slideshow fluid :active="currentSlide" style="background: pink;">
+                    <div key="Slide 1">
+                        Slide 1
+                        <btn type="button" @click="currentSlide = 'Slide 2'">Next <i class="fa fa-long-arrow-right"></i></btn>
+                    </div>
+                    <div key="Slide 2" style="background: red; height: 400px;">
+                        Slide 2
+                        <btn type="button" @click="currentSlide = 'Slide 1'"><i class="fa fa-long-arrow-left"></i> Prev</btn>
+                        <btn type="button" @click="currentSlide = 'Slide 3'">Next <i class="fa fa-long-arrow-right"></i></btn>
+                    </div>
+                    <div key="Slide 3" style="height: 300px; background: yellow;">
+                        Slide 3
+                        <btn type="button" @click="currentSlide = 'Slide 2'"><i class="fa fa-long-arrow-left"></i> Prev</btn>
+                        <btn type="button" @click="currentSlide = 'Slide 4'">Next <i class="fa fa-long-arrow-right"></i></btn>
+                    </div>
+                    <div key="Slide 4">
+                        Slide 4
+                        <btn type="button" @click="currentSlide = 'Slide 3'"><i class="fa fa-long-arrow-left"></i> Prev</btn>
+                    </div>
+                </slideshow>
+            </div>
+
+            <hr>
+
+            <h3>Advanced Usage</h3>
+            <p>A more practical usage would be something inside a popover, there is a login form and the state changes. With each state change, it could transition to a new slide.</p>
+
+            <div class="position-relative" style="min-height: 400px">
+                <popover title="Login">
+                    <slideshow :active="step">
+                        <form @submit.prevent="step = 1">
+                            <alert variant="info">
+                                <i class="fa fa-info-circle"></i> You can enter any username and password value.
+                            </alert>
+                            <input-field v-model="form.email" label="Email"></input-field>
+                            <input-field v-model="form.password" label="Password" type="password"></input-field>
+                            <btn>Login</btn>
+                            <a href="#" class="ml-3">Forget Password</a>
+                        </form>
+                        <activity-indicator label="Authenticating..." size="md" center></activity-indicator>
+                        <div class="text-center py-5">
+                            <p><i class="text-success fa fa-check fa-4x"></i></p>
+                            You have been logged in!
+                        </div>
+                    </slideshow>
+                </popover>
+            </div>
+
+            <hr>
+
+            <h3>Slideshow with Controls</h3>
+            <p>The controls can be automatically handled with a single property.</p>
+
+            <div>
+                <slideshow :active="1" controls>
+                    <img src="http://via.placeholder.com/1440x500?text=Slide 1" class="img-fluid"/>
+                    <img src="http://via.placeholder.com/1440x500?text=Slide 2" class="img-fluid"/>
+                    <img src="http://via.placeholder.com/1440x500?text=Slide 3" class="img-fluid"/>
+                </slideshow>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                watch: {
+                    step(value) {
+                        if(value === 1) {
+                            setTimeout(() => {
+                                this.step = 2;
+                            }, 2000);
+                        }
+                    }
+                },
+                methods: {
+
+                },
+                data() {
+                    return {
+                        form: {},
+                        step: 0,
+                        currentSlide: 'Slide 2'
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

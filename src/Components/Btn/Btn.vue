@@ -86,10 +86,7 @@ export default {
          *
          * @property String
          */
-        type: {
-            type: String,
-            default: 'submit'
-        }
+        type: String
 
     },
 

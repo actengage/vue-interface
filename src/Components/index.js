@@ -70,9 +70,14 @@ import NavigationLink from './Navigation/NavigationLink';
 import NavigationDropdown from './Navigation/NavigationDropdown';
 import Overlay from './Overlay';
 import Pagination from './Pagination';
+import Popover from './Popover';
+import PopoverBody from './Popover/PopoverBody';
+import PopoverHeader from './Popover/PopoverHeader';
 import ProgressBar from './ProgressBar';
 import RadioField from './RadioField';
 import SelectField from './SelectField';
+import Slideshow from './Slideshow';
+import SlideshowSlide from './Slideshow/SlideshowSlide';
 import TableView from './TableView';
 import TextareaField from './TextareaField';
 import ThumbnailList from './ThumbnailList';
@@ -152,9 +157,14 @@ export {
     NavigationDropdown,
     Overlay,
     Pagination,
+    Popover,
+    PopoverBody,
+    PopoverHeader,
     ProgressBar,
     RadioField,
     SelectField,
+    Slideshow,
+    SlideshowSlide,
     TableView,
     TextareaField,
     ThumbnailList,

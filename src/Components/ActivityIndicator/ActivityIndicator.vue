@@ -1,10 +1,10 @@
 <template>
-    <div v-if="center" class="center-wrapper" :class="{'position-relative': relative, 'position-fixed': fixed}" :style="{minHeight: computedMinHeight}">
+    <div v-if="center" class="center-wrapper" :class="{'position-relative': relative, 'position-fixed': fixed}" :style="{minHeight: unit(this.minHeight), minWidth: unit(this.minWidth)}">
         <div class="center-content">
             <component :is="component" :size="size" :prefix="prefix"></component>
         </div>
     </div>
-    <component v-else :is="component" :style="{minHeight: computedMinHeight}" :size="size" :prefix="prefix"></component>
+    <component v-else :is="component" :style="{minHeight: unit(this.minHeight), minWidth: unit(this.minWidth)}" :size="size" :prefix="prefix"></component>
 </template>
 
 <script>
@@ -33,7 +33,9 @@ export default {
             default: 'dots'
         },
 
-        minHeight: [String, Number]
+        minHeight: [String, Number],
+
+        minWidth: [String, Number]
 
     },
 
@@ -42,11 +44,15 @@ export default {
         ActivityIndicatorSpinner
     },
 
-    computed: {
+    methods: {
 
-        computedMinHeight() {
-            return unit(this.minHeight);
-        },
+        unit(value) {
+            return unit(value);
+        }
+
+    },
+
+    computed: {
 
         component() {
             return kebabCase(this.prefix + this.type.replace(this.prefix, ''));

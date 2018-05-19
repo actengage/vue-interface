@@ -146,21 +146,60 @@
                     showPrompt() {
                         const Component = Vue.extend({
                             template: `
-                                <form>
-                                    <input-field label="Test" name="test"/>
-                                </form>
+                            <form>
+                                <input-field label="Test" name="test"/>
+                            </form>
                             `
                         });
 
+                        /*
+                        Option A:
+                        this.$prompt('Prompt Title', Component, (modal, resolve, reject) => {
+                            modal.activity = true;
+
+                            setTimeout(() => {
+                                modal.activity = false;
+                                setTimeout(modal.close);
+                            }, 500);
+                        }).then(modal => {
+                            // resolved
+                        }, modal => {
+                            // user cancelled
+                        });
+
+                        Option B:
+                        this.$prompt('Prompt Title', Component, options, modalOptions, (modal, resolve, reject) => {
+                            resolve(modal);
+                        }).then(modal => {
+                            // confirmed
+                        });
+
+                        Option C:
+                        this.$prompt({
+                            title: 'Prompt Title',
+                            content: Component,
+                            contentOptions: options,
+                            modalOptions: modalOptions
+                        }, (modal, resolve, reject) => {
+                            resolve(modal);
+                        }).then(modal => {
+                            // confirmed
+                        });
+                        */
+
                         const promise = this.$prompt('Prompt Title', Component, null, {
-                            center: true,
-                            footer: false,
-                            header: false,
-                            flush: true
+                            center: true, //defaut
+                            footer: true, //defaut
+                            header: true, //defaut
+                            flush: false //defaut
                         });
 
                         promise.then(modal => {
+                            console.log('submit');
+
                             modal.preventDefault();
+
+                            return;
                             modal.activity = true;
 
                             setTimeout(() => {
