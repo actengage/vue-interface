@@ -1,5 +1,5 @@
 <template>
-    <div :class="classes" role="group">
+    <div :class="classes" :data-toggle="toggle ? 'buttons' : false" role="group">
         <btn v-if="buttons" v-for="(button, i) in buttons" :key="i" v-bind="button" />
         <slot/>
     </div>
@@ -26,14 +26,21 @@ export default {
         /**
          * An array of buttons
          *
-         * @prop {Array}
+         * @type {Array}
          */
         buttons: Array,
 
         /**
+         * Denote the button group as toggle buttons
+         *
+         * @type {Boolean}
+         */
+        toggle: Boolean,
+
+        /**
          * Display the buttons vertically
          *
-         * @prop {Boolean}
+         * @type {Boolean}
          */
         vertical: Boolean
 
@@ -45,6 +52,7 @@ export default {
             return this.$mergeClasses(
                 this.colorableClasses, {
                     'btn-group': !this.vertical,
+                    'btn-group-toggle': this.toggle,
                     'btn-group-vertical': this.vertical
                 }
             );
