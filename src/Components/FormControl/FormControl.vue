@@ -1,22 +1,21 @@
 <template>
 
-    <div>
-        <component
-            :id="id"
-            :is="!select ? 'input' : 'select'"
-            :type="!select ? type : false"
-            :value="value"
-            :pattern="pattern"
-            :required="required"
-            :readonly="readonly"
-            :placeholder="placeholder"
-            :disabled="disabled || readonly"
-            :class="$mergeClasses(controlClasses, colorableClasses)"
-            :aria-label="label"
-            :aria-describedby="id"
-            v-bind-events="bindEvents"
-            v-on:input="updated"/>
-    </div>
+    <component
+        :id="id"
+        :is="!select ? 'input' : 'select'"
+        :type="!select ? type : false"
+        :value="value"
+        :pattern="pattern"
+        :required="required"
+        :readonly="readonly"
+        :placeholder="placeholder"
+        :disabled="disabled || readonly"
+        :class="$mergeClasses(controlClasses, colorableClasses)"
+        :aria-label="label"
+        :aria-describedby="id"
+        v-bind-events="bindEvents"
+        v-on:input="updated"/>
+        
 </template>
 
 <script>
