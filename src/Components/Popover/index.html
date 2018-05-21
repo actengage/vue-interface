@@ -13,25 +13,119 @@
             <h1 class="mb-5">popover</h1>
 
             <h3>Basic Usage</h3>
+            <p>This is a basic usage of the popover. Popovers can containcan any content and will flex accordingly. When the height of slide is unknown (which is most of the time), by default the popover will auto adjust its height to each slide. For this reason, it's best to position the popover at the bottom.</p>
 
-            <div class="position-relative">
-                <popover title="Login">
-                    <transition name="slide-fade-forward">
-                        <form v-if="!submitted" @submit.prevent="onSubmit">
-                            <input-field v-model="form.email" label="Email"></input-field>
-                            <input-field v-model="form.password" label="Password" type="password"></input-field>
-                            <btn-activity :activity="activity">Login</btn-activity>
-                            <a href="#" class="ml-3">Forget Password</a>
-                        </form>
-                    </transition>
-                    <transition name="slide-fade-forward">
-                        <div v-if="submitted" class="text-center">
+            <popover target=".basic-usage" placement="bottom">
+                <slideshow :active="step">
+                    <form @submit.prevent="step = 1">
+                        <alert variant="info">
+                            <i class="fa fa-info-circle"></i> You can enter any username and password value.
+                        </alert>
+                        <input-field v-model="form.email" label="Email"></input-field>
+                        <input-field v-model="form.password" label="Password" type="password"></input-field>
+                        <btn>Login</btn>
+                        <a href="#" class="ml-3">Forget Password</a>
+                    </form>
+                    <activity-indicator label="Authenticating..." size="md" center></activity-indicator>
+                    <div class="text-center d-flex justify-content-center align-items-center">
+                        <div class="py-5">
                             <p><i class="text-success fa fa-check fa-4x"></i></p>
                             You have been logged in!
                         </div>
-                    </transition>
-                </popover>
-            </div>
+                    </div>
+                </slideshow>
+            </popover>
+
+            <btn class="basic-usage">Show Popover</btn>
+
+            <p class="mt-3">If you position a popover on top and click the button below you will see the popover position falls out of alignment when the height is changed. Click all the way through the process to see the positioning fail.</p>
+
+            <btn class="basic-usage-auto-top">Show on top w/failed positioning</btn>
+
+            <popover target=".basic-usage-auto-top" placement="top">
+                <slideshow :active="step2">
+                    <form @submit.prevent="step2 = 1">
+                        <alert variant="info">
+                            <i class="fa fa-info-circle"></i> You can enter any username and password value.
+                        </alert>
+                        <input-field v-model="form.email" label="Email"></input-field>
+                        <input-field v-model="form.password" label="Password" type="password"></input-field>
+                        <btn>Login</btn>
+                        <a href="#" class="ml-3">Forget Password</a>
+                    </form>
+                    <activity-indicator label="Authenticating..." size="md" center></activity-indicator>
+                    <div class="text-center d-flex justify-content-center align-items-center">
+                        <div class="py-5">
+                            <p><i class="text-success fa fa-check fa-4x"></i></p>
+                            You have been logged in!
+                        </div>
+                    </div>
+                </slideshow>
+            </popover>
+
+            <p class="mt-3">Top positioned popovers can maintain their height by using the initial slide as the height. This works best when the first slide is taller than the rest. In the event the latter slides are taller than the first, the content will automatically overflow.</p>
+
+            <btn class="basic-usage-initial-top">Show on top w/correct positioning</btn>
+
+            <popover target=".basic-usage-initial-top" placement="top">
+                <slideshow :active="step3" resize-mode="initial" center>
+                    <form @submit.prevent="step3 = 1">
+                        <alert variant="info">
+                            <i class="fa fa-info-circle"></i> You can enter any username and password value.
+                        </alert>
+                        <input-field v-model="form.email" label="Email"></input-field>
+                        <input-field v-model="form.password" label="Password" type="password"></input-field>
+                        <btn>Login</btn>
+                        <a href="#" class="ml-3">Forget Password</a>
+                    </form>
+                    <activity-indicator label="Authenticating..." size="md" center></activity-indicator>
+                    <div class="text-center d-flex justify-content-center align-items-center">
+                        <div class="py-5">
+                            <p><i class="text-success fa fa-check fa-4x"></i></p>
+                            You have been logged in!
+                        </div>
+                    </div>
+                </slideshow>
+            </popover>
+
+            <hr>
+
+            <h3>Placement</h3>
+
+            <btn class="basic-usage-top">Top</btn>
+            <popover target=".basic-usage-top" placement="top">
+                Top
+            </popover>
+
+            <btn class="basic-usage-bottom">Bottom</btn>
+            <popover target=".basic-usage-bottom" placement="bottom">
+                Bottom
+            </popover>
+
+            <btn class="basic-usage-left">Left</btn>
+            <popover target=".basic-usage-left" placement="left">
+                Left
+            </popover>
+
+            <btn class="basic-usage-right">Right</btn>
+            <popover target=".basic-usage-right" placement="right">
+                Right
+            </popover>
+
+            <hr>
+
+            <h3>Triggers</h3>
+
+            <btn class="triggers-mouseenter-mouseout">mouseenter/mouseout</btn>
+            <popover target=".triggers-mouseenter-mouseout" trigger="mouseenter mouseout" placement="top">
+                mouseenter/mouseout
+            </popover>
+
+            <btn class="triggers-focus-blur">focus/blur</btn>
+            <popover target=".triggers-focus-blur" trigger="focus blur" placement="top">
+                focus/blur
+            </popover>
+
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
@@ -39,6 +133,29 @@
         <script type="text/javascript">
             const vue = new Vue({
                 el: '#app',
+                watch: {
+                    step(value) {
+                        if(value === 1) {
+                            setTimeout(() => {
+                                this.step = 2;
+                            }, 2000);
+                        }
+                    },
+                    step2(value) {
+                        if(value === 1) {
+                            setTimeout(() => {
+                                this.step2 = 2;
+                            }, 2000);
+                        }
+                    },
+                    step3(value) {
+                        if(value === 1) {
+                            setTimeout(() => {
+                                this.step3 = 2;
+                            }, 2000);
+                        }
+                    }
+                },
                 methods: {
                     onSubmit(event) {
                         this.activity = true;
@@ -53,51 +170,14 @@
                     return {
                         submitted: false,
                         activity: false,
+                        step: 0,
+                        step2: 0,
+                        step3: 0,
+                        currentSlide: 'Slide 2',
                         form: {}
                     };
                 }
             });
         </script>
-
-        <style>
-            .popover-body {
-                position: relative;
-                overflow: hidden;
-            }
-
-            /* Enter and leave animations can use different */
-            /* durations and timing functions.              */
-            .slide-fade-forward-enter-active,
-            .slide-fade-backward-enter-active {
-                z-index: 2;
-                transition: all .25s ease;
-            }
-            .slide-fade-forward-leave-active,
-            .slide-fade-backward-leave-active {
-                z-index: 1;
-                transition: all .15s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-            }
-
-            .slide-fade-forward-enter,
-            .slide-fade-forward-leave-to,
-            .slide-fade-backward-enter,
-            .slide-fade-backward-leave-to {
-                position: absolute !important;
-                top: 0;
-                left: 0;
-                width: 100%;
-                opacity: 0;
-            }
-
-            .slide-fade-forward-enter,
-            .slide-fade-forward-leave-to {
-                transform: translateX(-100%);
-            }
-
-            .slide-fade-backward-enter,
-            .slide-fade-backward-leave-to {
-                transform: translateX(100%);
-            }
-        </style>
     </body>
 </html>

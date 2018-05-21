@@ -11,6 +11,7 @@ import Btn from './Btn';
 import BtnActivity from './BtnActivity';
 import BtnFile from './BtnFile';
 import BtnGroup from './BtnGroup';
+import BtnGroupToggle from './BtnGroup/BtnGroupToggle';
 import BtnToolbar from './BtnGroup/BtnToolbar';
 import BtnDropdown from './BtnDropdown';
 import Card from './Card';
@@ -98,6 +99,7 @@ export {
     BtnActivity,
     BtnFile,
     BtnGroup,
+    BtnGroupToggle,
     BtnToolbar,
     BtnDropdown,
     Card,

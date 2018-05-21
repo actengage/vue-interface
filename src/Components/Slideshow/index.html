@@ -50,7 +50,7 @@
             <p>A more practical usage would be something inside a popover, there is a login form and the state changes. With each state change, it could transition to a new slide.</p>
 
             <div class="position-relative" style="min-height: 400px">
-                <popover title="Login">
+                <popover>
                     <slideshow :active="step">
                         <form @submit.prevent="step = 1">
                             <alert variant="info">

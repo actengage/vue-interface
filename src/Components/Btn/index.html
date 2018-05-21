@@ -21,6 +21,24 @@
 
             <hr>
 
+            <h3>Checkbox and Radio buttons</h3>
+
+            <p>Checked Values: {{form.checkbox}}</p>
+
+            <btn-group toggle>
+                <btn label>
+                    <input v-model="form.checkbox" type="checkbox" name="checkbox[]" value="1" /> Checkbox 1
+                </btn>
+                <btn label>
+                    <input v-model="form.checkbox" type="checkbox" name="checkbox[]" value="2" /> Checkbox 2
+                </btn>
+                <btn label>
+                    <input v-model="form.checkbox" type="checkbox" name="checkbox[]" value="3" /> Checkbox 3
+                </btn>
+            </btn-group>
+
+            <hr>
+
             <h3>Sizes</h3>
 
             <btn size="sm" variant="primary">Small</btn>
@@ -111,10 +129,16 @@
                 }]
             });
 
-
             const vue = new Vue({
                 router: router,
-                el: '#app'
+                el: '#app',
+                data() {
+                    return {
+                        form: {
+                            checkbox: []
+                        }
+                    }
+                }
             });
         </script>
     </body>
