@@ -1,5 +1,5 @@
 <template>
-    <div class="popover" :class="classes" role="tooltip">
+    <div v-show="isShowing" class="popover" :class="classes" role="tooltip">
         <div class="arrow"></div>
         <popover-header v-if="title" v-html="title"/>
         <popover-body>
@@ -12,15 +12,18 @@
 /*
 Events
 Event Type	Description
-show.bs.popover	This event fires immediately when the show instance method is called.
-shown.bs.popover	This event is fired when the popover has been made visible to the user (will wait for CSS transitions to complete).
-hide.bs.popover	This event is fired immediately when the hide instance method has been called.
+close.bs.popover	This event fires immediately when the close instance method is called.
+closen.bs.popover	This event is fired when the popover has been made visible to the user (will wait for CSS transitions to complete).
+open.bs.popover	This event is fired immediately when the open instance method has been called.
 hidden.bs.popover	This event is fired when the popover has finished being hidden from the user (will wait for CSS transitions to complete).
-inserted.bs.popover	This event is fired after the show.bs.popover event when the popover template has been added to the DOM.
+inserted.bs.popover	This event is fired after the close.bs.popover event when the popover template has been added to the DOM.
 $('#myPopover').on('hidden.bs.popover', function () {
   // do something…
 })
 */
+import { each } from 'lodash-es';
+import { isString } from 'lodash-es';
+import Popper from 'popper.js';
 import prefix from '../../Helpers/Prefix';
 
 export default {
@@ -73,11 +76,11 @@ export default {
         },
 
         /**
-         * Delay showing and hiding the popover (ms) - does not apply to manual trigger type
+         * Delay closeing and hiding the popover (ms) - does not apply to manual trigger type
          *
-         * If a number is supplied, delay is applied to both hide/show
+         * If a number is supplied, delay is applied to both open/close
          *
-         * Object structure is: delay: { "show": 500, "hide": 100 }
+         * Object structure is: delay: { "close": 500, "open": 100 }
          *
          * @type {Number|Object}
          */
@@ -94,10 +97,7 @@ export default {
          */
         fallbackPlacement: {
             type: [String, Array],
-            default: 'flip',
-            validate(value) {
-                return ['click', 'hover', 'focus', 'manual'].indexOf(value) !== -1;
-            }
+            default: 'flip'
         },
 
         /**
@@ -132,6 +132,14 @@ export default {
         },
 
         /**
+         * If this property is passed, it will force the popover to be visible
+         * by default.
+         *
+         * @type {Boolean}
+         */
+        show: Boolean,
+
+        /**
          * If a selector is provided, popover objects will be delegated to the
          * specified targets. In practice, this is used to enable dynamic HTML
          * content to have popovers added. See this and an informative example.
@@ -140,6 +148,16 @@ export default {
          */
         selector: {
             type: [Boolean, String],
+            default: false
+        },
+
+        /**
+         * The target element used to position the popover.
+         *
+         * @type {String|Element|Boolean}
+         */
+        target: {
+            type: [String, Element, Boolean],
             default: false
         },
 
@@ -157,7 +175,80 @@ export default {
          *
          * @type {String}
          */
-        trigger: String
+        trigger: {
+            type: [String, Array],
+            default: 'click'
+        }
+
+    },
+
+    methods: {
+
+        open() {
+            this.isShowing = false;
+        },
+
+        close() {
+            this.isShowing = true;
+        },
+
+        toggle() {
+            if(!this.isShowing) {
+                this.close();
+            }
+            else {
+                this.open();
+            }
+        },
+
+        createPopper(el) {
+            return new Popper(el, this.$el, {
+                offset: this.offset,
+                placement: this.placement,
+                modifiers: {
+                    flip: {
+                        boundariesElement: this.container,
+                        behavior: this.fallbackPlacement
+                    },
+                    offset: {
+                        enabled: !!this.offset,
+                        offset: this.offset
+                    },
+                    arrow: {
+                        enable: true,
+                        element: this.$el.querySelector('.arrow')
+                    }
+                }
+            });
+        },
+
+        getArrowElement() {
+            return this.$el.querySelector('.arrow');
+        },
+
+        align() {
+
+            /*
+            let placement;
+
+            if(this.placement === 'top') {
+                placement = 'bottom';
+            }
+            else if(this.placement === 'bottom') {
+                placement = 'top';
+            }
+            else if(this.placement === 'left') {
+                placement = 'right';
+            }
+            else if(this.placement === 'right') {
+                placement = 'left';
+            }
+
+            new Popper(this.$el, this.getArrowElement(), {
+                placement: placement
+            });
+            */
+        }
 
     },
 
@@ -172,6 +263,37 @@ export default {
             }, 'bs-popover')
         }
 
+    },
+
+    data() {
+        return {
+            isShowing: this.show || !this.target
+        }
+    },
+
+    beforeCreate() {
+        if(!this.$poppers) {
+            this.$poppers = {};
+        }
+    },
+
+    mounted() {
+        if(this.target) {
+            document.querySelectorAll(this.target).forEach(el => {
+                this.$poppers[el] = {
+                    trigger: isString(this.trigger) ? this.trigger.split(' ') : this.trigger,
+                    popper: this.createPopper(el),
+                    event: (event) => {
+                        this.toggle();
+                        this.$poppers[el].popper.update();
+                    }
+                };
+
+                each(this.$poppers[el].trigger, trigger => {
+                    el.addEventListener(trigger, this.$poppers[el].event);
+                });
+            });
+        }
     }
 
 };
