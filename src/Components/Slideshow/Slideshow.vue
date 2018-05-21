@@ -1,11 +1,12 @@
 <template>
-    <div class="slideshow">
-        <keep-alive>
-            <transition :name="`slide-${direction}`" @enter="onSlideEnter" @leave="onSlideLeave">
-                <slideshow-slide :vnode="component"/>
-            </transition>
-        </keep-alive>
-
+    <div class="slideshow" :class="{'slideshow-content-center': center}" :style="{height: height, width: width}">
+        <div class="slideshow-content">
+            <keep-alive>
+                <transition :name="`slide-${direction}`" @enter="onSlideEnter" @leave="onSlideLeave">
+                    <slideshow-slide :vnode="component"/>
+                </transition>
+            </keep-alive>
+        </div>
         <slot name="controls">
             <slideshow-controls v-if="controls" :slides="slides" :active="currentSlide" @click="onClickControl" />
         </slot>
@@ -18,10 +19,36 @@ import { first } from 'lodash-es';
 import { filter } from 'lodash-es';
 import { extend } from 'lodash-es';
 import { findIndex } from 'lodash-es';
+import { isFunction } from 'lodash-es';
 import unit from '../../Helpers/Unit';
 import transition from '../../Helpers/Transition';
 import SlideshowSlide from './SlideshowSlide';
 import SlideshowControls from './SlideshowControls';
+
+const RESIZE_MODES = {
+    auto(el) {
+        if(el.clientHeight) {
+            this.height = el.style.height = unit(el.clientHeight);
+        }
+
+        if(el.clientWidth) {
+            this.width = el.style.width = unit(el.clientWidth);
+        }
+    },
+    initial(el) {
+        if(!this.height && this.$el.clientHeight) {
+            this.height = unit(this.$el.clientHeight);
+        }
+
+        el.style.height = this.height;
+
+        if(!this.width && this.$el.clientWidth) {
+            this.width = unit(this.$el.clientWidth);
+        }
+
+        el.style.width = this.width;
+    }
+};
 
 export default {
 
@@ -45,6 +72,16 @@ export default {
         },
 
         /**
+         * Center the content within the popover.
+         *
+         * @type Boolean
+         */
+        center: {
+            type: Boolean,
+            default: true
+        },
+
+        /**
          * Show the slideshow controls to change the slide.
          *
          * @type Boolean
@@ -52,15 +89,17 @@ export default {
         controls: Boolean,
 
         /**
-         * Should the slideshow auto grow and shrink based on the slide height.
-         * This option is best used when you can't determine the height of the
-         * slide.
+         * The mode determines how the popover content will flex based on the
+         * varying heights of the slides.
          *
          * @type Boolean
          */
-        fluid: {
-            type: Boolean,
-            default: true
+        resizeMode: {
+            type: [Function, Boolean, String],
+            default: 'auto',
+            validate(value) {
+                return ['auto', 'initial', 'inherit'].indexOf(value) !== 1;
+            }
         }
 
     },
@@ -73,6 +112,10 @@ export default {
 
         currentSlide(value, oldValue) {
             this.direction = this.findSlideIndex(oldValue) > this.findSlideIndex(value) ? 'backward' : 'forward';
+        },
+
+        height(value, oldValue) {
+            //this.$emit('resize', this, value);
         }
 
     },
@@ -95,16 +138,12 @@ export default {
             });
         },
 
-        setFluidBounds(el) {
-            const parentHeight = this.$el.clientHeight;
-            const parentWidth = this.$el.clientWidth;
-
-            if(el.clientHeight/* <= Math.max(el.clientHeight, parentHeight)*/) {
-                this.$el.style.height = unit(el.clientHeight);
+        resize(el) {
+            if(isFunction(this.resizeMode)) {
+                this.resizeMode.call(this, el);
             }
-
-            if(el.clientWidth/* <= Math.max(el.clientWidth, parentWidth)*/) {
-                this.$el.style.width = unit(el.clientWidth);
+            else if(isFunction(RESIZE_MODES[this.resizeMode])) {
+                RESIZE_MODES[this.resizeMode].call(this, el);
             }
         },
 
@@ -113,9 +152,7 @@ export default {
         },
 
         onSlideEnter(el, done) {
-            if(this.fluid) {
-                this.setFluidBounds(el);
-            }
+            this.resize(el);
 
             transition(el).then(delay => {
                 this.$nextTick(done);
@@ -123,9 +160,7 @@ export default {
         },
 
         onSlideLeave(el, done) {
-            if(this.fluid) {
-                this.setFluidBounds(el);
-            }
+            this.resize(el);
 
             transition(el).then(delay => {
                 this.$nextTick(done);
@@ -158,12 +193,16 @@ export default {
 
     mounted() {
         this.$el.parentElement.style.overflow = 'hidden';
-        this.height = this.$el.clientHeight;
+        this.resize(this.$el);
+    },
+
+    updated() {
     },
 
     data() {
         return {
-            height: 0,
+            height: null,
+            width: null,
             currentSlide: this.active,
             direction: 'forward'
         }
@@ -177,6 +216,17 @@ export default {
     height: auto;
     position: relative;
     transition: all .5s ease;
+
+    &.slideshow-content-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .slideshow-content {
+        overflow-y: auto;
+    }
+
     /*
     display: flex;
     justify-content: center;
