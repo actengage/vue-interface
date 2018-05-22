@@ -3,6 +3,7 @@
         <div class="arrow"></div>
         <popover-header v-if="title" v-html="title"/>
         <popover-body>
+            <component :is="content.$options" v-bind="content.$options.propsData"/>
             <slot/>
         </popover-body>
     </div>
@@ -73,6 +74,19 @@ export default {
         container: {
             type: [String, Element, Boolean],
             default: false
+        },
+
+        /**
+         * Does the same thing as the default slot, except it's meant to be used
+         * when using the $popover plugin or programmatically instantiated popovers.
+         *
+         * @type {Function}
+         */
+        content: {
+            type: Object,
+            validate(value) {
+                return value.constructor.name === 'VueComponent';
+            }
         },
 
         /**
@@ -224,30 +238,6 @@ export default {
 
         getArrowElement() {
             return this.$el.querySelector('.arrow');
-        },
-
-        align() {
-
-            /*
-            let placement;
-
-            if(this.placement === 'top') {
-                placement = 'bottom';
-            }
-            else if(this.placement === 'bottom') {
-                placement = 'top';
-            }
-            else if(this.placement === 'left') {
-                placement = 'right';
-            }
-            else if(this.placement === 'right') {
-                placement = 'left';
-            }
-
-            new Popper(this.$el, this.getArrowElement(), {
-                placement: placement
-            });
-            */
         }
 
     },
@@ -278,21 +268,30 @@ export default {
     },
 
     mounted() {
-        if(this.target) {
-            document.querySelectorAll(this.target).forEach(el => {
-                this.$poppers[el] = {
-                    trigger: isString(this.trigger) ? this.trigger.split(' ') : this.trigger,
-                    popper: this.createPopper(el),
-                    event: (event) => {
-                        this.toggle();
-                        this.$poppers[el].popper.update();
-                    }
-                };
+        const init = el => {
+            this.$poppers[el] = {
+                trigger: isString(this.trigger) ? this.trigger.split(' ') : this.trigger,
+                popper: this.createPopper(el),
+                event: (event) => {
+                    this.toggle();
+                    this.$poppers[el].popper.update();
+                }
+            };
 
-                each(this.$poppers[el].trigger, trigger => {
-                    el.addEventListener(trigger, this.$poppers[el].event);
-                });
+            each(this.$poppers[el].trigger, trigger => {
+                el.addEventListener(trigger, this.$poppers[el].event);
             });
+        };
+
+        if(this.target && this.trigger !== 'manual') {
+            if(this.target instanceof Element) {
+                init(this.target);
+            }
+            else {
+                document.querySelectorAll(this.target).forEach(el => {
+                    init(el);
+                });
+            }
         }
     }
 
