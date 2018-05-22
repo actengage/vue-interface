@@ -1,19 +1,36 @@
 <template>
-    <div class="overlay" :class="{'show': isVisible}" :style="{background: background}" @keyup.esc="event => closeable && hide()">
+    <div class="overlay" :class="triggerableClasses" :style="{'background': background, 'display': isDisplaying ? 'flex' : 'none'}" role="dialog" tabindex="-1" @keydown.esc="onEsc">
         <button v-if="closeable && !hideCloseButton" type="button" class="btn btn-link overlay-close" @click="onClickClose">
             <i class="fa fa-times-circle"></i>
         </button>
 
-        <div class="overlay-content container" :class="{'fixed': fixedContent}" :style="{minHeight: minHeight}">
-            <slot/>
-        </div>
+        <overlay-content :class="{'overlay-content-fixed': fixedContent, 'overlay-content-center': center}" :style="{minHeight: minHeight}">
+            <slot name="body">
+                <overlay-body>
+                    <slot/>
+                </overlay-body>
+            </slot>
+        </overlay-content>
     </div>
 </template>
 
 <script>
+import OverlayBody from './OverlayBody';
+import OverlayContent from './OverlayContent';
+import Triggerable from '../../Mixins/Triggerable';
+
 export default {
 
     name: 'overlay',
+
+    components: {
+        OverlayBody,
+        OverlayContent
+    },
+
+    mixins: [
+        Triggerable
+    ],
 
     props: {
 
@@ -28,27 +45,6 @@ export default {
         },
 
         /**
-         * Is the overlay close button hidden but still closeable.
-         *
-         * @property Boolean
-         */
-        hideCloseButton: Boolean,
-
-        /**
-         * Is the overlay showing.
-         *
-         * @property Boolean
-         */
-        visible: Boolean,
-
-        /**
-         * Is the overlay content fixed position
-         *
-         * @property Boolean
-         */
-        fixedContent: Boolean,
-
-        /**
          * Is the overlay content fixed position
          *
          * @property Boolean
@@ -59,6 +55,30 @@ export default {
         },
 
         /**
+         * Center the overlay content on the screen using flex box.
+         *
+         * @type {Boolean}
+         */
+        center: {
+            type: Boolean,
+            default: true
+        },
+
+        /**
+         * Is the overlay content fixed position
+         *
+         * @property Boolean
+         */
+        fixedContent: Boolean,
+
+        /**
+         * Is the overlay close button hidden but still closeable.
+         *
+         * @property Boolean
+         */
+        hideCloseButton: Boolean,
+
+        /**
          * Is the overlay content minimum height.
          *
          * @property Boolean
@@ -67,72 +87,22 @@ export default {
 
     },
 
-    watch: {
-        visible(value) {
-            (this.isVisible = value) && this.focus();
-        }
-    },
-
     methods: {
-
-        focus() {
-            const el = this.$el.querySelector('.form-control, input, select, textarea');
-
-            if(el) {
-                el.focus();
-            }
-        },
-
-        /**
-         * Show the overlay
-         *
-         * @return void
-         */
-        show(contents, options) {
-            this.$mount(document.body.appendChild(document.createElement('div')));
-
-            if(contents.$mount) {
-                contents.$parent = this;
-                contents.$mount(
-                    this.$el.querySelector('.overlay-content').appendChild(document.createElement('div'))
-                );
-            }
-
-            this.focus();
-            this.$emit('show');
-            this.$emit('update:visible', this.isVisible = true);
-        },
-
-        /**
-         * Hide the overlay
-         *
-         * @return void
-         */
-        hide() {
-            this.$emit('hide');
-            this.$emit('update:visible', this.isVisible = false);
-        },
 
         /**
          * The callback for the `click` event on the close button.
          *
          * @return void
          */
-        onClickClose() {
-            this.$emit('click:close');
-            this.hide();
+        onClickClose(event) {
+            this.$emit('click:close', event, this);
+            this.close();
+        },
+
+        onEsc(event) {
+            this.closeable && this.close();
         }
 
-    },
-
-    mounted() {
-        this.visible && this.focus();
-    },
-
-    data() {
-        return {
-            isVisible: this.visible
-        }
     }
 
 }
@@ -157,11 +127,18 @@ export default {
     align-content: center;
     justify-content: center;
     flex-direction: column;
-    transition: all 333ms ease-out;
+
+    &.fade {
+        transition: opacity 333ms ease-out;
+    }
 
     &.show {
         z-index: 10000;
-        opacity: 100;
+        opacity: 1;
+    }
+
+    .overlay-content {
+        flex: 1;
     }
 
     .overlay-header {
@@ -175,42 +152,6 @@ export default {
         top: $font-size-base;
         right: $font-size-base;
         z-index: 1;
-    }
-
-    .overlay-content {
-        overflow-y: auto;
-        position: relative;
-        width: 100%;
-        margin: 0 auto;
-        padding-bottom: $font-size-base * 6;
-
-        &.fixed {
-            top: 0;
-            left: 0;
-            padding: 0;
-            height: 100%;
-            position: fixed;
-            max-width: none;
-        }
-
-        .overlay-controls {
-            float: right;
-            position: relative;
-            top: 4px;
-            padding-right: 0;
-            padding-bottom: $font-size-base;
-
-            &.left {
-                left: 0;
-            }
-            &.right {
-                right: 0;
-            }
-
-            & + * {
-                clear: both;
-            }
-        }
     }
 }
 </style>

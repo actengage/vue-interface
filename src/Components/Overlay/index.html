@@ -7,6 +7,15 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/dist/vue-interface.css">
+        <style>
+            .static-overlay {
+                position: relative;
+            }
+
+            .static-overlay .overlay {
+                position: absolute;
+            }
+        </style>
     </head>
     <body>
         <div id="app" class="container">
@@ -14,23 +23,46 @@
 
             <h3>Basic Usage</h3>
 
-            <button type="button" class="btn btn-primary" @click="showOverlay1">
-                Show Overlay 1
-            </button>
+            <p>The basic purpose of an Overlay is to be an alternative to Modal's when the content needs to be presented full-width. By default, the Overlay's backdrop is white instead of black like a modal. Overlay's can accept any content or component.</p>
 
-            <button type="button" class="btn btn-primary" @click="showOverlay2">
-                Show Overlay 2
-            </button>
+            <div class="static-overlay">
+                <h1>Some Background Title</h1>
+                <p>Morbi quis lorem ac diam tincidunt sollicitudin. Fusce elementum diam hendrerit euismod malesuada. Sed eget risus feugiat, pharetra nisl ut, dictum enim. Aenean commodo efficitur malesuada. Phasellus ac molestie arcu. Donec semper lacus ut massa tristique, porttitor mollis erat sagittis. Duis non rutrum orci, eget fringilla mi.</p>
 
-            <button type="button" class="btn btn-primary" @click="showOverlay3">
-                Show Overlay 3
-            </button>
+                <p>Maecenas porta convallis ullamcorper. Ut vulputate nec orci eget ultrices. Curabitur euismod lectus tellus, ut luctus ligula aliquet non. Cras consequat vestibulum sem id luctus. Curabitur porttitor nec diam vel efficitur. Praesent id aliquam metus. Sed egestas diam sit amet odio molestie tempus. Aenean id ex mi. Nam nisl quam, ultrices id viverra a, lobortis et augue. Proin laoreet iaculis tellus id euismod. Etiam semper tempor ipsum, a aliquam metus convallis ut. Maecenas sit amet neque eget est sollicitudin lobortis non ut nisi. Cras eros enim, feugiat sed condimentum imperdiet, commodo non dolor. Mauris non mi feugiat, lobortis lectus in, viverra metus. Morbi dignissim suscipit orci, in vehicula libero faucibus in.</p>
 
-            <button type="button" class="btn btn-primary" @click="showOverlay4">
-                Show Overlay 4
-            </button>
+                <overlay>
+                    <h2>Some Overlay Title</h2>
+                    <p>This is some overlay content.</p>
+                </overlay>
+            </div>
 
-            <div class="test"></div>
+            <hr>
+
+            <h3>Targets</h3>
+
+            <p>Most of the time you want to use an overlay, its triggered to show by doing something. You can bind the modal to open/close with any element event. The default trigger is a `click`.</p>
+
+            <btn class="basic-overlay" type="button">Click to show modal</btn>
+
+            <overlay target=".basic-overlay">
+                <h3>Basic Overlay</h3>
+                This is an overlay. It has no functionality by default, except a close button (which can be disabled).
+            </overlay>
+
+            <hr>
+
+            <h3>Triggers</h3>
+
+            <p>You can change the event trigger used open the modals. This example will use the focus/blur events to toggle the modal.</p>
+
+            <btn class="overlay-focus" type="button">Focus on me</btn>
+
+            <overlay target=".overlay-focus" trigger="focus">
+                <h3>Overlay Triggered by Focus</h3>
+                This overlay was shown on focus (triggered from the target elements).
+            </overlay>
+
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
@@ -43,45 +75,6 @@
                     return {
                         visible: true
                     };
-                },
-                methods: {
-                    showOverlay1() {
-                        const Child = Vue.extend(VueInterface.InputField);
-
-                        this.$overlay(new Child({
-                            propsData: {
-                                label: 'Some Field'
-                            }
-                        }));
-                    },
-
-                    showOverlay2() {
-                        this.$overlay(Vue.extend(VueInterface.InputField), {
-                            propsData: {
-                                label: 'Some Field'
-                            }
-                        });
-                    },
-
-                    showOverlay3() {
-                        this.$overlay(VueInterface.InputField, {
-                            propsData: {
-                                label: 'Some Field'
-                            }
-                        });
-                    },
-
-                    showOverlay4() {
-                        const Child = Vue.extend(VueInterface.InputField);
-                        const OverlayComponent = Vue.extend(VueInterface.Overlay);
-                        const overlay = new OverlayComponent;
-
-                        overlay.show(new Child({
-                            propsData: {
-                                label: 'Some Field'
-                            }
-                        }))
-                    }
                 }
             });
         </script>

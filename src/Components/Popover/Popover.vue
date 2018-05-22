@@ -3,7 +3,7 @@
         <div class="arrow"></div>
         <popover-header v-if="title" v-html="title"/>
         <popover-body>
-            <component :is="content.$options" v-bind="content.$options.propsData"/>
+            <component v-if="content" :is="content.$options" v-bind="content.$options.propsData"/>
             <slot/>
         </popover-body>
     </div>
@@ -283,7 +283,7 @@ export default {
             });
         };
 
-        if(this.target && this.trigger !== 'manual') {
+        if(this.target) {
             if(this.target instanceof Element) {
                 init(this.target);
             }

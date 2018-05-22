@@ -1,6 +1,6 @@
 <template>
 
-    <div class="modal" :class="classes" :style="{display: isDisplaying ? 'block' : 'none'}" tabindex="-1" role="dialog" @keydown.esc="onEsc">
+    <div class="modal" :class="triggerableClasses" :style="{display: isDisplaying ? 'block' : 'none'}" tabindex="-1" role="dialog" @keydown.esc="onEsc">
 
         <modal-dialog :class="{'modal-dialog-centered': center}">
 
@@ -46,7 +46,7 @@ import ModalContent from './ModalContent';
 import ModalDialog from './ModalDialog';
 import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';
-import transition from '../../Helpers/Transition';
+import Triggerable from '../../Mixins/Triggerable';
 
 export default {
 
@@ -61,6 +61,10 @@ export default {
         ModalHeader,
         ModalFooter
     },
+
+    mixins: [
+        Triggerable
+    ],
 
     watch: {
 
@@ -126,51 +130,12 @@ export default {
         },
 
         /**
-         * Show the modal with a fade effect.
-         *
-         * @type {Boolean}
-         */
-        fade: {
-            type: Boolean,
-            default: true
-        },
-
-        /**
-         * Is the modal content fluid
-         *
-         * @type {Boolean}
-         */
-        fluid: Boolean,
-
-        /**
          * Is the modal content flush with the modal edges? If true, no modal-body
          * will be used to wrap the content.
          *
          * @type {Boolean}
          */
         flush: Boolean,
-
-        /**
-         * Show the modal header
-         *
-         * @type {Boolean}
-         */
-        header: {
-            type: Boolean,
-            default: true
-        },
-
-        /**
-         * Hide the modal footer
-         *
-         * @type {Boolean}
-         */
-        /*
-        footer: {
-            type: Boolean,
-            default: true
-        },
-        */
 
         /**
          * The ok label text.
@@ -193,16 +158,6 @@ export default {
         },
 
         /**
-         * Is the modal showing.
-         *
-         * @type {Boolean}
-         */
-        show: {
-            type: Boolean,
-            default: false
-        },
-
-        /**
          * The modal title.
          *
          * @type {String}
@@ -220,39 +175,6 @@ export default {
             validate(value) {
                 return ['alert', 'confirm', 'prompt'].indexOf(value) !== -1;
             }
-        },
-
-        /**
-         * The target element used to position the popover.
-         *
-         * @type {String|Element|Boolean}
-         */
-        target: {
-            type: [String, Element, Boolean],
-            default: false
-        },
-
-        /**
-         * How the modal is triggered - click | hover | focus | manual. You may
-         * pass multiple triggers; separate them with a space. `manual` cannot
-         * be combined with any other trigger.
-         *
-         * @type {String}
-         */
-        trigger: {
-            type: [String, Array],
-            default: 'click'
-        }
-
-    },
-
-    computed: {
-
-        classes() {
-            return {
-                'fade': this.fade,
-                'show': this.isShowing
-            };
         }
 
     },
@@ -270,20 +192,6 @@ export default {
         },
 
         /**
-         * Close the modal
-         *
-         * @return void
-         */
-        close(event) {
-            transition(this.$el).then(delay => {
-                this.isDisplaying = false;
-                this.$emit('close', event, this);
-            });
-
-            this.isShowing = false;
-        },
-
-        /**
          * Confirm the modal
          *
          * @return void
@@ -293,94 +201,14 @@ export default {
         },
 
         /**
-         * Focus on the first field in the modal (if exists).
-         *
-         * @return void
-         */
-        focus() {
-            const el = this.$el.querySelector('.form-control, input, select, textarea');
-
-            if(el) {
-                el.focus();
-            }
-            else {
-                this.$el.querySelector('.modal').focus();
-            }
-        },
-
-        /**
          * A callback for the escape function.
          *
          * @return void
          */
         onEsc(event) {
             (this.type === 'confirm' || this.type ===  'prompt') ? this.cancel(event) : this.close(event);
-        },
-
-        /**
-         * Open the modal.
-         *
-         * @return void
-         */
-        open() {
-            /*
-            this.$mount(document.body.appendChild(document.createElement('div')));
-
-            if(contents.$mount) {
-                contents.$parent = this;
-                contents.$mount(
-                    this.$el.querySelector('.child-component').appendChild(document.createElement('div'))
-                );
-            }
-            */
-
-            this.isDisplaying = true;
-
-            this.$nextTick(() => {
-                transition(this.$el).then(delay => {
-                    this.isShowing = true;
-                    this.$emit('open');
-                });
-            });
-        },
-
-        /**
-         * Toggle the modal's open/close method.
-         *
-         * @return void
-         */
-        toggle() {
-            if(!this.isShowing) {
-                this.open();
-            }
-            else {
-                this.close();
-            }
         }
 
-    },
-
-    mounted() {
-        const init = el => {
-            const triggers = isString(this.trigger) ? this.trigger.split(' ') : this.trigger;
-
-            each(triggers, trigger => {
-                el.addEventListener(trigger, event => {
-                    this.toggle();
-                });
-            });
-        };
-
-        if(this.target && this.trigger !== 'manual') {
-            if(this.target instanceof Element) {
-                init(this.target);
-            }
-            else {
-                document.querySelectorAll(this.target).forEach(el => {
-                    init(el);
-                });
-            }
-        }
     },
 
     data() {

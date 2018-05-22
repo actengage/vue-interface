@@ -35,8 +35,9 @@ export default function(Vue, options) {
             };
 
             modal.$on('confirm', event => {
-                promise.then(finish);
-                resolve(modal);
+                console.log('confirm');
+                //promise.then(finish);
+                //resolve(modal);
             });
 
             modal.$on('cancel', event => {
@@ -100,8 +101,13 @@ export default function(Vue, options) {
     };
 
     Vue.prototype.$prompt = function(title, content, options, modalOptions, ModalComponent) {
+        modalOptions = ensure({
+            title: title,
+            type: 'prompt',
+        }, modalOptions);
+
         return promise(this.$modal(
-            title, content, options, ensure({type: 'prompt', title: title}, modalOptions), ModalComponent
+            title, content, options, modalOptions, ModalComponent
         ));
     };
 

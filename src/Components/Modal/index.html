@@ -112,7 +112,7 @@
 
             <h3>Targets</h3>
 
-            <p>Most of the time you want to use a modal, its triggered to show by doing something. You can bind the modal to open to any element event. The default trigger is a `click`.</p>
+            <p>Most of the time you want to use a modal, its triggered to show by doing something. You can bind the modal to open/close with any element event. The default trigger is a `click`.</p>
 
             <btn class="alert-modal" type="button">Click to show modal</btn>
 
@@ -126,9 +126,9 @@
 
             <p>You can change the event trigger used open the modals. This example will use the focus/blur events to toggle the modal.</p>
 
-            <btn class="alert-modal-focus" type="button">Click to show modal</btn>
+            <btn class="alert-modal-focus" type="button">Focus on me</btn>
 
-            <modal type="alert" title="Alert Modal" target=".alert-modal-focus" trigger="focus blur">
+            <modal type="alert" title="Alert Modal" target=".alert-modal-focus" trigger="focus">
                 The alert modal comes with one button to accept the notification.
             </modal>
 

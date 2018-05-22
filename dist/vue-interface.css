@@ -961,11 +961,14 @@
   align-items: center;
   align-content: center;
   justify-content: center;
-  flex-direction: column;
-  transition: all 333ms ease-out; }
+  flex-direction: column; }
+  .overlay.fade {
+    transition: opacity 333ms ease-out; }
   .overlay.show {
     z-index: 10000;
-    opacity: 100; }
+    opacity: 1; }
+  .overlay .overlay-content {
+    flex: 1; }
   .overlay .overlay-header {
     margin-top: 1.5rem; }
   .overlay .overlay-close {
@@ -975,31 +978,36 @@
     top: 1rem;
     right: 1rem;
     z-index: 1; }
-  .overlay .overlay-content {
-    overflow-y: auto;
+
+.overlay-content {
+  margin: 0 auto;
+  overflow-y: auto;
+  position: relative; }
+  .overlay-content.overlay-content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .overlay-content.overlay-content-center .overlay-body {
+      flex: 1; }
+  .overlay-content.overlay-content-fixed {
+    top: 0;
+    left: 0;
+    padding: 0;
+    height: 100%;
+    position: fixed;
+    max-width: none; }
+  .overlay-content .overlay-controls {
+    float: right;
     position: relative;
-    width: 100%;
-    margin: 0 auto;
-    padding-bottom: 6rem; }
-    .overlay .overlay-content.fixed {
-      top: 0;
-      left: 0;
-      padding: 0;
-      height: 100%;
-      position: fixed;
-      max-width: none; }
-    .overlay .overlay-content .overlay-controls {
-      float: right;
-      position: relative;
-      top: 4px;
-      padding-right: 0;
-      padding-bottom: 1rem; }
-      .overlay .overlay-content .overlay-controls.left {
-        left: 0; }
-      .overlay .overlay-content .overlay-controls.right {
-        right: 0; }
-      .overlay .overlay-content .overlay-controls + * {
-        clear: both; }
+    top: 4px;
+    padding-right: 0;
+    padding-bottom: 1rem; }
+    .overlay-content .overlay-controls.left {
+      left: 0; }
+    .overlay-content .overlay-controls.right {
+      right: 0; }
+    .overlay-content .overlay-controls + * {
+      clear: both; }
 
 @media (max-width: 575.98px) {
   .btn-xs-block {
