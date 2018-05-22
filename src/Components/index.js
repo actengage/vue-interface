@@ -77,8 +77,8 @@ import PopoverHeader from './Popover/PopoverHeader';
 import ProgressBar from './ProgressBar';
 import RadioField from './RadioField';
 import SelectField from './SelectField';
-import Slideshow from './Slideshow';
-import SlideshowSlide from './Slideshow/SlideshowSlide';
+import SlideDeck from './SlideDeck';
+import Slide from './SlideDeck/Slide';
 import TableView from './TableView';
 import TextareaField from './TextareaField';
 import ThumbnailList from './ThumbnailList';
@@ -165,8 +165,8 @@ export {
     ProgressBar,
     RadioField,
     SelectField,
-    Slideshow,
-    SlideshowSlide,
+    SlideDeck,
+    Slide,
     TableView,
     TextareaField,
     ThumbnailList,

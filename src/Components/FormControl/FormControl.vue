@@ -1,6 +1,7 @@
 <template>
 
     <component
+        :name="name"
         :id="id"
         :is="!select ? 'input' : 'select'"
         :type="!select ? type : false"
@@ -15,7 +16,7 @@
         :aria-describedby="id"
         v-bind-events="bindEvents"
         v-on:input="updated"/>
-        
+
 </template>
 
 <script>

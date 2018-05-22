@@ -1,10 +1,14 @@
 <template>
     <div class="modal-header">
-        <modal-title><slot/></modal-title>
+        <slot name="title">
+            <modal-title><slot/></modal-title>
+        </slot>
 
-        <button v-if="closeable" type="button" class="close" aria-label="ariaLabel" @click="$emit('close')">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <slot name="close-button">
+            <button v-if="closeable" type="button" class="close" aria-label="ariaLabel" @click="$emit('close')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </slot>
     </div>
 </template>
 

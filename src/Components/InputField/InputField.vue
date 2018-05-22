@@ -10,6 +10,7 @@
             <input
                 :id="id"
                 :type="type"
+                :name="name"
                 :value="value"
                 :pattern="pattern"
                 :readonly="readonly"

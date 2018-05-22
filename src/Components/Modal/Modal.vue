@@ -1,47 +1,44 @@
 <template>
 
-    <div>
-        <modal-backdrop v-if="isShowing" :fade="fade" :show="show" @click.self="onEsc"/>
+    <div class="modal" :class="classes" :style="{display: isDisplaying ? 'block' : 'none'}" tabindex="-1" role="dialog" @keydown.esc="onEsc">
 
-        <div class="modal" tabindex="-1" role="dialog" :style="styles" :class="classes" @keydown.esc="onEsc">
+        <modal-dialog :class="{'modal-dialog-centered': center}">
 
-            <modal-dialog :class="{'modal-dialog-centered': center}">
+            <modal-content>
 
-                <modal-content>
+                <slot name="header">
+                    <modal-header v-if="title" @close="cancel">{{title}}</modal-header>
+                </slot>
 
-                    <slot v-if="header" name="header">
-                        <modal-header @close="cancel">{{title}}</modal-header>
-                    </slot>
-
+                <slot name="body">
                     <component :is="!flush ? 'modal-body' : 'div'" class="child-component">
                         <slot/>
                     </component>
+                </slot>
 
-                    <slot name="footer" v-if="footer">
-                        <template v-if="type === 'confirm' || type === 'prompt'">
-                            <modal-footer>
-                                <btn type="button" variant="secondary" @click="cancel">{{cancelLabel}}</btn>
-                                <btn-activity :activity="activity" variant="primary" @click="confirm">{{okLabel}}</btn-activity>
-                            </modal-footer>
+                <slot name="footer">
+                    <modal-footer v-if="type">
+                        <template v-if="type === 'alert'">
+                            <btn-activity :activity="activity" variant="primary" @click="confirm" v-html="okLabel"/>
                         </template>
                         <template v-else>
-                            <modal-footer>
-                                <btn-activity :activity="activity" variant="primary" @click="confirm">{{okLabel}}</btn-activity>
-                            </modal-footer>
+                            <btn type="button" variant="secondary" @click="cancel" v-html="cancelLabel"/>
+                            <btn-activity :activity="activity" variant="primary" @click="confirm" v-html="okLabel"/>
                         </template>
-                    </slot>
+                    </modal-footer>
+                </slot>
 
-                </modal-content>
+            </modal-content>
 
-            </modal-dialog>
-
-        </div>
+        </modal-dialog>
 
     </div>
 
 </template>
 
 <script>
+import { each } from 'lodash-es';
+import { isString } from 'lodash-es';
 import BtnActivity from '../BtnActivity';
 import ModalBody from './ModalBody';
 import ModalBackdrop from './ModalBackdrop';
@@ -67,20 +64,24 @@ export default {
 
     watch: {
 
-        show(value) {
-            this.isDisplaying = value;
-
-            value && this.$nextTick(() => {
-                this.focus();
-            });
-        },
-
         isShowing(value) {
             if(value) {
                 document.querySelector('body').classList.add('modal-open');
+
+                if(this.backdrop && !document.querySelector('.modal-backdrop')) {
+                    this.backdropComponent = new (Vue.extend(ModalBackdrop))().$mount(
+                        document.body.appendChild(document.createElement('div'))
+                    );
+                }
             }
             else {
                 document.querySelector('body').classList.remove('modal-open');
+
+                if(this.backdropComponent) {
+                    this.backdropComponent.$destroy();
+                    this.backdropComponent.$el.remove();
+                    this.backdropComponent = null;
+                }
             }
 
             this.$emit('update:show', value);
@@ -93,73 +94,31 @@ export default {
         /**
          * Show the modal activity indicator.
          *
-         * @property Boolean
+         * @type {Boolean}
          */
         activity: Boolean,
 
         /**
+         * Show the modal with a backdrop.
+         *
+         * @type {Boolean}
+         */
+        backdrop: {
+            type: Boolean,
+            default: true,
+        },
+
+        /**
          * Is the modal centered in the screen.
          *
-         * @property Boolean
+         * @type {Boolean}
          */
         center: Boolean,
 
         /**
-         * Is the modal content fluid
-         *
-         * @property Boolean
-         */
-        fluid: Boolean,
-
-        /**
-         * Is the modal content flush with the modal edges? If true, no modal-body
-         * will be used to wrap the content.
-         *
-         * @property Boolean
-         */
-        flush: Boolean,
-
-        /**
-         * Show the modal header
-         *
-         * @property Boolean
-         */
-        header: {
-            type: Boolean,
-            default: true
-        },
-
-        /**
-         * The modal title.
-         *
-         * @property String
-         */
-        title: String,
-
-        /**
-         * Show the modal with a backdrop.
-         *
-         * @property Boolean
-         */
-        backdrop: {
-            type: Boolean,
-            default: true
-        },
-
-        /**
-         * Hide the modal footer
-         *
-         * @property Boolean
-         */
-        footer: {
-            type: Boolean,
-            default: true
-        },
-
-        /**
          * Is the modal content fixed position
          *
-         * @property Boolean
+         * @type {Boolean}
          */
         closeable: {
             type: Boolean,
@@ -169,7 +128,7 @@ export default {
         /**
          * Show the modal with a fade effect.
          *
-         * @property Boolean
+         * @type {Boolean}
          */
         fade: {
             type: Boolean,
@@ -177,19 +136,46 @@ export default {
         },
 
         /**
-         * Is the modal showing.
+         * Is the modal content fluid
          *
-         * @property Boolean
+         * @type {Boolean}
          */
-        show: {
+        fluid: Boolean,
+
+        /**
+         * Is the modal content flush with the modal edges? If true, no modal-body
+         * will be used to wrap the content.
+         *
+         * @type {Boolean}
+         */
+        flush: Boolean,
+
+        /**
+         * Show the modal header
+         *
+         * @type {Boolean}
+         */
+        header: {
             type: Boolean,
             default: true
         },
 
         /**
+         * Hide the modal footer
+         *
+         * @type {Boolean}
+         */
+        /*
+        footer: {
+            type: Boolean,
+            default: true
+        },
+        */
+
+        /**
          * The ok label text.
          *
-         * @property String
+         * @type {String}
          */
         okLabel: {
             type: String,
@@ -199,7 +185,7 @@ export default {
         /**
          * The cancel label text.
          *
-         * @property String
+         * @type {String}
          */
         cancelLabel: {
             type: String,
@@ -207,21 +193,95 @@ export default {
         },
 
         /**
+         * Is the modal showing.
+         *
+         * @type {Boolean}
+         */
+        show: {
+            type: Boolean,
+            default: false
+        },
+
+        /**
+         * The modal title.
+         *
+         * @type {String}
+         */
+        title: String,
+
+        /**
          * Is the modal type.
          *
-         * @property Boolean
+         * @type {Boolean}
          */
         type: {
             type: [Boolean, String],
             default: false,
             validate(value) {
-                return ['none', 'alert', 'confirm', 'prompt'].indexOf(value) !== -1;
+                return ['alert', 'confirm', 'prompt'].indexOf(value) !== -1;
             }
+        },
+
+        /**
+         * The target element used to position the popover.
+         *
+         * @type {String|Element|Boolean}
+         */
+        target: {
+            type: [String, Element, Boolean],
+            default: false
+        },
+
+        /**
+         * How the modal is triggered - click | hover | focus | manual. You may
+         * pass multiple triggers; separate them with a space. `manual` cannot
+         * be combined with any other trigger.
+         *
+         * @type {String}
+         */
+        trigger: {
+            type: [String, Array],
+            default: 'click'
+        }
+
+    },
+
+    computed: {
+
+        classes() {
+            return {
+                'fade': this.fade,
+                'show': this.isShowing
+            };
         }
 
     },
 
     methods: {
+
+        /**
+         * Cancel the modal
+         *
+         * @return void
+         */
+        cancel(event) {
+            this.$emit('cancel', event, this);
+            this.close(event);
+        },
+
+        /**
+         * Close the modal
+         *
+         * @return void
+         */
+        close(event) {
+            transition(this.$el).then(delay => {
+                this.isDisplaying = false;
+                this.$emit('close', event, this);
+            });
+
+            this.isShowing = false;
+        },
 
         /**
          * Confirm the modal
@@ -248,13 +308,22 @@ export default {
             }
         },
 
-
         /**
-         * Show the modal
+         * A callback for the escape function.
          *
          * @return void
          */
-        open(contents, options) {
+        onEsc(event) {
+            (this.type === 'confirm' || this.type ===  'prompt') ? this.cancel(event) : this.close(event);
+        },
+
+        /**
+         * Open the modal.
+         *
+         * @return void
+         */
+        open() {
+            /*
             this.$mount(document.body.appendChild(document.createElement('div')));
 
             if(contents.$mount) {
@@ -263,96 +332,62 @@ export default {
                     this.$el.querySelector('.child-component').appendChild(document.createElement('div'))
                 );
             }
+            */
 
-            this.focus();
-            this.$emit('open');
-        },
+            this.isDisplaying = true;
 
-        /**
-         * Cancel the modal
-         *
-         * @return void
-         */
-        cancel(event) {
-            this.$emit('cancel', event, this);
-            this.close(event);
-        },
-
-        /**
-         * Close the modal
-         *
-         * @return void
-         */
-        close(event) {
-            return this.hide().then(delay => {
-                this.isShowing = false;
-                this.isDisplaying = false;
-                this.$emit('close', event, this);
+            this.$nextTick(() => {
+                transition(this.$el).then(delay => {
+                    this.isShowing = true;
+                    this.$emit('open');
+                });
             });
         },
 
         /**
-         * Hide the modal
+         * Toggle the modal's open/close method.
          *
          * @return void
          */
-        hide() {
-            return (this.isShowing = false) || transition(this.$el.querySelector('.modal'));
-        },
-
-        /**
-         * A callback for the escape function.
-         *
-         * @return void
-         */
-        onEsc(event) {
-            (this.type === 'confirm' || this.type ===  'prompt') ? this.cancel(event) : this.close(event);
-        }
-
-    },
-
-    computed: {
-
-        classes() {
-            return {
-                'fade': this.fade,
-                'show': this.isShowing
-            };
-        },
-
-        styles() {
-            return {
-                display: this.isDisplaying ? 'block' : 'none'
+        toggle() {
+            if(!this.isShowing) {
+                this.open();
+            }
+            else {
+                this.close();
             }
         }
 
     },
 
     mounted() {
-        this.show && this.focus();
+        const init = el => {
+            const triggers = isString(this.trigger) ? this.trigger.split(' ') : this.trigger;
 
-        this.$nextTick(() => {
-            const form = this.$el.querySelector('form');
+            each(triggers, trigger => {
+                el.addEventListener(trigger, event => {
+                    this.toggle();
+                });
+            });
+        };
 
-            if(form) {
-                form.addEventListener('submit', event => {
-                    event.preventDefault();
-                    this.confirm(event);
+        if(this.target && this.trigger !== 'manual') {
+            if(this.target instanceof Element) {
+                init(this.target);
+            }
+            else {
+                document.querySelectorAll(this.target).forEach(el => {
+                    init(el);
                 });
             }
-
-            if(this.show) {
-                this.$nextTick(() => {
-                    this.isShowing = true;
-                });
-            }
-        });
+        }
     },
 
     data() {
         return {
-            isShowing: false,
-            isDisplaying: this.show
+            backdropComponent: null,
+            isDisplaying: this.show || !this.target,
+            isShowing: this.show || !this.target
         }
     },
 

@@ -7,80 +7,129 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/dist/vue-interface.css">
+        <style>
+            .modal-open {
+                overflow: auto !important;
+            }
+
+            .static-modal .modal {
+                position: relative;
+                top: auto;
+                right: auto;
+                bottom: auto;
+                left: auto;
+                z-index: 1;
+                display: block;
+            }
+
+            .static-modal .fade {
+                transition: none;
+            }
+
+            .static-modal .fade .modal-dialog {
+                transition: none;
+            }
+
+            .static-modal .modal-dialog {
+                margin: 0;
+            }
+
+            .static-modal .modal-backdrop {
+                display: none;
+            }
+        </style>
     </head>
     <body>
         <div id="app" class="container">
-            <h1 class="mb-5">overlay</h1>
+            <h1 class="mb-5">modal</h1>
 
             <h3>Basic Usage</h3>
-            <p>Show a basic modal without any button except close.</p>
+            <p>This show the most basic usage a modal. By default, it doesn't really do anything...</p>
 
-            <button type="button" class="btn btn-primary" @click="isShowing1 = true">
-                Regular Modal
-            </button>
+            <div class="static-modal">
+                <modal>
+                    Some modal content goes here.
+                </modal>
+            </div>
 
-            <button type="button" class="btn btn-primary" @click="showModal">
-                Programmatic Modal
-            </button>
+            <hr>
 
-            <modal title="Modal title" :show.sync="isShowing1">
-                modal body content
+            <h3>Modal w/Title</h3>
+            <p>Show the modal with a title.</p>
+
+            <div class="static-modal">
+                <modal title="Some modal title">
+                    Some modal content goes here.
+                </modal>
+            </div>
+
+            <hr>
+
+            <h3>Override Footer and Header</h3>
+            <p>Show the modal with a title.</p>
+
+            <div class="static-modal">
+                <modal>
+                    <modal-header slot="header">
+                        <modal-title slot="title">Some modal title</modal-title>
+                    </modal-header>
+
+                    <modal-body slot="body">
+                        Some modal content goes here.
+                    </modal-body>
+
+                    <modal-footer slot="footer">
+                        <btn type="button" variant="secondary">Cancel</btn>
+                        <btn type="button">Ok</btn>
+                    </modal-footer>
+                </modal>
+            </div>
+
+            <hr>
+
+            <h3>Modal Types</h3>
+            <p>The modal component provides a few helpers to make adding buttons easier based on the type of modal you want to display. There are 3 types of modal presets, "alert", "confirm", "prompt".</p>
+
+            <div class="static-modal mb-3">
+                <modal type="alert" title="Alert Modal" ok-label="Some ok label...">
+                    The alert modal comes with one button to accept the notification.
+                </modal>
+            </div>
+
+            <div class="static-modal mb-3">
+                <modal type="confirm" title="Confirm Modal" ok-label="Some ok label" cancel-label="Some cancel label">
+                    The confirm modal comes with two buttons, one to confirm the notification, and one to cancel.
+                </modal>
+            </div>
+
+            <div class="static-modal">
+                <modal type="confirm" title="Prompt Modal" ok-label="Some ok label" cancel-label="Some cancel label">
+                    The prompt modal comes with the same two buttons as confirm.
+                </modal>
+            </div>
+
+            <hr>
+
+            <h3>Targets</h3>
+
+            <p>Most of the time you want to use a modal, its triggered to show by doing something. You can bind the modal to open to any element event. The default trigger is a `click`.</p>
+
+            <btn class="alert-modal" type="button">Click to show modal</btn>
+
+            <modal type="confirm" title="Alert Modal" target=".alert-modal" @cancel="(event, modal) => { }" @confirm="(event, modal) => { modal.close() }">
+                The alert modal comes with one button to accept the notification.
             </modal>
 
             <hr>
 
-            <h3>Alert Modal</h3>
-            <p>Show an modal with a single dismiss button.</p>
+            <h3>Triggers</h3>
 
-            <button type="button" class="btn btn-primary" @click="isShowing2 = true">
-                Alert Modal
-            </button>
+            <p>You can change the event trigger used open the modals. This example will use the focus/blur events to toggle the modal.</p>
 
-            <button type="button" class="btn btn-primary" @click="showAlert">
-                Programmatic Alert
-            </button>
+            <btn class="alert-modal-focus" type="button">Click to show modal</btn>
 
-            <modal title="Modal title" type="alert" ok-label="Dismiss" :show.sync="isShowing2" @confirm="isShowing2 = false">
-                modal body content
-            </modal>
-
-            <hr>
-
-            <h3>Confirm Modal</h3>
-            <p>Show an modal asking for confirmation.</p>
-
-            <button type="button" class="btn btn-primary" @click="isShowing3 = true">
-                <span v-if="!isShowing3Confirmed">Alert Modal</span>
-                <span v-else><i class="fa fa-check"></i> Confirmed!</span>
-            </button>
-
-            <button type="button" class="btn btn-primary" @click="showConfirm">
-                Programmatic Confirm
-            </button>
-
-            <modal title="Modal title" type="confirm" :show.sync="isShowing3" @confirm="isShowing3Confirmed = true; isShowing3 = false">
-                Are you sure you want confirm this modal?
-            </modal>
-
-            <hr>
-
-            <h3>Prompt Modal</h3>
-            <p>Show an modal asking for user input.</p>
-
-            <p>Prompt Data: {{prompt}}</p>
-
-            <button type="button" class="btn btn-primary" @click="isShowing4 = true">
-                Prompt Modal
-            </button>
-
-            <button type="button" class="btn btn-primary" @click="showPrompt">
-                Programmatic Prompt
-            </button>
-
-            <modal title="Modal title" type="prompt" :show.sync="isShowing4" @cancel="onCancelPrompt" @confirm="onConfirmPrompt">
-                <form @submit="onSubmit">
-                    <input-field v-model="prompt.first" name="first" label="Enter your first name..."/>
-                </form>
+            <modal type="alert" title="Alert Modal" target=".alert-modal-focus" trigger="focus blur">
+                The alert modal comes with one button to accept the notification.
             </modal>
 
         </div>
@@ -91,133 +140,7 @@
         <script type="text/javascript">
             const vue = new Vue({
                 el: '#app',
-                data() {
-                    return {
-                        isShowing1: false,
-                        isShowing2: false,
-                        isShowing3: false,
-                        isShowing3Confirmed: false,
-                        isShowing4: false,
-                        test: false,
-                        prompt: {}
-                    };
-                },
                 methods: {
-
-                    onSubmit(event) {
-                        console.log('submit', event);
-                    },
-
-                    showModal() {
-                        const modal = this.$modal('Some modal title', VueInterface.InputField);
-
-                        modal.$on('confirm', event => {
-                            modal.close();
-                        });
-                    },
-
-                    showAlert() {
-                        this.$alert('ALERT!', 'This is an alert!').then(modal => {
-                            console.log('alert cleared!', modal);
-
-                            return true;
-                        });
-                    },
-
-                    showConfirm() {
-                        this.$confirm('Confirmation Title', 'This is a confirmation.').then(modal => {
-                            // Prevent the modal from closing...
-                            modal.preventDefault();
-                            modal.activity = true;
-
-                            setTimeout(() => {
-                                modal.activity = false;
-                                setTimeout(modal.close);
-                            }, 500);
-                        }, modal => {
-                            //console.log('cancel!!');
-
-                            //modal.preventDefault();
-
-                            console.log('confirmation cancel!', modal);
-                        });
-                    },
-
-                    showPrompt() {
-                        const Component = Vue.extend({
-                            template: `
-                            <form>
-                                <input-field label="Test" name="test"/>
-                            </form>
-                            `
-                        });
-
-                        /*
-                        Option A:
-                        this.$prompt('Prompt Title', Component, (modal, resolve, reject) => {
-                            modal.activity = true;
-
-                            setTimeout(() => {
-                                modal.activity = false;
-                                setTimeout(modal.close);
-                            }, 500);
-                        }).then(modal => {
-                            // resolved
-                        }, modal => {
-                            // user cancelled
-                        });
-
-                        Option B:
-                        this.$prompt('Prompt Title', Component, options, modalOptions, (modal, resolve, reject) => {
-                            resolve(modal);
-                        }).then(modal => {
-                            // confirmed
-                        });
-
-                        Option C:
-                        this.$prompt({
-                            title: 'Prompt Title',
-                            content: Component,
-                            contentOptions: options,
-                            modalOptions: modalOptions
-                        }, (modal, resolve, reject) => {
-                            resolve(modal);
-                        }).then(modal => {
-                            // confirmed
-                        });
-                        */
-
-                        const promise = this.$prompt('Prompt Title', Component, null, {
-                            center: true, //defaut
-                            footer: true, //defaut
-                            header: true, //defaut
-                            flush: false //defaut
-                        });
-
-                        promise.then(modal => {
-                            console.log('submit');
-
-                            modal.preventDefault();
-
-                            return;
-                            modal.activity = true;
-
-                            setTimeout(() => {
-                                modal.activity = false;
-                                setTimeout(modal.close);
-                            }, 500);
-                        }, modal => {
-                            modal.preventDefault();
-                        });
-                    },
-
-                    onCancelPrompt() {
-                        this.prompt = {};
-                    },
-
-                    onConfirmPrompt() {
-                        this.isShowing4 = false;
-                    }
 
                 }
             });

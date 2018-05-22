@@ -15,7 +15,10 @@ export default function transition(el) {
     return new Promise((resolve, reject) => {
         try {
             const delay = duration(el);
-            setTimeout(() => resolve(delay), delay);
+
+            setTimeout(() => {
+                resolve(delay)
+            }, delay);
         }
         catch(e) {
             reject(e);

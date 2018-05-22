@@ -9,6 +9,7 @@
         <slot name="control">
             <select
                 :id="id"
+                :name="name"
                 :value="value"
                 :required="required"
                 :disabled="disabled || readonly"
