@@ -1,7 +1,7 @@
 <script>
 export default {
 
-    name: 'slideshow-slide',
+    name: 'slide',
 
     functional: true,
 

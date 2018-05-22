@@ -1,16 +1,16 @@
-import Slideshow from './Slideshow';
-import SlideshowSlide from './SlideshowSlide';
+import Slide from './Slide';
+import SlideDeck from './SlideDeck';
 import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
 const plugin = VueInstaller.use({
 
     install(Vue, options) {
         VueInstaller.components({
-            Slideshow,
-            SlideshowSlide
+            Slide,
+            SlideDeck
         });
     }
 
 });
 
-export default Slideshow;
+export default SlideDeck;

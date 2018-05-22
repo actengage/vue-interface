@@ -1,14 +1,14 @@
 <template>
-    <div class="slideshow" :class="{'slideshow-content-center': center}" :style="{height: height, width: width}">
-        <div class="slideshow-content">
+    <div class="slide-deck" :class="{'slide-deck-flex': center}" :style="{height: height, width: width}">
+        <div class="slide-deck-content">
             <keep-alive>
                 <transition :name="`slide-${direction}`" @enter="onSlideEnter" @leave="onSlideLeave">
-                    <slideshow-slide :vnode="component"/>
+                    <slide :vnode="component"/>
                 </transition>
             </keep-alive>
         </div>
         <slot name="controls">
-            <slideshow-controls v-if="controls" :slides="slides" :active="currentSlide" @click="onClickControl" />
+            <slide-deck-controls v-if="controls" :slides="slides" :active="currentSlide" @click="onClickControl" />
         </slot>
     </div>
 </template>
@@ -22,8 +22,8 @@ import { findIndex } from 'lodash-es';
 import { isFunction } from 'lodash-es';
 import unit from '../../Helpers/Unit';
 import transition from '../../Helpers/Transition';
-import SlideshowSlide from './SlideshowSlide';
-import SlideshowControls from './SlideshowControls';
+import Slide from './Slide';
+import SlideDeckControls from './SlideDeckControls';
 
 const RESIZE_MODES = {
     auto(el) {
@@ -52,11 +52,11 @@ const RESIZE_MODES = {
 
 export default {
 
-    name: 'slideshow',
+    name: 'slide-deck',
 
     components: {
-        SlideshowControls,
-        SlideshowSlide
+        Slide,
+        SlideDeckControls,
     },
 
     props: {
@@ -72,17 +72,17 @@ export default {
         },
 
         /**
-         * Center the content within the popover.
+         * Flex the content within the popover.
          *
          * @type Boolean
          */
-        center: {
+        flex: {
             type: Boolean,
             default: true
         },
 
         /**
-         * Show the slideshow controls to change the slide.
+         * Show the slide-deck controls to change the slide.
          *
          * @type Boolean
          */
@@ -212,18 +212,22 @@ export default {
 </script>
 
 <style lang="scss">
-.slideshow {
+.slide-deck {
     height: auto;
     position: relative;
     transition: all .5s ease;
 
-    &.slideshow-content-center {
+    &.slide-deck-flex {
         display: flex;
         align-items: center;
         justify-content: center;
+
+        .slide-deck-content {
+            flex: 1;
+        }
     }
 
-    .slideshow-content {
+    .slide-deck-content {
         overflow-y: auto;
     }
 
@@ -233,7 +237,7 @@ export default {
     align-items: center;
     */
 
-    .slideshow-controls {
+    .slide-deck-controls {
         position: absolute;
         left: 50%;
         bottom: 1rem;

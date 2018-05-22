@@ -16,7 +16,7 @@
             <p>This is a basic usage of the popover. Popovers can containcan any content and will flex accordingly. When the height of slide is unknown (which is most of the time), by default the popover will auto adjust its height to each slide. For this reason, it's best to position the popover at the bottom.</p>
 
             <popover target=".basic-usage" placement="bottom">
-                <slideshow :active="step">
+                <slide-deck :active="step">
                     <form @submit.prevent="step = 1">
                         <alert variant="info">
                             <i class="fa fa-info-circle"></i> You can enter any username and password value.
@@ -33,7 +33,7 @@
                             You have been logged in!
                         </div>
                     </div>
-                </slideshow>
+                </slide-deck>
             </popover>
 
             <btn class="basic-usage">Show Popover</btn>
@@ -43,7 +43,7 @@
             <btn class="basic-usage-auto-top">Show on top w/failed positioning</btn>
 
             <popover target=".basic-usage-auto-top" placement="top">
-                <slideshow :active="step2">
+                <slide-deck :active="step2">
                     <form @submit.prevent="step2 = 1">
                         <alert variant="info">
                             <i class="fa fa-info-circle"></i> You can enter any username and password value.
@@ -60,7 +60,7 @@
                             You have been logged in!
                         </div>
                     </div>
-                </slideshow>
+                </slide-deck>
             </popover>
 
             <p class="mt-3">Top positioned popovers can maintain their height by using the initial slide as the height. This works best when the first slide is taller than the rest. In the event the latter slides are taller than the first, the content will automatically overflow.</p>
@@ -68,7 +68,7 @@
             <btn class="basic-usage-initial-top">Show on top w/correct positioning</btn>
 
             <popover target=".basic-usage-initial-top" placement="top">
-                <slideshow :active="step3" resize-mode="initial" center>
+                <slide-deck :active="step3" resize-mode="initial" center>
                     <form @submit.prevent="step3 = 1">
                         <alert variant="info">
                             <i class="fa fa-info-circle"></i> You can enter any username and password value.
@@ -85,7 +85,7 @@
                             You have been logged in!
                         </div>
                     </div>
-                </slideshow>
+                </slide-deck>
             </popover>
 
             <hr>

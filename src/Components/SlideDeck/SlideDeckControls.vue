@@ -1,7 +1,7 @@
 <template>
     <!-- TODO: Add tooltip with slide name/key to the control once the tooltip directive has been written. -->
-    <div class="slideshow-controls">
-        <a v-for="slide in slides" href="#" @click.prevent="onClick($event, slide)" class="slideshow-control-icon" :class="{'is-active': (slide.data ? slide.data.key : slide.key) === active}">
+    <div class="slide-deck-controls">
+        <a v-for="slide in slides" href="#" @click.prevent="onClick($event, slide)" class="slide-deck-control-icon" :class="{'is-active': (slide.data ? slide.data.key : slide.key) === active}">
             <i class="fa fa-circle"/>
         </a>
     </div>
@@ -12,7 +12,7 @@ import { map } from 'lodash-es';
 
 export default {
 
-    name: 'slideshow-controls',
+    name: 'slide-deck-controls',
 
     props: {
 
@@ -61,8 +61,8 @@ export default {
 @import './node_modules/bootstrap/scss/functions.scss';
 @import './node_modules/bootstrap/scss/variables.scss';
 
-.slideshow-controls {
-    .slideshow-control-icon {
+.slide-deck-controls {
+    .slide-deck-control-icon {
         color: $white;
         font-size: $font-size-base;
 
@@ -71,7 +71,7 @@ export default {
         }
     }
 
-    .slideshow-control-icon.is-active {
+    .slide-deck-control-icon.is-active {
         color: $primary;
     }
 }

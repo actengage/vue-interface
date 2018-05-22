@@ -3,26 +3,26 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Slideshow</title>
+        <title>SlideDeck</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/dist/vue-interface.css">
     </head>
     <body>
         <div id="app" class="container">
-            <h1 class="mb-5">slideshow</h1>
+            <h1 class="mb-5">slide-deck</h1>
 
             <h3>Basic Usage</h3>
             <p>
-                A slideshow is an abstract component that adds a slide effect between components.
-                The height of the slideshow will automatically grow to the next slide. Since each
+                A slide deck is an abstract component that adds a slide effect between components.
+                The height of the slide deck will automatically grow to the next slide. Since each
                 element must be different, or a key must be defined for Vue transitions, the
                 component will automatically add the slide index as a key if a key isn't define.
                 The component handles the differing animations for going backwards and forwards.
             </p>
 
             <div class="w-25">
-                <slideshow fluid :active="currentSlide" style="background: pink;">
+                <slide-deck fluid :active="currentSlide" style="background: pink;">
                     <div key="Slide 1">
                         Slide 1
                         <btn type="button" @click="currentSlide = 'Slide 2'">Next <i class="fa fa-long-arrow-right"></i></btn>
@@ -41,7 +41,7 @@
                         Slide 4
                         <btn type="button" @click="currentSlide = 'Slide 3'"><i class="fa fa-long-arrow-left"></i> Prev</btn>
                     </div>
-                </slideshow>
+                </slide-deck>
             </div>
 
             <hr>
@@ -51,7 +51,7 @@
 
             <div class="position-relative" style="min-height: 400px">
                 <popover>
-                    <slideshow :active="step">
+                    <slide-deck :active="step">
                         <form @submit.prevent="step = 1">
                             <alert variant="info">
                                 <i class="fa fa-info-circle"></i> You can enter any username and password value.
@@ -66,21 +66,21 @@
                             <p><i class="text-success fa fa-check fa-4x"></i></p>
                             You have been logged in!
                         </div>
-                    </slideshow>
+                    </slide-deck>
                 </popover>
             </div>
 
             <hr>
 
-            <h3>Slideshow with Controls</h3>
+            <h3>SlideDeck with Controls</h3>
             <p>The controls can be automatically handled with a single property.</p>
 
             <div>
-                <slideshow :active="1" controls>
+                <slide-deck :active="1" controls>
                     <img src="http://via.placeholder.com/1440x500?text=Slide 1" class="img-fluid"/>
                     <img src="http://via.placeholder.com/1440x500?text=Slide 2" class="img-fluid"/>
                     <img src="http://via.placeholder.com/1440x500?text=Slide 3" class="img-fluid"/>
-                </slideshow>
+                </slide-deck>
             </div>
         </div>
 
