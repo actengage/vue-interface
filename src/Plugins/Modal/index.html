@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Modal Plugin</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-interface.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1 class="mb-5">$modal</h1>
+
+            <h3>Basic Usage</h3>
+
+            <p>
+                The modal plugin is a helper utility to make using Modal's programmatically into a single line of code.
+                This plugin is similar to the $popover and $overlay plugins. The most basic example mimics the DOM
+                usage in that modal is triggered after an event on a specified target.
+            </p>
+
+            <btn class="basic-usage">Click to Show</btn>
+
+            <hr>
+
+            <h3>Instantiate modal after click</h3>
+
+            <p>In most cases the plugin is meant to be used by triggering the modals programmatically without waiting for an event to trigger on a target. If no target is specified, the modal will show once it has been mounted.</p>
+
+            <btn @click="showBasicModal">Click to Show</btn>
+
+            <hr>
+
+            <h3>Modal Types</h3>
+
+            <p>JavaScript provided some native functions to handle alerts, confirmations, and prompts. There is very little control over the UX with these functions. The modal helper methods are designed to mimic the native functionality (as a concept), but provide a promise based approach.</p>
+
+            <btn variant="danger" @click="showAlert">Show Alert</btn>
+            <btn variant="warning" @click="showConfirm">Show Confirmation</btn>
+            <btn variant="info" @click="showPrompt">Show Prompt</btn>
+
+            <hr>
+
+            <h3>Prompt Validation</h3>
+
+            <p>The only modal type that is meant to accept user input beyond a boolean value. Thus, it's likely you need to validate the user input, or do something asynchronously before the modal closes and resolves/rejects the promise.</p>
+            <btn variant="primary" @click="showPromptWithValidation">Show Prompt w/Validation</btn>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                methods: {
+                    showBasicModal(event) {
+                        if(!event.target.$modal) {
+                            event.target.$modal = this.$modal(VueInterface.InputField, {
+                                modal: {
+                                    propsData: {
+                                        title: 'This is a modal title'
+                                    }
+                                },
+                                content: {
+                                    propsData: {
+                                        label: 'Test',
+                                        name: 'test'
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            event.target.$modal.open();
+                        }
+                    },
+                    showAlert(event) {
+                        this.$alert('Some modal title', 'Some modal content goes here.').then(modal => {
+                            console.log('alert cleared!');
+                        });
+                    },
+                    showConfirm(event) {
+                        this.$confirm('Some modal title', 'Some modal content goes here.').then(modal => {
+                            console.log('confirmation cleared!');
+                        }, modal => {
+                            console.log('confirmation cancelled!');
+                        });
+                    },
+                    showPrompt(event) {
+                        const Component = Vue.extend(VueInterface.InputField);
+
+                        const content = new Component({
+                            propsData: {
+                                label: 'Test',
+                                name: 'test'
+                            }
+                        });
+
+                        this.$prompt('Some modal title', content).then(modal => {
+                            console.log('prompt cleared!', modal);
+                        }, modal => {
+                            console.log('prompt cancelled!', modal);
+                        });
+                    },
+                    showPromptWithValidation(event) {
+                        const Component = Vue.extend(VueInterface.InputField);
+
+                        const content = new Component({
+                            propsData: {
+                                label: 'Test',
+                                name: 'test'
+                            }
+                        });
+
+                        this.$prompt('Some modal title', content, (modal, resolve, reject) => {
+                            modal.activity = true;
+
+                            setTimeout(() => {
+                                resolve(modal);
+                            }, 2000);
+
+                            return false;
+                        }).then(modal => {
+                            console.log('prompt cleared!', modal);
+                        }, modal => {
+                            console.log('prompt cancelled!', modal);
+                        });
+                    }
+                },
+                mounted() {
+                    this.$modal(VueInterface.InputField, {
+                        modal: {
+                            propsData: {
+                                title: 'This is a modal title',
+                                target: document.querySelector('.basic-usage')
+                            }
+                        },
+                        content: {
+                            propsData: {
+                                label: 'Test',
+                                name: 'test'
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

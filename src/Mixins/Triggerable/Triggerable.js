@@ -21,7 +21,10 @@ export default {
          *
          * @property Boolean
          */
-        show: Boolean,
+        show: {
+            type: Boolean,
+            defaut: false
+        },
 
         /**
          * The target element used to position the popover.
@@ -49,6 +52,12 @@ export default {
 
     methods: {
 
+        /**
+         * Initialize the trigger event for the specified elements
+         *
+         * @param  {Element} el
+         * @return {void}
+         */
         initializeTrigger(el) {
             each(isString(this.trigger) ? this.trigger.split(' ') : this.trigger, trigger => {
                 el.addEventListener(trigger, event => {
@@ -58,9 +67,33 @@ export default {
         },
 
         /**
-         * Focus on the first field in the modal (if exists).
+         * Initialize the event triggers
          *
          * @return void
+         */
+        initializeTriggers() {
+            if(this.target && this.trigger !== 'manual') {
+                if(this.target instanceof Element) {
+                    this.initializeTrigger(this.target);
+                }
+                else {
+                    document.querySelectorAll(this.target).forEach(el => {
+                        this.initializeTrigger(el);
+                    });
+                }
+            }
+
+            if(this.show || !this.target) {
+                this.$nextTick(() => {
+                    this.isShowing = true;
+                });
+            }
+        },
+
+        /**
+         * Focus on the first field in the modal (if exists).
+         *
+         * @return this
          */
         focus() {
             const el = this.$el.querySelector('.form-control, input, select, textarea');
@@ -71,12 +104,14 @@ export default {
             else {
                 this.$el.focus();
             }
+
+            return this;
         },
 
         /**
          * Open the triggereable element
          *
-         * @return void
+         * @return this
          */
         open() {
             this.isDisplaying = true;
@@ -87,12 +122,14 @@ export default {
                     this.$emit('open');
                 });
             });
+
+            return this;
         },
 
         /**
          * Close the triggereable element
          *
-         * @return void
+         * @return this
          */
         close(event) {
             transition(this.$el).then(delay => {
@@ -101,12 +138,14 @@ export default {
             });
 
             this.isShowing = false;
+
+            return this;
         },
 
         /**
          * Toggle the triggereable element's open/close method.
          *
-         * @return void
+         * @return this
          */
         toggle() {
             if(!this.isShowing) {
@@ -115,6 +154,8 @@ export default {
             else {
                 this.close();
             }
+
+            return this;
         }
 
     },
@@ -145,22 +186,13 @@ export default {
     },
 
     mounted() {
-        if(this.target && this.trigger !== 'manual') {
-            if(this.target instanceof Element) {
-                this.initializeTrigger(this.target);
-            }
-            else {
-                document.querySelectorAll(this.target).forEach(el => {
-                    this.initializeTrigger(el);
-                });
-            }
-        }
+        this.initializeTriggers();
     },
 
     data() {
         return {
             isDisplaying: this.show || !this.target,
-            isShowing: this.show || !this.target
+            isShowing: false
         }
     }
 

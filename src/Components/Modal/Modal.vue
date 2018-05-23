@@ -1,6 +1,6 @@
 <template>
 
-    <div class="modal" :class="triggerableClasses" :style="{display: isDisplaying ? 'block' : 'none'}" tabindex="-1" role="dialog" @keydown.esc="onEsc">
+    <div class="modal" :class="triggerableClasses" :style="{display: isDisplaying ? 'block' : 'none'}" tabindex="-1" role="dialog" @keydown.esc="cancel">
 
         <modal-dialog :class="{'modal-dialog-centered': center}">
 
@@ -19,11 +19,11 @@
                 <slot name="footer">
                     <modal-footer v-if="type">
                         <template v-if="type === 'alert'">
-                            <btn-activity :activity="activity" variant="primary" @click="confirm" v-html="okLabel"/>
+                            <btn-activity :activity="activity" variant="primary" @click="confirm">{{okLabel}}</btn-activity>
                         </template>
                         <template v-else>
                             <btn type="button" variant="secondary" @click="cancel" v-html="cancelLabel"/>
-                            <btn-activity :activity="activity" variant="primary" @click="confirm" v-html="okLabel"/>
+                            <btn-activity :activity="activity" variant="primary" @click="confirm">{{okLabel}}</btn-activity>
                         </template>
                     </modal-footer>
                 </slot>
@@ -65,33 +65,6 @@ export default {
     mixins: [
         Triggerable
     ],
-
-    watch: {
-
-        isShowing(value) {
-            if(value) {
-                document.querySelector('body').classList.add('modal-open');
-
-                if(this.backdrop && !document.querySelector('.modal-backdrop')) {
-                    this.backdropComponent = new (Vue.extend(ModalBackdrop))().$mount(
-                        document.body.appendChild(document.createElement('div'))
-                    );
-                }
-            }
-            else {
-                document.querySelector('body').classList.remove('modal-open');
-
-                if(this.backdropComponent) {
-                    this.backdropComponent.$destroy();
-                    this.backdropComponent.$el.remove();
-                    this.backdropComponent = null;
-                }
-            }
-
-            this.$emit('update:show', value);
-        }
-
-    },
 
     props: {
 
@@ -182,9 +155,35 @@ export default {
     methods: {
 
         /**
+         * Mount the backdrop to the document body.
+         *
+         * @return {void}
+         */
+        mountBackdrop() {
+            if(!this.backdropComponent) {
+                this.backdropComponent = new (Vue.extend(ModalBackdrop))().$mount(
+                    document.body.appendChild(document.createElement('div'))
+                );
+            }
+        },
+
+        /**
+         * Unmount the backdrop from the document body.
+         *
+         * @return {void}
+         */
+        unmountBackdrop() {
+            if(this.backdropComponent) {
+                this.backdropComponent.$destroy();
+                this.backdropComponent.$el.remove();
+                this.backdropComponent = null;
+            }
+        },
+
+        /**
          * Cancel the modal
          *
-         * @return void
+         * @return {void}
          */
         cancel(event) {
             this.$emit('cancel', event, this);
@@ -194,7 +193,7 @@ export default {
         /**
          * Confirm the modal
          *
-         * @return void
+         * @return {void}
          */
         confirm(event) {
             this.$emit('confirm', event, this);
@@ -203,10 +202,27 @@ export default {
         /**
          * A callback for the escape function.
          *
-         * @return void
+         * @return {void}
          */
         onEsc(event) {
             (this.type === 'confirm' || this.type ===  'prompt') ? this.cancel(event) : this.close(event);
+        }
+
+    },
+
+    watch: {
+
+        isShowing(value) {
+            if(value) {
+                document.querySelector('body').classList.add('modal-open');
+                this.mountBackdrop();
+            }
+            else {
+                document.querySelector('body').classList.remove('modal-open');
+                this.unmountBackdrop();
+            }
+
+            this.$emit('update:show', value);
         }
 
     },
@@ -215,7 +231,15 @@ export default {
         return {
             backdropComponent: null,
             isDisplaying: this.show || !this.target,
-            isShowing: this.show || !this.target
+            isShowing: false
+        }
+    },
+
+    mounted() {
+        this.initializeTriggers();
+
+        if(this.show || !this.target) {
+            this.mountBackdrop();
         }
     },
 

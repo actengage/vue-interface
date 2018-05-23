@@ -1,6 +1,7 @@
 <template>
     <button :type="type" class="btn" :class="classes" @click="onClick">
-        <i v-if="icon" :class="icon"/> {{label}} <slot/>
+        <i v-if="icon" :class="icon"/> {{label}}
+        <slot/>
         <activity-indicator :type="indicator" />
     </button>
 </template>

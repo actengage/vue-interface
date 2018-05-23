@@ -1,5 +1,5 @@
 import blob from './Blob';
-import instance from './Instance';
+import instantiate from './Instantiate';
 import prefix from './Prefix';
 import readFile from './ReadFile';
 import script from './Script';
@@ -9,7 +9,7 @@ import uuid from './Uuid';
 
 export {
     blob,
-    instance,
+    instantiate,
     prefix,
     readFile,
     script,

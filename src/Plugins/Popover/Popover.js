@@ -1,7 +1,6 @@
 import { isObject } from 'lodash-es';
-import { isFunction } from 'lodash-es';
 import { defaultsDeep } from 'lodash-es';
-import instance from '../../Helpers/Instance';
+import instantiate from '../../Helpers/Instantiate';
 import Popover from '../../Components/Popover';
 
 export default function(Vue, options) {
@@ -11,11 +10,11 @@ export default function(Vue, options) {
         }
 
         if(!target.$popover) {
-            target.$popover = instance(Vue, Popover, defaultsDeep(options.popover, {
+            target.$popover = instantiate(Vue, Popover, defaultsDeep(options.popover, {
                 propsData: {
                     show: true,
                     target: target,
-                    content: instance(Vue, Component, options.content)
+                    content: instantiate(Vue, Component, options.content)
                 }
             }));
 
