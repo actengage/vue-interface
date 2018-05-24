@@ -1,33 +1,33 @@
 import { isObject } from 'lodash-es';
-import { isFunction } from 'lodash-es';
 import { defaultsDeep } from 'lodash-es';
-import Overlay from '../../Components/Overlay/Overlay';
-
-function ensure(options, values) {
-    if(!options) {
-        options = {};
-    }
-
-    return {
-        propsData: defaultsDeep(options.propsData || options, values || {})
-    };
-}
+import instantiate from '../../Helpers/Instantiate';
+import Overlay from '../../Components/Overlay';
 
 export default function(Vue, options) {
-    Vue.prototype.$overlay = function(ContentComponent, options, overlayOptions, CustomOverlayComponent) {
-        const component = (vue, options) => {
-            if(!(vue instanceof Vue) && isObject(vue)) {
-                vue = Vue.extend(vue);
-                vue.options.route = this.$route;
-                vue.options.router = this.$router;
-            }
-
-            return isFunction(vue) ? new vue(options) : vue;
+    Vue.prototype.$overlay = function(target, Component, options) {
+        if(!isObject(options)) {
+            options = {};
         }
 
-        const overlay = component(CustomOverlayComponent || Overlay, ensure(overlayOptions));
-        overlay.$content = component(ContentComponent, ensure(options));
-        overlay.show(overlay.$content);
-        return overlay;
+        if(!target.$overlay) {
+            target.$overlay = instantiate(Vue, Overlay, defaultsDeep(options.overlay, {
+                propsData: {
+                    target: target
+                }
+            }));
+
+            target.$overlay.$mount(
+                document.body.appendChild(document.createElement('div'))
+            );
+
+            const content = instantiate(Vue, Component, options.content);
+
+            target.$overlay.$slots.default = [content.$mount()._vnode];
+            target.$overlay.$nextTick(() => {
+                target.$overlay.open();
+            });
+        }
+
+        return target.$overlay;
     };
 }
