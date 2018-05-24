@@ -7,11 +7,11 @@ export default {
     props: {
 
         /**
-         * Show the triggerable element with a fade effect.
+         * Show the triggerable element with a animated fade effect.
          *
          * @type {Boolean}
          */
-        fade: {
+        animation: {
             type: Boolean,
             default: true
         },
@@ -96,14 +96,16 @@ export default {
          * @return this
          */
         focus() {
-            const el = this.$el.querySelector('.form-control, input, select, textarea');
+            this.$nextTick(() => {
+                const el = this.$el.querySelector('.form-control, input, select, textarea');
 
-            if(el) {
-                el.focus();
-            }
-            else {
-                this.$el.focus();
-            }
+                if(el) {
+                    el.focus();
+                }
+                else {
+                    this.$el.focus();
+                }
+            });
 
             return this;
         },
@@ -164,7 +166,7 @@ export default {
 
         triggerableClasses() {
             return {
-                'fade': this.fade,
+                'fade': this.animation,
                 'show': this.isShowing
             };
         }

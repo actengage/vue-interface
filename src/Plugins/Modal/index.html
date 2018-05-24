@@ -57,16 +57,21 @@
                 methods: {
                     showBasicModal(event) {
                         if(!event.target.$modal) {
-                            event.target.$modal = this.$modal(VueInterface.InputField, {
+                            const content = new (Vue.extend(VueInterface.InputField))({
+                                propsData: {
+                                    label: 'Test',
+                                    name: 'test'
+                                }
+                            });
+
+                            content.$on('focus', event => {
+                                console.log('focus', event);
+                            });
+
+                            event.target.$modal = this.$modal(content, {
                                 modal: {
                                     propsData: {
                                         title: 'This is a modal title'
-                                    }
-                                },
-                                content: {
-                                    propsData: {
-                                        label: 'Test',
-                                        name: 'test'
                                     }
                                 }
                             });

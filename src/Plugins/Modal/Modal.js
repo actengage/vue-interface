@@ -11,23 +11,15 @@ export default function(Vue, options) {
             options = {};
         }
 
-        const modal = instantiate(Vue, Modal, defaultsDeep(options.modal, {
-            propsData: {
-                //show: true,
-                //content: instantiate(Vue, Component, options.content)
-            }
-        }));
-
-        modal.$mount(
+        const instance = instantiate(Vue, Modal, options.modal).$mount(
             document.body.appendChild(document.createElement('div'))
         );
 
-        //modal.$on('close', event => {
-            //modal.$destroy();
-            //modal.$el.remove();
-        //});
+        const content = instantiate(Vue, Component, options.content);
 
-        return modal;
+        instance.$slots.default = [content.$mount()._vnode];
+
+        return instance;
     };
 
     Vue.prototype.$alert = function(title, Component, options) {
@@ -99,15 +91,10 @@ export default function(Vue, options) {
             });
 
             modal.$on('confirm', event => {
-                const success = () => {
-                    resolve(modal.close());
-                };
+                const succeed = () => resolve(modal.close());
+                const fail = () => reject(modal.close());
 
-                const failed = () => {
-                    reject(modal.close());
-                };
-
-                if(predicate(modal, success, failed) === true) {
+                if(predicate(modal, succeed, fail) === true) {
                     success();
                 }
             });

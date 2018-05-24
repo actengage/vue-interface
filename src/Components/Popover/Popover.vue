@@ -1,9 +1,8 @@
 <template>
-    <div v-show="isShowing" class="popover" :class="classes" role="tooltip">
+    <div v-show="isDisplaying" class="popover" :class="$mergeClasses(triggerableClasses, classes)" role="tooltip">
         <div class="arrow"></div>
         <popover-header v-if="title" v-html="title"/>
         <popover-body>
-            <component v-if="content" :is="content.$options" v-bind="content.$options.propsData"/>
             <slot/>
         </popover-body>
     </div>
@@ -26,10 +25,15 @@ import { each } from 'lodash-es';
 import { isString } from 'lodash-es';
 import Popper from 'popper.js';
 import prefix from '../../Helpers/Prefix';
+import Triggerable from '../../Mixins/Triggerable';
 
 export default {
 
     name: 'popover',
+
+    mixins: [
+        Triggerable
+    ],
 
     props: {
 
@@ -74,19 +78,6 @@ export default {
         container: {
             type: [String, Element, Boolean],
             default: false
-        },
-
-        /**
-         * Does the same thing as the default slot, except it's meant to be used
-         * when using the $popover plugin or programmatically instantiated popovers.
-         *
-         * @type {Function}
-         */
-        content: {
-            type: Object,
-            validate(value) {
-                return value.constructor.name === 'VueComponent';
-            }
         },
 
         /**
@@ -198,21 +189,10 @@ export default {
 
     methods: {
 
-        open() {
-            this.isShowing = false;
-        },
-
-        close() {
-            this.isShowing = true;
-        },
-
-        toggle() {
-            if(!this.isShowing) {
-                this.close();
-            }
-            else {
-                this.open();
-            }
+        align() {
+            each(this.$poppers, el => {
+                el.popper.update();
+            });
         },
 
         createPopper(el) {
@@ -238,37 +218,15 @@ export default {
 
         getArrowElement() {
             return this.$el.querySelector('.arrow');
-        }
+        },
 
-    },
-
-    computed: {
-
-        classes() {
-            return prefix({
-                'top': this.placement === 'top',
-                'bottom': this.placement === 'bottom',
-                'left': this.placement === 'left',
-                'right': this.placement === 'right'
-            }, 'bs-popover')
-        }
-
-    },
-
-    data() {
-        return {
-            isShowing: this.show || !this.target
-        }
-    },
-
-    beforeCreate() {
-        if(!this.$poppers) {
-            this.$poppers = {};
-        }
-    },
-
-    mounted() {
-        const init = el => {
+        /**
+         * Initialize the trigger event for the specified elements
+         *
+         * @param  {Element} el
+         * @return {void}
+         */
+        initializeTrigger(el) {
             this.$poppers[el] = {
                 trigger: isString(this.trigger) ? this.trigger.split(' ') : this.trigger,
                 popper: this.createPopper(el),
@@ -281,17 +239,40 @@ export default {
             each(this.$poppers[el].trigger, trigger => {
                 el.addEventListener(trigger, this.$poppers[el].event);
             });
-        };
+        }
 
-        if(this.target) {
-            if(this.target instanceof Element) {
-                init(this.target);
-            }
-            else {
-                document.querySelectorAll(this.target).forEach(el => {
-                    init(el);
-                });
-            }
+    },
+
+    watch: {
+
+        isShowing(value) {
+            this.$nextTick(() => {
+                this.align();
+
+                if(value) {
+                    this.focus();
+                }
+            });
+        }
+
+    },
+
+    computed: {
+
+        classes() {
+            return prefix({
+                'top': this.placement === 'top',
+                'bottom': this.placement === 'bottom',
+                'left': this.placement === 'left',
+                'right': this.placement === 'right'
+            }, 'bs-popover');
+        }
+
+    },
+
+    beforeCreate() {
+        if(!this.$poppers) {
+            this.$poppers = {};
         }
     }
 
