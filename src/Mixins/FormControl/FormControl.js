@@ -186,7 +186,7 @@ export default {
          *
          * @property String
          */
-        helpText: String,
+        helpText: [Number, String],
 
         /**
          * The maxlength attribute

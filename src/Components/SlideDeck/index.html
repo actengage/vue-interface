@@ -53,6 +53,7 @@
                 <popover>
                     <slide-deck :active="step">
                         <form @submit.prevent="step = 1">
+                            {{form}}
                             <alert variant="info">
                                 <i class="fa fa-info-circle"></i> You can enter any username and password value.
                             </alert>

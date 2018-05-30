@@ -78,12 +78,17 @@ import ProgressBar from './ProgressBar';
 import RadioField from './RadioField';
 import SelectField from './SelectField';
 import SlideDeck from './SlideDeck';
-import Slide from './SlideDeck/Slide';
+import Slides from './SlideDeck/Slides';
 import TableView from './TableView';
 import TextareaField from './TextareaField';
 import ThumbnailList from './ThumbnailList';
 import ThumbnailListItem from './ThumbnailList/ThumbnailListItem';
 import UploadField from './UploadField';
+import Wizard from './Wizard';
+import WizardButtons from './Wizard/WizardButtons';
+import WizardHeader from './Wizard/WizardHeader';
+import WizardProgress from './Wizard/WizardProgress';
+import WizardStep from './Wizard/WizardStep';
 
 export {
     ActivityIndicator,
@@ -166,10 +171,15 @@ export {
     RadioField,
     SelectField,
     SlideDeck,
-    Slide,
+    Slides,
     TableView,
     TextareaField,
     ThumbnailList,
     ThumbnailListItem,
-    UploadField
+    UploadField,
+    Wizard,
+    WizardButtons,
+    WizardHeader,
+    WizardProgress,
+    WizardStep
 }

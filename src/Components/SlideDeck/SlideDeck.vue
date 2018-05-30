@@ -2,27 +2,33 @@
     <div class="slide-deck" :class="{'slide-deck-flex': center}" :style="{height: height, width: width}">
         <div class="slide-deck-content">
             <keep-alive>
-                <transition :name="`slide-${direction}`" @enter="onSlideEnter" @leave="onSlideLeave">
-                    <slide :vnode="component"/>
+                <transition
+                    :name="`slide-${direction}`"
+                    @after-enter="onSlideAfterEnter"
+                    @before-enter="onSlideBeforeEnter"
+                    @enter="onSlideEnter"
+                    @after-leave="onSlideAfterLeave"
+                    @before-leave="onSlideBeforeLeave"
+                    @leave="onSlideLeave">
+                    <slides ref="slides" :key="currentSlide" :active="currentSlide">
+                        <slot/>
+                    </slides>
                 </transition>
             </keep-alive>
         </div>
         <slot name="controls">
-            <slide-deck-controls v-if="controls" :slides="slides" :active="currentSlide" @click="onClickControl" />
+            <slide-deck-controls v-if="controls" :slides="slides()" :active="currentSlide" @click="onClickControl" />
         </slot>
     </div>
 </template>
 
 <script>
-import { map } from 'lodash-es';
-import { first } from 'lodash-es';
 import { filter } from 'lodash-es';
 import { extend } from 'lodash-es';
-import { findIndex } from 'lodash-es';
 import { isFunction } from 'lodash-es';
 import unit from '../../Helpers/Unit';
 import transition from '../../Helpers/Transition';
-import Slide from './Slide';
+import Slides from './Slides';
 import SlideDeckControls from './SlideDeckControls';
 
 const RESIZE_MODES = {
@@ -55,8 +61,8 @@ export default {
     name: 'slide-deck',
 
     components: {
-        Slide,
-        SlideDeckControls,
+        Slides,
+        SlideDeckControls
     },
 
     props: {
@@ -72,6 +78,13 @@ export default {
         },
 
         /**
+         * Show the slide-deck controls to change the slide.
+         *
+         * @type Boolean
+         */
+        controls: Boolean,
+
+        /**
          * Flex the content within the popover.
          *
          * @type Boolean
@@ -82,11 +95,12 @@ export default {
         },
 
         /**
-         * Show the slide-deck controls to change the slide.
+         * Give a selector or Element to use apply a hidden overflow. If false,
+         * no overflow will be applied. Defaults to the slide deck's container.
          *
-         * @type Boolean
+         * @type {String|Element|Boolean}
          */
-        controls: Boolean,
+        overflow: [Object, String, Element, Boolean],
 
         /**
          * The mode determines how the popover content will flex based on the
@@ -107,11 +121,12 @@ export default {
     watch: {
 
         active(value, oldValue) {
+            this.lastSlide = oldValue;
             this.currentSlide = value;
         },
 
         currentSlide(value, oldValue) {
-            this.direction = this.findSlideIndex(oldValue) > this.findSlideIndex(value) ? 'backward' : 'forward';
+            this.direction = this.$refs.slides.getSlideIndex(oldValue) > this.$refs.slides.getSlideIndex(value) ? 'backward' : 'forward';
         },
 
         height(value, oldValue) {
@@ -122,22 +137,6 @@ export default {
 
     methods: {
 
-        findSlideByKey(key) {
-            return first(filter(this.slides, (vnode, i) => {
-                return vnode.data ? vnode.data.key === key : i === key;
-            }));
-        },
-
-        findSlideByIndex(index) {
-            return this.slides[index] || null;
-        },
-
-        findSlideIndex(key) {
-            return findIndex(this.slides, (vnode, i) => {
-                return vnode.data ? vnode.data.key === key : i === key;
-            });
-        },
-
         resize(el) {
             if(isFunction(this.resizeMode)) {
                 this.resizeMode.call(this, el);
@@ -147,8 +146,20 @@ export default {
             }
         },
 
+        slides() {
+            return this.$refs.slides ? this.$refs.slides.slides() : [];
+        },
+
         onClickControl(event, vnode) {
             this.currentSlide = vnode.data ? vnode.data.key : vnode.key;
+        },
+
+        onSlideAfterEnter(el) {
+            this.$emit('after-enter', this.$refs.slides.findSlideByKey(this.currentSlide), this.$refs.slides.findSlideByKey(this.lastSlide));
+        },
+
+        onSlideBeforeEnter(el) {
+            this.$emit('before-enter', this.$refs.slides.findSlideByKey(this.currentSlide), this.$refs.slides.findSlideByKey(this.lastSlide));
         },
 
         onSlideEnter(el, done) {
@@ -157,6 +168,16 @@ export default {
             transition(el).then(delay => {
                 this.$nextTick(done);
             });
+
+            this.$emit('enter', this.$refs.slides.findSlideByKey(this.currentSlide), this.$refs.slides.findSlideByKey(this.lastSlide));
+        },
+
+        onSlideAfterLeave(el) {
+            this.$emit('after-leave', this.$refs.slides.findSlideByKey(this.lastSlide), this.$refs.slides.findSlideByKey(this.currentSlide));
+        },
+
+        onSlideBeforeLeave(el) {
+            this.$emit('before-leave', this.$refs.slides.findSlideByKey(this.lastSlide), this.$refs.slides.findSlideByKey(this.currentSlide));
         },
 
         onSlideLeave(el, done) {
@@ -165,44 +186,52 @@ export default {
             transition(el).then(delay => {
                 this.$nextTick(done);
             });
+
+            this.$emit('leave', this.$refs.slides.findSlideByKey(this.lastSlide), this.$refs.slides.findSlideByKey(this.currentSlide));
         }
 
     },
 
     computed: {
 
-        slides() {
-            return map(filter(this.$slots.default, (vnode, i) => {
-                return !!vnode.tag;
-            }), (vnode, i) => {
-                if(!vnode.key) {
-                    vnode.data = extend(vnode.data, {
-                        key: vnode.key = i
-                    });
-                }
+        overflowElement() {
+            if(this.overflow === true) {
+                return this.$el;
+            }
+            else if(this.overflow instanceof Element) {
+                return this.overflow;
+            }
+            else if(this.overflow.elm) {
+                return this.overflow.elm;
+            }
+            else if(this.overflow) {
+                return document.querySelector(this.overflow)
+            }
 
-                return vnode;
-            });
+            return null;
         },
 
-        component() {
-            return this.findSlideByKey(this.currentSlide) || this.findSlideByIndex(this.currentSlide) || first(this.slides);
+        nodes() {
+            return this.$slots.default;
         }
 
     },
 
     mounted() {
-        this.$el.parentElement.style.overflow = 'hidden';
-        this.resize(this.$el);
-    },
+        this.$nextTick(() => {
+            if(this.overflowElement) {
+                this.overflowElement.style.overflow = 'hidden';
+            }
 
-    updated() {
+            this.resize(this.$el);
+        });
     },
 
     data() {
         return {
             height: null,
             width: null,
+            lastSlide: null,
             currentSlide: this.active,
             direction: 'forward'
         }
@@ -228,7 +257,7 @@ export default {
     }
 
     .slide-deck-content {
-        overflow-y: auto;
+        // overflow-y: auto;
     }
 
     /*

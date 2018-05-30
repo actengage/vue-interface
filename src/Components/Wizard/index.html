@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Wizard</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-interface.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>wizard</h1>
+
+            <wizard ref="wizard" header="Basic Usage" :active="1" @next="onNext" @prev="onPrev" @finish="onFinish">
+                <wizard-step label="Name" @back="onClickBack" :back-button="true" :validate="!!form.first && !!form.last" @enter="onNameEnter">
+                    <div>
+                        <input-field v-model="form.first" size="lg" label="First Name" placeholder="John"></input-field>
+                        <input-field v-model="form.last" size="lg" label="Last Name" placeholder="Doe"></input-field>
+                    </div>
+                </wizard-step>
+                <wizard-step :validate="slide => !!form.email" :back-button="!!form.email">
+                    <div label="Email Address" @enter="onEmailEnter">
+                        <input-field v-model="form.email" size="lg" label="Enter Address" placeholder="you@example.com"></input-field>
+                    </div>
+                </wizard-step>
+                <wizard-step>
+                    <div label="Slide 3" style="background: green; min-height: 200px">Wizard Slide 3</div>
+                </wizard-step>
+            </wizard>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                methods: {
+                    onNameEnter() {
+                        console.log('onNameEnter');
+                    },
+                    onEmailEnter() {
+                        console.log('onEmailEnter');
+                    },
+                    onClickBack(event) {
+                        console.log('override back button. Prevent default prevents default action.');
+
+                        event.preventDefault();
+                    },
+                    onNext() {
+                        console.log('next');
+                    },
+                    onPrev() {
+                        console.log('prev');
+                    },
+                    onFinish() {
+                        console.log('finish');
+                    }
+                },
+                data() {
+                    return {
+                        form: {
+                            first: null,
+                            last: null
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
