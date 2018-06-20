@@ -12,7 +12,7 @@
         <div id="app" class="container">
             <h1>wizard</h1>
 
-            <wizard ref="wizard" header="Basic Usage" :active="1" @next="onNext" @prev="onPrev" @finish="onFinish">
+            <wizard ref="wizard" header="Basic Usage" :active="2" @next="onNext" @prev="onPrev" @finish="onFinish">
                 <wizard-step label="Name" @back="onClickBack" :back-button="true" :validate="!!form.first && !!form.last" @enter="onNameEnter">
                     <div>
                         <input-field v-model="form.first" size="lg" label="First Name" placeholder="John"></input-field>
@@ -26,6 +26,12 @@
                 </wizard-step>
                 <wizard-step>
                     <div label="Slide 3" style="background: green; min-height: 200px">Wizard Slide 3</div>
+                </wizard-step>
+                <wizard-step slot="success">
+                    <div>Success</div>
+                </wizard-step>
+                <wizard-step slot="error">
+                    <div>Error</div>
                 </wizard-step>
             </wizard>
 
@@ -55,7 +61,7 @@
                         console.log('prev');
                     },
                     onFinish() {
-                        console.log('finish');
+                        console.log('finish 123', arguments);
                     }
                 },
                 data() {

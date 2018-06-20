@@ -8,9 +8,19 @@
         <div class="wizard-content">
             <slot name="content"/>
 
-            <slide-deck ref="slideDeck" :overflow="$vnode" :active="currentStep" @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
+            <slide-deck
+                v-if="!isFinished"
+                ref="slideDeck"
+                :active="currentStep"
+                :overflow="$vnode"
+                @before-enter="onBeforeEnter"
+                @enter="onEnter"
+                @leave="onLeave">
                 <slot ref="test"/>
             </slide-deck>
+
+            <slot v-else-if="isFinished" name="success"/>
+            <slot v-else name="error"/>
         </div>
 
         <slot name="buttons">
@@ -127,6 +137,12 @@ export default {
             this.isNextButtonDisabled = true;
         },
 
+        emitEventOnCurrentSlide(key, ...args) {
+            this.$refs.slideDeck.$refs.slides.slide(this.currentStep).componentInstance.$emit.apply(
+                this.$refs.slideDeck.$refs.slides.slide(this.currentStep).componentInstance, [key].concat(args)
+            );
+        },
+
         enableButtons() {
             this.isBackButtonDisabled = false;
             this.isFinishButtonDisabled = false;
@@ -146,7 +162,8 @@ export default {
         },
 
         finish() {
-            console.log('finish');
+            this.isFinished = true;
+            this.$emit('finish');
         },
 
         next() {
@@ -155,11 +172,11 @@ export default {
         },
 
         onBeforeEnter(slide, last) {
-            //
+            this.$emit('before-enter', slide, last);
         },
 
         onClickBack(event) {
-            this.$refs.slideDeck.$refs.slides.slide(this.currentStep).componentInstance.$emit('back', event);
+            this.emitEventOnCurrentSlide('back', event);
 
             if(event.defaultPrevented !== true) {
                 this.back();
@@ -167,11 +184,19 @@ export default {
         },
 
         onClickFinish(event) {
-            this.finish();
+            this.emitEventOnCurrentSlide('finish', event);
+
+            if(event.defaultPrevented !== true) {
+                this.finish();
+            }
         },
 
         onClickNext(event) {
-            this.next();
+            this.emitEventOnCurrentSlide('next', event);
+
+            if(event.defaultPrevented !== true) {
+                this.next();
+            }
         },
 
         onEnter(slide, last) {
@@ -204,6 +229,7 @@ export default {
             steps: [],
             currentStep: this.active,
             highestStep: this.active,
+            isFinished: false,
             isBackButtonDisabled: !this.backButton,
             isFinishButtonDisabled: !this.finishButton,
             isNextButtonDisabled: !this.nextButton

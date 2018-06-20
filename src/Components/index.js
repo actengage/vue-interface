@@ -89,6 +89,7 @@ import WizardButtons from './Wizard/WizardButtons';
 import WizardHeader from './Wizard/WizardHeader';
 import WizardProgress from './Wizard/WizardProgress';
 import WizardStep from './Wizard/WizardStep';
+import WizardSuccess from './Wizard/WizardSuccess';
 
 export {
     ActivityIndicator,
@@ -181,5 +182,6 @@ export {
     WizardButtons,
     WizardHeader,
     WizardProgress,
-    WizardStep
+    WizardStep,
+    WizardSuccess
 }

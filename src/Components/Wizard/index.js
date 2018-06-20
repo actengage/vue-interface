@@ -3,6 +3,7 @@ import WizardButtons from './WizardButtons';
 import WizardHeader from './WizardHeader';
 import WizardProgress from './WizardProgress';
 import WizardStep from './WizardStep';
+import WizardSuccess from './WizardSuccess';
 import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
 const plugin = VueInstaller.use({
@@ -13,7 +14,8 @@ const plugin = VueInstaller.use({
             WizardButtons,
             WizardHeader,
             WizardProgress,
-            WizardStep
+            WizardStep,
+            WizardSuccess
         });
     }
 
