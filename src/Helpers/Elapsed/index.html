@@ -57,8 +57,7 @@
                             this.hasFinished = true;
                             this.hasStarted = false;
                             this.showActivity = false;
-                        })
-                        .catch(response => {
+                        }, error => {
                             this.hasFinished = true;
                             this.hasStarted = false;
                             this.showActivity = false;

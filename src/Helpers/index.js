@@ -7,6 +7,7 @@ import script from './Script';
 import transition from './Transition';
 import unit from './Unit';
 import uuid from './Uuid';
+import wait from './Wait';
 
 export {
     blob,
@@ -17,5 +18,6 @@ export {
     script,
     transition,
     unit,
-    uuid
+    uuid,
+    wait
 }

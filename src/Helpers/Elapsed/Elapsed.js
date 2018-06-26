@@ -1,7 +1,7 @@
 import { wrap } from 'lodash-es';
 import { isFunction } from 'lodash-es';
 
-export default function elapsed(delay, callback, elapsedCallback) {
+export default function elapsed(milliseconds, callback, elapsedCallback) {
     let hasElapsed = false;
 
     function start() {
@@ -11,7 +11,7 @@ export default function elapsed(delay, callback, elapsedCallback) {
             if(isFunction(elapsedCallback)) {
                 elapsedCallback();
             }
-        }, delay)
+        }, milliseconds)
     }
 
     function stop() {

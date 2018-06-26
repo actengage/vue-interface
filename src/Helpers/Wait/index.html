@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>wait</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/dist/vue-interface.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>wait</h1>
+            <p>
+                The `wait` function is meant to wait a minimum amount of time after
+                an action has been completed before completing the promise. This function
+                also takes into account that if the same callback gets called sequentially
+                before the specified minimum amount of time, then the timer is reset.
+                A practical usage for this would be to display a loading indicator
+                while a user performs an action, and then once the action is complete
+                an HTTP request could be sent. And once the HTTP request has returned,
+                the promise could be resolved. Additionally, the promise could be resolved
+                immediately after the time expires.
+            </p>
+
+            <h3>Basic Example</h3>
+            <p>
+                Click the button and wait 2 seconds for it complete. You can choose to
+                resolve the promise early, but it won't actually resolve for 2 seconds.
+            </p>
+
+            <alert v-if="hasResolved && !hasError" variant="success">The promise was resolved!</alert>
+            <alert v-else-if="hasFinished && hasError" variant="danger">The promise was rejected!</alert>
+            <alert v-else-if="hasFinished" variant="info">The wait has finished, now waiting 10 seconds for the promise to resolve. Click "Resolve Promise" to skip this wait.</alert>
+
+            <btn-activity :activity="showActivity" @click="onClickStart">Start Timer</btn-activity>
+            <btn v-if="hasStarted && !hasFinished" @click="onClickStart" variant="info">Restart Timer!</btn>
+            <btn v-if="hasStarted && resolve" variant="success" @click="onClickResolve">Resolve Promise</btn>
+            <btn v-if="hasStarted && reject" variant="danger" @click="onClickReject">Reject Promise</btn>
+        </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript">
+            let interval;
+
+            const vue = new Vue({
+                el: '#app',
+                methods: {
+                    onClickStart() {
+                        this.hasError = false;
+                        this.hasResolved = false;
+                        this.hasStarted = true;
+                        this.showActivity = true;
+                        this.hasFinished = false;
+
+                        VueInterface.wait(2000, (resolve, reject) => {
+                            this.resolve = resolve;
+                            this.reject = reject;
+                            this.hasFinished = true;
+
+                            setTimeout(resolve, 10000);
+                        })
+                        .then(response => {
+                            this.hasResolved = true;
+                        }, error => {
+                            this.hasError = true;
+                        })
+                        .finally(() => {
+                            this.showActivity = false;
+                            this.hasFinished = true;
+                            this.resolve = null;
+                            this.reject = null;
+                        })
+                    },
+                    onClickResolve() {
+                        this.resolve('Some resolved response goes here...');
+                    },
+                    onClickReject() {
+                        this.reject(new Error('Some error goes here'));
+                    }
+                },
+                data() {
+                    return {
+                        counter: null,
+                        reject: null,
+                        resolve: null,
+                        hasError: false,
+                        hasResolved: false,
+                        hasStarted: false,
+                        hasFinished: false,
+                        showActivity: false
+                    };
+                }
+            });
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+    </body>
+</html>
