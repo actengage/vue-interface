@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>elapsed</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/dist/vue-interface.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>elapsed</h1>
+
+            <p>
+                The `elapsed` function is meant to execute a callback function if a promise
+                hasn't been resolved within the specified amount of time (milliseconds).
+                A practical use case for this would be for an asynchronous task that is
+                intermittently slow, and you want to display an activity indicator if
+                that tasks is taking a measurable amount of time to finish. In cases when
+                action takes less the specified amount of time, an activity indicator
+                would not need to be shown.
+            </p>
+
+            <h3>Basic Example</h3>
+
+            <p>In this example the elapsed time is 2 seconds, and then the activity indicator will show if the timer isn't stopped or rejected.</p>
+
+            <alert v-if="hasError" variant="danger">The promise was rejected!</alert>
+            <alert v-if="hasElapsed" variant="warning">The time has elapsed!</alert>
+
+            <btn-activity variant="primary" :disabled="hasStarted" :activity="showActivity" @click="onClickStart">Start Timer</btn-activity>
+            <btn-activity v-if="hasStarted" variant="success" @click="onClickStop(false)">Stop Timer</btn-activity>
+            <btn-activity v-if="hasStarted" variant="danger" @click="onClickStop(true)">Reject Promise</btn-activity>
+        </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                methods: {
+                    onClickStart() {
+                        VueInterface.elapsed(2000, (resolve, reject) => {
+                            this.resolve = resolve;
+                            this.reject = reject;
+                            this.hasError = false;
+                            this.hasFinished = false;
+                            this.hasStarted = true;
+                            this.hasElapsed = false;
+                        }, () => {
+                            this.showActivity = true;
+                            this.hasElapsed = true;
+                        })
+                        .then(response => {
+                            this.hasFinished = true;
+                            this.hasStarted = false;
+                            this.showActivity = false;
+                        })
+                        .catch(response => {
+                            this.hasFinished = true;
+                            this.hasStarted = false;
+                            this.showActivity = false;
+                            this.hasError = true;
+                        });
+                    },
+                    onClickStop(reject) {
+                        reject ? this.reject() : this.resolve();
+                    }
+                },
+                data() {
+                    return {
+                        reject: null,
+                        resolve: null,
+                        hasError: false,
+                        hasElapsed: false,
+                        hasStarted: false,
+                        hasFinished: false,
+                        showActivity: false
+                    };
+                }
+            });
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+    </body>
+</html>

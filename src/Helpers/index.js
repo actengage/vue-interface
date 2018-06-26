@@ -1,4 +1,5 @@
 import blob from './Blob';
+import elapsed from './Elapsed';
 import instantiate from './Instantiate';
 import prefix from './Prefix';
 import readFile from './ReadFile';
@@ -9,6 +10,7 @@ import uuid from './Uuid';
 
 export {
     blob,
+    elapsed,
     instantiate,
     prefix,
     readFile,
