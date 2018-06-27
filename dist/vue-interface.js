@@ -20641,7 +20641,7 @@
       var hasElapsed = false;
 
       function start() {
-        return setInterval(function () {
+        return setTimeout(function () {
           hasElapsed = true;
 
           if (isFunction$1(elapsedCallback)) {
@@ -20651,7 +20651,7 @@
       }
 
       function stop() {
-        clearInterval(interval);
+        clearTimeout(interval);
       }
 
       var interval = start(),
