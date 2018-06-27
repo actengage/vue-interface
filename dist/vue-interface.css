@@ -1597,6 +1597,9 @@
 .wizard .slide-deck-content {
   margin: 1rem; }
 
+.wizard .wizard-content {
+  overflow: hidden; }
+
 .wizard .wizard-buttons {
   border-top: 1px solid #7d7d7d;
   padding-top: 1rem;
@@ -1699,4 +1702,52 @@
     color: #b10805; }
   .wizard:not(.wizard-finished) .wizard-step.complete:hover + .wizard-step:after {
     background-color: #b10805; }
+
+.wizard-success {
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 1.25rem; }
+  .wizard-success .wizard-success-title {
+    font-size: 1.875rem;
+    color: #55b776; }
+  .wizard-success .wizard-success-icon {
+    color: #55b776;
+    font-size: 1.25rem;
+    border: 5px solid #55b776;
+    border-radius: 100%;
+    text-align: center;
+    width: 7.5rem;
+    height: 7.5rem;
+    margin: 1.25rem auto;
+    position: relative; }
+    .wizard-success .wizard-success-icon i {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      line-height: 0; }
+
+.wizard-error {
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 1.25rem; }
+  .wizard-error .wizard-error-title {
+    font-size: 1.875rem;
+    color: #b10805; }
+  .wizard-error .wizard-error-icon {
+    color: #b10805;
+    font-size: 1.25rem;
+    border: 5px solid #b10805;
+    border-radius: 100%;
+    text-align: center;
+    width: 7.5rem;
+    height: 7.5rem;
+    margin: 1.25rem auto;
+    position: relative; }
+    .wizard-error .wizard-error-icon i {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      line-height: 0; }
 

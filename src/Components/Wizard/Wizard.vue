@@ -5,18 +5,17 @@
 
         <wizard-progress v-if="$refs.slideDeck" :highest-step="highestStep" :steps="steps" :active="currentStep" @click="onProgressClick"/>
 
-        <div class="wizard-content">
+        <div class="wizard-content" ref="content">
             <slot name="content"/>
 
             <slide-deck
                 v-if="!isFinished"
                 ref="slideDeck"
                 :active="currentStep"
-                :overflow="$vnode"
                 @before-enter="onBeforeEnter"
                 @enter="onEnter"
                 @leave="onLeave">
-                <slot ref="test"/>
+                <slot/>
             </slide-deck>
 
             <slot v-else-if="isFinished" name="success"/>
@@ -124,8 +123,6 @@ export default {
         },
 
         disableBackButton() {
-            console.log('asd');
-
             this.isBackButtonDisabled = true;
         },
 
@@ -222,11 +219,13 @@ export default {
         }
 
         this.steps = this.$refs.slideDeck.$refs.slides.slides();
+        this.contentElement = this.$refs.content;
     },
 
     data() {
         return {
             steps: [],
+            contentElement: null,
             currentStep: this.active,
             highestStep: this.active,
             isFinished: false,
@@ -244,6 +243,10 @@ export default {
 .wizard {
     .slide-deck-content {
         margin: 1rem;
+    }
+
+    .wizard-content {
+        overflow: hidden;
     }
 
     .wizard-buttons {

@@ -201,7 +201,7 @@ export default {
             else if(this.overflow instanceof Element) {
                 return this.overflow;
             }
-            else if(this.overflow.elm) {
+            else if(this.overflow && this.overflow.elm) {
                 return this.overflow.elm;
             }
             else if(this.overflow) {

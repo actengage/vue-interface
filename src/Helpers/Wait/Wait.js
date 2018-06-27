@@ -1,5 +1,5 @@
-import { wrap } from 'lodash';
-import { findKey } from 'lodash';
+import { wrap } from 'lodash-es';
+import { findKey } from 'lodash-es';
 
 const CALLBACKS = {};
 
