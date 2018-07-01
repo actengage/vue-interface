@@ -1598,19 +1598,45 @@
   margin: 1rem; }
 
 .wizard .wizard-content {
-  overflow: hidden; }
+  overflow: hidden;
+  padding: .5rem; }
+  .wizard .wizard-content + hr {
+    margin-bottom: 0; }
 
 .wizard .wizard-buttons {
-  border-top: 1px solid #7d7d7d;
-  padding-top: 1rem;
-  margin-top: 1rem; }
+  padding: 1rem; }
 
 .wizard-buttons {
   display: flex;
   justify-content: space-between; }
 
+.wizard-error {
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 1.25rem; }
+  .wizard-error .wizard-error-title {
+    font-size: 1.875rem;
+    color: #b10805; }
+  .wizard-error .wizard-error-icon {
+    color: #b10805;
+    font-size: 1.25rem;
+    border: 5px solid #b10805;
+    border-radius: 100%;
+    text-align: center;
+    width: 7.5rem;
+    height: 7.5rem;
+    margin: 1.25rem auto;
+    position: relative; }
+    .wizard-error .wizard-error-icon i {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      line-height: 0; }
 
-/*# sourceMappingURL=WizardHeader.vue.map */
+.card > .wizard .wizard-header {
+  margin-top: 1rem; }
+
 .wizard-progress {
   justify-content: space-between;
   align-items: center;
@@ -1721,30 +1747,6 @@
     margin: 1.25rem auto;
     position: relative; }
     .wizard-success .wizard-success-icon i {
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      left: 0;
-      line-height: 0; }
-
-.wizard-error {
-  text-align: center;
-  font-size: 1.25rem;
-  padding: 1.25rem; }
-  .wizard-error .wizard-error-title {
-    font-size: 1.875rem;
-    color: #b10805; }
-  .wizard-error .wizard-error-icon {
-    color: #b10805;
-    font-size: 1.25rem;
-    border: 5px solid #b10805;
-    border-radius: 100%;
-    text-align: center;
-    width: 7.5rem;
-    height: 7.5rem;
-    margin: 1.25rem auto;
-    position: relative; }
-    .wizard-error .wizard-error-icon i {
       position: absolute;
       width: 100%;
       top: 50%;

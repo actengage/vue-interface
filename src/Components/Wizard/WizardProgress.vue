@@ -9,7 +9,8 @@
             :title="step.label || step.title"
             :style="{width: `${100 / steps.length}%`}"
             @click.prevent="onClick($event, step)">
-            <span class="wizard-step-label">{{step.label || step.title}}</span>
+            <span v-if="step.componentOptions.propsData.label" class="wizard-step-label" v-html="step.componentOptions.propsData.label"/>
+            <span v-else-if="step.componentOptions.propsData.title" class="wizard-step-label" v-html="step.componentOptions.propsData.title"/>
         </a>
     </div>
 </template>
@@ -64,6 +65,8 @@ export default {
     methods: {
 
         onClick(event, step) {
+            console.log(step.componentInstance);
+
             if(!event.target.classList.contains('disabled')) {
                 this.$emit('click', event, step);
             }

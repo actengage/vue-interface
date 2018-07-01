@@ -3,7 +3,13 @@
 
         <wizard-header v-if="header" v-html="header"/>
 
-        <wizard-progress v-if="$refs.slideDeck" :highest-step="highestStep" :steps="steps" :active="currentStep" @click="onProgressClick"/>
+        <wizard-progress
+            v-if="$refs.slideDeck && !isFinished && !hasFailed"
+            :active="currentStep"
+            :highest-step="highestStep"
+            :steps="steps"
+            @click="onProgressClick"
+        />
 
         <div class="wizard-content" ref="content">
             <slot name="content"/>
@@ -15,15 +21,23 @@
                 @before-enter="onBeforeEnter"
                 @enter="onEnter"
                 @leave="onLeave">
-                <slot/>
+                <slot />
             </slide-deck>
 
-            <slot v-else-if="isFinished" name="success"/>
-            <slot v-else name="error"/>
+            <slot v-else-if="isFinished && !hasFailed" name="success">
+                <wizard-success/>
+            </slot>
+
+            <slot v-else-if="isFinished && hasFailed" name="error">
+                <wizard-error/>
+            </slot>
         </div>
 
         <slot name="buttons">
+            <hr>
+
             <wizard-buttons
+                v-if="!isFinished && !hasFailed"
                 size="lg"
                 :steps="steps"
                 :active="currentStep"
@@ -40,12 +54,15 @@
 
 <script>
 import { map } from 'lodash-es';
+import { each } from 'lodash-es';
 import { extend } from 'lodash-es';
 import { filter } from 'lodash-es';
 import SlideDeck from '../SlideDeck';
 import WizardButtons from './WizardButtons';
+import WizardError from './WizardError';
 import WizardHeader from './WizardHeader';
 import WizardProgress from './WizardProgress';
+import WizardSuccess from './WizardSuccess';
 
 export default {
 
@@ -54,8 +71,10 @@ export default {
     components: {
         SlideDeck,
         WizardButtons,
+        WizardError,
         WizardHeader,
-        WizardProgress
+        WizardProgress,
+        WizardSuccess
     },
 
     props: {
@@ -83,8 +102,10 @@ export default {
          * @type {Boolean}
          */
         backButton: {
-            type: Boolean,
-            default: true
+            type: [Function, Boolean],
+            default() {
+                return this.currentStep > 0;
+            }
         },
 
         /**
@@ -105,6 +126,19 @@ export default {
         nextButton: {
             type: Boolean,
             default: true
+        },
+
+        /**
+         * Validate if the data input for the step is valid. Required Boolean
+         * or a predicate function.
+         *
+         * @type {Function|Boolean}
+         */
+        validate: {
+            type: [Function, Boolean],
+            default() {
+                return true;
+            }
         }
 
     },
@@ -135,8 +169,8 @@ export default {
         },
 
         emitEventOnCurrentSlide(key, ...args) {
-            this.$refs.slideDeck.$refs.slides.slide(this.currentStep).componentInstance.$emit.apply(
-                this.$refs.slideDeck.$refs.slides.slide(this.currentStep).componentInstance, [key].concat(args)
+            this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(
+                this.$refs.slideDeck.slide(this.currentStep).componentInstance, [key].concat(args)
             );
         },
 
@@ -158,13 +192,14 @@ export default {
             this.isNextButtonDisabled = false;
         },
 
-        finish() {
+        finish(success) {
+            this.hasFailed = !success;
             this.isFinished = true;
             this.$emit('finish');
         },
 
         next() {
-            this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.$refs.slides.slides().length - 1));
+            this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
             this.$emit('next');
         },
 
@@ -184,7 +219,7 @@ export default {
             this.emitEventOnCurrentSlide('finish', event);
 
             if(event.defaultPrevented !== true) {
-                this.finish();
+                this.finish(true);
             }
         },
 
@@ -198,6 +233,7 @@ export default {
 
         onEnter(slide, last) {
             this.highestStep = Math.max(this.highestStep, this.$refs.slideDeck.$refs.slides.getSlideIndex(slide));
+            slide.componentInstance.$refs.wizard = this;
             slide.context.$emit('enter');
         },
 
@@ -211,23 +247,29 @@ export default {
 
     },
 
+    created() {
+        //each(filter(this.$slots.default, vnode => !vnode.text), vnode => {
+            //console.log(vnode);
+        //});
+    },
+
     mounted() {
-        const slide = this.$refs.slideDeck.$refs.slides.findSlideByKey(this.currentStep);
+        const slide = this.$refs.slideDeck.slide(this.currentStep);
 
         if(slide) {
+            (slide.componentInstance || slide.context).$refs.wizard = this;
             (slide.componentInstance || slide.context).$emit('enter');
         }
 
-        this.steps = this.$refs.slideDeck.$refs.slides.slides();
-        this.contentElement = this.$refs.content;
+        this.steps = this.$refs.slideDeck.slides();
     },
 
     data() {
         return {
             steps: [],
-            contentElement: null,
             currentStep: this.active,
             highestStep: this.active,
+            hasFailed: false,
             isFinished: false,
             isBackButtonDisabled: !this.backButton,
             isFinishButtonDisabled: !this.finishButton,
@@ -239,6 +281,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import './node_modules/bootstrap/scss/functions.scss';
+@import './node_modules/bootstrap/scss/variables.scss';
 
 .wizard {
     .slide-deck-content {
@@ -247,12 +291,15 @@ export default {
 
     .wizard-content {
         overflow: hidden;
+        padding: .5rem;
+
+        & + hr {
+            margin-bottom: 0;
+        }
     }
 
     .wizard-buttons {
-        border-top: 1px solid #7d7d7d;
-        padding-top: 1rem;
-        margin-top: 1rem;
+        padding: 1rem;
     }
 }
 

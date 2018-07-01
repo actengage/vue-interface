@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { filter } from 'lodash-es';
 import { extend } from 'lodash-es';
 import { isFunction } from 'lodash-es';
 import unit from '../../Helpers/Unit';
@@ -146,6 +145,10 @@ export default {
             }
         },
 
+        slide(index) {
+            return this.$refs.slides ? this.$refs.slides.slide(index || this.active) : null;
+        },
+
         slides() {
             return this.$refs.slides ? this.$refs.slides.slides() : [];
         },
@@ -155,11 +158,11 @@ export default {
         },
 
         onSlideAfterEnter(el) {
-            this.$emit('after-enter', this.$refs.slides.findSlideByKey(this.currentSlide), this.$refs.slides.findSlideByKey(this.lastSlide));
+            this.$emit('after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
 
         onSlideBeforeEnter(el) {
-            this.$emit('before-enter', this.$refs.slides.findSlideByKey(this.currentSlide), this.$refs.slides.findSlideByKey(this.lastSlide));
+            this.$emit('before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
 
         onSlideEnter(el, done) {
@@ -169,15 +172,15 @@ export default {
                 this.$nextTick(done);
             });
 
-            this.$emit('enter', this.$refs.slides.findSlideByKey(this.currentSlide), this.$refs.slides.findSlideByKey(this.lastSlide));
+            this.$emit('enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
 
         onSlideAfterLeave(el) {
-            this.$emit('after-leave', this.$refs.slides.findSlideByKey(this.lastSlide), this.$refs.slides.findSlideByKey(this.currentSlide));
+            this.$emit('after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         },
 
         onSlideBeforeLeave(el) {
-            this.$emit('before-leave', this.$refs.slides.findSlideByKey(this.lastSlide), this.$refs.slides.findSlideByKey(this.currentSlide));
+            this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         },
 
         onSlideLeave(el, done) {
@@ -187,7 +190,7 @@ export default {
                 this.$nextTick(done);
             });
 
-            this.$emit('leave', this.$refs.slides.findSlideByKey(this.lastSlide), this.$refs.slides.findSlideByKey(this.currentSlide));
+            this.$emit('leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         }
 
     },

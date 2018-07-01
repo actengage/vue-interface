@@ -18371,6 +18371,9 @@ var SlideDeck = {
         RESIZE_MODES[this.resizeMode].call(this, el);
       }
     },
+    slide: function slide(index) {
+      return this.$refs.slides ? this.$refs.slides.slide(index || this.active) : null;
+    },
     slides: function slides() {
       return this.$refs.slides ? this.$refs.slides.slides() : [];
     },
@@ -18378,10 +18381,10 @@ var SlideDeck = {
       this.currentSlide = vnode.data ? vnode.data.key : vnode.key;
     },
     onSlideAfterEnter: function onSlideAfterEnter(el) {
-      this.$emit('after-enter', this.$refs.slides.findSlideByKey(this.currentSlide), this.$refs.slides.findSlideByKey(this.lastSlide));
+      this.$emit('after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
     },
     onSlideBeforeEnter: function onSlideBeforeEnter(el) {
-      this.$emit('before-enter', this.$refs.slides.findSlideByKey(this.currentSlide), this.$refs.slides.findSlideByKey(this.lastSlide));
+      this.$emit('before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
     },
     onSlideEnter: function onSlideEnter(el, done) {
       var _this = this;
@@ -18390,13 +18393,13 @@ var SlideDeck = {
       transition(el).then(function (delay) {
         _this.$nextTick(done);
       });
-      this.$emit('enter', this.$refs.slides.findSlideByKey(this.currentSlide), this.$refs.slides.findSlideByKey(this.lastSlide));
+      this.$emit('enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
     },
     onSlideAfterLeave: function onSlideAfterLeave(el) {
-      this.$emit('after-leave', this.$refs.slides.findSlideByKey(this.lastSlide), this.$refs.slides.findSlideByKey(this.currentSlide));
+      this.$emit('after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
     },
     onSlideBeforeLeave: function onSlideBeforeLeave(el) {
-      this.$emit('before-leave', this.$refs.slides.findSlideByKey(this.lastSlide), this.$refs.slides.findSlideByKey(this.currentSlide));
+      this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
     },
     onSlideLeave: function onSlideLeave(el, done) {
       var _this2 = this;
@@ -18405,7 +18408,7 @@ var SlideDeck = {
       transition(el).then(function (delay) {
         _this2.$nextTick(done);
       });
-      this.$emit('leave', this.$refs.slides.findSlideByKey(this.lastSlide), this.$refs.slides.findSlideByKey(this.currentSlide));
+      this.$emit('leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
     }
   },
   computed: {
@@ -19770,6 +19773,136 @@ var WizardButtons = {
   }
 };
 
+var WizardStep = {
+  name: 'wizard-step',
+  props: {
+    /**
+     * The parent wizard component instance.
+     *
+     * @type {String}
+    wizard: {
+        //required: true,
+        type: Object
+    },
+    */
+
+    /**
+     * The step's label in the progress bar.
+     *
+     * @type {String}
+     */
+    label: String,
+
+    /**
+     * A predicate function to determine if the back button should show.
+     * Can also be a boolean value.
+     *
+     * @type {Function|Boolean}
+     */
+    backButton: {
+      type: [Function, Boolean],
+      default: function _default() {
+        return true;
+      }
+    },
+
+    /**
+     * Validate if the data input for the step is valid. Required Boolean
+     * or a predicate function.
+     *
+     * @type {Function|Boolean}
+     */
+    validate: {
+      type: [Function, Boolean],
+      default: function _default() {
+        return true;
+      }
+    }
+  },
+  methods: {
+    checkValidity: function checkValidity(prop) {
+      // Validate the property for the step first.
+      if (isFunction$1(this[prop]) && this[prop](this) === false || this[prop] === false) {
+        return false;
+      } // Then validate the property of the wizard, this is the global validator
+
+
+      if (this.$refs.wizard) {
+        if (isFunction$1(this.$refs.wizard[prop]) && this.$refs.wizard[prop](this) === false || this.$refs.wizard[prop] === false) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+    disable: function disable() {
+      this.$refs.wizard.disableNextButton();
+      this.$refs.wizard.disableFinishButton();
+    },
+    enable: function enable() {
+      this.$refs.wizard.enableNextButton();
+      this.$refs.wizard.enableFinishButton();
+    }
+  },
+  updated: function updated() {
+    if (this.checkValidity('validate')) {
+      this.enable();
+    } else {
+      this.disable();
+    }
+
+    if (this.checkValidity('backButton')) {
+      this.$refs.wizard.enableBackButton();
+    } else {
+      this.$refs.wizard.disableBackButton();
+    }
+  },
+  render: function render(h) {
+    if (this.$slots.default.length !== 1) {
+      throw new Error('The <wizard-slot> must contain a single parent DOM node.');
+    }
+
+    return this.$slots.default[0];
+  }
+};
+
+var WizardError = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "wizard-error"
+    }, [_vm.icon ? _c('div', {
+      staticClass: "wizard-error-icon"
+    }, [_c('i', {
+      class: _vm.icon
+    })]) : _vm._e(), _vm._v(" "), _vm.title ? _c('h3', {
+      staticClass: "wizard-error-title",
+      domProps: {
+        "innerHTML": _vm._s(_vm.title)
+      }
+    }) : _vm._e(), _vm._v(" "), _vm._t("default")], 2);
+  },
+  staticRenderFns: [],
+  name: 'wizard-error',
+  extends: WizardStep,
+  props: {
+    icon: {
+      type: String,
+      default: 'fa fa-3x fa-check'
+    },
+    title: {
+      type: String,
+      default: 'Error!'
+    },
+    errors: [Array, Object]
+  }
+};
+
 var WizardHeader = {
   render: function render() {
     var _vm = this;
@@ -19839,9 +19972,17 @@ var WizardProgress = {
             _vm.onClick($event, step);
           }
         }
-      }, [_c('span', {
-        staticClass: "wizard-step-label"
-      }, [_vm._v(_vm._s(step.label || step.title))])]);
+      }, [step.componentOptions.propsData.label ? _c('span', {
+        staticClass: "wizard-step-label",
+        domProps: {
+          "innerHTML": _vm._s(step.componentOptions.propsData.label)
+        }
+      }) : step.componentOptions.propsData.title ? _c('span', {
+        staticClass: "wizard-step-label",
+        domProps: {
+          "innerHTML": _vm._s(step.componentOptions.propsData.title)
+        }
+      }) : _vm._e()]);
     }));
   },
   staticRenderFns: [],
@@ -19884,6 +20025,8 @@ var WizardProgress = {
   },
   methods: {
     onClick: function onClick(event, step) {
+      console.log(step.componentInstance);
+
       if (!event.target.classList.contains('disabled')) {
         this.$emit('click', event, step);
       }
@@ -19893,308 +20036,6 @@ var WizardProgress = {
     return {
       isActive: false
     };
-  }
-};
-
-var Wizard = {
-  render: function render() {
-    var _vm = this;
-
-    var _h = _vm.$createElement;
-
-    var _c = _vm._self._c || _h;
-
-    return _c('div', {
-      staticClass: "wizard"
-    }, [_vm.header ? _c('wizard-header', {
-      domProps: {
-        "innerHTML": _vm._s(_vm.header)
-      }
-    }) : _vm._e(), _vm._v(" "), _vm.$refs.slideDeck ? _c('wizard-progress', {
-      attrs: {
-        "highest-step": _vm.highestStep,
-        "steps": _vm.steps,
-        "active": _vm.currentStep
-      },
-      on: {
-        "click": _vm.onProgressClick
-      }
-    }) : _vm._e(), _vm._v(" "), _c('div', {
-      ref: "content",
-      staticClass: "wizard-content"
-    }, [_vm._t("content"), _vm._v(" "), !_vm.isFinished ? _c('slide-deck', {
-      ref: "slideDeck",
-      attrs: {
-        "active": _vm.currentStep
-      },
-      on: {
-        "before-enter": _vm.onBeforeEnter,
-        "enter": _vm.onEnter,
-        "leave": _vm.onLeave
-      }
-    }, [_vm._t("default")], 2) : _vm.isFinished ? _vm._t("success") : _vm._t("error")], 2), _vm._v(" "), _vm._t("buttons", [_c('wizard-buttons', {
-      attrs: {
-        "size": "lg",
-        "steps": _vm.steps,
-        "active": _vm.currentStep,
-        "back-button": !_vm.isBackButtonDisabled,
-        "next-button": !_vm.isNextButtonDisabled,
-        "finish-button": !_vm.isFinishButtonDisabled
-      },
-      on: {
-        "click:back": _vm.onClickBack,
-        "click:finish": _vm.onClickFinish,
-        "click:next": _vm.onClickNext
-      }
-    })])], 2);
-  },
-  staticRenderFns: [],
-  name: 'wizard',
-  components: {
-    SlideDeck: SlideDeck,
-    WizardButtons: WizardButtons,
-    WizardHeader: WizardHeader,
-    WizardProgress: WizardProgress
-  },
-  props: {
-    /**
-     * Pass a header as a string.
-     *
-     * @type {String}
-     */
-    header: String,
-
-    /**
-     * The index or key of the active step.
-     *
-     * @type {String|Number}
-     */
-    active: {
-      type: [String, Number],
-      default: 0
-    },
-
-    /**
-     * Show should the "Back" button.
-     *
-     * @type {Boolean}
-     */
-    backButton: {
-      type: Boolean,
-      default: true
-    },
-
-    /**
-     * Show should the "Finish" button.
-     *
-     * @type {Boolean}
-     */
-    finishButton: {
-      type: Boolean,
-      default: true
-    },
-
-    /**
-     * Show should the "Next" button.
-     *
-     * @type {Boolean}
-     */
-    nextButton: {
-      type: Boolean,
-      default: true
-    }
-  },
-  methods: {
-    back: function back() {
-      this.$emit('update:step', this.currentStep = Math.max(this.currentStep - 1, 0));
-      this.$emit('back');
-    },
-    disableButtons: function disableButtons() {
-      this.isBackButtonDisabled = true;
-      this.isFinishButtonDisabled = true;
-      this.isNextButtonDisabled = true;
-    },
-    disableBackButton: function disableBackButton() {
-      this.isBackButtonDisabled = true;
-    },
-    disableFinishButton: function disableFinishButton() {
-      this.isFinishButtonDisabled = true;
-    },
-    disableNextButton: function disableNextButton() {
-      this.isNextButtonDisabled = true;
-    },
-    emitEventOnCurrentSlide: function emitEventOnCurrentSlide(key) {
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
-      this.$refs.slideDeck.$refs.slides.slide(this.currentStep).componentInstance.$emit.apply(this.$refs.slideDeck.$refs.slides.slide(this.currentStep).componentInstance, [key].concat(args));
-    },
-    enableButtons: function enableButtons() {
-      this.isBackButtonDisabled = false;
-      this.isFinishButtonDisabled = false;
-      this.isNextButtonDisabled = false;
-    },
-    enableBackButton: function enableBackButton() {
-      this.isBackButtonDisabled = false;
-    },
-    enableFinishButton: function enableFinishButton() {
-      this.isFinishButtonDisabled = false;
-    },
-    enableNextButton: function enableNextButton() {
-      this.isNextButtonDisabled = false;
-    },
-    finish: function finish() {
-      this.isFinished = true;
-      this.$emit('finish');
-    },
-    next: function next() {
-      this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.$refs.slides.slides().length - 1));
-      this.$emit('next');
-    },
-    onBeforeEnter: function onBeforeEnter(slide, last) {
-      this.$emit('before-enter', slide, last);
-    },
-    onClickBack: function onClickBack(event) {
-      this.emitEventOnCurrentSlide('back', event);
-
-      if (event.defaultPrevented !== true) {
-        this.back();
-      }
-    },
-    onClickFinish: function onClickFinish(event) {
-      this.emitEventOnCurrentSlide('finish', event);
-
-      if (event.defaultPrevented !== true) {
-        this.finish();
-      }
-    },
-    onClickNext: function onClickNext(event) {
-      this.emitEventOnCurrentSlide('next', event);
-
-      if (event.defaultPrevented !== true) {
-        this.next();
-      }
-    },
-    onEnter: function onEnter(slide, last) {
-      this.highestStep = Math.max(this.highestStep, this.$refs.slideDeck.$refs.slides.getSlideIndex(slide));
-      slide.context.$emit('enter');
-    },
-    onLeave: function onLeave(slide) {
-      slide.context.$emit('leave');
-    },
-    onProgressClick: function onProgressClick(event, slide) {
-      this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
-    }
-  },
-  mounted: function mounted() {
-    var slide = this.$refs.slideDeck.$refs.slides.findSlideByKey(this.currentStep);
-
-    if (slide) {
-      (slide.componentInstance || slide.context).$emit('enter');
-    }
-
-    this.steps = this.$refs.slideDeck.$refs.slides.slides();
-    this.contentElement = this.$refs.content;
-  },
-  data: function data() {
-    return {
-      steps: [],
-      contentElement: null,
-      currentStep: this.active,
-      highestStep: this.active,
-      isFinished: false,
-      isBackButtonDisabled: !this.backButton,
-      isFinishButtonDisabled: !this.finishButton,
-      isNextButtonDisabled: !this.nextButton
-    };
-  }
-};
-
-var WizardStep = {
-  name: 'wizard-step',
-  props: {
-    /**
-     * Show should the "Back" button.
-     *
-     * @type {Function|Boolean}
-     */
-    backButton: {
-      type: [Function, Boolean],
-      default: undefined
-    },
-
-    /**
-     * Set the disabled status on the wizard.
-     *
-     * @type {Function|Boolean}
-     */
-    disable: {
-      type: [Function, Boolean],
-      default: function _default(step) {
-        step.$parent.$parent.$parent.disableNextButton();
-        step.$parent.$parent.$parent.disableFinishButton();
-      }
-    },
-
-    /**
-     * Set the enabled status on the wizard.
-     *
-     * @type {Function|Boolean}
-     */
-    enable: {
-      type: [Function, Boolean],
-      default: function _default(step) {
-        step.$parent.$parent.$parent.enableNextButton();
-        step.$parent.$parent.$parent.enableFinishButton();
-      }
-    },
-
-    /**
-     * Validate if the data input for the step is valid. Required Boolean
-     * or a predicate function.
-     *
-     * @type {Function|Boolean}
-     */
-    validate: {
-      type: [Function, Boolean],
-      default: function _default() {
-        return true;
-      }
-    }
-  },
-  methods: {
-    checkValidity: function checkValidity(prop) {
-      if (isFunction$1(this[prop])) {
-        return this[prop](this);
-      } else if (isUndefined(this[prop])) {
-        return true;
-      } else {
-        return this[prop];
-      }
-    }
-  },
-  updated: function updated() {
-    var backButton = this.checkValidity('backButton');
-
-    if (backButton === true) {
-      this.$parent.$parent.$parent.enableBackButton();
-    } else if (backButton === false) {
-      this.$parent.$parent.$parent.disableBackButton();
-    }
-
-    if (this.checkValidity('validate')) {
-      this.enable(this);
-    } else {
-      this.disable(this);
-    }
-  },
-  render: function render(h) {
-    if (this.$slots.default.length !== 1) {
-      throw new Error('The <wizard-slot> must contain a single parent DOM node.');
-    }
-
-    return this.$slots.default[0];
   }
 };
 
@@ -20234,7 +20075,7 @@ var WizardSuccess = {
   }
 };
 
-var WizardError = {
+var Wizard = {
   render: function render() {
     var _vm = this;
 
@@ -20243,31 +20084,232 @@ var WizardError = {
     var _c = _vm._self._c || _h;
 
     return _c('div', {
-      staticClass: "wizard-error"
-    }, [_vm.icon ? _c('div', {
-      staticClass: "wizard-error-icon"
-    }, [_c('i', {
-      class: _vm.icon
-    })]) : _vm._e(), _vm._v(" "), _vm.title ? _c('h3', {
-      staticClass: "wizard-error-title",
+      staticClass: "wizard"
+    }, [_vm.header ? _c('wizard-header', {
       domProps: {
-        "innerHTML": _vm._s(_vm.title)
+        "innerHTML": _vm._s(_vm.header)
       }
-    }) : _vm._e(), _vm._v(" "), _vm._t("default")], 2);
+    }) : _vm._e(), _vm._v(" "), _vm.$refs.slideDeck && !_vm.isFinished && !_vm.hasFailed ? _c('wizard-progress', {
+      attrs: {
+        "active": _vm.currentStep,
+        "highest-step": _vm.highestStep,
+        "steps": _vm.steps
+      },
+      on: {
+        "click": _vm.onProgressClick
+      }
+    }) : _vm._e(), _vm._v(" "), _c('div', {
+      ref: "content",
+      staticClass: "wizard-content"
+    }, [_vm._t("content"), _vm._v(" "), !_vm.isFinished ? _c('slide-deck', {
+      ref: "slideDeck",
+      attrs: {
+        "active": _vm.currentStep
+      },
+      on: {
+        "before-enter": _vm.onBeforeEnter,
+        "enter": _vm.onEnter,
+        "leave": _vm.onLeave
+      }
+    }, [_vm._t("default")], 2) : _vm.isFinished && !_vm.hasFailed ? _vm._t("success", [_c('wizard-success')]) : _vm.isFinished && _vm.hasFailed ? _vm._t("error", [_c('wizard-error')]) : _vm._e()], 2), _vm._v(" "), _vm._t("buttons", [_c('hr'), _vm._v(" "), !_vm.isFinished && !_vm.hasFailed ? _c('wizard-buttons', {
+      attrs: {
+        "size": "lg",
+        "steps": _vm.steps,
+        "active": _vm.currentStep,
+        "back-button": !_vm.isBackButtonDisabled,
+        "next-button": !_vm.isNextButtonDisabled,
+        "finish-button": !_vm.isFinishButtonDisabled
+      },
+      on: {
+        "click:back": _vm.onClickBack,
+        "click:finish": _vm.onClickFinish,
+        "click:next": _vm.onClickNext
+      }
+    }) : _vm._e()])], 2);
   },
   staticRenderFns: [],
-  name: 'wizard-error',
-  extends: WizardStep,
+  name: 'wizard',
+  components: {
+    SlideDeck: SlideDeck,
+    WizardButtons: WizardButtons,
+    WizardError: WizardError,
+    WizardHeader: WizardHeader,
+    WizardProgress: WizardProgress,
+    WizardSuccess: WizardSuccess
+  },
   props: {
-    icon: {
-      type: String,
-      default: 'fa fa-3x fa-check'
+    /**
+     * Pass a header as a string.
+     *
+     * @type {String}
+     */
+    header: String,
+
+    /**
+     * The index or key of the active step.
+     *
+     * @type {String|Number}
+     */
+    active: {
+      type: [String, Number],
+      default: 0
     },
-    title: {
-      type: String,
-      default: 'Error!'
+
+    /**
+     * Show should the "Back" button.
+     *
+     * @type {Boolean}
+     */
+    backButton: {
+      type: [Function, Boolean],
+      default: function _default() {
+        return this.currentStep > 0;
+      }
     },
-    errors: [Array, Object]
+
+    /**
+     * Show should the "Finish" button.
+     *
+     * @type {Boolean}
+     */
+    finishButton: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * Show should the "Next" button.
+     *
+     * @type {Boolean}
+     */
+    nextButton: {
+      type: Boolean,
+      default: true
+    },
+
+    /**
+     * Validate if the data input for the step is valid. Required Boolean
+     * or a predicate function.
+     *
+     * @type {Function|Boolean}
+     */
+    validate: {
+      type: [Function, Boolean],
+      default: function _default() {
+        return true;
+      }
+    }
+  },
+  methods: {
+    back: function back() {
+      this.$emit('update:step', this.currentStep = Math.max(this.currentStep - 1, 0));
+      this.$emit('back');
+    },
+    disableButtons: function disableButtons() {
+      this.isBackButtonDisabled = true;
+      this.isFinishButtonDisabled = true;
+      this.isNextButtonDisabled = true;
+    },
+    disableBackButton: function disableBackButton() {
+      this.isBackButtonDisabled = true;
+    },
+    disableFinishButton: function disableFinishButton() {
+      this.isFinishButtonDisabled = true;
+    },
+    disableNextButton: function disableNextButton() {
+      this.isNextButtonDisabled = true;
+    },
+    emitEventOnCurrentSlide: function emitEventOnCurrentSlide(key) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(this.$refs.slideDeck.slide(this.currentStep).componentInstance, [key].concat(args));
+    },
+    enableButtons: function enableButtons() {
+      this.isBackButtonDisabled = false;
+      this.isFinishButtonDisabled = false;
+      this.isNextButtonDisabled = false;
+    },
+    enableBackButton: function enableBackButton() {
+      this.isBackButtonDisabled = false;
+    },
+    enableFinishButton: function enableFinishButton() {
+      this.isFinishButtonDisabled = false;
+    },
+    enableNextButton: function enableNextButton() {
+      this.isNextButtonDisabled = false;
+    },
+    finish: function finish(success) {
+      this.hasFailed = !success;
+      this.isFinished = true;
+      this.$emit('finish');
+    },
+    next: function next() {
+      this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
+      this.$emit('next');
+    },
+    onBeforeEnter: function onBeforeEnter(slide, last) {
+      this.$emit('before-enter', slide, last);
+    },
+    onClickBack: function onClickBack(event) {
+      this.emitEventOnCurrentSlide('back', event);
+
+      if (event.defaultPrevented !== true) {
+        this.back();
+      }
+    },
+    onClickFinish: function onClickFinish(event) {
+      this.emitEventOnCurrentSlide('finish', event);
+
+      if (event.defaultPrevented !== true) {
+        this.finish(true);
+      }
+    },
+    onClickNext: function onClickNext(event) {
+      this.emitEventOnCurrentSlide('next', event);
+
+      if (event.defaultPrevented !== true) {
+        this.next();
+      }
+    },
+    onEnter: function onEnter(slide, last) {
+      this.highestStep = Math.max(this.highestStep, this.$refs.slideDeck.$refs.slides.getSlideIndex(slide));
+      slide.componentInstance.$refs.wizard = this;
+      slide.context.$emit('enter');
+    },
+    onLeave: function onLeave(slide) {
+      slide.context.$emit('leave');
+    },
+    onProgressClick: function onProgressClick(event, slide) {
+      this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
+    }
+  },
+  created: function created() {//each(filter(this.$slots.default, vnode => !vnode.text), vnode => {
+    //console.log(vnode);
+    //});
+  },
+  mounted: function mounted() {
+    var slide = this.$refs.slideDeck.slide(this.currentStep);
+
+    if (slide) {
+      (slide.componentInstance || slide.context).$refs.wizard = this;
+      (slide.componentInstance || slide.context).$emit('enter');
+    }
+
+    this.steps = this.$refs.slideDeck.slides();
+  },
+  data: function data() {
+    return {
+      steps: [],
+      currentStep: this.active,
+      highestStep: this.active,
+      hasFailed: false,
+      isFinished: false,
+      isBackButtonDisabled: !this.backButton,
+      isFinishButtonDisabled: !this.finishButton,
+      isNextButtonDisabled: !this.nextButton
+    };
   }
 };
 

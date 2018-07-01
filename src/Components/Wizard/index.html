@@ -12,28 +12,81 @@
         <div id="app" class="container">
             <h1>wizard</h1>
 
-            <wizard ref="wizard" header="Basic Usage" :active="2" @next="onNext" @prev="onPrev" @finish="onFinish">
-                <wizard-step label="Name" @back="onClickBack" :back-button="true" :validate="!!form.first && !!form.last" @enter="onNameEnter">
-                    <div>
-                        <input-field v-model="form.first" size="lg" label="First Name" placeholder="John"></input-field>
-                        <input-field v-model="form.last" size="lg" label="Last Name" placeholder="Doe"></input-field>
-                    </div>
-                </wizard-step>
-                <wizard-step :validate="slide => !!form.email" :back-button="!!form.email">
-                    <div label="Email Address" @enter="onEmailEnter">
-                        <input-field v-model="form.email" size="lg" label="Enter Address" placeholder="you@example.com"></input-field>
-                    </div>
-                </wizard-step>
-                <wizard-step>
-                    <div label="Slide 3" style="background: green; min-height: 200px">Wizard Slide 3</div>
-                </wizard-step>
-                <wizard-success slot="success">
-                    <p>Some success message goes here.</p>
-                </wizard-success>
-                <wizard-error slot="error">
-                    <div>Error</div>
-                </wizard-error>
-            </wizard>
+            <h3>Overview</h3>
+            <p>
+                The Wizard component is used to build multi-part forms. The component provides a few built-in components,
+                for the progress bar, the button bar, and a slide deck component to animate the transitions. This component
+                also provides a number of options to validate the input data along the way, to enable/diable the user from
+                going to the next step. The progress bar is pure CSS and builds itself based on the slides you provide.
+            </p>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Basic Usage</h2>
+                    <p>This is the most basic implementation of the wizard. This example does not include any input validation. Notice the wizard fits nice and flush within a `card` component.</p>
+                </div>
+                <div class="col-md-6">
+                    <card>
+                        <wizard ref="wizard" header="Example 1">
+                            <wizard-step label="Name">
+                                <div>
+                                    <input-field v-model="example1.first" size="lg" label="What is your first name?" placeholder="John"></input-field>
+                                    <input-field v-model="example1.last" size="lg" label="What is your last name?" placeholder="Smith"></input-field>
+                                </div>
+                            </wizard-step>
+                            <wizard-step label="Email Address">
+                                <input-field v-model="example1.email" size="lg" label="What is your email address?" placeholder="you@example.com"></input-field>
+                            </wizard-step>
+                        </wizard>
+                    </card>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Validation</h2>
+                    <p>
+                        One of the key components to building a successfull multi-step form is being able to determine
+                        when the user can go to the next step. This requires validating the data, enabling, or
+                        disabling specific buttons. The validation function must return `true` or `false`.
+                    </p>
+
+                    <h4>Step Validation</h4>
+                    <p>
+                        There are two main ways to validate the current step in the form. The easiest way is to validate
+                        the data within each `wizard-step` component. This allows each step to have a unique validation
+                        routine.
+                    </p>
+
+                    <h4>Global Validation</h4>
+                    <p>
+                        The other way to validate the steps is by using a single global validation routine in the `wizard`
+                        component.
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <card>
+                        <wizard ref="wizard" header="Example 2">
+                            <wizard-step label="Name" :validate="() => { return !!example2.first && !!example2.last }">
+                                <div>
+                                    <input-field v-model="example2.first" size="lg" label="What is your first name?" placeholder="John"></input-field>
+                                    <input-field v-model="example2.last" size="lg" label="What is your last name?" placeholder="Smith"></input-field>
+                                </div>
+                            </wizard-step>
+                            <wizard-step label="Email Address" :validate="() => { return !!example2.email }">
+                                <input-field v-model="example2.email" size="lg" label="What is your email address?" placeholder="you@example.com"></input-field>
+                            </wizard-step>
+                            <wizard-step label="Email Address">
+                                <input-field v-model="example2.age" size="lg" label="Optionally, tell us your age?"></input-field>
+                            </wizard-step>
+                        </wizard>
+                    </card>
+                </div>
+            </div>
 
         </div>
 
@@ -66,10 +119,10 @@
                 },
                 data() {
                     return {
-                        form: {
-                            first: null,
-                            last: null
-                        }
+                        example1: {},
+                        example2: {},
+                        example3: {},
+                        example4: {}
                     }
                 }
             });

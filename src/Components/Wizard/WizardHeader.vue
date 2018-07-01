@@ -32,5 +32,9 @@ export default {
 </script>
 
 <style lang="scss">
-
+.card > .wizard {
+    .wizard-header {
+        margin-top: 1rem;
+    }
+}
 </style>

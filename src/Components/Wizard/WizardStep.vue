@@ -9,38 +9,32 @@ export default {
     props: {
 
         /**
-         * Show should the "Back" button.
+         * The parent wizard component instance.
+         *
+         * @type {String}
+        wizard: {
+            //required: true,
+            type: Object
+        },
+        */
+
+        /**
+         * The step's label in the progress bar.
+         *
+         * @type {String}
+         */
+        label: String,
+
+        /**
+         * A predicate function to determine if the back button should show.
+         * Can also be a boolean value.
          *
          * @type {Function|Boolean}
          */
         backButton: {
             type: [Function, Boolean],
-            default: undefined
-        },
-
-        /**
-         * Set the disabled status on the wizard.
-         *
-         * @type {Function|Boolean}
-         */
-        disable: {
-            type: [Function, Boolean],
-            default(step) {
-                step.$parent.$parent.$parent.disableNextButton();
-                step.$parent.$parent.$parent.disableFinishButton();
-            }
-        },
-
-        /**
-         * Set the enabled status on the wizard.
-         *
-         * @type {Function|Boolean}
-         */
-        enable: {
-            type: [Function, Boolean],
-            default(step) {
-                step.$parent.$parent.$parent.enableNextButton();
-                step.$parent.$parent.$parent.enableFinishButton();
+            default() {
+                return true;
             }
         },
 
@@ -62,34 +56,50 @@ export default {
     methods: {
 
         checkValidity(prop) {
-            if(isFunction(this[prop])) {
-                return this[prop](this);
+            // Validate the property for the step first.
+            if( isFunction(this[prop]) &&
+                this[prop](this) === false ||
+                this[prop] === false) {
+                return false
             }
-            else if(isUndefined(this[prop])) {
-                return true;
+
+            // Then validate the property of the wizard, this is the global validator
+            if(this.$refs.wizard) {
+                if( isFunction(this.$refs.wizard[prop]) &&
+                    this.$refs.wizard[prop](this) === false ||
+                    this.$refs.wizard[prop] === false) {
+                    return false;
+                }
             }
-            else {
-                return this[prop];
-            }
+
+            return true;
+        },
+
+        disable() {
+            this.$refs.wizard.disableNextButton();
+            this.$refs.wizard.disableFinishButton();
+        },
+
+        enable() {
+            this.$refs.wizard.enableNextButton();
+            this.$refs.wizard.enableFinishButton();
         }
 
     },
 
     updated() {
-        const backButton = this.checkValidity('backButton');
-
-        if(backButton === true) {
-            this.$parent.$parent.$parent.enableBackButton();
-        }
-        else if(backButton === false) {
-            this.$parent.$parent.$parent.disableBackButton();
-        }
-
         if(this.checkValidity('validate')) {
-            this.enable(this);
+            this.enable()
         }
         else {
-            this.disable(this);
+            this.disable();
+        }
+
+        if(this.checkValidity('backButton')) {
+            this.$refs.wizard.enableBackButton();
+        }
+        else {
+            this.$refs.wizard.disableBackButton();
         }
     },
 
