@@ -15214,8 +15214,18 @@
     });
 
     function readFile(file, progress) {
+      if (!(file instanceof File)) {
+        throw new Error('The first argument be an instance of File object.');
+      }
+
       return new Promise(function (resolve, reject) {
         var reader = new FileReader();
+
+        if (isFunction$1(progress)) {
+          reader.onprogress = function (e) {
+            return progress(e, reader);
+          };
+        }
 
         reader.onload = function (e) {
           return resolve(e);
@@ -15227,10 +15237,6 @@
 
         reader.onabort = function (e) {
           return reject(e);
-        };
-
-        reader.onprogress = function (e) {
-          return progress(e, reader);
         };
 
         reader.readAsDataURL(file);
@@ -15246,13 +15252,10 @@
         var _c = _vm._self._c || _h;
 
         return _c('div', {
-          staticClass: "file-preview",
-          class: {
-            'is-image': _vm.isImage
-          }
+          staticClass: "file-preview"
         }, [_c('div', {
           staticClass: "file-preview-inner"
-        }, [!_vm.hideClose && (!_vm.isImage || _vm.image) ? _c('a', {
+        }, [!_vm.hideClose && (_vm.isImage || _vm.isVideo) ? _c('a', {
           staticClass: "file-preview-close",
           attrs: {
             "href": "#"
@@ -15287,7 +15290,11 @@
         })], 1) : _c('div', {
           staticClass: "file-preview-icon"
         }, [_c('i', {
-          staticClass: "fa fa-file-o"
+          staticClass: "fa",
+          class: {
+            'fa-file-video-o': _vm.isVideo,
+            'fa-file-o': !_vm.isVideo
+          }
         })]), _vm._v(" "), _c('div', {
           staticClass: "file-preview-filename",
           domProps: {
@@ -15304,12 +15311,8 @@
       },
       directives: {
         ready: {
-          inserted: function inserted(el, binding) {
-            setTimeout(function () {
-              if (isFunction$1(binding.value)) {
-                binding.value();
-              }
-            }, 50);
+          inserted: function inserted(el, binding, vnode) {
+            vnode.context.$nextTick(binding.value);
           }
         }
       },
@@ -15329,19 +15332,6 @@
         file: {
           type: [Object, File],
           required: true
-        },
-
-        /**
-         * An array of mime types that should be used to determine if the
-         * file is an image.
-         *
-         * @property Array
-         */
-        imageMimes: {
-          type: Array,
-          default: function _default() {
-            return ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/webp'];
-          }
         }
       },
       computed: {
@@ -15382,12 +15372,21 @@
         },
 
         /**
-         * If the file an image?
+         * Check to see if the file is an image.
          *
          * @property String
          */
         isImage: function isImage() {
-          return this.imageMimes.indexOf(this.type) !== -1;
+          return this.type.match(/^image\//);
+        },
+
+        /**
+         * Check to see if the file is a video.
+         *
+         * @property String
+         */
+        isVideo: function isVideo() {
+          return this.type.match(/^video\//);
         },
 
         /**
@@ -15424,7 +15423,7 @@
                 _this.image = event.target.result;
 
                 _this.$emit('loaded', event, _this);
-              }, 600 - moment().diff(start));
+              }, 500 - moment().diff(start));
             }, function (error) {
               _this.$emit('error', error);
             });

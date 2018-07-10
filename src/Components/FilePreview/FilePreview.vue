@@ -1,10 +1,10 @@
 <template>
 
-    <div class="file-preview" :class="{'is-image': isImage}">
+    <div class="file-preview">
 
         <div class="file-preview-inner">
 
-            <a v-if="!hideClose && (!isImage || image)" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
+            <a v-if="!hideClose && (isImage || isVideo)" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
                 <i class="fa fa-times-circle"></i>
             </a>
 
@@ -14,7 +14,7 @@
             </div>
 
             <div v-else class="file-preview-icon">
-                <i class="fa fa-file-o"></i>
+                <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}"></i>
             </div>
 
             <div class="file-preview-filename" v-html="name"></div>
@@ -42,12 +42,8 @@ export default {
 
     directives: {
         ready: {
-            inserted(el, binding) {
-                setTimeout(() => {
-                    if(isFunction(binding.value)) {
-                        binding.value();
-                    }
-                }, 50);
+            inserted(el, binding, vnode) {
+                vnode.context.$nextTick(binding.value);
             }
         }
     },
@@ -69,19 +65,6 @@ export default {
         file: {
             type: [Object, File],
             required: true
-        },
-
-        /**
-         * An array of mime types that should be used to determine if the
-         * file is an image.
-         *
-         * @property Array
-         */
-        imageMimes: {
-            type: Array,
-            default() {
-                return ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/webp'];
-            }
         }
 
     },
@@ -125,12 +108,21 @@ export default {
         },
 
         /**
-         * If the file an image?
+         * Check to see if the file is an image.
          *
          * @property String
          */
         isImage() {
-            return this.imageMimes.indexOf(this.type) !== -1;
+            return this.type.match(/^image\//);
+        },
+
+        /**
+         * Check to see if the file is a video.
+         *
+         * @property String
+         */
+        isVideo() {
+            return this.type.match(/^video\//);
         },
 
         /**
@@ -166,7 +158,7 @@ export default {
                     setTimeout(() => {
                         this.image = event.target.result;
                         this.$emit('loaded', event, this);
-                    }, 600 - moment().diff(start));
+                    }, 500 - moment().diff(start));
                 }, error => {
                     this.$emit('error', error);
                 });
