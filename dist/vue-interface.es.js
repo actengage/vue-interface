@@ -15282,6 +15282,12 @@ var FilePreview = {
         "height": 10
       }
     })], 1) : _c('div', {
+      directives: [{
+        name: "ready",
+        rawName: "v-ready",
+        value: _vm.$emit('loaded'),
+        expression: "$emit('loaded')"
+      }],
       staticClass: "file-preview-icon"
     }, [_c('i', {
       staticClass: "fa",
@@ -15416,7 +15422,9 @@ var FilePreview = {
           setTimeout(function () {
             _this.image = event.target.result;
 
-            _this.$emit('loaded', event, _this);
+            _this.$emit('read', event);
+
+            _this.$emit('loaded');
           }, 500 - moment().diff(start));
         }, function (error) {
           _this.$emit('error', error);

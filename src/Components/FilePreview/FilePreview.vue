@@ -13,7 +13,7 @@
                 <progress-bar v-else v-ready="readFile" :value="loaded" :height="10" />
             </div>
 
-            <div v-else class="file-preview-icon">
+            <div v-else v-ready="$emit('loaded')" class="file-preview-icon">
                 <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}"></i>
             </div>
 
@@ -146,6 +146,7 @@ export default {
     },
 
     methods: {
+
         readFile() {
             if(this.file instanceof File) {
                 const start = moment();
@@ -157,7 +158,8 @@ export default {
                 }).then(event => {
                     setTimeout(() => {
                         this.image = event.target.result;
-                        this.$emit('loaded', event, this);
+                        this.$emit('read', event);
+                        this.$emit('loaded');
                     }, 500 - moment().diff(start));
                 }, error => {
                     this.$emit('error', error);
