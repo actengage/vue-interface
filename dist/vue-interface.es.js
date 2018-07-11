@@ -15239,6 +15239,8 @@ function readFile(file, progress) {
 
 var FilePreview = {
   render: function render() {
+    var _this = this;
+
     var _vm = this;
 
     var _h = _vm.$createElement;
@@ -15285,8 +15287,10 @@ var FilePreview = {
       directives: [{
         name: "ready",
         rawName: "v-ready",
-        value: _vm.$emit('loaded'),
-        expression: "$emit('loaded')"
+        value: function value() {
+          return _this.$emit('loaded');
+        },
+        expression: "() => this.$emit('loaded')"
       }],
       staticClass: "file-preview-icon"
     }, [_c('i', {
@@ -15409,25 +15413,25 @@ var FilePreview = {
   },
   methods: {
     readFile: function readFile$$1() {
-      var _this = this;
+      var _this2 = this;
 
       if (this.file instanceof File) {
         var start = moment();
 
         readFile(this.file, function (e) {
           if (e.lengthComputable) {
-            _this.loaded = parseInt(e.loaded / e.total * 100, 10);
+            _this2.loaded = parseInt(e.loaded / e.total * 100, 10);
           }
         }).then(function (event) {
           setTimeout(function () {
-            _this.image = event.target.result;
+            _this2.image = event.target.result;
 
-            _this.$emit('read', event);
+            _this2.$emit('read', event);
 
-            _this.$emit('loaded');
+            _this2.$emit('loaded');
           }, 500 - moment().diff(start));
         }, function (error) {
-          _this.$emit('error', error);
+          _this2.$emit('error', error);
         });
       }
     },

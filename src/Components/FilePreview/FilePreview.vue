@@ -13,7 +13,7 @@
                 <progress-bar v-else v-ready="readFile" :value="loaded" :height="10" />
             </div>
 
-            <div v-else v-ready="$emit('loaded')" class="file-preview-icon">
+            <div v-else v-ready="() => this.$emit('loaded')" class="file-preview-icon">
                 <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}"></i>
             </div>
 
