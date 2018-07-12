@@ -11713,7 +11713,7 @@
       }, {
         key: "cancel",
         value: function cancel() {
-          this.$cancel && this.$cancel();
+          this.$cancel();
         }
       }, {
         key: "get",

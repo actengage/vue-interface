@@ -145,7 +145,7 @@ export default class Request {
     }
 
     cancel() {
-        this.$cancel && this.$cancel();
+        this.$cancel();
     }
 
     get(params = {}, headers = {}) {
