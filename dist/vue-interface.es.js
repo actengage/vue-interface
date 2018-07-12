@@ -15277,11 +15277,11 @@ var FilePreview = {
     return _c('div', {
       staticClass: "file-preview",
       class: {
-        'is-image': _vm.isImage
+        'has-image': !!_vm.image
       }
     }, [_c('div', {
       staticClass: "file-preview-inner"
-    }, [!_vm.hideClose && (_vm.isImage || _vm.isVideo) ? _c('a', {
+    }, [!_vm.hideClose ? _c('a', {
       staticClass: "file-preview-close",
       attrs: {
         "href": "#"
@@ -15295,14 +15295,14 @@ var FilePreview = {
       }
     }, [_c('i', {
       staticClass: "fa fa-times-circle"
-    })]) : _vm._e(), _vm._v(" "), _vm.isImage ? _c('div', {
+    })]) : _vm._e(), _vm._v(" "), _vm.isImage || _vm.image ? _c('div', {
       staticClass: "file-preview-image"
     }, [_vm.image ? _c('img', {
       staticClass: "file-preview-thumbnail",
       attrs: {
         "src": _vm.image
       }
-    }) : _c('progress-bar', {
+    }) : !_vm.image ? _c('progress-bar', {
       directives: [{
         name: "ready",
         rawName: "v-ready",
@@ -15313,7 +15313,7 @@ var FilePreview = {
         "value": _vm.loaded,
         "height": 10
       }
-    })], 1) : _c('div', {
+    }) : _vm._e()], 1) : _c('div', {
       directives: [{
         name: "ready",
         rawName: "v-ready",
@@ -15366,7 +15366,13 @@ var FilePreview = {
     file: {
       type: [Object, File],
       required: true
-    }
+    },
+
+    /**
+     * An image URL to instead of using the file reader.
+     * @type {String}
+     */
+    poster: String
   },
   computed: {
     /**
@@ -15475,7 +15481,7 @@ var FilePreview = {
   data: function data() {
     return {
       loaded: 0,
-      image: this.file.url
+      image: this.poster || this.file.url
     };
   }
 };

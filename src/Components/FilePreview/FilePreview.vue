@@ -1,16 +1,16 @@
 <template>
 
-    <div class="file-preview" :class="{'is-image': isImage}">
+    <div class="file-preview" :class="{'has-image': !!image}">
 
         <div class="file-preview-inner">
 
-            <a v-if="!hideClose && (isImage || isVideo)" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
+            <a v-if="!hideClose" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
                 <i class="fa fa-times-circle"></i>
             </a>
 
-            <div v-if="isImage" class="file-preview-image">
+            <div v-if="isImage || image" class="file-preview-image">
                 <img v-if="image" :src="image" class="file-preview-thumbnail">
-                <progress-bar v-else v-ready="readFile" :value="loaded" :height="10" />
+                <progress-bar v-else-if="!image" v-ready="readFile" :value="loaded" :height="10" />
             </div>
 
             <div v-else v-ready="() => this.$emit('loaded')" class="file-preview-icon">
@@ -65,7 +65,13 @@ export default {
         file: {
             type: [Object, File],
             required: true
-        }
+        },
+
+        /**
+         * An image URL to instead of using the file reader.
+         * @type {String}
+         */
+        poster: String
 
     },
 
@@ -179,7 +185,7 @@ export default {
     data() {
         return {
             loaded: 0,
-            image: this.file.url
+            image: this.poster || this.file.url
         };
     }
 
