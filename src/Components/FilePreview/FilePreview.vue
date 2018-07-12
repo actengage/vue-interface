@@ -11,7 +11,7 @@
             src: {{ poster || image }}
 
             <div v-if="!!poster || isImage" class="file-preview-image">
-                <img v-if="!!poster || !!image" :src="{{ poster || image }}" class="file-preview-thumbnail">
+                <img v-if="!!poster || !!image" :src="poster || image" class="file-preview-thumbnail">
                 <progress-bar v-else v-ready="readFile" :value="loaded" :height="10" />
             </div>
 
