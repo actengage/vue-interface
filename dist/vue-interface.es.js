@@ -15295,7 +15295,7 @@ var FilePreview = {
       }
     }, [_c('i', {
       staticClass: "fa fa-times-circle"
-    })]) : _vm._e(), _vm._v(" src: " + _vm._s(_vm.poster || _vm.image) + " "), !!_vm.poster || _vm.isImage ? _c('div', {
+    })]) : _vm._e(), _vm._v(" "), !!_vm.poster || _vm.isImage ? _c('div', {
       staticClass: "file-preview-image"
     }, [!!_vm.poster || !!_vm.image ? _c('img', {
       staticClass: "file-preview-thumbnail",
