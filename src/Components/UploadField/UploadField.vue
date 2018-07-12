@@ -15,31 +15,18 @@
                 @change="onChange"
             />
 
-            <thumbnail-list v-if="multiple && value && value.length" class="mt-4" wrap>
+            <thumbnail-list v-if="thumbnails && thumbnails.length" class="mt-4" wrap>
                 <thumbnail-list-item
-                    v-for="(file, key) in value"
-                    :key="file.id || key"
+                    v-for="(file, key) in thumbnails"
+                    :key="key + '-' + file.name"
                     :width="width"
                     :min-width="minWidth"
                     :max-width="maxWidth"
                     :height="height"
                     :min-height="minHeight"
                     :max-height="maxHeight">
-                        <file-preview :file="file" @close="removeFile(file)"/>
-                        <slot :file="file"/>
-                <thumbnail-list-item>
-            </thumbnail-list>
-
-            <thumbnail-list v-else-if="!multiple && value" class="mt-4" wrap>
-                <thumbnail-list-item
-                    :width="width"
-                    :min-width="minWidth"
-                    :max-width="maxWidth"
-                    :height="height"
-                    :min-height="minHeight"
-                    :max-height="maxHeight">
-                        <file-preview :file="value" @close="removeFile(value)"/>
-                        <slot :file="value"/>
+                    <file-preview :file="file" @close="removeFile(file)"/>
+                    <slot :file="file"/>
                 <thumbnail-list-item>
             </thumbnail-list>
 
@@ -65,6 +52,7 @@ import Dropzone from '../Dropzone/Dropzone';
 import FormControl from '../../Mixins/FormControl/FormControl';
 import FileField from '../FileField/FileField';
 import FilePreview from '../FilePreview/FilePreview';
+import Model from '../../Http/Model';
 import ThumbnailList from '../ThumbnailList/ThumbnailList';
 import ThumbnailListItem from '../ThumbnailList/ThumbnailListItem';
 
@@ -185,7 +173,31 @@ export default {
             default() {
                 return !this.multiple ? null : [];
             }
-        }
+        },
+
+        /**
+         * Upload function that handles auto-uploading fields asynchronously.
+         * This is designed to work with REST API's and replace the file Object
+         * with the RESTful returned by the server.
+         *
+         * @type {Object}
+         */
+        upload: {
+            type: Function,
+            default(file) {
+                // Stop upload silently if no model is defined.
+                if(!this.model) {
+                    return
+                }
+            }
+        },
+
+        /**
+         * An HTTP Model used to send the request
+         *
+         * @type Model
+         */
+        model: Model
 
     },
 
@@ -225,10 +237,10 @@ export default {
             if(this.multiple) {
                 const files = subject || (isArray(this.value) ? this.value.slice(0) : []);
 
-                if(!this.maxUploads || this.maxUploads > files.length) {
-                    if(findIndex(files, data) === -1) {
-                        files.push(file);
-                    }
+                if((!this.maxUploads || this.maxUploads > files.length) && findIndex(files, data) === -1) {
+                    this.upload && this.upload(file);
+
+                    files.push(file);
 
                     this.$emit('change', files);
                 }
@@ -308,9 +320,15 @@ export default {
     },
 
     computed: {
+
+        thumbnails() {
+            return this.multiple ? this.value : (this.value ? [this.value] : []);
+        },
+
         showDropElement() {
             return !isUndefined(this.dragging) ? this.dragging : this.isDraggingInside
         }
+
     },
 
     data() {

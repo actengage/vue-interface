@@ -1,6 +1,6 @@
 <template>
 
-    <div class="file-preview">
+    <div class="file-preview" :class="{'is-image': isImage}">
 
         <div class="file-preview-inner">
 

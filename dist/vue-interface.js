@@ -15254,7 +15254,10 @@
         var _c = _vm._self._c || _h;
 
         return _c('div', {
-          staticClass: "file-preview"
+          staticClass: "file-preview",
+          class: {
+            'is-image': _vm.isImage
+          }
         }, [_c('div', {
           staticClass: "file-preview-inner"
         }, [!_vm.hideClose && (_vm.isImage || _vm.isVideo) ? _c('a', {
@@ -19369,14 +19372,14 @@
           on: {
             "change": _vm.onChange
           }
-        }) : _vm._e(), _vm._v(" "), _vm.multiple && _vm.value && _vm.value.length ? _c('thumbnail-list', {
+        }) : _vm._e(), _vm._v(" "), _vm.thumbnails && _vm.thumbnails.length ? _c('thumbnail-list', {
           staticClass: "mt-4",
           attrs: {
             "wrap": ""
           }
-        }, _vm._l(_vm.value, function (file, key) {
+        }, _vm._l(_vm.thumbnails, function (file, key) {
           return _c('thumbnail-list-item', {
-            key: file.id || key,
+            key: key + '-' + file.name,
             attrs: {
               "width": _vm.width,
               "min-width": _vm.minWidth,
@@ -19397,32 +19400,7 @@
           }), _vm._v(" "), _vm._t("default", null, {
             file: file
           }), _vm._v(" "), _c('thumbnail-list-item')], 2);
-        })) : !_vm.multiple && _vm.value ? _c('thumbnail-list', {
-          staticClass: "mt-4",
-          attrs: {
-            "wrap": ""
-          }
-        }, [_c('thumbnail-list-item', {
-          attrs: {
-            "width": _vm.width,
-            "min-width": _vm.minWidth,
-            "max-width": _vm.maxWidth,
-            "height": _vm.height,
-            "min-height": _vm.minHeight,
-            "max-height": _vm.maxHeight
-          }
-        }, [_c('file-preview', {
-          attrs: {
-            "file": _vm.value
-          },
-          on: {
-            "close": function close($event) {
-              _vm.removeFile(_vm.value);
-            }
-          }
-        }), _vm._v(" "), _vm._t("default", null, {
-          file: _vm.value
-        }), _vm._v(" "), _c('thumbnail-list-item')], 2)], 1) : _vm._e(), _vm._v(" "), _vm.showDropElement ? _c('div', {
+        })) : _vm._e(), _vm._v(" "), _vm.showDropElement ? _c('div', {
           staticClass: "upload-field-dropzone",
           style: {
             'min-height': _vm.dropzoneMinHeight
@@ -19548,7 +19526,31 @@
           default: function _default() {
             return !this.multiple ? null : [];
           }
-        }
+        },
+
+        /**
+         * Upload function that handles auto-uploading fields asynchronously.
+         * This is designed to work with REST API's and replace the file Object
+         * with the RESTful returned by the server.
+         *
+         * @type {Object}
+         */
+        upload: {
+          type: Function,
+          default: function _default(file) {
+            // Stop upload silently if no model is defined.
+            if (!this.model) {
+              return;
+            }
+          }
+        },
+
+        /**
+         * An HTTP Model used to send the request
+         *
+         * @type Model
+         */
+        model: Model
       },
       methods: _defineProperty({
         removeFile: function removeFile(data) {
@@ -19582,11 +19584,9 @@
           if (this.multiple) {
             var files = subject || (isArray(this.value) ? this.value.slice(0) : []);
 
-            if (!this.maxUploads || this.maxUploads > files.length) {
-              if (findIndex$1(files, data) === -1) {
-                files.push(file);
-              }
-
+            if ((!this.maxUploads || this.maxUploads > files.length) && findIndex$1(files, data) === -1) {
+              this.upload && this.upload(file);
+              files.push(file);
               this.$emit('change', files);
             }
           } else {
@@ -19654,6 +19654,9 @@
         this.$emit('drop', event);
       }),
       computed: {
+        thumbnails: function thumbnails() {
+          return this.multiple ? this.value : this.value ? [this.value] : [];
+        },
         showDropElement: function showDropElement() {
           return !isUndefined(this.dragging) ? this.dragging : this.isDraggingInside;
         }

@@ -14,26 +14,13 @@
 
             <h3>Basic Usage</h3>
             <p>Single file upload.</p>
-            <upload-field v-model="image"></upload-field>
+            <upload-field v-model="image" :max-width="200" :max-height="200"></upload-field>
 
             <hr>
 
             <h3>Multiple Files</h3>
             <p>Select multiple files.</p>
-            <upload-field v-model="images" femultiple></upload-field>
-
-            <hr>
-
-            <h3>Max Width</h3>
-            <p>Set the maximum width of the file previews.</p>
-            <upload-field v-model="images2" max-width="300" multiple></upload-field>
-
-            <hr>
-
-            <h3>Max Height</h3>
-            <p>Set the maximum width of the file previews.</p>
-            <upload-field v-model="images3" max-height="50" multiple></upload-field>
-
+            <upload-field v-model="images" multiple :max-width="200" :max-height="200"></upload-field>
 
         </div>
 
