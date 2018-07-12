@@ -15301,14 +15301,14 @@
           }
         }, [_c('i', {
           staticClass: "fa fa-times-circle"
-        })]) : _vm._e(), _vm._v(" "), _vm.isImage || _vm.image ? _c('div', {
+        })]) : _vm._e(), _vm._v(" "), _vm.isImage || !!_vm.image ? _c('div', {
           staticClass: "file-preview-image"
-        }, [_vm.image ? _c('img', {
+        }, [!!_vm.image ? _c('img', {
           staticClass: "file-preview-thumbnail",
           attrs: {
             "src": _vm.image
           }
-        }) : !_vm.image ? _c('progress-bar', {
+        }) : _c('progress-bar', {
           directives: [{
             name: "ready",
             rawName: "v-ready",
@@ -15319,7 +15319,7 @@
             "value": _vm.loaded,
             "height": 10
           }
-        }) : _vm._e()], 1) : _c('div', {
+        })], 1) : _c('div', {
           directives: [{
             name: "ready",
             rawName: "v-ready",

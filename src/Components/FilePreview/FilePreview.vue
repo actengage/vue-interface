@@ -8,9 +8,9 @@
                 <i class="fa fa-times-circle"></i>
             </a>
 
-            <div v-if="isImage || image" class="file-preview-image">
-                <img v-if="image" :src="image" class="file-preview-thumbnail">
-                <progress-bar v-else-if="!image" v-ready="readFile" :value="loaded" :height="10" />
+            <div v-if="isImage || !!image" class="file-preview-image">
+                <img v-if="!!image" :src="image" class="file-preview-thumbnail">
+                <progress-bar v-else v-ready="readFile" :value="loaded" :height="10" />
             </div>
 
             <div v-else v-ready="() => this.$emit('loaded')" class="file-preview-icon">
@@ -19,7 +19,6 @@
 
             <div class="file-preview-filename" v-html="name"></div>
             <div class="file-preview-filesize">({{size}})</div>
-
         <div>
 
     </div>
