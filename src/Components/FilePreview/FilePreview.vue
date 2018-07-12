@@ -8,8 +8,9 @@
                 <i class="fa fa-times-circle"></i>
             </a>
 
+            src: {{ poster || image }}
+
             <div v-if="!!poster || isImage" class="file-preview-image">
-                {{ poster || image }}
                 <img v-if="!!poster || !!image" :src="{{ poster || image }}" class="file-preview-thumbnail">
                 <progress-bar v-else v-ready="readFile" :value="loaded" :height="10" />
             </div>
@@ -185,7 +186,7 @@ export default {
     data() {
         return {
             loaded: 0,
-            image: this.poster || this.file.url
+            image: this.file.url
         };
     }
 
