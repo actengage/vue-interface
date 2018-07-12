@@ -91,11 +91,16 @@ function merge() {
 export default class Request {
 
     constructor(url, options = {}) {
+        const CancelToken = axios.CancelToken;
+
         this.$options = merge({
             url: url,
             data: {},
             headers: {},
             params: {},
+            cancelToken: new CancelToken(cancel => {
+                this.$cancel = cancel;
+            })
         }, cloneDeep(RequestOptions), options);
 
         each(PROXY_OPTION_METHODS, (callback, key) => {
@@ -114,10 +119,11 @@ export default class Request {
     }
 
     reset() {
+        this.$cancel = null;
         this.$error = null;
         this.$status = null;
         this.$statusText = null;
-        this.$response = null;
+        this.$response = null;z
         this.$requestSentAt = null;
         this.$responseReceivedAt = null;
     }
@@ -136,6 +142,10 @@ export default class Request {
 
     failed() {
         return this.hasResponse() && !!this.$error;
+    }
+
+    cancel() {
+        this.$cancel && this.$cancel();
     }
 
     get(params = {}, headers = {}) {

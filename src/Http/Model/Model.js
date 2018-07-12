@@ -21,6 +21,7 @@ export default class Model {
      * @return void
      */
     constructor(data = {}, params = {}) {
+        this.$request = null;
         this.$key = this.key();
         this.$properties = this.properties();
         this.$files = this.files();
@@ -333,6 +334,16 @@ export default class Model {
     }
 
     /**
+     * Cancel the current request
+     *
+     * @param data object
+     * @return bool
+     */
+    cancel() {
+        this.$request && this.$request.cancel();
+    }
+
+    /**
      * Save the model to the database
      *
      * @param data object
@@ -352,10 +363,11 @@ export default class Model {
         this.fill(data);
 
         return new Promise((resolve, reject) => {
-            const request = this.constructor.request(this.uri(), extend({}, config));
             const data = !this.hasFiles() ? this.toJson() : this.toFormData();
 
-            request.post(data).then(response => {
+            this.$request = this.constructor.request(this.uri(), extend({}, config));
+            this.$request.post(data).then(response => {
+                this.$request = null;
                 resolve(this.fill(response));
             }, reject);
         });
@@ -371,10 +383,11 @@ export default class Model {
         this.fill(data);
 
         return new Promise((resolve, reject) => {
-            const request = this.constructor.request(this.uri(), config);
             const data = !this.hasFiles() ? this.toJson() : this.toFormData();
 
-            request[(this.hasFiles() ? 'post' : 'put')](data).then(response => {
+            this.$request = this.constructor.request(this.uri(), config);
+            this.$request[(this.hasFiles() ? 'post' : 'put')](data).then(response => {
+                this.$request = null;
                 resolve(this.fill(response));
             }, reject);
         });
@@ -392,11 +405,10 @@ export default class Model {
                 reject(new Error('The model must have a primary key before it can be delete.'));
             }
 
-            const request = this.constructor.request(this.uri(), config);
-
-            request.delete().then(response => {
+            this.$request = this.constructor.request(this.uri(), config);
+            this.$request.delete().then(response => {
+                this.$request = null;
                 resolve(response);
-                //resolve(this.fill(response));
             }, reject);
         });
     }
@@ -466,9 +478,9 @@ export default class Model {
         }
 
         return new Promise((resolve, reject) => {
-            const request = this.request(uri, config);
-
-            request.get(params).then(response => {
+            model.$request = this.request(uri, config);
+            model.$request.get(params).then(response => {
+                model.$request = null;
                 resolve(map(response.data, data => {
                     return new this(data);
                 }));
@@ -487,7 +499,9 @@ export default class Model {
     static find(id, config = {}) {
         return new Promise((resolve, reject) => {
             const model = new this;
-            this.request(model.uri(id), config).get().then(response => {
+            model.$request = this.request(model.uri(id), config);
+            model.$request.get().then(response => {
+                model.$request = null;
                 resolve(model.initialize(response));
             }, error => {
                 reject(error);

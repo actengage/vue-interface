@@ -11647,11 +11647,15 @@ function () {
 
     _classCallCheck(this, Request);
 
+    var CancelToken = axios.CancelToken;
     this.$options = merge$1({
       url: url,
       data: {},
       headers: {},
-      params: {}
+      params: {},
+      cancelToken: new CancelToken(function (cancel) {
+        _this2.$cancel = cancel;
+      })
     }, cloneDeep(RequestOptions), options);
 
     forEach(PROXY_OPTION_METHODS, function (callback, key) {
@@ -11672,6 +11676,7 @@ function () {
   _createClass(Request, [{
     key: "reset",
     value: function reset() {
+      this.$cancel = null;
       this.$error = null;
       this.$status = null;
       this.$statusText = null;
@@ -11698,6 +11703,11 @@ function () {
     key: "failed",
     value: function failed() {
       return this.hasResponse() && !!this.$error;
+    }
+  }, {
+    key: "cancel",
+    value: function cancel() {
+      this.$cancel && this.$cancel();
     }
   }, {
     key: "get",
@@ -11823,6 +11833,7 @@ function () {
 
     _classCallCheck(this, Model);
 
+    this.$request = null;
     this.$key = this.key();
     this.$properties = this.properties();
     this.$files = this.files();
@@ -12178,6 +12189,18 @@ function () {
       }
     }
     /**
+     * Cancel the current request
+     *
+     * @param data object
+     * @return bool
+     */
+
+  }, {
+    key: "cancel",
+    value: function cancel() {
+      this.$request && this.$request.cancel();
+    }
+    /**
      * Save the model to the database
      *
      * @param data object
@@ -12207,10 +12230,11 @@ function () {
       var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       this.fill(data);
       return new Promise(function (resolve, reject) {
-        var request = _this5.constructor.request(_this5.uri(), assignIn({}, config));
-
         var data = !_this5.hasFiles() ? _this5.toJson() : _this5.toFormData();
-        request.post(data).then(function (response) {
+        _this5.$request = _this5.constructor.request(_this5.uri(), assignIn({}, config));
+
+        _this5.$request.post(data).then(function (response) {
+          _this5.$request = null;
           resolve(_this5.fill(response));
         }, reject);
       });
@@ -12231,10 +12255,11 @@ function () {
       var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       this.fill(data);
       return new Promise(function (resolve, reject) {
-        var request = _this6.constructor.request(_this6.uri(), config);
-
         var data = !_this6.hasFiles() ? _this6.toJson() : _this6.toFormData();
-        request[_this6.hasFiles() ? 'post' : 'put'](data).then(function (response) {
+        _this6.$request = _this6.constructor.request(_this6.uri(), config);
+
+        _this6.$request[_this6.hasFiles() ? 'post' : 'put'](data).then(function (response) {
+          _this6.$request = null;
           resolve(_this6.fill(response));
         }, reject);
       });
@@ -12257,10 +12282,11 @@ function () {
           reject(new Error('The model must have a primary key before it can be delete.'));
         }
 
-        var request = _this7.constructor.request(_this7.uri(), config);
+        _this7.$request = _this7.constructor.request(_this7.uri(), config);
 
-        request.delete().then(function (response) {
-          resolve(response); //resolve(this.fill(response));
+        _this7.$request.delete().then(function (response) {
+          _this7.$request = null;
+          resolve(response);
         }, reject);
       });
     }
@@ -12340,9 +12366,9 @@ function () {
       }
 
       return new Promise(function (resolve, reject) {
-        var request = _this9.request(uri, config);
-
-        request.get(params).then(function (response) {
+        model.$request = _this9.request(uri, config);
+        model.$request.get(params).then(function (response) {
+          model.$request = null;
           resolve(map(response.data, function (data) {
             return new _this9(data);
           }));
@@ -12366,8 +12392,9 @@ function () {
       var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       return new Promise(function (resolve, reject) {
         var model = new _this10();
-
-        _this10.request(model.uri(id), config).get().then(function (response) {
+        model.$request = _this10.request(model.uri(id), config);
+        model.$request.get().then(function (response) {
+          model.$request = null;
           resolve(model.initialize(response));
         }, function (error) {
           reject(error);
