@@ -11653,16 +11653,17 @@
 
         _classCallCheck(this, Request);
 
-        var CancelToken = axios.CancelToken;
         this.$options = merge$1({
           url: url,
           data: {},
           headers: {},
-          params: {},
-          cancelToken: new CancelToken(function (cancel) {
+          params: {}
+        }, cloneDeep(RequestOptions), options, {
+          cancelToken: new axios.CancelToken(function (cancel) {
+            console.log('cancelToken', cancel);
             _this2.$cancel = cancel;
           })
-        }, cloneDeep(RequestOptions), options);
+        });
 
         forEach(PROXY_OPTION_METHODS, function (callback, key) {
           _this2[method(key, 'option')] = bind(callback)('$options', _this2);

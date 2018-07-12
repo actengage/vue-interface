@@ -91,17 +91,18 @@ function merge() {
 export default class Request {
 
     constructor(url, options = {}) {
-        const CancelToken = axios.CancelToken;
-
         this.$options = merge({
             url: url,
             data: {},
             headers: {},
             params: {},
-            cancelToken: new CancelToken(cancel => {
+        }, cloneDeep(RequestOptions), options, {
+            cancelToken: new axios.CancelToken(cancel => {
+                console.log('cancelToken', cancel);
+
                 this.$cancel = cancel;
             })
-        }, cloneDeep(RequestOptions), options);
+        });
 
         each(PROXY_OPTION_METHODS, (callback, key) => {
             this[method(key, 'option')] = bind(callback)('$options', this);

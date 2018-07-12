@@ -18,7 +18,6 @@ export default {
     /*
     // `url` is the server URL that will be used for the request
 
-
     // `method` is the request method to be used when making the request
     method: 'get', // default
 
