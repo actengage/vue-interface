@@ -11453,7 +11453,7 @@
       transformResponse: []
       /*
       // `url` is the server URL that will be used for the request
-        // `method` is the request method to be used when making the request
+       // `method` is the request method to be used when making the request
       method: 'get', // default
        // `baseURL` will be prepended to `url` unless `url` is absolute.
       // It can be convenient to set `baseURL` for an instance of axios to pass relative URLs
@@ -11660,7 +11660,6 @@
           params: {}
         }, cloneDeep(RequestOptions), options, {
           cancelToken: new axios.CancelToken(function (cancel) {
-            console.log('cancelToken', cancel);
             _this2.$cancel = cancel;
           })
         });
@@ -11683,7 +11682,6 @@
       _createClass(Request, [{
         key: "reset",
         value: function reset() {
-          this.$cancel = null;
           this.$error = null;
           this.$status = null;
           this.$statusText = null;
@@ -11714,7 +11712,7 @@
       }, {
         key: "cancel",
         value: function cancel() {
-          this.$cancel();
+          !this.$response && this.$cancel();
         }
       }, {
         key: "get",

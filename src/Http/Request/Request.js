@@ -98,8 +98,6 @@ export default class Request {
             params: {},
         }, cloneDeep(RequestOptions), options, {
             cancelToken: new axios.CancelToken(cancel => {
-                console.log('cancelToken', cancel);
-
                 this.$cancel = cancel;
             })
         });
@@ -120,11 +118,10 @@ export default class Request {
     }
 
     reset() {
-        this.$cancel = null;
         this.$error = null;
         this.$status = null;
         this.$statusText = null;
-        this.$response = null;z
+        this.$response = null;
         this.$requestSentAt = null;
         this.$responseReceivedAt = null;
     }
@@ -146,7 +143,7 @@ export default class Request {
     }
 
     cancel() {
-        this.$cancel();
+        !this.$response && this.$cancel();
     }
 
     get(params = {}, headers = {}) {

@@ -17,11 +17,11 @@
         <script type="text/javascript">
             const Request = VueInterface.Request;
 
-            Request.option('baseURL', 'https://giveworks.test/api/public/v1/');
+            Request.option('baseURL', 'http://kimbrell.test/api/v1');
 
-            const request = Request.make('page/2696', {
+            const request = Request.make('images', {
                 headers: {
-                    Authorization: 'Bearer $2y$10$3Y5oclad0vZxwgkNLeNR8e5ctVP4UHDxY6iQ/1Gohu23sZWrbhx8y'
+                    Authorization: 'Bearer 22a560f2-034d-4a3d-bef9-5f5e169f0b57 '
                 }
             });
 
@@ -44,6 +44,10 @@
             }, error => {
                 console.log(error);
             });
+
+            setTimeout(() => {
+                request.cancel();
+            }, 1000);
 
             /*
             const request2 = VueInterface.Request.make(url, {
