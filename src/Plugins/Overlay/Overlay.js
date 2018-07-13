@@ -20,9 +20,8 @@ export default function(Vue, options) {
                 document.body.appendChild(document.createElement('div'))
             );
 
-            const content = instantiate(Vue, Component, options.content);
-
-            target.$overlay.$slots.default = [content.$mount()._vnode];
+            target.$overlay.$content = instantiate(Vue, Component, options.content);
+            target.$overlay.$slots.default = [target.$overlay.$content.$mount()._vnode];
             target.$overlay.$nextTick(() => {
                 target.$overlay.open();
             });

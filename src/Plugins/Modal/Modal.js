@@ -15,9 +15,8 @@ export default function(Vue, options) {
             document.body.appendChild(document.createElement('div'))
         );
 
-        const content = instantiate(Vue, Component, options.content);
-
-        instance.$slots.default = [content.$mount()._vnode];
+        instance.$content = instantiate(Vue, Component, options.content);
+        instance.$slots.default = [instance.$content.$mount()._vnode];
 
         return instance;
     };
