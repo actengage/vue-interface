@@ -18,7 +18,7 @@
             <thumbnail-list v-if="thumbnails && thumbnails.length" class="mt-4" wrap>
                 <thumbnail-list-item
                     v-for="(file, key) in thumbnails"
-                    :key="key + '-' + file.name"
+                    :key="file.lastModified + '-' + file.lastModifiedDate + '-' + file.size + '-' + file.type + '-' + file.name"
                     :width="width"
                     :min-width="minWidth"
                     :max-width="maxWidth"

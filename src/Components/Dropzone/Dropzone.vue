@@ -7,7 +7,7 @@
                     <card-body>
                         <h1 class="mt-4">Drag & Drop</h1>
                         <p>Drag and drop your files here to upload them!</p>
-                        <div class="mt-3 mb-4"><i class="fa fa-image"/></div>
+                        <div class="mt-3"><i class="fa fa-image"/></div>
                     </card-body>
                 </card>
             </div>
@@ -65,7 +65,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .dropzone {
     position: relative;
 

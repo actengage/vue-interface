@@ -15178,13 +15178,12 @@ var Dropzone = {
     }, [_c('card', [_c('card-body', [_c('h1', {
       staticClass: "mt-4"
     }, [_vm._v("Drag & Drop")]), _vm._v(" "), _c('p', [_vm._v("Drag and drop your files here to upload them!")]), _vm._v(" "), _c('div', {
-      staticClass: "mt-3 mb-4"
+      staticClass: "mt-3"
     }, [_c('i', {
       staticClass: "fa fa-image"
     })])])], 1)], 1)]), _vm._v(" "), _vm._t("default")], 2);
   },
   staticRenderFns: [],
-  _scopeId: 'data-v-744e8f62',
   name: 'dropzone',
   components: {
     Card: Card,
@@ -19405,7 +19404,7 @@ var UploadField = {
       }
     }, _vm._l(_vm.thumbnails, function (file, key) {
       return _c('thumbnail-list-item', {
-        key: key + '-' + file.name,
+        key: file.lastModified + '-' + file.lastModifiedDate + '-' + file.size + '-' + file.type + '-' + file.name,
         attrs: {
           "width": _vm.width,
           "min-width": _vm.minWidth,
