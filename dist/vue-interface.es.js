@@ -3034,17 +3034,17 @@ function append(script) {
 function script(url) {
   if (loaded[url] instanceof Promise) {
     return loaded[url];
+  } else if (loaded[url]) {
+    return new Promise(function (resolve, reject) {
+      resolve(loaded[url]);
+    });
   }
 
   return loaded[url] = new Promise(function (resolve, reject) {
     try {
-      if (!loaded[url]) {
-        append(element(url)).addEventListener('load', function (event) {
-          resolve(loaded[url] = event);
-        });
-      } else {
-        resolve(loaded[url]);
-      }
+      append(element(url)).addEventListener('load', function (event) {
+        resolve(loaded[url] = event);
+      });
     } catch (e) {
       reject(e);
     }
@@ -20878,13 +20878,6 @@ export default function elapsed(delay, callback, elapsedCallback) {
 
 var main = VueInstaller.use({
   install: function install(Vue) {
-    /*
-    if("production" === 'development') {
-        const domain = (location.host || 'localhost').split(':')[0];
-        const port = {"watch":"/Users/justinkimbrell/Github/vue-interface/src/","port":35730} && {"watch":"/Users/justinkimbrell/Github/vue-interface/src/","port":35730}.port;
-        VueInstaller.script(`http://${domain}:${port}/livereload.js?snipver=1`);
-    }
-    */
     VueInstaller.plugins(Vue, plugins$1);
     VueInstaller.filters(Vue, filters);
     VueInstaller.directives(Vue, directives$1);

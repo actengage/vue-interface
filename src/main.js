@@ -15,15 +15,6 @@ export * from './Filters';
 export default VueInstaller.use({
 
     install(Vue) {
-
-        /*
-        if(process.env.NODE_ENV === 'development') {
-            const domain = (location.host || 'localhost').split(':')[0];
-            const port = process.env.LIVERELOAD_OPTIONS && process.env.LIVERELOAD_OPTIONS.port;
-            VueInstaller.script(`http://${domain}:${port}/livereload.js?snipver=1`);
-        }
-        */
-
         VueInstaller.plugins(Vue, plugins);
         VueInstaller.filters(Vue, filters);
         VueInstaller.directives(Vue, directives);
