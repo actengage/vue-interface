@@ -3017,7 +3017,7 @@
       }
     };
 
-    var loaded = {};
+    var LOADED_SCRIPTS = {};
 
     function element(url) {
       var script = document.createElement('script');
@@ -3038,18 +3038,18 @@
     }
 
     function script(url) {
-      if (loaded[url] instanceof Promise) {
-        return loaded[url];
-      } else if (loaded[url] || document.querySelector("script[src=".concat(url, "]"))) {
+      if (LOADED_SCRIPTS[url] instanceof Promise) {
+        return LOADED_SCRIPTS[url];
+      } else if (LOADED_SCRIPTS[url] || document.querySelector("script[src=\"".concat(url, "\"]"))) {
         return new Promise(function (resolve, reject) {
-          resolve(loaded[url]);
+          resolve(LOADED_SCRIPTS[url]);
         });
       }
 
-      return loaded[url] = new Promise(function (resolve, reject) {
+      return LOADED_SCRIPTS[url] = new Promise(function (resolve, reject) {
         try {
           append(element(url)).addEventListener('load', function (event) {
-            resolve(loaded[url] = event);
+            resolve(LOADED_SCRIPTS[url] = event);
           });
         } catch (e) {
           reject(e);
