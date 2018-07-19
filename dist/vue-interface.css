@@ -1,3 +1,6 @@
+.modal .modal-backdrop + .modal-dialog {
+  z-index: 1050; }
+
 @keyframes btn-activity-in {
   0%, 100% {
     transform: scale(1); }

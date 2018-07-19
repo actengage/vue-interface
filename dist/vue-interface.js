@@ -3816,7 +3816,9 @@
               return _vm.cancel($event);
             }
           }
-        }, [_c('modal-dialog', {
+        }, [_vm.backdrop ? _c('modal-backdrop', {
+          ref: "backdrop"
+        }) : _vm._e(), _vm._v(" "), _c('modal-dialog', {
           class: {
             'modal-dialog-centered': _vm.center
           }
@@ -3956,25 +3958,27 @@
          * Mount the backdrop to the document body.
          *
          * @return {void}
-         */
-        mountBackdrop: function mountBackdrop() {
-          if (!this.backdropComponent) {
-            this.backdropComponent = new (Vue.extend(ModalBackdrop))().$mount(document.body.appendChild(document.createElement('div')));
-          }
+        mountBackdrop() {
+            if(!this.backdropComponent) {
+                this.backdropComponent = this.$refs.backdrop.$mount(
+                    document.body.appendChild(document.createElement('div'))
+                );
+            }
         },
+        */
 
         /**
          * Unmount the backdrop from the document body.
          *
          * @return {void}
-         */
-        unmountBackdrop: function unmountBackdrop() {
-          if (this.backdropComponent) {
-            this.backdropComponent.$destroy();
-            this.backdropComponent.$el.remove();
-            this.backdropComponent = null;
-          }
+        unmountBackdrop() {
+            if(this.backdropComponent) {
+                this.backdropComponent.$destroy();
+                this.backdropComponent.$el.remove();
+                this.backdropComponent = null;
+            }
         },
+        */
 
         /**
          * Cancel the modal
@@ -4007,11 +4011,9 @@
       watch: {
         isShowing: function isShowing(value) {
           if (value) {
-            document.querySelector('body').classList.add('modal-open');
-            this.mountBackdrop();
+            document.querySelector('body').classList.add('modal-open'); //this.mountBackdrop();
           } else {
-            document.querySelector('body').classList.remove('modal-open');
-            this.unmountBackdrop();
+            document.querySelector('body').classList.remove('modal-open'); //this.unmountBackdrop();
           }
 
           this.$emit('update:show', value);
