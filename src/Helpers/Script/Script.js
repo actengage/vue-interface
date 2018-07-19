@@ -1,4 +1,4 @@
-const loaded = {};
+const LOADED_SCRIPTS = {};
 
 function element(url) {
     const script = document.createElement('script');
@@ -20,19 +20,19 @@ function append(script) {
 }
 
 export default function script(url) {
-    if(loaded[url] instanceof Promise) {
-        return loaded[url];
+    if(LOADED_SCRIPTS[url] instanceof Promise) {
+        return LOADED_SCRIPTS[url];
     }
-    else if(loaded[url]) {
+    else if(LOADED_SCRIPTS[url] || document.querySelector(`script[src=${url}]`)) {
         return new Promise((resolve, reject) => {
-            resolve(loaded[url]);
+            resolve(LOADED_SCRIPTS[url]);
         });
     }
 
-    return loaded[url] = new Promise((resolve, reject) => {
+    return LOADED_SCRIPTS[url] = new Promise((resolve, reject) => {
         try {
             append(element(url)).addEventListener('load', event => {
-                resolve(loaded[url] = event);
+                resolve(LOADED_SCRIPTS[url] = event);
             });
         }
         catch(e) {

@@ -3034,7 +3034,7 @@ function append(script) {
 function script(url) {
   if (loaded[url] instanceof Promise) {
     return loaded[url];
-  } else if (loaded[url]) {
+  } else if (loaded[url] || document.querySelector("script[src=".concat(url, "]"))) {
     return new Promise(function (resolve, reject) {
       resolve(loaded[url]);
     });
