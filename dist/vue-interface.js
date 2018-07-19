@@ -15306,6 +15306,9 @@
           staticClass: "file-preview-thumbnail",
           attrs: {
             "src": _vm.poster || _vm.image
+          },
+          on: {
+            "load": _vm.onLoad
           }
         }) : _c('progress-bar', {
           directives: [{
@@ -15464,12 +15467,10 @@
                 _this2.loaded = parseInt(e.loaded / e.total * 100, 10);
               }
             }).then(function (event) {
+              _this2.$emit('read', event);
+
               setTimeout(function () {
                 _this2.image = event.target.result;
-
-                _this2.$emit('read', event);
-
-                _this2.$emit('loaded');
               }, 500 - moment().diff(start));
             }, function (error) {
               _this2.$emit('error', error);
@@ -15481,6 +15482,9 @@
           if (bytes == 0) return '0 Byte';
           var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
           return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+        },
+        onLoad: function onLoad(event) {
+          this.$emit('loaded');
         }
       },
       data: function data() {
@@ -18279,26 +18283,23 @@
 
     var RESIZE_MODES = {
       auto: function auto(el) {
-        if (el.clientHeight) {
-          this.height = el.style.height = unit(el.clientHeight);
-        }
+        var _this = this;
 
-        if (el.clientWidth) {
-          this.width = el.style.width = unit(el.clientWidth);
-        }
+        this.height = null;
+        this.width = null;
+        this.$nextTick(function () {
+          _this.width = getComputedStyle(el).width;
+          _this.height = getComputedStyle(el).height;
+        });
       },
       initial: function initial(el) {
         if (!this.height && this.$el.clientHeight) {
           this.height = unit(this.$el.clientHeight);
         }
 
-        el.style.height = this.height;
-
         if (!this.width && this.$el.clientWidth) {
           this.width = unit(this.$el.clientWidth);
         }
-
-        el.style.width = this.width;
       }
     };
     var SlideDeck = {
@@ -18315,8 +18316,8 @@
             'slide-deck-flex': _vm.center
           },
           style: {
-            height: _vm.height,
-            width: _vm.width
+            width: _vm.width,
+            height: _vm.height
           }
         }, [_c('div', {
           staticClass: "slide-deck-content"
@@ -18415,11 +18416,15 @@
       },
       methods: {
         resize: function resize(el) {
-          if (isFunction$1(this.resizeMode)) {
-            this.resizeMode.call(this, el || this.$el);
-          } else if (isFunction$1(RESIZE_MODES[this.resizeMode])) {
-            RESIZE_MODES[this.resizeMode].call(this, el || this.$el);
-          }
+          var _this2 = this;
+
+          this.$nextTick(function () {
+            if (isFunction$1(_this2.resizeMode)) {
+              _this2.resizeMode.call(_this2, el || _this2.$el);
+            } else if (isFunction$1(RESIZE_MODES[_this2.resizeMode])) {
+              RESIZE_MODES[_this2.resizeMode].call(_this2, el || _this2.$el);
+            }
+          });
         },
         slide: function slide(index) {
           return this.$refs.slides ? this.$refs.slides.slide(index || this.active) : null;
@@ -18437,11 +18442,11 @@
           this.$emit('before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
         onSlideEnter: function onSlideEnter(el, done) {
-          var _this = this;
+          var _this3 = this;
 
           this.resize(el);
           transition(el).then(function (delay) {
-            _this.$nextTick(done);
+            _this3.$nextTick(done);
           });
           this.$emit('enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
@@ -18452,11 +18457,11 @@
           this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         },
         onSlideLeave: function onSlideLeave(el, done) {
-          var _this2 = this;
+          var _this4 = this;
 
           this.resize(el);
           transition(el).then(function (delay) {
-            _this2.$nextTick(done);
+            _this4.$nextTick(done);
           });
           this.$emit('leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         }
@@ -18480,14 +18485,14 @@
         }
       },
       mounted: function mounted() {
-        var _this3 = this;
+        var _this5 = this;
 
         this.$nextTick(function () {
-          if (_this3.overflowElement) {
-            _this3.overflowElement.style.overflow = 'hidden';
+          if (_this5.overflowElement) {
+            _this5.overflowElement.style.overflow = 'hidden';
           }
 
-          _this3.resize(_this3.$el);
+          _this5.resize();
         });
       },
       data: function data() {
@@ -19709,7 +19714,6 @@
       },
       data: function data() {
         return {
-          loaded: false,
           isDraggingInside: false
         };
       }
@@ -19866,7 +19870,12 @@
          *
          * @type {Function|Boolean}
          */
-        backButton: [Function, Boolean],
+        backButton: {
+          type: [Function, Boolean],
+          default: function _default() {
+            return null;
+          }
+        },
 
         /**
          * Validate if the data input for the step is valid. Required Boolean
@@ -19884,13 +19893,13 @@
       methods: {
         checkValidity: function checkValidity(prop) {
           // Validate the property for the step first.
-          if (isFunction$1(this[prop]) && this[prop](this) === false || this[prop] === false) {
+          if (isFunction$1(this[prop]) ? this[prop](this) === false : this[prop] === false) {
             return false;
           } // Then validate the property of the wizard, this is the global validator
 
 
           if (this.$refs.wizard) {
-            if (isFunction$1(this.$refs.wizard[prop]) && this.$refs.wizard[prop](this) === false || this.$refs.wizard[prop] === false) {
+            if (isFunction$1(this.$refs.wizard[prop]) ? this.$refs.wizard[prop](this) === false : this.$refs.wizard[prop] === false) {
               return false;
             }
           }
@@ -19907,17 +19916,8 @@
         }
       },
       updated: function updated() {
-        if (this.checkValidity('validate')) {
-          this.enable();
-        } else {
-          this.disable();
-        }
-
-        if (this.checkValidity('backButton')) {
-          this.$refs.wizard.enableBackButton();
-        } else {
-          this.$refs.wizard.disableBackButton();
-        }
+        this.checkValidity('validate') ? this.enable() : this.disable();
+        this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
       },
       render: function render(h) {
         if (this.$slots.default.length !== 1) {
@@ -20159,7 +20159,8 @@
         }, [_vm._t("content"), _vm._v(" "), !_vm.isFinished ? _c('slide-deck', {
           ref: "slideDeck",
           attrs: {
-            "active": _vm.currentStep
+            "active": _vm.currentStep,
+            "resize-model": _vm.resizeMode
           },
           on: {
             "before-enter": _vm.onBeforeEnter,
@@ -20194,13 +20195,6 @@
       },
       props: {
         /**
-         * Pass a header as a string.
-         *
-         * @type {String}
-         */
-        header: String,
-
-        /**
          * The index or key of the active step.
          *
          * @type {String|Number}
@@ -20215,7 +20209,12 @@
          *
          * @type {Boolean}
          */
-        backButton: [Function, Boolean],
+        backButton: {
+          type: [Function, Boolean],
+          default: function _default() {
+            return this.currentStep > 0;
+          }
+        },
 
         /**
          * Show should the "Finish" button.
@@ -20228,6 +20227,13 @@
         },
 
         /**
+         * Pass a header as a string.
+         *
+         * @type {String}
+         */
+        header: String,
+
+        /**
          * Show should the "Next" button.
          *
          * @type {Boolean}
@@ -20235,6 +20241,20 @@
         nextButton: {
           type: Boolean,
           default: true
+        },
+
+        /**
+         * The mode determines how the popover content will flex based on the
+         * varying heights of the slides.
+         *
+         * @type Boolean
+         */
+        resizeMode: {
+          type: [Function, Boolean, String],
+          default: 'auto',
+          validate: function validate(value) {
+            return ['auto', 'initial', 'inherit'].indexOf(value) !== 1;
+          }
         },
 
         /**
@@ -20352,9 +20372,9 @@
           highestStep: this.active,
           hasFailed: false,
           isFinished: false,
-          isBackButtonDisabled: !this.backButton,
-          isFinishButtonDisabled: !this.finishButton,
-          isNextButtonDisabled: !this.nextButton
+          isBackButtonDisabled: this.backButton === false,
+          isFinishButtonDisabled: this.finishButton === false,
+          isNextButtonDisabled: this.nextButton === false
         };
       }
     };

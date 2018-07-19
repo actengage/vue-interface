@@ -1,5 +1,5 @@
 <template>
-    <div class="slide-deck" :class="{'slide-deck-flex': center}" :style="{height: height, width: width}">
+    <div class="slide-deck" :class="{'slide-deck-flex': center}" :style="{width: width, height: height}">
         <div class="slide-deck-content">
             <keep-alive>
                 <transition
@@ -32,26 +32,22 @@ import SlideDeckControls from './SlideDeckControls';
 
 const RESIZE_MODES = {
     auto(el) {
-        if(el.clientHeight) {
-            this.height = el.style.height = unit(el.clientHeight);
-        }
+        this.height = null;
+        this.width = null;
 
-        if(el.clientWidth) {
-            this.width = el.style.width = unit(el.clientWidth);
-        }
+        this.$nextTick(() => {
+            this.width = getComputedStyle(el).width;
+            this.height = getComputedStyle(el).height;
+        });
     },
     initial(el) {
         if(!this.height && this.$el.clientHeight) {
             this.height = unit(this.$el.clientHeight);
         }
 
-        el.style.height = this.height;
-
         if(!this.width && this.$el.clientWidth) {
             this.width = unit(this.$el.clientWidth);
         }
-
-        el.style.width = this.width;
     }
 };
 
@@ -133,12 +129,14 @@ export default {
     methods: {
 
         resize(el) {
-            if(isFunction(this.resizeMode)) {
-                this.resizeMode.call(this, el || this.$el);
-            }
-            else if(isFunction(RESIZE_MODES[this.resizeMode])) {
-                RESIZE_MODES[this.resizeMode].call(this, el || this.$el);
-            }
+            this.$nextTick(() => {
+                if(isFunction(this.resizeMode)) {
+                    this.resizeMode.call(this, el || this.$el);
+                }
+                else if(isFunction(RESIZE_MODES[this.resizeMode])) {
+                    RESIZE_MODES[this.resizeMode].call(this, el || this.$el);
+                }
+            });
         },
 
         slide(index) {
@@ -222,7 +220,7 @@ export default {
                 this.overflowElement.style.overflow = 'hidden';
             }
 
-            this.resize(this.$el);
+            this.resize();
         });
     },
 

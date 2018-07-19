@@ -57,9 +57,13 @@ export default {
     width: 100%;
     display: flex;
 
-    &:not(.thumbnail-list-grid) > * {
+    &:not(.thumbnail-list-grid) > *:not {
         padding-right: 10px;
         padding-bottom: 10px;
+    }
+
+    &:not(.thumbnail-list-grid) > *:first-child:last-child {
+        padding: 0;
     }
 
     &.thumbnail-list-fill,

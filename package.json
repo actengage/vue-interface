@@ -1,6 +1,6 @@
 {
     "name": "vue-interface",
-    "version": "0.1.73",
+    "version": "0.1.74",
     "main": "./dist/vue-interface.js",
     "module": "./dist/vue-interface.es.js",
     "devDependencies": {
@@ -52,7 +52,7 @@
         "font-awesome": "^4.7.0",
         "intersection-observer": "^0.5.0",
         "lodash-es": "^4.17.8",
-        "moment": "^2.22.0",
+        "moment": "^2.22.2",
         "popper.js": "^1.14.3",
         "vue": "^2.5.16",
         "vue-router": "^3.0.1"

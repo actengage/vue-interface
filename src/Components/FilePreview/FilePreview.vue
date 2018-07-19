@@ -9,7 +9,7 @@
             </a>
 
             <div v-if="!!poster || isImage" class="file-preview-image">
-                <img v-if="!!poster || !!image" :src="poster || image" class="file-preview-thumbnail">
+                <img v-if="!!poster || !!image" :src="poster || image" class="file-preview-thumbnail" @load="onLoad"/>
                 <progress-bar v-else v-ready="readFile" :value="loaded" :height="10" />
             </div>
 
@@ -161,10 +161,10 @@ export default {
                         this.loaded = parseInt((e.loaded / e.total) * 100, 10);
                     }
                 }).then(event => {
+                    this.$emit('read', event);
+
                     setTimeout(() => {
                         this.image = event.target.result;
-                        this.$emit('read', event);
-                        this.$emit('loaded');
                     }, 500 - moment().diff(start));
                 }, error => {
                     this.$emit('error', error);
@@ -177,7 +177,11 @@ export default {
     		if (bytes == 0) return '0 Byte';
     		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-    	}
+    	},
+
+        onLoad(event) {
+            this.$emit('loaded');
+        }
 
     },
 

@@ -31,7 +31,12 @@ export default {
          *
          * @type {Function|Boolean}
          */
-        backButton: [Function, Boolean],
+        backButton: {
+            type: [Function, Boolean],
+            default() {
+                return null
+            }
+        },
 
         /**
          * Validate if the data input for the step is valid. Required Boolean
@@ -52,16 +57,14 @@ export default {
 
         checkValidity(prop) {
             // Validate the property for the step first.
-            if( isFunction(this[prop]) &&
-                this[prop](this) === false ||
-                this[prop] === false) {
+            if(isFunction(this[prop]) ? this[prop](this) === false : this[prop] === false) {
                 return false
             }
 
             // Then validate the property of the wizard, this is the global validator
             if(this.$refs.wizard) {
-                if( isFunction(this.$refs.wizard[prop]) &&
-                    this.$refs.wizard[prop](this) === false ||
+                if( isFunction(this.$refs.wizard[prop]) ?
+                    this.$refs.wizard[prop](this) === false :
                     this.$refs.wizard[prop] === false) {
                     return false;
                 }
@@ -83,19 +86,13 @@ export default {
     },
 
     updated() {
-        if(this.checkValidity('validate')) {
-            this.enable()
-        }
-        else {
+        this.checkValidity('validate') ?
+            this.enable() :
             this.disable();
-        }
 
-        if(this.checkValidity('backButton')) {
-            this.$refs.wizard.enableBackButton();
-        }
-        else {
+        this.checkValidity('backButton') ?
+            this.$refs.wizard.enableBackButton() :
             this.$refs.wizard.disableBackButton();
-        }
     },
 
     render(h) {

@@ -18,6 +18,7 @@
                 v-if="!isFinished"
                 ref="slideDeck"
                 :active="currentStep"
+                :resize-model="resizeMode"
                 @before-enter="onBeforeEnter"
                 @enter="onEnter"
                 @leave="onLeave">
@@ -80,13 +81,6 @@ export default {
     props: {
 
         /**
-         * Pass a header as a string.
-         *
-         * @type {String}
-         */
-        header: String,
-
-        /**
          * The index or key of the active step.
          *
          * @type {String|Number}
@@ -101,7 +95,12 @@ export default {
          *
          * @type {Boolean}
          */
-        backButton: [Function, Boolean],
+        backButton: {
+            type: [Function, Boolean],
+            default() {
+                return this.currentStep > 0;
+            }
+        },
 
         /**
          * Show should the "Finish" button.
@@ -114,6 +113,13 @@ export default {
         },
 
         /**
+         * Pass a header as a string.
+         *
+         * @type {String}
+         */
+        header: String,
+
+        /**
          * Show should the "Next" button.
          *
          * @type {Boolean}
@@ -121,6 +127,20 @@ export default {
         nextButton: {
             type: Boolean,
             default: true
+        },
+
+        /**
+         * The mode determines how the popover content will flex based on the
+         * varying heights of the slides.
+         *
+         * @type Boolean
+         */
+        resizeMode: {
+            type: [Function, Boolean, String],
+            default: 'auto',
+            validate(value) {
+                return ['auto', 'initial', 'inherit'].indexOf(value) !== 1;
+            }
         },
 
         /**
@@ -260,9 +280,9 @@ export default {
             highestStep: this.active,
             hasFailed: false,
             isFinished: false,
-            isBackButtonDisabled: !this.backButton,
-            isFinishButtonDisabled: !this.finishButton,
-            isNextButtonDisabled: !this.nextButton
+            isBackButtonDisabled: this.backButton === false,
+            isFinishButtonDisabled: this.finishButton === false,
+            isNextButtonDisabled: this.nextButton === false
         };
     }
 

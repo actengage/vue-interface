@@ -336,7 +336,6 @@ export default {
         onLoadedPreview(event) {
             this.$emit('loaded', event);
         }
-
     },
 
     computed: {
@@ -353,7 +352,6 @@ export default {
 
     data() {
         return {
-            loaded: false,
             isDraggingInside: false
         };
     }
