@@ -239,10 +239,11 @@ export default {
 
     mounted() {
         this.initializeTriggers();
-
+        /*
         if(this.show || !this.target) {
             this.mountBackdrop();
         }
+        */
     },
 
     beforeRouteLeave(to, from, next) {

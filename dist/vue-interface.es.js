@@ -4022,10 +4022,11 @@ var Modal = {
   },
   mounted: function mounted() {
     this.initializeTriggers();
-
-    if (this.show || !this.target) {
-      this.mountBackdrop();
+    /*
+    if(this.show || !this.target) {
+        this.mountBackdrop();
     }
+    */
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
     modal.close();
