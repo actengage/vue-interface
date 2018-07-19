@@ -134,10 +134,10 @@ export default {
 
         resize(el) {
             if(isFunction(this.resizeMode)) {
-                this.resizeMode.call(this, el);
+                this.resizeMode.call(this, el || this.$el);
             }
             else if(isFunction(RESIZE_MODES[this.resizeMode])) {
-                RESIZE_MODES[this.resizeMode].call(this, el);
+                RESIZE_MODES[this.resizeMode].call(this, el || this.$el);
             }
         },
 

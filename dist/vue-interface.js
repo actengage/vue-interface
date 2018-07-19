@@ -18416,9 +18416,9 @@
       methods: {
         resize: function resize(el) {
           if (isFunction$1(this.resizeMode)) {
-            this.resizeMode.call(this, el);
+            this.resizeMode.call(this, el || this.$el);
           } else if (isFunction$1(RESIZE_MODES[this.resizeMode])) {
-            RESIZE_MODES[this.resizeMode].call(this, el);
+            RESIZE_MODES[this.resizeMode].call(this, el || this.$el);
           }
         },
         slide: function slide(index) {
