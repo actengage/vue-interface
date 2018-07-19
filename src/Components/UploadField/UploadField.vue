@@ -25,7 +25,7 @@
                     :height="height"
                     :min-height="minHeight"
                     :max-height="maxHeight">
-                    <file-preview :file="file" @close="removeFile(file)"/>
+                    <file-preview :file="file" @loaded="onLoadedPreview" @close="removeFile(file)"/>
                     <slot :file="file"/>
                 <thumbnail-list-item>
             </thumbnail-list>
@@ -260,10 +260,20 @@ export default {
             event.target.value = null;
         },
 
+        /**
+         * The `drop` event callback.
+         *
+         * @type {Object}
+         */
         onDrop(event) {
             this.onChange(event.dataTransfer.files);
         },
 
+        /**
+         * The `change` event callback.
+         *
+         * @type {Object}
+         */
         onChange(files) {
             if(files instanceof FileList) {
                 this.addFiles(files);
@@ -276,7 +286,7 @@ export default {
         /**
          * The `dragover` event callback.
          *
-         * @property String
+         * @type {Object}
          */
         onDragOver(event) {
             this.isDraggingInside = true;
@@ -287,7 +297,7 @@ export default {
         /**
          * The `dragover` event callback.
          *
-         * @property String
+         * @type {Object}
          */
         onDragEnter(event) {
             this.isDraggingInside = true;
@@ -298,7 +308,7 @@ export default {
         /**
          * The `dragleave` event callback.
          *
-         * @property String
+         * @type {Object}
          */
         onDragLeave(event) {
             this.isDraggingInside = false;
@@ -316,7 +326,17 @@ export default {
             this.addFiles(event.dataTransfer.files);
             this.$emit('update:dragging', false);
             this.$emit('drop', event);
+        },
+
+        /**
+         * The `loaded` event callback.
+         *
+         * @type {Object}
+         */
+        onLoadedPreview(event) {
+            this.$emit('loaded', event);
         }
+
     },
 
     computed: {
@@ -333,6 +353,7 @@ export default {
 
     data() {
         return {
+            loaded: false,
             isDraggingInside: false
         };
     }

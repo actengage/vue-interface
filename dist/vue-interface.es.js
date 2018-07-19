@@ -18405,8 +18405,6 @@ var SlideDeck = {
     },
     currentSlide: function currentSlide(value, oldValue) {
       this.direction = this.$refs.slides.getSlideIndex(oldValue) > this.$refs.slides.getSlideIndex(value) ? 'backward' : 'forward';
-    },
-    height: function height(value, oldValue) {//this.$emit('resize', this, value);
     }
   },
   methods: {
@@ -19368,6 +19366,7 @@ function remove(array, predicate) {
   return result;
 }
 
+var _methods;
 var UploadField = {
   render: function render() {
     var _vm = this;
@@ -19419,6 +19418,7 @@ var UploadField = {
           "file": file
         },
         on: {
+          "loaded": _vm.onLoadedPreview,
           "close": function close($event) {
             _vm.removeFile(file);
           }
@@ -19578,7 +19578,7 @@ var UploadField = {
      */
     model: Model
   },
-  methods: _defineProperty({
+  methods: (_methods = {
     removeFile: function removeFile(data) {
       if (this.multiple) {
         var files = isArray(this.value) ? this.value.slice(0) : [];
@@ -19630,9 +19630,21 @@ var UploadField = {
 
       event.target.value = null;
     },
+
+    /**
+     * The `drop` event callback.
+     *
+     * @type {Object}
+     */
     onDrop: function onDrop(event) {
       this.onChange(event.dataTransfer.files);
     },
+
+    /**
+     * The `change` event callback.
+     *
+     * @type {Object}
+     */
     onChange: function onChange(files) {
       if (files instanceof FileList) {
         this.addFiles(files);
@@ -19644,7 +19656,7 @@ var UploadField = {
     /**
      * The `dragover` event callback.
      *
-     * @property String
+     * @type {Object}
      */
     onDragOver: function onDragOver(event) {
       this.isDraggingInside = true;
@@ -19655,7 +19667,7 @@ var UploadField = {
     /**
      * The `dragover` event callback.
      *
-     * @property String
+     * @type {Object}
      */
     onDragEnter: function onDragEnter(event) {
       this.isDraggingInside = true;
@@ -19666,19 +19678,21 @@ var UploadField = {
     /**
      * The `dragleave` event callback.
      *
-     * @property String
+     * @type {Object}
      */
     onDragLeave: function onDragLeave(event) {
       this.isDraggingInside = false;
       this.$emit('update:dragging', false);
       this.$emit('drag:leave', event);
     }
-  }, "onDrop", function onDrop(event) {
+  }, _defineProperty(_methods, "onDrop", function onDrop(event) {
     this.isDraggingInside = false;
     this.addFiles(event.dataTransfer.files);
     this.$emit('update:dragging', false);
     this.$emit('drop', event);
-  }),
+  }), _defineProperty(_methods, "onLoadedPreview", function onLoadedPreview(event) {
+    this.$emit('loaded', event);
+  }), _methods),
   computed: {
     thumbnails: function thumbnails() {
       return this.multiple ? this.value : this.value ? [this.value] : [];
@@ -19689,6 +19703,7 @@ var UploadField = {
   },
   data: function data() {
     return {
+      loaded: false,
       isDraggingInside: false
     };
   }

@@ -126,10 +126,6 @@ export default {
 
         currentSlide(value, oldValue) {
             this.direction = this.$refs.slides.getSlideIndex(oldValue) > this.$refs.slides.getSlideIndex(value) ? 'backward' : 'forward';
-        },
-
-        height(value, oldValue) {
-            //this.$emit('resize', this, value);
         }
 
     },
