@@ -184,7 +184,7 @@ export default {
          * @return void
          */
         onClick(event) {
-            this.$emit('click', event, this);
+            this.$emit('click', event);
         }
 
     },
@@ -193,8 +193,8 @@ export default {
 
         isActive(value, prevValue) {
             this.$emit('update:active', this.isActive);
-            this.$emit('toggle', this.isActive, this);
-            this.$emit(value ? 'activate' : 'deactivate', this);
+            this.$emit('toggle', this.isActive);
+            this.$emit(value ? 'activate' : 'deactivate');
         }
 
     },

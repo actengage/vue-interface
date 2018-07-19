@@ -95,7 +95,7 @@ export default {
          * @return void
          */
         onClickClose(event) {
-            this.$emit('click:close', event, this);
+            this.$emit('click:close', event);
             this.close();
         },
 

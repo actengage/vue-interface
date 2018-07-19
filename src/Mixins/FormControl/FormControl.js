@@ -204,7 +204,7 @@ export default {
 
                 each(events, name => {
                     el.addEventListener(name, event => {
-                        vnode.context.$emit(name, event, this);
+                        vnode.context.$emit(name, event);
                     });
                 });
             }

@@ -188,7 +188,7 @@ export default {
          * @return {void}
          */
         cancel(event) {
-            this.$emit('cancel', event, this);
+            this.$emit('cancel', event);
             this.close(event);
         },
 
@@ -198,7 +198,7 @@ export default {
          * @return {void}
          */
         confirm(event) {
-            this.$emit('confirm', event, this);
+            this.$emit('confirm', event);
         },
 
         /**

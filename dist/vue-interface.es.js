@@ -3335,7 +3335,7 @@ var BtnActivity = {
      * @return void
      */
     onClick: function onClick(event) {
-      this.$emit('click', event, this);
+      this.$emit('click', event);
     }
   },
   computed: {
@@ -3733,7 +3733,7 @@ var Triggerable = {
       transition(this.$el).then(function (delay) {
         _this5.isDisplaying = false;
 
-        _this5.$emit('close', event, _this5);
+        _this5.$emit('close', event);
       });
       this.isShowing = false;
       return this;
@@ -3980,7 +3980,7 @@ var Modal = {
      * @return {void}
      */
     cancel: function cancel(event) {
-      this.$emit('cancel', event, this);
+      this.$emit('cancel', event);
       this.close(event);
     },
 
@@ -3990,7 +3990,7 @@ var Modal = {
      * @return {void}
      */
     confirm: function confirm(event) {
-      this.$emit('confirm', event, this);
+      this.$emit('confirm', event);
     },
 
     /**
@@ -4334,7 +4334,7 @@ var Overlay = {
      * @return void
      */
     onClickClose: function onClickClose(event) {
-      this.$emit('click:close', event, this);
+      this.$emit('click:close', event);
       this.close();
     },
     onEsc: function onEsc(event) {
@@ -12933,7 +12933,7 @@ var Btn = {
   },
   methods: {
     onClick: function onClick(event) {
-      this.$emit('click', event, this);
+      this.$emit('click', event);
     }
   },
   computed: {
@@ -13308,13 +13308,11 @@ var FormControl = {
   directives: {
     bindEvents: {
       bind: function bind(el, binding, vnode) {
-        var _this = this;
-
         var events = binding.value || vnode.context.bindEvents;
 
         forEach(events, function (name) {
           el.addEventListener(name, function (event) {
-            vnode.context.$emit(name, event, _this);
+            vnode.context.$emit(name, event);
           });
         });
       }
@@ -13339,12 +13337,12 @@ var FormControl = {
   },
   computed: {
     callbacks: function callbacks() {
-      var _this2 = this;
+      var _this = this;
 
       return this.bindEvents.map(function (event) {
         return {
           name: event,
-          callback: _this2[camelCase(['on', event].join(' '))]
+          callback: _this[camelCase(['on', event].join(' '))]
         };
       }).filter(function (event) {
         return !isUndefined(event.callback);
@@ -13873,7 +13871,7 @@ var DropdownMenuItem = {
      * @property Object
      */
     onClick: function onClick(event) {
-      this.$emit('click', event, this);
+      this.$emit('click', event);
     }
   }
 };
@@ -14010,7 +14008,7 @@ var DropdownMenu = {
      * @return void
      */
     onClick: function onClick(event) {
-      this.$emit('click', event, this);
+      this.$emit('click', event);
     },
 
     /**
@@ -14754,7 +14752,7 @@ var CardLink = {
   },
   methods: {
     onClick: function onClick(event) {
-      this.$emit('click', event, this);
+      this.$emit('click', event);
     }
   }
 };
@@ -15195,20 +15193,20 @@ var Dropzone = {
   methods: {
     onDrop: function onDrop(event) {
       this.isDragging = false;
-      this.$emit('drop', event, this);
+      this.$emit('drop', event);
     },
     onDragover: function onDragover(event) {
       this.isDragging = true;
-      this.$emit('dragover', event, this);
+      this.$emit('dragover', event);
     },
     onDragenter: function onDragenter(event) {
       this.isDragging = true;
-      this.$emit('dragenter', event, this);
+      this.$emit('dragenter', event);
       this.onDragover(event);
     },
     onDragleave: function onDragleave(event) {
       this.isDragging = false;
-      this.$emit('dragleave', event, this);
+      this.$emit('dragleave', event);
     }
   },
   data: function data() {
@@ -16904,14 +16902,14 @@ var ListGroupItem = {
      * @return void
      */
     onClick: function onClick(event) {
-      this.$emit('click', event, this);
+      this.$emit('click', event);
     }
   },
   watch: {
     isActive: function isActive(value, prevValue) {
       this.$emit('update:active', this.isActive);
-      this.$emit('toggle', this.isActive, this);
-      this.$emit(value ? 'activate' : 'deactivate', this);
+      this.$emit('toggle', this.isActive);
+      this.$emit(value ? 'activate' : 'deactivate');
     }
   },
   data: function data() {
@@ -17252,7 +17250,7 @@ var NavbarToggler = {
   },
   methods: {
     onClick: function onClick(event) {
-      this.$emit('click', event, this);
+      this.$emit('click', event);
     }
   }
 };
@@ -19847,12 +19845,7 @@ var WizardStep = {
      *
      * @type {Function|Boolean}
      */
-    backButton: {
-      type: [Function, Boolean],
-      default: function _default() {
-        return true;
-      }
-    },
+    backButton: [Function, Boolean],
 
     /**
      * Validate if the data input for the step is valid. Required Boolean
@@ -20066,15 +20059,8 @@ var WizardProgress = {
       required: true
     }
   },
-  watch: {
-    steps: function steps(value) {
-      console.log('steps changed');
-    }
-  },
   methods: {
     onClick: function onClick(event, step) {
-      console.log(step.componentInstance);
-
       if (!event.target.classList.contains('disabled')) {
         this.$emit('click', event, step);
       }
@@ -20208,12 +20194,7 @@ var Wizard = {
      *
      * @type {Boolean}
      */
-    backButton: {
-      type: [Function, Boolean],
-      default: function _default() {
-        return this.currentStep > 0;
-      }
-    },
+    backButton: [Function, Boolean],
 
     /**
      * Show should the "Finish" button.
@@ -20332,10 +20313,6 @@ var Wizard = {
     onProgressClick: function onProgressClick(event, slide) {
       this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
     }
-  },
-  created: function created() {//each(filter(this.$slots.default, vnode => !vnode.text), vnode => {
-    //console.log(vnode);
-    //});
   },
   mounted: function mounted() {
     var slide = this.$refs.slideDeck.slide(this.currentStep);

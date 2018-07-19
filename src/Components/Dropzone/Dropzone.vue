@@ -34,23 +34,23 @@ export default {
 
         onDrop(event) {
             this.isDragging = false;
-            this.$emit('drop', event, this);
+            this.$emit('drop', event);
         },
 
         onDragover(event) {
             this.isDragging = true;
-            this.$emit('dragover', event, this);
+            this.$emit('dragover', event);
         },
 
         onDragenter(event) {
             this.isDragging = true;
-            this.$emit('dragenter', event, this);
+            this.$emit('dragenter', event);
             this.onDragover(event);
         },
 
         onDragleave(event) {
             this.isDragging = false;
-            this.$emit('dragleave', event, this);
+            this.$emit('dragleave', event);
         }
 
     },

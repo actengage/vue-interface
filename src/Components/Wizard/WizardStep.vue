@@ -31,12 +31,7 @@ export default {
          *
          * @type {Function|Boolean}
          */
-        backButton: {
-            type: [Function, Boolean],
-            default() {
-                return true;
-            }
-        },
+        backButton: [Function, Boolean],
 
         /**
          * Validate if the data input for the step is valid. Required Boolean

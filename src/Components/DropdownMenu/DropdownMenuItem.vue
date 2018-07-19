@@ -81,7 +81,7 @@ export default {
          * @property Object
          */
         onClick(event) {
-            this.$emit('click', event, this);
+            this.$emit('click', event);
         }
 
     }

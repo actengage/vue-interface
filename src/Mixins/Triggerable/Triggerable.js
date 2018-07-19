@@ -136,7 +136,7 @@ export default {
         close(event) {
             transition(this.$el).then(delay => {
                 this.isDisplaying = false;
-                this.$emit('close', event, this);
+                this.$emit('close', event);
             });
 
             this.isShowing = false;

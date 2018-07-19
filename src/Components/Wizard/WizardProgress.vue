@@ -56,17 +56,9 @@ export default {
 
     },
 
-    watch: {
-        steps(value) {
-            console.log('steps changed');
-        }
-    },
-
     methods: {
 
         onClick(event, step) {
-            console.log(step.componentInstance);
-
             if(!event.target.classList.contains('disabled')) {
                 this.$emit('click', event, step);
             }

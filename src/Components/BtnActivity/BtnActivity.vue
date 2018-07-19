@@ -193,7 +193,7 @@ export default {
          * @return void
          */
         onClick(event) {
-            this.$emit('click', event, this);
+            this.$emit('click', event);
         }
 
     },

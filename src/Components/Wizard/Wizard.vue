@@ -101,12 +101,7 @@ export default {
          *
          * @type {Boolean}
          */
-        backButton: {
-            type: [Function, Boolean],
-            default() {
-                return this.currentStep > 0;
-            }
-        },
+        backButton: [Function, Boolean],
 
         /**
          * Show should the "Finish" button.
@@ -245,12 +240,6 @@ export default {
             this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
         }
 
-    },
-
-    created() {
-        //each(filter(this.$slots.default, vnode => !vnode.text), vnode => {
-            //console.log(vnode);
-        //});
     },
 
     mounted() {
