@@ -6,7 +6,7 @@
 
         <overlay-content :class="{'overlay-content-fixed': fixedContent, 'overlay-content-center': center}" :style="{minHeight: minHeight}">
             <slot name="body">
-                <overlay-body class="my-4child.toggle();">
+                <overlay-body class="my-4">
                     <slot/>
                 </overlay-body>
             </slot>

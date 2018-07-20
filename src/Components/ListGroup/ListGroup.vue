@@ -90,7 +90,7 @@ export default {
             this.$emit('item:click', event, child);
         },
 
-        onActivate(item) {
+        onActivate(event, item) {
             if(!this.multiple && this.activeItem !== item) {
                 if(this.activeItem) {
                     this.activeItem.deactivate();
@@ -102,7 +102,7 @@ export default {
             this.$emit('item:activate', event, item);
         },
 
-        onDeactivate(item) {
+        onDeactivate(event, item) {
             if(!this.multiple && this.activeItem === item) {
                 this.activeItem = null;
             }

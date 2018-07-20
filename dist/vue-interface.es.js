@@ -4267,7 +4267,7 @@ var Overlay = {
         minHeight: _vm.minHeight
       }
     }, [_vm._t("body", [_c('overlay-body', {
-      staticClass: "my-4child.toggle();"
+      staticClass: "my-4"
     }, [_vm._t("default")], 2)])], 2)], 1);
   },
   staticRenderFns: [],
@@ -16863,7 +16863,7 @@ var ListGroupItem = {
      * @return void
      */
     toggle: function toggle() {
-      this.isActive = !this.isActive;
+      this.isActive = this.isActive ? false : true;
     },
 
     /**
@@ -16913,9 +16913,8 @@ var ListGroupItem = {
   },
   watch: {
     isActive: function isActive(value, prevValue) {
-      this.$emit('update:active', this.isActive);
-      this.$emit('toggle', this.isActive);
-      this.$emit(value ? 'activate' : 'deactivate');
+      this.$emit('toggle', value);
+      this.$emit(!!value ? 'activate' : 'deactivate');
     }
   },
   data: function data() {
@@ -17026,7 +17025,7 @@ var ListGroup = {
 
       this.$emit('item:click', event, child);
     },
-    onActivate: function onActivate(item) {
+    onActivate: function onActivate(event, item) {
       if (!this.multiple && this.activeItem !== item) {
         if (this.activeItem) {
           this.activeItem.deactivate();
@@ -17037,7 +17036,7 @@ var ListGroup = {
 
       this.$emit('item:activate', event, item);
     },
-    onDeactivate: function onDeactivate(item) {
+    onDeactivate: function onDeactivate(event, item) {
       if (!this.multiple && this.activeItem === item) {
         this.activeItem = null;
       }

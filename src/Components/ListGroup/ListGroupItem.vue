@@ -139,7 +139,7 @@ export default {
          * @return void
          */
         toggle() {
-            this.isActive = !this.isActive;
+            this.isActive = this.isActive ? false : true;
         },
 
         /**
@@ -192,9 +192,8 @@ export default {
     watch: {
 
         isActive(value, prevValue) {
-            this.$emit('update:active', this.isActive);
-            this.$emit('toggle', this.isActive);
-            this.$emit(value ? 'activate' : 'deactivate');
+            this.$emit('toggle', value);
+            this.$emit(!!value ? 'activate' : 'deactivate');
         }
 
     },
