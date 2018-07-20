@@ -20307,7 +20307,7 @@
           }
 
           this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(this.$refs.slideDeck.slide(this.currentStep).componentInstance, args = [key].concat(args));
-          this.$el.$emit.apply(this, args);
+          this.$emit.apply(this, args);
         },
         enableButtons: function enableButtons() {
           this.isBackButtonDisabled = false;

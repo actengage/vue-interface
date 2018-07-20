@@ -188,7 +188,7 @@ export default {
                 this.$refs.slideDeck.slide(this.currentStep).componentInstance, args = [key].concat(args)
             );
 
-            this.$el.$emit.apply(this, args);
+            this.$emit.apply(this, args);
         },
 
         enableButtons() {
