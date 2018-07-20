@@ -91,8 +91,10 @@ export default {
     },
 
     mounted() {
-        this.checkValidity('validate') ? this.enable() : this.disable();
-        this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
+        this.$nextTick(() => {
+            this.checkValidity('validate') ? this.enable() : this.disable();
+            this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
+        });
     },
 
     render(h) {

@@ -19914,8 +19914,12 @@ var WizardStep = {
     this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
   },
   mounted: function mounted() {
-    this.checkValidity('validate') ? this.enable() : this.disable();
-    this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
+    var _this = this;
+
+    this.$nextTick(function () {
+      _this.checkValidity('validate') ? _this.enable() : _this.disable();
+      _this.checkValidity('backButton') ? _this.$refs.wizard.enableBackButton() : _this.$refs.wizard.disableBackButton();
+    });
   },
   render: function render(h) {
     if (this.$slots.default.length !== 1) {
