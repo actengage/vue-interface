@@ -20166,7 +20166,7 @@
 
         return _c('div', {
           staticClass: "wizard"
-        }, [_vm.header && _vm.isFinished ? _c('wizard-header', {
+        }, [_vm.header && !_vm.isFinished ? _c('wizard-header', {
           ref: "header",
           domProps: {
             "innerHTML": _vm._s(_vm.header)

@@ -1,7 +1,7 @@
 <template>
     <div class="wizard">
 
-        <wizard-header v-if="header && isFinished" ref="header" v-html="header"/>
+        <wizard-header v-if="header && !isFinished" ref="header" v-html="header"/>
 
         <wizard-progress
             v-if="$refs.slideDeck && !isFinished && !hasFailed"
