@@ -20295,12 +20295,9 @@ var Wizard = {
     disableNextButton: function disableNextButton() {
       this.isNextButtonDisabled = true;
     },
-    emitEventOnCurrentSlide: function emitEventOnCurrentSlide(key) {
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
-      this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(this.$refs.slideDeck.slide(this.currentStep).componentInstance, [key].concat(args));
+    emitEventOnCurrentSlide: function emitEventOnCurrentSlide(key, event) {
+      console.log('args', [key].concat([event]));
+      this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(this.$refs.slideDeck.slide(this.currentStep).componentInstance, [key].concat([event]));
     },
     enableButtons: function enableButtons() {
       this.isBackButtonDisabled = false;
