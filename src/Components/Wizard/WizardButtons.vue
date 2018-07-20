@@ -9,18 +9,21 @@
         </btn-group>
         <btn-group class="wizard-buttons-right">
             <slot name="right">
-                <btn v-if="active === steps.length - 1" :size="sizeableClass" :disabled="finishButton === false" type="button" variant="success" @click="onClickFinish">
+                <btn-activity v-if="active === steps.length - 1" :activity="activity" :size="sizeableClass" :disabled="finishButton === false" type="button" variant="success" @click="onClickFinish">
                     Finish
-                </btn>
-                <btn v-if="active < steps.length - 1" :size="sizeableClass" :disabled="nextButton === false" type="button" variant="primary" @click="onClickNext">
+                </btn-activity>
+                <btn-activity v-if="active < steps.length - 1" :activity="activity" :size="sizeableClass" :disabled="nextButton === false" type="button" variant="primary" @click="onClickNext">
                     Next <i class="fa fa-long-arrow-right"/>
-                </btn>
+                </btn-activity>
             </slot>
         </btn-group>
     </div>
 </template>
 
 <script>
+import Btn from '../Btn';
+import BtnActivity from '../BtnActivity';
+import BtnGroup from '../BtnGroup';
 import Sizeable from '../../Mixins/Sizeable';
 
 export default {
@@ -28,6 +31,9 @@ export default {
     name: 'wizard-buttons',
 
     mixins: [
+        Btn,
+        BtnActivity,
+        BtnGroup,
         Sizeable
     ],
 
@@ -42,6 +48,13 @@ export default {
             type: [String, Number],
             default: 0
         },
+
+        /**
+         * Show the activity indicator in the next or finish button.
+         *
+         * @type {Boolean}
+         */
+        activity: Boolean,
 
         /**
          * Show should the "Back" button.

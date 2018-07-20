@@ -42,6 +42,7 @@
                 size="lg"
                 :steps="steps"
                 :active="currentStep"
+                :activity="activity"
                 :back-button="!isBackButtonDisabled"
                 :next-button="!isNextButtonDisabled"
                 :finish-button="!isFinishButtonDisabled"
@@ -89,6 +90,13 @@ export default {
             type: [String, Number],
             default: 0
         },
+
+        /**
+         * Show the activity indicator in the next or finish button.
+         *
+         * @type {Boolean}
+         */
+        activity: Boolean,
 
         /**
          * Show should the "Back" button.

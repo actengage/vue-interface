@@ -19747,8 +19747,9 @@ var WizardButtons = {
       staticClass: "fa fa-long-arrow-left"
     }), _vm._v(" Back ")])])], 2), _vm._v(" "), _c('btn-group', {
       staticClass: "wizard-buttons-right"
-    }, [_vm._t("right", [_vm.active === _vm.steps.length - 1 ? _c('btn', {
+    }, [_vm._t("right", [_vm.active === _vm.steps.length - 1 ? _c('btn-activity', {
       attrs: {
+        "activity": _vm.activity,
         "size": _vm.sizeableClass,
         "disabled": _vm.finishButton === false,
         "type": "button",
@@ -19757,8 +19758,9 @@ var WizardButtons = {
       on: {
         "click": _vm.onClickFinish
       }
-    }, [_vm._v(" Finish ")]) : _vm._e(), _vm._v(" "), _vm.active < _vm.steps.length - 1 ? _c('btn', {
+    }, [_vm._v(" Finish ")]) : _vm._e(), _vm._v(" "), _vm.active < _vm.steps.length - 1 ? _c('btn-activity', {
       attrs: {
+        "activity": _vm.activity,
         "size": _vm.sizeableClass,
         "disabled": _vm.nextButton === false,
         "type": "button",
@@ -19773,7 +19775,7 @@ var WizardButtons = {
   },
   staticRenderFns: [],
   name: 'wizard-buttons',
-  mixins: [Sizeable],
+  mixins: [Btn, BtnActivity, BtnGroup, Sizeable],
   props: {
     /**
      * The index or key of the active step.
@@ -19784,6 +19786,13 @@ var WizardButtons = {
       type: [String, Number],
       default: 0
     },
+
+    /**
+     * Show the activity indicator in the next or finish button.
+     *
+     * @type {Boolean}
+     */
+    activity: Boolean,
 
     /**
      * Show should the "Back" button.
@@ -20178,6 +20187,7 @@ var Wizard = {
         "size": "lg",
         "steps": _vm.steps,
         "active": _vm.currentStep,
+        "activity": _vm.activity,
         "back-button": !_vm.isBackButtonDisabled,
         "next-button": !_vm.isNextButtonDisabled,
         "finish-button": !_vm.isFinishButtonDisabled
@@ -20209,6 +20219,13 @@ var Wizard = {
       type: [String, Number],
       default: 0
     },
+
+    /**
+     * Show the activity indicator in the next or finish button.
+     *
+     * @type {Boolean}
+     */
+    activity: Boolean,
 
     /**
      * Show should the "Back" button.
