@@ -19747,7 +19747,7 @@ var WizardButtons = {
     }, [_c('btn-group', {
       ref: "left",
       staticClass: "wizard-buttons-left"
-    }, [_vm._t("left", [_c('btn', {
+    }, [_vm._t("buttons-left"), _vm._v(" "), _c('btn', {
       ref: "back",
       attrs: {
         "type": "button",
@@ -19760,10 +19760,10 @@ var WizardButtons = {
       }
     }, [_c('i', {
       staticClass: "fa fa-long-arrow-left"
-    }), _vm._v(" Back ")])])], 2), _vm._v(" "), _c('btn-group', {
+    }), _vm._v(" Back ")])], 2), _vm._v(" "), _c('btn-group', {
       ref: "right",
       staticClass: "wizard-buttons-right"
-    }, [_vm._t("right", [_vm.active === _vm.steps.length - 1 ? _c('btn-activity', {
+    }, [_vm._t("buttons-right"), _vm._v(" "), _vm.active === _vm.steps.length - 1 ? _c('btn-activity', {
       ref: "finish",
       attrs: {
         "activity": _vm.activity,
@@ -19789,7 +19789,7 @@ var WizardButtons = {
       }
     }, [_vm._v(" Next "), _c('i', {
       staticClass: "fa fa-long-arrow-right"
-    })]) : _vm._e()])], 2)], 1);
+    })]) : _vm._e()], 2)], 1);
   },
   staticRenderFns: [],
   name: 'wizard-buttons',
