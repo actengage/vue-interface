@@ -86,13 +86,12 @@ export default {
     },
 
     updated() {
-        this.checkValidity('validate') ?
-            this.enable() :
-            this.disable();
+        this.checkValidity('validate') ? this.enable() : this.disable();
+        this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
+    },
 
-        this.checkValidity('backButton') ?
-            this.$refs.wizard.enableBackButton() :
-            this.$refs.wizard.disableBackButton();
+    mounted() {
+        this.updated();
     },
 
     render(h) {

@@ -32,7 +32,7 @@
                         <wizard ref="wizard" header="Example 1">
                             <wizard-step label="Name">
                                 <div>
-                                    <upload-field v-model="example1.image" label="Test" @loaded="onLoaded"/>
+                                    <upload-field v-model="example1.image" label="Test" @change="resize" @loaded="resize"/>
                                 </div>
                             </wizard-step>
                             <wizard-step label="Name">
@@ -124,7 +124,7 @@
                     onFinish() {
                         console.log('finish 123', arguments);
                     },
-                    onLoaded(event) {
+                    resize() {
                         this.$refs.wizard.$refs.slideDeck.resize();
                     }
                 },

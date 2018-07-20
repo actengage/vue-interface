@@ -19913,6 +19913,9 @@ var WizardStep = {
     this.checkValidity('validate') ? this.enable() : this.disable();
     this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
   },
+  mounted: function mounted() {
+    this.updated();
+  },
   render: function render(h) {
     if (this.$slots.default.length !== 1) {
       throw new Error('The <wizard-slot> must contain a single parent DOM node.');
