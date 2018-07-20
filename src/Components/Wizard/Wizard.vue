@@ -183,9 +183,10 @@ export default {
             this.isNextButtonDisabled = true;
         },
 
-        emitEventOnCurrentSlide(key, ...args) {
+        emitEventOnCurrentSlide(key, event) {
+            console.log('args', [key].concat([event]);
             this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(
-                this.$refs.slideDeck.slide(this.currentStep).componentInstance, [key].concat(args)
+                this.$refs.slideDeck.slide(this.currentStep).componentInstance, [key].concat([event])
             );
         },
 
