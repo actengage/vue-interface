@@ -73,28 +73,35 @@ export default {
             return true;
         },
 
+        performValidityChecks() {
+            if(this.$refs.wizard) {
+                this.checkValidity('validate') ? this.enable() : this.disable();
+                this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
+            }
+        },
+
         disable() {
-            this.$refs.wizard.disableNextButton();
-            this.$refs.wizard.disableFinishButton();
+            if(this.$refs.wizard) {
+                this.$refs.wizard.disableNextButton();
+                this.$refs.wizard.disableFinishButton();
+            }
         },
 
         enable() {
-            this.$refs.wizard.enableNextButton();
-            this.$refs.wizard.enableFinishButton();
+            if(this.$refs.wizard) {
+                this.$refs.wizard.enableNextButton();
+                this.$refs.wizard.enableFinishButton();
+            }
         }
 
     },
 
     updated() {
-        this.checkValidity('validate') ? this.enable() : this.disable();
-        this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
+        this.performValidityChecks();
     },
 
     mounted() {
-        this.$nextTick(() => {
-            this.checkValidity('validate') ? this.enable() : this.disable();
-            this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
-        });
+        this.$nextTick(this.performValidityChecks);
     },
 
     render(h) {
