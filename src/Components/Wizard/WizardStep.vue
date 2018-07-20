@@ -91,7 +91,8 @@ export default {
     },
 
     mounted() {
-        this.updated();
+        this.checkValidity('validate') ? this.enable() : this.disable();
+        this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
     },
 
     render(h) {

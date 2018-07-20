@@ -19920,7 +19920,8 @@
         this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
       },
       mounted: function mounted() {
-        this.updated();
+        this.checkValidity('validate') ? this.enable() : this.disable();
+        this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
       },
       render: function render(h) {
         if (this.$slots.default.length !== 1) {
