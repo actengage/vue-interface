@@ -20295,9 +20295,13 @@ var Wizard = {
     disableNextButton: function disableNextButton() {
       this.isNextButtonDisabled = true;
     },
-    emitEventOnCurrentSlide: function emitEventOnCurrentSlide(key, event) {
-      console.log('args', [key].concat([event]));
-      this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(this.$refs.slideDeck.slide(this.currentStep).componentInstance, [key].concat([event]));
+    emitBubbleEvent: function emitBubbleEvent(key) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+
+      this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(this.$refs.slideDeck.slide(this.currentStep).componentInstance, args = [key].concat(args));
+      this.$el.$emit.apply(this, args);
     },
     enableButtons: function enableButtons() {
       this.isBackButtonDisabled = false;
@@ -20326,21 +20330,21 @@ var Wizard = {
       this.$emit('before-enter', slide, last);
     },
     onClickBack: function onClickBack(event) {
-      this.emitEventOnCurrentSlide('back', event);
+      this.emitBubbleEvent('back', event);
 
       if (event.defaultPrevented !== true) {
         this.back();
       }
     },
     onClickFinish: function onClickFinish(event) {
-      this.emitEventOnCurrentSlide('finish', event);
+      this.emitBubbleEvent('finish', event);
 
       if (event.defaultPrevented !== true) {
         this.finish(true);
       }
     },
     onClickNext: function onClickNext(event) {
-      this.emitEventOnCurrentSlide('next', event);
+      this.emitBubbleEvent('next', event);
 
       if (event.defaultPrevented !== true) {
         this.next();

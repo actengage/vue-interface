@@ -183,11 +183,12 @@ export default {
             this.isNextButtonDisabled = true;
         },
 
-        emitEventOnCurrentSlide(key, event) {
-            console.log('args', [key].concat([event]));
+        emitBubbleEvent(key, ...args) {
             this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(
-                this.$refs.slideDeck.slide(this.currentStep).componentInstance, [key].concat([event])
+                this.$refs.slideDeck.slide(this.currentStep).componentInstance, args = [key].concat(args)
             );
+
+            this.$el.$emit.apply(this, args);
         },
 
         enableButtons() {
@@ -224,7 +225,7 @@ export default {
         },
 
         onClickBack(event) {
-            this.emitEventOnCurrentSlide('back', event);
+            this.emitBubbleEvent('back', event);
 
             if(event.defaultPrevented !== true) {
                 this.back();
@@ -232,7 +233,7 @@ export default {
         },
 
         onClickFinish(event) {
-            this.emitEventOnCurrentSlide('finish', event);
+            this.emitBubbleEvent('finish', event);
 
             if(event.defaultPrevented !== true) {
                 this.finish(true);
@@ -240,7 +241,7 @@ export default {
         },
 
         onClickNext(event) {
-            this.emitEventOnCurrentSlide('next', event);
+            this.emitBubbleEvent('next', event);
 
             if(event.defaultPrevented !== true) {
                 this.next();
