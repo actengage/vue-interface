@@ -73,12 +73,12 @@ export default {
 
         bindEventsToChildren() {
             each(this.$children, child => {
-                child.$off('click', this.onClickItem);
-                child.$on('click', this.onClickItem);
-                child.$off('activate', this.onActivate);
-                child.$on('activate', this.onActivate);
-                child.$off('deactivate', this.onDeactivate);
-                child.$on('deactivate', this.onDeactivate);
+                child.$off('click', event => this.onClickItem(event, child));
+                child.$on('click', event => this.onClickItem(event, child));
+                child.$off('activate', event => this.onActivate(event, child));
+                child.$on('activate', event => this.onActivate(event, child));
+                child.$off('deactivate', event => this.onDeactivate(event, child));
+                child.$on('deactivate', event => this.onDeactivate(event, child));
             });
         },
 

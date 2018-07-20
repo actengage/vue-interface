@@ -970,6 +970,8 @@
   .overlay.show {
     z-index: 10000;
     opacity: 1; }
+  .overlay .overlay-content {
+    flex: 1; }
   .overlay .overlay-header {
     margin-top: 1.5rem; }
   .overlay .overlay-close {
@@ -983,13 +985,18 @@
 .overlay-content {
   margin: 0 auto;
   overflow-y: auto;
-  position: relative; }
-  .overlay-content.overlay-content-center {
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-    .overlay-content.overlay-content-center .overlay-body {
-      flex: 1; }
+  position: relative;
+  /*
+    &.overlay-content-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .overlay-body {
+            flex: 1;
+        }
+    }
+    */ }
   .overlay-content.overlay-content-fixed {
     top: 0;
     left: 0;

@@ -4267,7 +4267,7 @@ var Overlay = {
         minHeight: _vm.minHeight
       }
     }, [_vm._t("body", [_c('overlay-body', {
-      staticClass: "my-4"
+      staticClass: "my-4child.toggle();"
     }, [_vm._t("default")], 2)])], 2)], 1);
   },
   staticRenderFns: [],
@@ -16999,12 +16999,24 @@ var ListGroup = {
       var _this = this;
 
       forEach(this.$children, function (child) {
-        child.$off('click', _this.onClickItem);
-        child.$on('click', _this.onClickItem);
-        child.$off('activate', _this.onActivate);
-        child.$on('activate', _this.onActivate);
-        child.$off('deactivate', _this.onDeactivate);
-        child.$on('deactivate', _this.onDeactivate);
+        child.$off('click', function (event) {
+          return _this.onClickItem(event, child);
+        });
+        child.$on('click', function (event) {
+          return _this.onClickItem(event, child);
+        });
+        child.$off('activate', function (event) {
+          return _this.onActivate(event, child);
+        });
+        child.$on('activate', function (event) {
+          return _this.onActivate(event, child);
+        });
+        child.$off('deactivate', function (event) {
+          return _this.onDeactivate(event, child);
+        });
+        child.$on('deactivate', function (event) {
+          return _this.onDeactivate(event, child);
+        });
       });
     },
     onClickItem: function onClickItem(event, child) {

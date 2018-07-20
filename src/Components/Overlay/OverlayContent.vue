@@ -27,6 +27,7 @@ export default {
     overflow-y: auto;
     position: relative;
 
+    /*
     &.overlay-content-center {
         display: flex;
         justify-content: center;
@@ -36,6 +37,7 @@ export default {
             flex: 1;
         }
     }
+    */
 
     &.overlay-content-fixed {
         top: 0;
