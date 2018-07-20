@@ -1,18 +1,18 @@
 <template>
     <div class="wizard-buttons">
-        <btn-group class="wizard-buttons-left">
+        <btn-group ref="left" class="wizard-buttons-left">
             <slot name="left">
-                <btn type="button" variant="secondary" :disabled="backButton === false || (active === 0 && backButton !== true)" :size="sizeableClass" @click="onClickBack">
+                <btn type="button" variant="secondary" ref="back" :disabled="backButton === false || (active === 0 && backButton !== true)" :size="sizeableClass" @click="onClickBack">
                     <i class="fa fa-long-arrow-left"/> Back
                 </btn>
             </slot>
         </btn-group>
-        <btn-group class="wizard-buttons-right">
+        <btn-group ref="right" class="wizard-buttons-right">
             <slot name="right">
-                <btn-activity v-if="active === steps.length - 1" :activity="activity" :size="sizeableClass" :disabled="finishButton === false" type="button" variant="success" @click="onClickFinish">
+                <btn-activity v-if="active === steps.length - 1" ref="finish" :activity="activity" :size="sizeableClass" :disabled="finishButton === false" type="button" variant="success" @click="onClickFinish">
                     Finish
                 </btn-activity>
-                <btn-activity v-if="active < steps.length - 1" :activity="activity" :size="sizeableClass" :disabled="nextButton === false" type="button" variant="primary" @click="onClickNext">
+                <btn-activity v-if="active < steps.length - 1" ref="next" :activity="activity" :size="sizeableClass" :disabled="nextButton === false" type="button" variant="primary" @click="onClickNext">
                     Next <i class="fa fa-long-arrow-right"/>
                 </btn-activity>
             </slot>

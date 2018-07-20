@@ -1,10 +1,11 @@
 <template>
     <div class="wizard">
 
-        <wizard-header v-if="header" v-html="header"/>
+        <wizard-header v-if="header" ref="header" v-html="header"/>
 
         <wizard-progress
             v-if="$refs.slideDeck && !isFinished && !hasFailed"
+            ref="progress"
             :active="currentStep"
             :highest-step="highestStep"
             :steps="steps"
@@ -26,11 +27,11 @@
             </slide-deck>
 
             <slot v-else-if="isFinished && !hasFailed" name="success">
-                <wizard-success/>
+                <wizard-success ref="success"/>
             </slot>
 
             <slot v-else-if="isFinished && hasFailed" name="error">
-                <wizard-error/>
+                <wizard-error ref="error"/>
             </slot>
         </div>
 
@@ -39,6 +40,7 @@
 
             <wizard-buttons
                 v-if="!isFinished && !hasFailed"
+                ref="buttons"
                 size="lg"
                 :steps="steps"
                 :active="currentStep"

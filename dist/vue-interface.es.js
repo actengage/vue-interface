@@ -19732,8 +19732,10 @@ var WizardButtons = {
     return _c('div', {
       staticClass: "wizard-buttons"
     }, [_c('btn-group', {
+      ref: "left",
       staticClass: "wizard-buttons-left"
     }, [_vm._t("left", [_c('btn', {
+      ref: "back",
       attrs: {
         "type": "button",
         "variant": "secondary",
@@ -19746,8 +19748,10 @@ var WizardButtons = {
     }, [_c('i', {
       staticClass: "fa fa-long-arrow-left"
     }), _vm._v(" Back ")])])], 2), _vm._v(" "), _c('btn-group', {
+      ref: "right",
       staticClass: "wizard-buttons-right"
     }, [_vm._t("right", [_vm.active === _vm.steps.length - 1 ? _c('btn-activity', {
+      ref: "finish",
       attrs: {
         "activity": _vm.activity,
         "size": _vm.sizeableClass,
@@ -19759,6 +19763,7 @@ var WizardButtons = {
         "click": _vm.onClickFinish
       }
     }, [_vm._v(" Finish ")]) : _vm._e(), _vm._v(" "), _vm.active < _vm.steps.length - 1 ? _c('btn-activity', {
+      ref: "next",
       attrs: {
         "activity": _vm.activity,
         "size": _vm.sizeableClass,
@@ -20156,10 +20161,12 @@ var Wizard = {
     return _c('div', {
       staticClass: "wizard"
     }, [_vm.header ? _c('wizard-header', {
+      ref: "header",
       domProps: {
         "innerHTML": _vm._s(_vm.header)
       }
     }) : _vm._e(), _vm._v(" "), _vm.$refs.slideDeck && !_vm.isFinished && !_vm.hasFailed ? _c('wizard-progress', {
+      ref: "progress",
       attrs: {
         "active": _vm.currentStep,
         "highest-step": _vm.highestStep,
@@ -20182,7 +20189,12 @@ var Wizard = {
         "enter": _vm.onEnter,
         "leave": _vm.onLeave
       }
-    }, [_vm._t("default")], 2) : _vm.isFinished && !_vm.hasFailed ? _vm._t("success", [_c('wizard-success')]) : _vm.isFinished && _vm.hasFailed ? _vm._t("error", [_c('wizard-error')]) : _vm._e()], 2), _vm._v(" "), _vm._t("buttons", [_c('hr'), _vm._v(" "), !_vm.isFinished && !_vm.hasFailed ? _c('wizard-buttons', {
+    }, [_vm._t("default")], 2) : _vm.isFinished && !_vm.hasFailed ? _vm._t("success", [_c('wizard-success', {
+      ref: "success"
+    })]) : _vm.isFinished && _vm.hasFailed ? _vm._t("error", [_c('wizard-error', {
+      ref: "error"
+    })]) : _vm._e()], 2), _vm._v(" "), _vm._t("buttons", [_c('hr'), _vm._v(" "), !_vm.isFinished && !_vm.hasFailed ? _c('wizard-buttons', {
+      ref: "buttons",
       attrs: {
         "size": "lg",
         "steps": _vm.steps,
