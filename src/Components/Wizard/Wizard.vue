@@ -172,7 +172,6 @@ export default {
 
         back() {
             this.$emit('update:step', this.currentStep = Math.max(this.currentStep - 1, 0));
-            this.$emit('back');
         },
 
         disableButtons() {
@@ -226,7 +225,6 @@ export default {
 
         next() {
             this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
-            this.$emit('next');
         },
 
         onBeforeEnter(slide, last) {

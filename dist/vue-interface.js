@@ -4272,7 +4272,9 @@
           style: {
             minHeight: _vm.minHeight
           }
-        }, [_vm._t("body", [_c('overlay-body', [_vm._t("default")], 2)])], 2)], 1);
+        }, [_vm._t("body", [_c('overlay-body', {
+          staticClass: "my-4"
+        }, [_vm._t("default")], 2)])], 2)], 1);
       },
       staticRenderFns: [],
       name: 'overlay',
@@ -20314,7 +20316,6 @@
       methods: {
         back: function back() {
           this.$emit('update:step', this.currentStep = Math.max(this.currentStep - 1, 0));
-          this.$emit('back');
         },
         disableButtons: function disableButtons() {
           this.isBackButtonDisabled = true;
@@ -20358,7 +20359,6 @@
         },
         next: function next() {
           this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
-          this.$emit('next');
         },
         onBeforeEnter: function onBeforeEnter(slide, last) {
           this.$emit('before-enter', slide, last);

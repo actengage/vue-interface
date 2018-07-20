@@ -6,7 +6,7 @@
 
         <overlay-content :class="{'overlay-content-fixed': fixedContent, 'overlay-content-center': center}" :style="{minHeight: minHeight}">
             <slot name="body">
-                <overlay-body>
+                <overlay-body class="my-4">
                     <slot/>
                 </overlay-body>
             </slot>
@@ -135,10 +135,6 @@ export default {
     &.show {
         z-index: 10000;
         opacity: 1;
-    }
-
-    .overlay-content {
-        flex: 1;
     }
 
     .overlay-header {

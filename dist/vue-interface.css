@@ -970,8 +970,6 @@
   .overlay.show {
     z-index: 10000;
     opacity: 1; }
-  .overlay .overlay-content {
-    flex: 1; }
   .overlay .overlay-header {
     margin-top: 1.5rem; }
   .overlay .overlay-close {
