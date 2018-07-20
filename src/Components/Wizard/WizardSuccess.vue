@@ -54,7 +54,7 @@ $wizard-success-color: #55b776;
 
     .wizard-success-icon {
         color: $wizard-success-color;
-        font-size: $font-size-lg;
+        font-size: $font-size-lg * 2.5;
         border: 5px solid $wizard-success-color;
         border-radius: 100%;
         text-align: center;

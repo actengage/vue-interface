@@ -20160,7 +20160,7 @@ var Wizard = {
 
     return _c('div', {
       staticClass: "wizard"
-    }, [_vm.header ? _c('wizard-header', {
+    }, [_vm.header && _vm.isFinished ? _c('wizard-header', {
       ref: "header",
       domProps: {
         "innerHTML": _vm._s(_vm.header)
@@ -20346,10 +20346,9 @@ var Wizard = {
     enableNextButton: function enableNextButton() {
       this.isNextButtonDisabled = false;
     },
-    finish: function finish(success) {
-      this.hasFailed = !success;
+    finish: function finish(status) {
+      this.hasFailed = status === false;
       this.isFinished = true;
-      this.$emit('finish');
     },
     next: function next() {
       this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));

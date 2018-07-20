@@ -1,7 +1,7 @@
 <template>
     <div class="wizard">
 
-        <wizard-header v-if="header" ref="header" v-html="header"/>
+        <wizard-header v-if="header && isFinished" ref="header" v-html="header"/>
 
         <wizard-progress
             v-if="$refs.slideDeck && !isFinished && !hasFailed"
@@ -219,10 +219,9 @@ export default {
             this.isNextButtonDisabled = false;
         },
 
-        finish(success) {
-            this.hasFailed = !success;
+        finish(status) {
+            this.hasFailed = status === false;
             this.isFinished = true;
-            this.$emit('finish');
         },
 
         next() {
