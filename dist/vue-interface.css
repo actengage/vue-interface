@@ -968,7 +968,7 @@
   .overlay.fade {
     transition: opacity 333ms ease-out; }
   .overlay.show {
-    z-index: 10000;
+    z-index: 1030;
     opacity: 1; }
   .overlay .overlay-content {
     flex: 1; }

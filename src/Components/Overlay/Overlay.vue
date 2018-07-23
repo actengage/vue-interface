@@ -133,7 +133,7 @@ export default {
     }
 
     &.show {
-        z-index: 10000;
+        z-index: 1030;
         opacity: 1;
     }
 
