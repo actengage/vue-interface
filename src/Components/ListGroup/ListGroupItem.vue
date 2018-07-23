@@ -1,14 +1,14 @@
 <template>
-    <router-link v-if="to" :to="to" :class="classes" @click="onClick">
+    <router-link v-if="to" :to="to" :class="classes" @click="$emit('click', $event)">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </router-link>
-    <a v-elseif="href" :href="href" :class="classes" @click="onClick">
+    <a v-elseif="href" :href="href" :class="classes" @click="$emit('click', $event)">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </a>
-    <button v-else-if="action" type="button" :class="classes" @click.prevent="onClick">
+    <button v-else-if="action" type="button" :class="classes" @click.prevent="$emit('click', $event)">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </button>
-    <div v-else :class="classes" @click="onClick">
+    <div v-else :class="classes" @click="$emit('click', $event)">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </div>
 </template>
@@ -113,8 +113,8 @@ export default {
             }, 'list-group-item');
 
             classes['list-group-item'] = true;
-            classes['active'] = this.isActive;
-            classes['disabled'] = this.isDisabled;
+            classes['active'] = this.active;
+            classes['disabled'] = this.disabled;
 
             if(this.variant) {
                 classes[prefix(this.variant, 'list-group-item')] = true;
@@ -131,79 +131,15 @@ export default {
 
     },
 
-    methods: {
-
-        /**
-         * Toggle the list item's active class.
-         *
-         * @return void
-         */
-        toggle() {
-            this.isActive = this.isActive ? false : true;
-        },
-
-        /**
-         * Activate the list item.
-         *
-         * @return void
-         */
-        activate() {
-            this.isActive = true;
-        },
-
-        /**
-         * Deactivate the list item.
-         *
-         * @return void
-         */
-        deactivate() {
-            this.isActive = false;
-        },
-
-        /**
-         * Activate the list item.
-         *
-         * @return void
-         */
-        disable() {
-            this.isDisabled = false;
-        },
-
-        /**
-         * Deactivate the list item.
-         *
-         * @return void
-         */
-        enable() {
-            this.isDisabled = false;
-        },
-
-        /**
-         * The callback function for the `click` event.
-         *
-         * @return void
-         */
-        onClick(event) {
-            this.$emit('click', event);
-        }
-
-    },
-
     watch: {
 
-        isActive(value, prevValue) {
+        active(value, prevValue) {
             this.$emit('toggle', value);
             this.$emit(!!value ? 'activate' : 'deactivate');
         }
 
     },
 
-    data() {
-        return {
-            isActive: this.active,
-            isDisabled: this.disabled
-        };
-    }
 
 }
 

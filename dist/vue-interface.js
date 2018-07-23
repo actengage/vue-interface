@@ -16740,7 +16740,9 @@
             "to": _vm.to
           },
           on: {
-            "click": _vm.onClick
+            "click": function click($event) {
+              _vm.$emit('click', $event);
+            }
           }
         }, [_vm._t("default", [_vm._v(_vm._s(_vm.label))]), _vm._v(" "), _vm.badge ? _c('badge', _vm._b({}, 'badge', _vm.badgeOptions, false)) : _vm._e()], 2) : _vm.action ? _c('button', {
           class: _vm.classes,
@@ -16750,13 +16752,16 @@
           on: {
             "click": function click($event) {
               $event.preventDefault();
-              return _vm.onClick($event);
+
+              _vm.$emit('click', $event);
             }
           }
         }, [_vm._t("default", [_vm._v(_vm._s(_vm.label))]), _vm._v(" "), _vm.badge ? _c('badge', _vm._b({}, 'badge', _vm.badgeOptions, false)) : _vm._e()], 2) : _c('div', {
           class: _vm.classes,
           on: {
-            "click": _vm.onClick
+            "click": function click($event) {
+              _vm.$emit('click', $event);
+            }
           }
         }, [_vm._t("default", [_vm._v(_vm._s(_vm.label))]), _vm._v(" "), _vm.badge ? _c('badge', _vm._b({}, 'badge', _vm.badgeOptions, false)) : _vm._e()], 2);
       },
@@ -16847,8 +16852,8 @@
             'action': this.action
           }, 'list-group-item');
           classes['list-group-item'] = true;
-          classes['active'] = this.isActive;
-          classes['disabled'] = this.isDisabled;
+          classes['active'] = this.active;
+          classes['disabled'] = this.disabled;
 
           if (this.variant) {
             classes[prefix(this.variant, 'list-group-item')] = true;
@@ -16862,72 +16867,11 @@
           };
         }
       },
-      methods: {
-        /**
-         * Toggle the list item's active class.
-         *
-         * @return void
-         */
-        toggle: function toggle() {
-          this.isActive = this.isActive ? false : true;
-        },
-
-        /**
-         * Activate the list item.
-         *
-         * @return void
-         */
-        activate: function activate() {
-          this.isActive = true;
-        },
-
-        /**
-         * Deactivate the list item.
-         *
-         * @return void
-         */
-        deactivate: function deactivate() {
-          this.isActive = false;
-        },
-
-        /**
-         * Activate the list item.
-         *
-         * @return void
-         */
-        disable: function disable() {
-          this.isDisabled = false;
-        },
-
-        /**
-         * Deactivate the list item.
-         *
-         * @return void
-         */
-        enable: function enable() {
-          this.isDisabled = false;
-        },
-
-        /**
-         * The callback function for the `click` event.
-         *
-         * @return void
-         */
-        onClick: function onClick(event) {
-          this.$emit('click', event);
-        }
-      },
       watch: {
-        isActive: function isActive(value, prevValue) {
+        active: function active(value, prevValue) {
           this.$emit('toggle', value);
           this.$emit(!!value ? 'activate' : 'deactivate');
         }
-      },
-      data: function data() {
-        return {
-          isActive: this.active,
-          isDisabled: this.disabled
-        };
       }
     };
 
@@ -16942,36 +16886,13 @@
         return _c('div', {
           staticClass: "list-group",
           class: _vm.classes
-        }, [_vm._t("default", _vm._l(_vm.items, function (item, key) {
-          return _c('list-group-item', _vm._b({
-            key: key
-          }, 'list-group-item', item, false));
-        }))], 2);
+        }, [_vm._t("default")], 2);
       },
       staticRenderFns: [],
       components: {
         ListGroupItem: ListGroupItem
       },
       props: {
-        /**
-         * An array of list item objects.
-         *
-         * [{label: 'Some Label', badge: 1}]
-         *
-         * @property Object
-         */
-        items: Array,
-
-        /**
-         * Can the list items be activated.
-         *
-         * @property Boolean
-         */
-        activateable: {
-          type: Boolean,
-          default: false
-        },
-
         /**
          * The list group appear flush (without some borders).
          *
@@ -17010,50 +16931,26 @@
             child.$on('click', function (event) {
               return _this.onClickItem(event, child);
             });
-            child.$off('activate', function (event) {
-              return _this.onActivate(event, child);
-            });
-            child.$on('activate', function (event) {
-              return _this.onActivate(event, child);
-            });
-            child.$off('deactivate', function (event) {
-              return _this.onDeactivate(event, child);
-            });
-            child.$on('deactivate', function (event) {
-              return _this.onDeactivate(event, child);
-            });
           });
         },
+
+        /**
+         * The callback function for the `click` event.
+         *
+         * @return void
+         */
+        onClick: function onClick(event) {
+          this.$emit('click', event);
+        },
+
+        /**
+         * The callback function for the child `click` events.
+         *
+         * @return void
+         */
         onClickItem: function onClickItem(event, child) {
-          if (this.activateable) {
-            child.toggle();
-          }
-
           this.$emit('item:click', event, child);
-        },
-        onActivate: function onActivate(event, item) {
-          if (!this.multiple && this.activeItem !== item) {
-            if (this.activeItem) {
-              this.activeItem.deactivate();
-            }
-
-            this.activeItem = item;
-          }
-
-          this.$emit('item:activate', event, item);
-        },
-        onDeactivate: function onDeactivate(event, item) {
-          if (!this.multiple && this.activeItem === item) {
-            this.activeItem = null;
-          }
-
-          this.$emit('item:deactivate', event, item);
         }
-      },
-      data: function data() {
-        return {
-          activeItem: null
-        };
       },
       mounted: function mounted() {
         this.bindEventsToChildren();

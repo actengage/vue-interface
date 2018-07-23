@@ -24,10 +24,10 @@
 
             <h3 class="mt-5">Clickable List Group</h3>
 
-            <list-group activateable>
-                <list-group-item action>List Item #1</list-group-item>
-                <list-group-item action>List Item #2</list-group-item>
-                <list-group-item action>List Item #3</list-group-item>
+            <list-group>
+                <list-group-item action :active="example1 == 0" @click="example1 = 0">List Item #1</list-group-item>
+                <list-group-item action :active="example1 == 1" @click="example1 = 1">List Item #2</list-group-item>
+                <list-group-item action :active="example1 == 2" @click="example1 = 2">List Item #3</list-group-item>
             </list-group>
 
             <hr class="mt-5">
@@ -35,9 +35,9 @@
             <h3 class="mt-5">Multiple Click List Group</h3>
 
             <list-group activateable multiple>
-                <list-group-item action>List Item #1</list-group-item>
-                <list-group-item action>List Item #2</list-group-item>
-                <list-group-item action>List Item #3</list-group-item>
+                <list-group-item action :active="example2.a" @click="example2.a = !example2.a">List Item #1</list-group-item>
+                <list-group-item action :active="example2.b" @click="example2.b = !example2.b">List Item #2</list-group-item>
+                <list-group-item action :active="example2.c" @click="example2.c = !example2.c">List Item #3</list-group-item>
             </list-group>
 
             <hr class="mt-5">
@@ -118,7 +118,17 @@
         <script type="text/javascript" src="/dist/vue-interface.js"></script>
         <script type="text/javascript">
             const vue = new Vue({
-                el: '#app'
+                el: '#app',
+                data() {
+                    return {
+                        example1: null,
+                        example2: {
+                            a: false,
+                            b: false,
+                            c: false
+                        }
+                    }
+                }
             });
         </script>
     </body>

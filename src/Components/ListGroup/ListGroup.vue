@@ -1,8 +1,6 @@
 <template>
     <div class="list-group" :class="classes">
-        <slot>
-            <list-group-item v-for="(item, key) in items" :key="key" v-bind="item"/>
-        </slot>
+        <slot/>
     </div>
 </template>
 
@@ -19,25 +17,6 @@ export default {
     },
 
     props: {
-
-        /**
-         * An array of list item objects.
-         *
-         * [{label: 'Some Label', badge: 1}]
-         *
-         * @property Object
-         */
-        items: Array,
-
-        /**
-         * Can the list items be activated.
-         *
-         * @property Boolean
-         */
-        activateable: {
-            type: Boolean,
-            default: false
-        },
 
         /**
          * The list group appear flush (without some borders).
@@ -75,46 +54,27 @@ export default {
             each(this.$children, child => {
                 child.$off('click', event => this.onClickItem(event, child));
                 child.$on('click', event => this.onClickItem(event, child));
-                child.$off('activate', event => this.onActivate(event, child));
-                child.$on('activate', event => this.onActivate(event, child));
-                child.$off('deactivate', event => this.onDeactivate(event, child));
-                child.$on('deactivate', event => this.onDeactivate(event, child));
             });
         },
 
-        onClickItem(event, child) {
-            if(this.activateable) {
-                child.toggle();
-            }
+        /**
+         * The callback function for the `click` event.
+         *
+         * @return void
+         */
+        onClick(event) {
+            this.$emit('click', event);
+        },
 
+        /**
+         * The callback function for the child `click` events.
+         *
+         * @return void
+         */
+        onClickItem(event, child) {
             this.$emit('item:click', event, child);
         },
 
-        onActivate(event, item) {
-            if(!this.multiple && this.activeItem !== item) {
-                if(this.activeItem) {
-                    this.activeItem.deactivate();
-                }
-
-                this.activeItem = item;
-            }
-
-            this.$emit('item:activate', event, item);
-        },
-
-        onDeactivate(event, item) {
-            if(!this.multiple && this.activeItem === item) {
-                this.activeItem = null;
-            }
-
-            this.$emit('item:deactivate', event, item);
-        }
-    },
-
-    data() {
-        return {
-            activeItem: null
-        }
     },
 
     mounted() {
