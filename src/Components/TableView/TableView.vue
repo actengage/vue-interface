@@ -10,37 +10,32 @@
                 </div>
             </slot>
 
-            <slot name="buttons">
-                <div v-if="buttons.length" class="buttons-wrapper my-3">
-                    <span>
-                		<a v-for="(button, key) in buttons"
-                            :href="button.href || '#'"
-                            :class="button.className || 'btn btn-primary'"
-                            @click="proxy(button.onClick, $event)">
-                            <i v-if="button.icon" :class="button.icon"></i>
-                            <span v-html="button.label"></span>
-                        </a>
-                    </span>
-                </div>
-            </slot>
+            <div v-if="$slots.buttons || buttons" class="buttons-wrapper my-3">
+                <slot name="buttons"/>
+                <!--
+                <btn v-if="buttons.length"
+                    v-for="(button, key) in buttons"
+                    v-bind="button.props || button"
+                    v-on="button.events"
+                />
+                -->
+            </div>
         </div>
 
         <table class="table" :class="{'table-hover': hover && !loading && data.length}">
 
-            <slot name="thead">
-            	<thead>
-            		<tr>
-            			<th scope="col" :width="column.width" v-for="column in tableColumns">
-            			    <div v-if="column.id">
-            					<a href="#" class="sort" :data-id="column.id" @click.prevent="orderBy(column.id)" v-html="column.name || column.id"></a>
-            					<i v-if="request.params.order === column.id && request.params.sort === 'asc'" class="sort-icon fa fa-sort-asc"></i>
-            					<i v-if="request.params.order === column.id && request.params.sort === 'desc'" class="sort-icon fa fa-sort-desc"></i>
-            				</div>
-                            <div v-else v-html="column.name"></div>
-            			</th>
-            		</tr>
-            	</thead>
-            </slot>
+        	<thead slot="thead">
+        		<tr v-if="columns.length || $slots.columns" slot="columns">
+                    <table-view-header
+                        v-for="(column, key) in tableColumns"
+                        v-bind="column.props || column"
+                        v-on="column.events"
+                        @order="id => orderBy(id)"
+                        :request="request"
+                        :key="key"
+                    />
+        		</tr>
+        	</thead>
 
             <slot name="tbody">
                 <tbody>
@@ -98,6 +93,7 @@ import ActivityIndicator from '../ActivityIndicator';
 import unit from '../../Helpers/Unit';
 import Proxy from '../../Mixins/Proxy';
 import Request from '../../Http/Request';
+import TableViewHeader from './TableViewHeader';
 import TableViewTransformer from '../../Http/TableViewTransformer/TableViewTransformer';
 
 export default {
@@ -107,7 +103,8 @@ export default {
 
     components: {
         Pagination,
-        ActivityIndicator
+        ActivityIndicator,
+        TableViewHeader
     },
 
     props: {

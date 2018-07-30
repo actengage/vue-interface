@@ -18425,6 +18425,47 @@
       }
     });
 
+    var TableViewHeader = {
+      render: function render() {
+        var _vm = this;
+
+        var _h = _vm.$createElement;
+
+        var _c = _vm._self._c || _h;
+
+        return _c('th', {
+          attrs: {
+            "scope": "col"
+          }
+        }, [_vm.id && _vm.request ? [_c('a', {
+          staticClass: "sort",
+          attrs: {
+            "href": "#",
+            "data-id": _vm.id
+          },
+          on: {
+            "click": function click($event) {
+              $event.preventDefault();
+
+              _vm.$emit('order', _vm.id);
+            }
+          }
+        }, [!_vm.$slots.default ? [_vm._v(" " + _vm._s(_vm.label || _vm.name || _vm.id) + " ")] : _vm._e(), _vm._v(" "), _vm._t("default")], 2), _vm._v(" "), _vm.request.params.order === _vm.id && _vm.request.params.sort === 'asc' ? _c('i', {
+          staticClass: "sort-icon fa fa-sort-asc"
+        }) : _vm._e(), _vm._v(" "), _vm.request.params.order === _vm.id && _vm.request.params.sort === 'desc' ? _c('i', {
+          staticClass: "sort-icon fa fa-sort-desc"
+        }) : _vm._e()] : [!_vm.$slots.default ? [_vm._v(" " + _vm._s(_vm.label || _vm.name || _vm.id) + " ")] : _vm._e(), _vm._v(" "), _vm._t("default")]], 2);
+      },
+      staticRenderFns: [],
+      name: 'table-view-header',
+      props: {
+        id: [Number, String],
+        label: [Number, String],
+        name: [Number, String],
+        request: Object
+      }
+    };
+
     var Transformer =
     /*#__PURE__*/
     function () {
@@ -18580,63 +18621,36 @@
           domProps: {
             "innerHTML": _vm._s(_vm.description)
           }
-        }) : _vm._e()])], 2)]), _vm._v(" "), _vm._t("buttons", [_vm.buttons.length ? _c('div', {
+        }) : _vm._e()])], 2)]), _vm._v(" "), _vm.$slots.buttons || _vm.buttons ? _c('div', {
           staticClass: "buttons-wrapper my-3"
-        }, [_c('span', _vm._l(_vm.buttons, function (button, key) {
-          return _c('a', {
-            class: button.className || 'btn btn-primary',
-            attrs: {
-              "href": button.href || '#'
-            },
-            on: {
-              "click": function click($event) {
-                _vm.proxy(button.onClick, $event);
-              }
-            }
-          }, [button.icon ? _c('i', {
-            class: button.icon
-          }) : _vm._e(), _vm._v(" "), _c('span', {
-            domProps: {
-              "innerHTML": _vm._s(button.label)
-            }
-          })]);
-        }))]) : _vm._e()])], 2), _vm._v(" "), _c('table', {
+        }, [_vm._t("buttons")], 2) : _vm._e()], 2), _vm._v(" "), _c('table', {
           staticClass: "table",
           class: {
             'table-hover': _vm.hover && !_vm.loading && _vm.data.length
           }
-        }, [_vm._t("thead", [_c('thead', [_c('tr', _vm._l(_vm.tableColumns, function (column) {
-          return _c('th', {
+        }, [_c('thead', {
+          attrs: {
+            "slot": "thead"
+          },
+          slot: "thead"
+        }, [_vm.columns.length || _vm.$slots.columns ? _c('tr', {
+          attrs: {
+            "slot": "columns"
+          },
+          slot: "columns"
+        }, _vm._l(_vm.tableColumns, function (column, key) {
+          return _c('table-view-header', _vm._g(_vm._b({
+            key: key,
             attrs: {
-              "scope": "col",
-              "width": column.width
-            }
-          }, [column.id ? _c('div', [_c('a', {
-            staticClass: "sort",
-            attrs: {
-              "href": "#",
-              "data-id": column.id
-            },
-            domProps: {
-              "innerHTML": _vm._s(column.name || column.id)
+              "request": _vm.request
             },
             on: {
-              "click": function click($event) {
-                $event.preventDefault();
-
-                _vm.orderBy(column.id);
+              "order": function order(id) {
+                return _vm.orderBy(id);
               }
             }
-          }), _vm._v(" "), _vm.request.params.order === column.id && _vm.request.params.sort === 'asc' ? _c('i', {
-            staticClass: "sort-icon fa fa-sort-asc"
-          }) : _vm._e(), _vm._v(" "), _vm.request.params.order === column.id && _vm.request.params.sort === 'desc' ? _c('i', {
-            staticClass: "sort-icon fa fa-sort-desc"
-          }) : _vm._e()]) : _c('div', {
-            domProps: {
-              "innerHTML": _vm._s(column.name)
-            }
-          })]);
-        }))])]), _vm._v(" "), _vm._t("tbody", [_c('tbody', [_vm.loading ? _c('tr', [_c('td', {
+          }, 'table-view-header', column.props || column, false), column.events));
+        })) : _vm._e()]), _vm._v(" "), _vm._t("tbody", [_c('tbody', [_vm.loading ? _c('tr', [_c('td', {
           staticClass: "position-relative",
           style: {
             'height': _vm.height(_vm.minHeight)
@@ -18690,7 +18704,8 @@
       mixins: [Proxy],
       components: {
         Pagination: Pagination,
-        ActivityIndicator: ActivityIndicator
+        ActivityIndicator: ActivityIndicator,
+        TableViewHeader: TableViewHeader
       },
       props: {
         // (string) A relative or absolute endpoint URL used to fetch data

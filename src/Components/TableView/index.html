@@ -12,23 +12,24 @@
         <div id="app" class="container">
             <h1 class="mb-5">table-view</h1>
 
-            <h3>Basic Usage</h3>
-
             <table-view
-                url="/events/${model.id()}/rsvps"
-                heading="Events"
+                heading="Basic Usage"
                 order="id"
                 sort="desc"
+                url="http://kimbrell.test/api/v1/events"
                 :min-height="196"
-                :buttons="[
-                    {onClick: onClickAdd, label: 'Add RSVP', icon: 'fa fa-plus'}
-                ]"
                 :columns="[
-                    {id: 'title', name: 'Name'},
-                    {name: 'Address'},
-                    {id: 'created_at', name: 'Date'},
-                    {name: ''}
+                    {id: 'title', label: 'Name'},
+                    {label: 'Address'},
+                    {id: 'created_at', label: 'Date'},
+                    {}
                 ]">
+
+                <template slot="buttons">
+                    <btn outline>Some Button 1</btn>
+                    <btn>Some Button 2</btn>
+                    <btn variant="secondary">Some Button 3</btn>
+                </template>
 
                 <template slot-scope="props">
                     <tr v-for="(row, i) in props.data">
@@ -48,10 +49,10 @@
                         <td>{{ row.created_at | date('MM/DD/Y h:mm A')}}</td>
                         <td align="right">
                             <btn type="button" variant="primary" @click="onClickEdit($event, row)">
-                                <i class="fa fa-edit"/> Edit</i>
+                                <i class="fa fa-edit"></i> Edit
                             </btn>
                             <btn type="button" variant="danger" @click="onClickDelete($event, row)">
-                                <i class="fa fa-trash-o"/> Delete</i>
+                                <i class="fa fa-trash-o"></i> Delete
                             </btn>
                         </td>
                     </tr>
@@ -61,6 +62,9 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.core.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
         <script type="text/javascript" src="/dist/vue-interface.js"></script>
         <script type="text/javascript">
             const vue = new Vue({
