@@ -12020,6 +12020,17 @@ function () {
       return this.$changed[key] || this.$attributes[key];
     }
     /**
+     * Get the Request object.
+     *
+     * @return {mixed}
+     */
+
+  }, {
+    key: "getRequest",
+    value: function getRequest() {
+      return this.$request;
+    }
+    /**
      * Get the unchanged attributes
      *
      * @return array
@@ -12271,8 +12282,8 @@ function () {
     /**
      * Delete an existing model
      *
-     * @param data object
-     * @return bool
+     * @param  {object} config
+     * @return {bool}
      */
 
   }, {
@@ -12293,6 +12304,21 @@ function () {
           resolve(response);
         }, reject);
       });
+    }
+    /**
+     * Cancel the current HTTP request if one exists.
+     *
+     * @return {self}
+     */
+
+  }, {
+    key: "cancel",
+    value: function cancel() {
+      if (this.$request) {
+        this.$request.cancel();
+      }
+
+      return this;
     }
     /**
      * Convert the Model instance to a FormData instance
@@ -15306,18 +15332,7 @@ var FilePreview = {
       on: {
         "load": _vm.onLoad
       }
-    }) : _c('progress-bar', {
-      directives: [{
-        name: "ready",
-        rawName: "v-ready",
-        value: _vm.readFile,
-        expression: "readFile"
-      }],
-      attrs: {
-        "value": _vm.loaded,
-        "height": 10
-      }
-    })], 1) : _c('div', {
+    }) : _vm._e()]) : _c('div', {
       directives: [{
         name: "ready",
         rawName: "v-ready",
@@ -15333,14 +15348,26 @@ var FilePreview = {
         'fa-file-video-o': _vm.isVideo,
         'fa-file-o': !_vm.isVideo
       }
-    })]), _vm._v(" "), _c('div', {
+    })]), _vm._v(" "), _vm.progress || _vm.isImage && _vm.loaded !== false ? _c('progress-bar', {
+      directives: [{
+        name: "ready",
+        rawName: "v-ready",
+        value: _vm.readFile,
+        expression: "readFile"
+      }],
+      staticClass: "mt-3",
+      attrs: {
+        "value": _vm.progress || _vm.loaded || 0,
+        "height": 10
+      }
+    }) : _vm._e(), _vm._v(" "), _c('div', {
       staticClass: "file-preview-filename",
       domProps: {
         "innerHTML": _vm._s(_vm.name)
       }
     }), _vm._v(" "), _c('div', {
       staticClass: "file-preview-filesize"
-    }, [_vm._v("(" + _vm._s(_vm.size) + ")")]), _vm._v(" "), _c('div')])]);
+    }, [_vm._v("(" + _vm._s(_vm.size) + ")")]), _vm._v(" "), _c('div')], 1)]);
   },
   staticRenderFns: [],
   name: 'file-preview',
@@ -15350,7 +15377,9 @@ var FilePreview = {
   directives: {
     ready: {
       inserted: function inserted(el, binding, vnode) {
-        vnode.context.$nextTick(binding.value);
+        if (isFunction$1(binding.value)) {
+          vnode.context.$nextTick(binding.value);
+        }
       }
     }
   },
@@ -15376,7 +15405,19 @@ var FilePreview = {
      * An image URL to instead of using the file reader.
      * @type {String}
      */
-    poster: String
+    poster: String,
+
+    /**
+     * Progress that can be passed from a parent comparent, for instance
+     * use to show an ajax request with a single progress bar. If a progress
+     * value is passed, even a 0, the progress bar will not be used to show
+     * the progress of the file reader.
+     * @type {Number}
+     */
+    progress: {
+      type: Number,
+      default: undefined
+    }
   },
   computed: {
     /**
@@ -15460,13 +15501,17 @@ var FilePreview = {
 
         readFile(this.file, function (e) {
           if (e.lengthComputable) {
-            _this2.loaded = parseInt(e.loaded / e.total * 100, 10);
+            _this2.$emit('progress', _this2.loaded = parseInt(e.loaded / e.total * 100, 10));
           }
         }).then(function (event) {
           _this2.$emit('read', event);
 
           setTimeout(function () {
             _this2.image = event.target.result;
+
+            _this2.$nextTick(function () {
+              _this2.loaded = false;
+            });
           }, 500 - moment().diff(start));
         }, function (error) {
           _this2.$emit('error', error);
@@ -19327,14 +19372,17 @@ var UploadField = {
       on: {
         "change": _vm.onChange
       }
-    }) : _vm._e(), _vm._v(" "), _vm.thumbnails && _vm.thumbnails.length ? _c('thumbnail-list', {
+    }) : _vm._e(), _vm._v(" "), _vm.files && _vm.files.length ? _c('thumbnail-list', {
       staticClass: "mt-4",
       attrs: {
         "wrap": ""
       }
-    }, _vm._l(_vm.thumbnails, function (file, key) {
+    }, _vm._l(_vm.files, function (file, key) {
       return _c('thumbnail-list-item', {
         key: file.lastModified + '-' + file.lastModifiedDate + '-' + file.size + '-' + file.type + '-' + file.name,
+        class: {
+          'uploading': !!_vm.progressBars[key]
+        },
         attrs: {
           "width": _vm.width,
           "min-width": _vm.minWidth,
@@ -19345,7 +19393,8 @@ var UploadField = {
         }
       }, [_c('file-preview', {
         attrs: {
-          "file": file
+          "file": file,
+          "progress": _vm.progressBars[key] || 0
         },
         on: {
           "loaded": _vm.onLoadedPreview,
@@ -19485,28 +19534,12 @@ var UploadField = {
     },
 
     /**
-     * Upload function that handles auto-uploading fields asynchronously.
-     * This is designed to work with REST API's and replace the file Object
-     * with the RESTful returned by the server.
-     *
-     * @type {Object}
-     */
-    upload: {
-      type: Function,
-      default: function _default(file) {
-        // Stop upload silently if no model is defined.
-        if (!this.model) {
-          return;
-        }
-      }
-    },
-
-    /**
      * An HTTP Model used to send the request
      *
      * @type Model
      */
-    model: Model
+    model: [Model, Function],
+    request: Object
   },
   methods: (_methods = {
     removeFile: function removeFile(data) {
@@ -19514,6 +19547,10 @@ var UploadField = {
         var files = isArray(this.value) ? this.value.slice(0) : [];
 
         if (data instanceof File) {
+          if (data.request && data.request.cancel) {
+            data.request.cancel();
+          }
+
           remove(files, {
             name: data.name,
             size: data.size,
@@ -19523,9 +19560,13 @@ var UploadField = {
           remove(files, data);
         }
 
-        this.$emit('change', files);
+        this.updated(files, 'change');
       } else {
-        this.$emit('change', null);
+        if (data.request && data.request.cancel) {
+          data.request.cancel();
+        }
+
+        this.updated(null, 'change');
       }
     },
     addFile: function addFile(file, subject) {
@@ -19541,12 +19582,13 @@ var UploadField = {
         var files = subject || (isArray(this.value) ? this.value.slice(0) : []);
 
         if ((!this.maxUploads || this.maxUploads > files.length) && findIndex$1(files, data) === -1) {
-          this.upload && this.upload(file);
           files.push(file);
-          this.$emit('change', files);
+          this.updated(files, 'change');
+          this.upload(file);
         }
       } else {
-        this.$emit('change', file);
+        this.updated(file, 'change');
+        this.upload(file);
       }
     },
     addFiles: function addFiles(files) {
@@ -19562,9 +19604,58 @@ var UploadField = {
     },
 
     /**
+     * Upload function that handles auto-uploading fields asynchronously.
+     * This is designed to work with REST API's and replace the file Object
+     * with the RESTful returned by the server.
+     *
+     * @type Object
+     */
+    upload: function upload(file) {
+      var _this2 = this;
+
+      // Stop upload silently if no model is defined.
+      if (!this.model) {
+        return Promise.resolve();
+      }
+
+      var model = this.model;
+
+      if (!(this.model instanceof Model)) {
+        model = new this.model();
+      }
+
+      model.set(this.name, file);
+      this.$emit('uploading', model);
+      this.$set(this.progressBars, this.multiple ? this.values.length : 0, 0);
+      return model.save(null, assignIn({
+        onUploadProgress: function onUploadProgress(e) {
+          if (!file.index) {
+            file.index = findIndex$1(_this2.files, file);
+          }
+
+          if (!file.request) {
+            file.request = model.getRequest();
+          }
+
+          _this2.$set(_this2.progressBars, file.index, parseInt(e.loaded / e.total * 100, 10));
+
+          _this2.$emit('progress', model, _this2.progressBars[file.index]);
+        }
+      }, this.request)).then(function (response) {
+        _this2.$nextTick(function () {
+          _this2.$emit('upload', model);
+
+          _this2.progressBars[file.index] = false;
+        });
+
+        return response;
+      });
+    },
+
+    /**
      * The `drop` event callback.
      *
-     * @type {Object}
+     * @type Object
      */
     onDrop: function onDrop(event) {
       this.onChange(event.dataTransfer.files);
@@ -19573,7 +19664,7 @@ var UploadField = {
     /**
      * The `change` event callback.
      *
-     * @type {Object}
+     * @type Object
      */
     onChange: function onChange(files) {
       if (files instanceof FileList) {
@@ -19586,7 +19677,7 @@ var UploadField = {
     /**
      * The `dragover` event callback.
      *
-     * @type {Object}
+     * @type Object
      */
     onDragOver: function onDragOver(event) {
       this.isDraggingInside = true;
@@ -19597,7 +19688,7 @@ var UploadField = {
     /**
      * The `dragover` event callback.
      *
-     * @type {Object}
+     * @type Object
      */
     onDragEnter: function onDragEnter(event) {
       this.isDraggingInside = true;
@@ -19608,7 +19699,7 @@ var UploadField = {
     /**
      * The `dragleave` event callback.
      *
-     * @type {Object}
+     * @type Object
      */
     onDragLeave: function onDragLeave(event) {
       this.isDraggingInside = false;
@@ -19624,7 +19715,7 @@ var UploadField = {
     this.$emit('loaded', event);
   }), _methods),
   computed: {
-    thumbnails: function thumbnails() {
+    files: function files() {
       return this.multiple ? this.value : this.value ? [this.value] : [];
     },
     showDropElement: function showDropElement() {
@@ -19633,6 +19724,7 @@ var UploadField = {
   },
   data: function data() {
     return {
+      progressBars: {},
       isDraggingInside: false
     };
   }

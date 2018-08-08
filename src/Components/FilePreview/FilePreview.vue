@@ -10,12 +10,18 @@
 
             <div v-if="!!poster || isImage" class="file-preview-image">
                 <img v-if="!!poster || !!image" :src="poster || image" class="file-preview-thumbnail" @load="onLoad"/>
-                <progress-bar v-else v-ready="readFile" :value="loaded" :height="10" />
             </div>
 
             <div v-else v-ready="() => this.$emit('loaded')" class="file-preview-icon">
                 <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}"></i>
             </div>
+
+            <progress-bar
+                v-if="progress || isImage && loaded !== false"
+                v-ready="readFile"
+                :value="progress || loaded || 0"
+                :height="10"
+                class="mt-3"/>
 
             <div class="file-preview-filename" v-html="name"></div>
             <div class="file-preview-filesize">({{size}})</div>
@@ -42,7 +48,9 @@ export default {
     directives: {
         ready: {
             inserted(el, binding, vnode) {
-                vnode.context.$nextTick(binding.value);
+                if(isFunction(binding.value)) {
+                    vnode.context.$nextTick(binding.value);
+                }
             }
         }
     },
@@ -70,7 +78,19 @@ export default {
          * An image URL to instead of using the file reader.
          * @type {String}
          */
-        poster: String
+        poster: String,
+
+        /**
+         * Progress that can be passed from a parent comparent, for instance
+         * use to show an ajax request with a single progress bar. If a progress
+         * value is passed, even a 0, the progress bar will not be used to show
+         * the progress of the file reader.
+         * @type {Number}
+         */
+        progress: {
+            type: Number,
+            default: undefined
+        }
 
     },
 
@@ -158,13 +178,16 @@ export default {
 
                 readFile(this.file, e => {
                     if(e.lengthComputable) {
-                        this.loaded = parseInt((e.loaded / e.total) * 100, 10);
+                        this.$emit('progress', this.loaded = parseInt((e.loaded / e.total) * 100, 10));
                     }
                 }).then(event => {
                     this.$emit('read', event);
 
                     setTimeout(() => {
                         this.image = event.target.result;
+                        this.$nextTick(() => {
+                            this.loaded = false;
+                        });
                     }, 500 - moment().diff(start));
                 }, error => {
                     this.$emit('error', error);

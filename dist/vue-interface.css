@@ -1604,6 +1604,9 @@
     .thumbnail-list-item > img.img-fluid {
       width: 100%; }
 
+.upload-field .uploading .file-preview {
+  opacity: .5; }
+
 .wizard .slide-deck-content {
   margin: 1rem; }
 

@@ -186,6 +186,15 @@ export default class Model {
     }
 
     /**
+     * Get the Request object.
+     *
+     * @return {mixed}
+     */
+    getRequest() {
+        return this.$request;
+    }
+
+    /**
      * Get the unchanged attributes
      *
      * @return array
@@ -396,8 +405,8 @@ export default class Model {
     /**
      * Delete an existing model
      *
-     * @param data object
-     * @return bool
+     * @param  {object} config
+     * @return {bool}
      */
     delete(config = {}) {
         return new Promise((resolve, reject) => {
@@ -411,6 +420,19 @@ export default class Model {
                 resolve(response);
             }, reject);
         });
+    }
+
+    /**
+     * Cancel the current HTTP request if one exists.
+     *
+     * @return {self}
+     */
+    cancel() {
+        if(this.$request) {
+            this.$request.cancel();
+        }
+
+        return this;
     }
 
     /**

@@ -15,17 +15,18 @@
                 @change="onChange"
             />
 
-            <thumbnail-list v-if="thumbnails && thumbnails.length" class="mt-4" wrap>
+            <thumbnail-list v-if="files && files.length" class="mt-4" wrap>
                 <thumbnail-list-item
-                    v-for="(file, key) in thumbnails"
+                    v-for="(file, key) in files"
                     :key="file.lastModified + '-' + file.lastModifiedDate + '-' + file.size + '-' + file.type + '-' + file.name"
                     :width="width"
                     :min-width="minWidth"
                     :max-width="maxWidth"
                     :height="height"
                     :min-height="minHeight"
-                    :max-height="maxHeight">
-                    <file-preview :file="file" @loaded="onLoadedPreview" @close="removeFile(file)"/>
+                    :max-height="maxHeight"
+                    :class="{'uploading': !!progressBars[key]}">
+                    <file-preview :file="file" :progress="progressBars[key] || 0" @loaded="onLoadedPreview" @close="removeFile(file)"/>
                     <slot :file="file"/>
                 <thumbnail-list-item>
             </thumbnail-list>
@@ -43,16 +44,17 @@
 
 <script>
 import { each } from 'lodash-es';
+import { extend } from 'lodash-es';
 import { remove } from 'lodash-es';
 import { isArray } from 'lodash-es';
 import { findIndex } from 'lodash-es';
 import { isUndefined } from 'lodash-es'
 import FormGroup from '../FormGroup';
+import Model from '../../Http/Model';
 import Dropzone from '../Dropzone/Dropzone';
 import FormControl from '../../Mixins/FormControl/FormControl';
 import FileField from '../FileField/FileField';
 import FilePreview from '../FilePreview/FilePreview';
-import Model from '../../Http/Model';
 import ThumbnailList from '../ThumbnailList/ThumbnailList';
 import ThumbnailListItem from '../ThumbnailList/ThumbnailListItem';
 
@@ -176,38 +178,28 @@ export default {
         },
 
         /**
-         * Upload function that handles auto-uploading fields asynchronously.
-         * This is designed to work with REST API's and replace the file Object
-         * with the RESTful returned by the server.
-         *
-         * @type {Object}
-         */
-        upload: {
-            type: Function,
-            default(file) {
-                // Stop upload silently if no model is defined.
-                if(!this.model) {
-                    return
-                }
-            }
-        },
-
-        /**
          * An HTTP Model used to send the request
          *
          * @type Model
          */
-        model: Model
+        model: [Model, Function],
+
+        request: Object
 
     },
 
     methods: {
 
         removeFile(data) {
+
             if(this.multiple) {
                 const files = isArray(this.value) ? this.value.slice(0) : [];
 
                 if(data instanceof File) {
+                    if(data.request && data.request.cancel) {
+                        data.request.cancel();
+                    }
+
                     remove(files, {
                         name: data.name,
                         size: data.size,
@@ -218,10 +210,14 @@ export default {
                     remove(files, data);
                 }
 
-                this.$emit('change', files);
+                this.updated(files, 'change');
             }
             else {
-                this.$emit('change', null);
+                if(data.request && data.request.cancel) {
+                    data.request.cancel();
+                }
+
+                this.updated(null, 'change');
             }
         },
 
@@ -238,15 +234,15 @@ export default {
                 const files = subject || (isArray(this.value) ? this.value.slice(0) : []);
 
                 if((!this.maxUploads || this.maxUploads > files.length) && findIndex(files, data) === -1) {
-                    this.upload && this.upload(file);
-
                     files.push(file);
 
-                    this.$emit('change', files);
+                    this.updated(files, 'change');
+                    this.upload(file);
                 }
             }
             else {
-                this.$emit('change', file)
+                this.updated(file, 'change');
+                this.upload(file);
             }
         },
 
@@ -261,9 +257,57 @@ export default {
         },
 
         /**
+         * Upload function that handles auto-uploading fields asynchronously.
+         * This is designed to work with REST API's and replace the file Object
+         * with the RESTful returned by the server.
+         *
+         * @type Object
+         */
+        upload(file) {
+            // Stop upload silently if no model is defined.
+            if(!this.model) {
+                return Promise.resolve();
+            }
+
+            let model = this.model;
+
+            if(!(this.model instanceof Model)) {
+                model = new this.model;
+            }
+
+            model.set(this.name, file);
+
+            this.$emit('uploading', model);
+            this.$set(this.progressBars, this.multiple ? this.values.length : 0, 0);
+
+            return model.save(null, extend({
+                onUploadProgress: e => {
+                    if(!file.index) {
+                        file.index = findIndex(this.files, file);
+                    }
+
+                    if(!file.request) {
+                        file.request = model.getRequest();
+                    }
+
+                    this.$set(this.progressBars, file.index, parseInt((e.loaded / e.total) * 100, 10));
+                    this.$emit('progress', model, this.progressBars[file.index]);
+                }
+            }, this.request))
+            .then(response => {
+                this.$nextTick(() => {
+                    this.$emit('upload', model);
+                    this.progressBars[file.index] = false;
+                });
+
+                return response;
+            });
+        },
+
+        /**
          * The `drop` event callback.
          *
-         * @type {Object}
+         * @type Object
          */
         onDrop(event) {
             this.onChange(event.dataTransfer.files);
@@ -272,7 +316,7 @@ export default {
         /**
          * The `change` event callback.
          *
-         * @type {Object}
+         * @type Object
          */
         onChange(files) {
             if(files instanceof FileList) {
@@ -286,7 +330,7 @@ export default {
         /**
          * The `dragover` event callback.
          *
-         * @type {Object}
+         * @type Object
          */
         onDragOver(event) {
             this.isDraggingInside = true;
@@ -297,7 +341,7 @@ export default {
         /**
          * The `dragover` event callback.
          *
-         * @type {Object}
+         * @type Object
          */
         onDragEnter(event) {
             this.isDraggingInside = true;
@@ -308,7 +352,7 @@ export default {
         /**
          * The `dragleave` event callback.
          *
-         * @type {Object}
+         * @type Object
          */
         onDragLeave(event) {
             this.isDraggingInside = false;
@@ -331,7 +375,7 @@ export default {
         /**
          * The `loaded` event callback.
          *
-         * @type {Object}
+         * @type Object
          */
         onLoadedPreview(event) {
             this.$emit('loaded', event);
@@ -340,7 +384,7 @@ export default {
 
     computed: {
 
-        thumbnails() {
+        files() {
             return this.multiple ? this.value : (this.value ? [this.value] : []);
         },
 
@@ -352,9 +396,19 @@ export default {
 
     data() {
         return {
+            progressBars: {},
             isDraggingInside: false
         };
     }
 
 }
 </script>
+
+<style lang="scss">
+
+.upload-field {
+    .uploading .file-preview {
+        opacity: .5;
+    }
+}
+</style>
