@@ -9,8 +9,8 @@
             :title="step.label || step.title"
             :style="{width: `${100 / steps.length}%`}"
             @click.prevent="onClick($event, step)">
-            <span v-if="step.componentOptions.propsData && step.componentOptions.propsData.label" class="wizard-step-label" v-html="step.componentOptions.propsData.label"/>
-            <span v-else-if="step.componentOptions.propsData && step.componentOptions.propsData.title" class="wizard-step-label" v-html="step.componentOptions.propsData.title"/>
+            <span v-if="step.componentOptions && step.componentOptions.propsData.label" class="wizard-step-label" v-html="step.componentOptions.propsData.label"/>
+            <span v-else-if="step.componentOptions && step.componentOptions.propsData.title" class="wizard-step-label" v-html="step.componentOptions.propsData.title"/>
         </a>g
     </div>
 </template>

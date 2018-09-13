@@ -20093,12 +20093,12 @@ var WizardProgress = {
             _vm.onClick($event, step);
           }
         }
-      }, [step.componentOptions.propsData && step.componentOptions.propsData.label ? _c('span', {
+      }, [step.componentOptions && step.componentOptions.propsData.label ? _c('span', {
         staticClass: "wizard-step-label",
         domProps: {
           "innerHTML": _vm._s(step.componentOptions.propsData.label)
         }
-      }) : step.componentOptions.propsData && step.componentOptions.propsData.title ? _c('span', {
+      }) : step.componentOptions && step.componentOptions.propsData.title ? _c('span', {
         staticClass: "wizard-step-label",
         domProps: {
           "innerHTML": _vm._s(step.componentOptions.propsData.title)
