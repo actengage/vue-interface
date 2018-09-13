@@ -20408,6 +20408,11 @@
           }
         }
       },
+      watch: {
+        active: function active() {
+          this.currentStep = this.index();
+        }
+      },
       methods: {
         back: function back() {
           this.$emit('update:step', this.currentStep = Math.max(this.currentStep - 1, 0));
@@ -20451,6 +20456,9 @@
         finish: function finish(status) {
           this.hasFailed = status === false;
           this.isFinished = true;
+        },
+        index: function index() {
+          return Math.max(0, this.$slots.default.indexOf(find$1(this.$slots.default, ['key', this.active]) || this.$slots.default[this.active]));
         },
         next: function next() {
           this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
@@ -20506,13 +20514,12 @@
         this.steps = this.$refs.slideDeck.slides();
       },
       data: function data() {
-        var index = Math.max(0, this.$slots.default.indexOf(find$1(this.$slots.default, ['key', this.active]) || this.$slots.default[this.active]));
         return {
           steps: [],
           hasFailed: false,
           isFinished: false,
-          currentStep: index,
-          highestStep: index,
+          currentStep: this.index(),
+          highestStep: this.index(),
           isBackButtonDisabled: this.backButton === false,
           isNextButtonDisabled: this.nextButton === false,
           isFinishButtonDisabled: this.finishButton === false

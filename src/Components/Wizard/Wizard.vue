@@ -169,6 +169,14 @@ export default {
 
     },
 
+    watch: {
+
+        active() {
+            this.currentStep = this.index();
+        }
+
+    },
+
     methods: {
 
         back() {
@@ -222,6 +230,12 @@ export default {
         finish(status) {
             this.hasFailed = status === false;
             this.isFinished = true;
+        },
+
+        index() {
+            return Math.max(0, this.$slots.default.indexOf(
+                find(this.$slots.default, ['key', this.active]) || this.$slots.default[this.active]
+            ));
         },
 
         next() {
@@ -288,16 +302,12 @@ export default {
     },
 
     data() {
-        const index = Math.max(0, this.$slots.default.indexOf(
-            find(this.$slots.default, ['key', this.active]) || this.$slots.default[this.active]
-        ));
-
         return {
             steps: [],
             hasFailed: false,
             isFinished: false,
-            currentStep: index,
-            highestStep: index,
+            currentStep: this.index(),
+            highestStep: this.index(),
             isBackButtonDisabled: this.backButton === false,
             isNextButtonDisabled: this.nextButton === false,
             isFinishButtonDisabled: this.finishButton === false
