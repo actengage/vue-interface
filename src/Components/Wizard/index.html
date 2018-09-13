@@ -12,45 +12,6 @@
         <div id="app" class="container">
             <h1>wizard</h1>
 
-            <h3>Overview</h3>
-            <p>
-                The Wizard component is used to build multi-part forms. The component provides a few built-in components,
-                for the progress bar, the button bar, and a slide deck component to animate the transitions. This component
-                also provides a number of options to validate the input data along the way, to enable/diable the user from
-                going to the next step. The progress bar is pure CSS and builds itself based on the slides you provide.
-            </p>
-
-            <hr>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h2>Basic Usage</h2>
-                    <p>This is the most basic implementation of the wizard. This example does not include any input validation. Notice the wizard fits nice and flush within a `card` component.</p>
-                </div>
-                <div class="col-md-6">
-                    <card>
-                        <wizard ref="wizard" header="Example 1">
-                            <wizard-step label="Name">
-                                <div>
-                                    <upload-field v-model="example1.image" label="Test" @change="resize" @loaded="resize"/>
-                                </div>
-                            </wizard-step>
-                            <wizard-step label="Name">
-                                <div>
-                                    <input-field v-model="example1.first" size="lg" label="What is your first name?" placeholder="John"></input-field>
-                                    <input-field v-model="example1.last" size="lg" label="What is your last name?" placeholder="Smith"></input-field>
-                                </div>
-                            </wizard-step>
-                            <wizard-step label="Email Address">
-                                <input-field v-model="example1.email" size="lg" label="What is your email address?" placeholder="you@example.com"></input-field>
-                            </wizard-step>
-                        </wizard>
-                    </card>
-                </div>
-            </div>
-
-            <hr>
-
             <div class="row">
                 <div class="col-md-6">
                     <h2>Validation</h2>
@@ -76,16 +37,16 @@
                 <div class="col-md-6">
                     <card>
                         <wizard header="Example 2">
-                            <wizard-step label="Name" :validate="() => { return !!example2.first && !!example2.last }">
+                            <wizard-step key="step-1" label="Name" :validate="() => { return !!example2.first && !!example2.last }">
                                 <div>
                                     <input-field v-model="example2.first" size="lg" label="What is your first name?" placeholder="John"></input-field>
                                     <input-field v-model="example2.last" size="lg" label="What is your last name?" placeholder="Smith"></input-field>
                                 </div>
                             </wizard-step>
-                            <wizard-step label="Email Address" :validate="() => { return !!example2.email }">
+                            <wizard-step key="step-2" label="Email Address" :validate="() => { return !!example2.email }">
                                 <input-field v-model="example2.email" size="lg" label="What is your email address?" placeholder="you@example.com"></input-field>
                             </wizard-step>
-                            <wizard-step label="Email Address">
+                            <wizard-step key="step-3" label="Email Address">
                                 <input-field v-model="example2.age" size="lg" label="Optionally, tell us your age?"></input-field>
                             </wizard-step>
                         </wizard>

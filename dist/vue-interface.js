@@ -19761,6 +19761,64 @@
       }
     });
 
+    /**
+     * Creates a `_.find` or `_.findLast` function.
+     *
+     * @private
+     * @param {Function} findIndexFunc The function to find the collection index.
+     * @returns {Function} Returns the new find function.
+     */
+    function createFind(findIndexFunc) {
+      return function(collection, predicate, fromIndex) {
+        var iterable = Object(collection);
+        if (!isArrayLike(collection)) {
+          var iteratee = baseIteratee(predicate, 3);
+          collection = keys(collection);
+          predicate = function(key) { return iteratee(iterable[key], key, iterable); };
+        }
+        var index = findIndexFunc(collection, predicate, fromIndex);
+        return index > -1 ? iterable[iteratee ? collection[index] : index] : undefined;
+      };
+    }
+
+    /**
+     * Iterates over elements of `collection`, returning the first element
+     * `predicate` returns truthy for. The predicate is invoked with three
+     * arguments: (value, index|key, collection).
+     *
+     * @static
+     * @memberOf _
+     * @since 0.1.0
+     * @category Collection
+     * @param {Array|Object} collection The collection to inspect.
+     * @param {Function} [predicate=_.identity] The function invoked per iteration.
+     * @param {number} [fromIndex=0] The index to search from.
+     * @returns {*} Returns the matched element, else `undefined`.
+     * @example
+     *
+     * var users = [
+     *   { 'user': 'barney',  'age': 36, 'active': true },
+     *   { 'user': 'fred',    'age': 40, 'active': false },
+     *   { 'user': 'pebbles', 'age': 1,  'active': true }
+     * ];
+     *
+     * _.find(users, function(o) { return o.age < 40; });
+     * // => object for 'barney'
+     *
+     * // The `_.matches` iteratee shorthand.
+     * _.find(users, { 'age': 1, 'active': true });
+     * // => object for 'pebbles'
+     *
+     * // The `_.matchesProperty` iteratee shorthand.
+     * _.find(users, ['active', false]);
+     * // => object for 'fred'
+     *
+     * // The `_.property` iteratee shorthand.
+     * _.find(users, 'active');
+     * // => object for 'barney'
+     */
+    var find$1 = createFind(findIndex$1);
+
     var WizardButtons = {
       render: function render() {
         var _vm = this;
@@ -20397,8 +20455,9 @@
         next: function next() {
           this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
         },
-        onBeforeEnter: function onBeforeEnter(slide, last) {
-          this.$emit('before-enter', slide, last);
+        onBeforeEnter: function onBeforeEnter(slide, prev) {
+          slide.context.$emit('before-enter', slide, prev);
+          this.$emit('before-enter', slide, prev);
         },
         onClickBack: function onClickBack(event) {
           this.emitBubbleEvent('back', event);
@@ -20447,15 +20506,16 @@
         this.steps = this.$refs.slideDeck.slides();
       },
       data: function data() {
+        var index = Math.max(0, this.$slots.default.indexOf(find$1(this.$slots.default, ['key', this.active]) || this.$slots.default[this.active]));
         return {
           steps: [],
-          currentStep: this.active,
-          highestStep: this.active,
           hasFailed: false,
           isFinished: false,
+          currentStep: index,
+          highestStep: index,
           isBackButtonDisabled: this.backButton === false,
-          isFinishButtonDisabled: this.finishButton === false,
-          isNextButtonDisabled: this.nextButton === false
+          isNextButtonDisabled: this.nextButton === false,
+          isFinishButtonDisabled: this.finishButton === false
         };
       }
     };

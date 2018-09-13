@@ -59,6 +59,7 @@
 <script>
 import { map } from 'lodash-es';
 import { each } from 'lodash-es';
+import { find } from 'lodash-es';
 import { extend } from 'lodash-es';
 import { filter } from 'lodash-es';
 import SlideDeck from '../SlideDeck';
@@ -227,8 +228,9 @@ export default {
             this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
         },
 
-        onBeforeEnter(slide, last) {
-            this.$emit('before-enter', slide, last);
+        onBeforeEnter(slide, prev) {
+            slide.context.$emit('before-enter', slide, prev);
+            this.$emit('before-enter', slide, prev);
         },
 
         onClickBack(event) {
@@ -286,15 +288,19 @@ export default {
     },
 
     data() {
+        const index = Math.max(0, this.$slots.default.indexOf(
+            find(this.$slots.default, ['key', this.active]) || this.$slots.default[this.active]
+        ));
+
         return {
             steps: [],
-            currentStep: this.active,
-            highestStep: this.active,
             hasFailed: false,
             isFinished: false,
+            currentStep: index,
+            highestStep: index,
             isBackButtonDisabled: this.backButton === false,
-            isFinishButtonDisabled: this.finishButton === false,
-            isNextButtonDisabled: this.nextButton === false
+            isNextButtonDisabled: this.nextButton === false,
+            isFinishButtonDisabled: this.finishButton === false
         };
     }
 
