@@ -20070,7 +20070,7 @@ var WizardProgress = {
 
     return _c('div', {
       staticClass: "wizard-progress"
-    }, _vm._l(_vm.steps, function (step, i) {
+    }, [_vm._l(_vm.steps, function (step, i) {
       return _c('a', {
         staticClass: "wizard-step",
         class: {
@@ -20093,18 +20093,18 @@ var WizardProgress = {
             _vm.onClick($event, step);
           }
         }
-      }, [step.componentOptions.propsData.label ? _c('span', {
+      }, [step.componentOptions.propsData && step.componentOptions.propsData.label ? _c('span', {
         staticClass: "wizard-step-label",
         domProps: {
           "innerHTML": _vm._s(step.componentOptions.propsData.label)
         }
-      }) : step.componentOptions.propsData.title ? _c('span', {
+      }) : step.componentOptions.propsData && step.componentOptions.propsData.title ? _c('span', {
         staticClass: "wizard-step-label",
         domProps: {
           "innerHTML": _vm._s(step.componentOptions.propsData.title)
         }
       }) : _vm._e()]);
-    }));
+    }), _vm._v("g ")], 2);
   },
   staticRenderFns: [],
   name: 'wizard-progress',
