@@ -15,7 +15,7 @@
                 :disabled="disabled || readonly"
                 :readonly="readonly"
                 :pattern="pattern"
-                :class="$mergeClasses(controlClasses, colorableClasses)"
+                :class="mergeClasses(controlClasses, colorableClasses)"
                 v-on:input="updated($event.target.value)">
                 <slot />
             </select>
@@ -39,8 +39,9 @@ import HelpText from '../HelpText';
 import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';
 import FormFeedback from '../FormFeedback';
-import Colorable from '../../Mixins/Colorable/Colorable';
-import FormControl from '../../Mixins/FormControl/FormControl';
+import Colorable from '../../Mixins/Colorable';
+import FormControl from '../../Mixins/FormControl';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 const CUSTOM_SELECT_PREFIX = 'custom-select-'
 
@@ -58,8 +59,9 @@ export default {
     extends: FormControl,
 
     mixins: [
+        Colorable,
         FormControl,
-        Colorable
+        MergeClasses
     ],
 
     props: {

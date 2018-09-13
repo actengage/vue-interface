@@ -20,7 +20,7 @@
                 :maxlength="maxlength"
                 :placeholder="placeholder"
                 :disabled="disabled || readonly"
-                :class="$mergeClasses(controlClasses, colorableClasses)"
+                :class="mergeClasses(controlClasses, colorableClasses)"
                 v-bind-events="bindEvents"
                 v-on:input="updated($event.target.value)">
             </textarea>
@@ -44,8 +44,9 @@ import HelpText from '../HelpText';
 import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';
 import FormFeedback from '../FormFeedback';
-import Colorable from '../../Mixins/Colorable/Colorable';
-import FormControl from '../../Mixins/FormControl/FormControl';
+import Colorable from '../../Mixins/Colorable';
+import FormControl from '../../Mixins/FormControl';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -60,7 +61,8 @@ export default {
 
     mixins: [
         Colorable,
-        FormControl
+        FormControl,
+        MergeClasses
     ],
 
     props: {

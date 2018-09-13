@@ -1,6 +1,6 @@
 <template>
     <div class="progress" :style="{'height': formattedHeight}">
-        <div class="progress-bar" role="progressbar" :style="{'width': offsetValue + '%'}" :class="$mergeClasses(progressClasses, variantClass)" :aria-valuenow="offsetValue" :aria-valuemin="min" :aria-valuemax="max">
+        <div class="progress-bar" role="progressbar" :style="{'width': offsetValue + '%'}" :class="mergeClasses(progressClasses, variantClass)" :aria-valuenow="offsetValue" :aria-valuemin="min" :aria-valuemax="max">
             <span v-if="label">{{offsetValue}}%</span>
         </div>
     </div>
@@ -9,14 +9,16 @@
 <script>
 import { isNumber } from 'lodash-es'
 import unit from '../../Helpers/Unit';
-import Variant from '../../Mixins/Variant/Variant';
+import Variant from '../../Mixins/Variant';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
     name: 'progress-bar',
 
     mixins: [
-        Variant
+        Variant,
+        MergeClasses
     ],
 
     props: {

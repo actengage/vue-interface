@@ -1,5 +1,5 @@
 <template>
-    <div class="alert" :class="$mergeClasses(variantClass, {show: isVisible, fade: fade})" role="alert">
+    <div class="alert" :class="mergeClasses(variantClass, {show: isVisible, fade: fade})" role="alert">
         <alert-heading v-if="title || heading">{{ title || heading }}</alert-heading>
         <slot/>
         <alert-close v-if="dismissible" @click="dismiss()"/>
@@ -11,8 +11,9 @@
 import AlertClose from './AlertClose';
 import AlertHeading from './AlertHeading';
 import ProgressBar from '../ProgressBar';
-import Variant from '../../Mixins/Variant/Variant';
-import transition from '../../Helpers/Transition/Transition';
+import Variant from '../../Mixins/Variant';
+import transition from '../../Helpers/Transition';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -25,7 +26,8 @@ export default {
     },
 
     mixins: [
-        Variant
+        Variant,
+        MergeClasses
     ],
 
     props: {

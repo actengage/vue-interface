@@ -7,7 +7,8 @@
 
 <script>
 import Btn from '../Btn';
-import Colorable from '../../Mixins/Colorable/Colorable';
+import Colorable from '../../Mixins/Colorable';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -18,7 +19,8 @@ export default {
     },
 
     mixins: [
-        Colorable
+        Colorable,
+        MergeClasses
     ],
 
     props: {
@@ -49,7 +51,7 @@ export default {
     computed: {
 
         classes() {
-            return this.$mergeClasses(
+            return this.mergeClasses(
                 this.colorableClasses, {
                     'btn-group': !this.vertical,
                     'btn-group-toggle': this.toggle,

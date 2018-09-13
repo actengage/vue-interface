@@ -1,6 +1,6 @@
 <template>
 
-    <div :class="$mergeClasses(className)" class="d-flex justify-content-center align-items-center" :style="{height: unit(height)}">
+    <div :class="mergeClasses(className)" class="d-flex justify-content-center align-items-center" :style="{height: unit(height)}">
         <div v-if="background" class="card-img-bg" :style="{background: background ? `url(${this.src})` : null, overflow: blur ? 'hidden' : 'inherit', filter: blur ? `blur(${unit(blur)})` : null}"/>
         <img v-if="!background && src" :src="src" :alt="alt" class="img-fluid"/>
         <div class="card-img-content" :class="{'text-truncate': textTruncate}">
@@ -13,12 +13,17 @@
 <script>
 import Card from './Card';
 import unit from '../../Helpers/Unit';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
     name: 'card-img',
 
     extends: Card,
+
+    mixins: [
+        MergeClasses
+    ],
 
     props: {
 

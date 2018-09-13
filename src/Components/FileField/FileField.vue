@@ -11,7 +11,7 @@
         <div class="custom-file">
 
             <slot name="placeholder">
-                <form-label :class="$mergeClasses(colorableClasses, 'custom-file-label')" :for="id" v-html="placeholder || 'Choose file'" />
+                <form-label :class="mergeClasses(colorableClasses, 'custom-file-label')" :for="id" v-html="placeholder || 'Choose file'" />
             </slot>
 
             <input
@@ -47,6 +47,7 @@ import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';
 import FormFeedback from '../FormFeedback';
 import InputField from '../InputField';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -58,7 +59,8 @@ export default {
         HelpText,
         FormGroup,
         FormLabel,
-        FormFeedback
+        FormFeedback,
+        MergeClasses
     },
 
     model: {

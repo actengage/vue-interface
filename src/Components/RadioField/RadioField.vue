@@ -1,6 +1,6 @@
 <template>
 
-    <div :class="$mergeClasses(controlClass, customControlClass, sizeableClass, inline ? inlineClass : '')">
+    <div :class="mergeClasses(controlClass, customControlClass, sizeableClass, inline ? inlineClass : '')">
 
         <template v-if="custom && id">
             <input
@@ -14,10 +14,10 @@
                 :readonly="readonly"
                 :pattern="pattern"
                 :checked="checkedValue === value || checked"
-                :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
+                :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
                 @change="updated($event.target.value, 'change')">
 
-            <label :for="id" :class="$mergeClasses(labelClass, colorableClasses)">
+            <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
                 <slot>{{label}}</slot>
                 <slot name="feedback">
                     <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
@@ -27,7 +27,7 @@
 
         </template>
         <template v-else>
-            <label :for="id" :class="$mergeClasses(labelClass, colorableClasses)">
+            <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
                 <input
                     v-bind-events
                     type="radio"
@@ -39,7 +39,7 @@
                     :readonly="readonly"
                     :pattern="pattern"
                     :checked="checkedValue === value || checked"
-                    :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
+                    :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
                     @change="updated($event.target.value, 'change')">
 
                 <slot>{{label}}</slot>
@@ -61,9 +61,10 @@
 <script>
 import HelpText from '../HelpText';
 import FormFeedback from '../FormFeedback';
-import prefix from '../../Helpers/Prefix/Prefix';
-import Colorable from '../../Mixins/Colorable/Colorable';
-import FormControl from '../../Mixins/FormControl/FormControl';
+import prefix from '../../Helpers/Prefix';
+import Colorable from '../../Mixins/Colorable';
+import FormControl from '../../Mixins/FormControl';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -76,7 +77,8 @@ export default {
 
     mixins: [
         Colorable,
-        FormControl
+        FormControl,
+        MergeClasses
     ],
 
     model: {

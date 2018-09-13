@@ -15,6 +15,7 @@ import NavbarCollapse from './NavbarCollapse';
 import NavbarText from './NavbarText';
 import NavbarToggler from './NavbarToggler';
 import NavbarTogglerIcon from './NavbarTogglerIcon';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -30,7 +31,8 @@ export default {
 
     mixins: [
         Variant,
-        Colorable
+        Colorable,
+        MergeClasses
     ],
 
     props: {
@@ -98,7 +100,7 @@ export default {
         },
 
         classes() {
-            return this.$mergeClasses(
+            return this.mergeClasses(
                 'navbar',
                 prefix(this.sticky === true ? 'top' : this.sticky, 'sticky'),
                 prefix(this.fixed === true ? 'top' : this.fixed, 'fixed'),

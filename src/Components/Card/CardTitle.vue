@@ -1,6 +1,6 @@
 <template>
 
-    <h5 :class="$mergeClasses(className, colorableClasses)">
+    <h5 :class="mergeClasses(className, colorableClasses)">
         <slot/>
     </h5>
 
@@ -8,13 +8,15 @@
 
 <script>
 import Card from './Card';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
     name: 'card-title',
 
     mixins: [
-        Card
+        Card,
+        MergeClasses
     ]
 
 }

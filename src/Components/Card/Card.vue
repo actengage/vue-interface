@@ -1,14 +1,15 @@
 <template>
 
-    <div :class="$mergeClasses(className, colorableClasses)">
+    <div :class="mergeClasses(className, colorableClasses)">
         <slot/>
     </div>
 
 </template>
 
 <script>
-import HasSlots from '../../Mixins/HasSlots/HasSlots';
-import Colorable from '../../Mixins/Colorable/Colorable';
+import HasSlots from '../../Mixins/HasSlots';
+import Colorable from '../../Mixins/Colorable';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -16,7 +17,8 @@ export default {
 
     mixins: [
         HasSlots,
-        Colorable
+        Colorable,
+        MergeClasses
     ],
 
     computed: {

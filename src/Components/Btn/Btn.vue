@@ -17,7 +17,8 @@
 import Variant from '../../Mixins/Variant';
 import Sizeable from '../../Mixins/Sizeable';
 import Colorable from '../../Mixins/Colorable';
-import transition from '../../Helpers/Transition/Transition';
+import transition from '../../Helpers/Transition';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -26,7 +27,8 @@ export default {
     mixins: [
         Variant,
         Sizeable,
-        Colorable
+        Colorable,
+        MergeClasses
     ],
 
     props: {
@@ -105,7 +107,7 @@ export default {
         },
 
         classes() {
-            return this.$mergeClasses(
+            return this.mergeClasses(
                 'btn',
                 this.variantClass,
                 this.sizeableClass,

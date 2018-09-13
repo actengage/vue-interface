@@ -1,5 +1,5 @@
 <template>
-    <div v-show="isDisplaying" class="popover" :class="$mergeClasses(triggerableClasses, classes)" role="tooltip">
+    <div v-show="isDisplaying" class="popover" :class="mergeClasses(triggerableClasses, classes)" role="tooltip">
         <div class="arrow"></div>
         <popover-header v-if="title" v-html="title"/>
         <popover-body>
@@ -26,13 +26,15 @@ import { isString } from 'lodash-es';
 import Popper from 'popper.js';
 import prefix from '../../Helpers/Prefix';
 import Triggerable from '../../Mixins/Triggerable';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
     name: 'popover',
 
     mixins: [
-        Triggerable
+        Triggerable,
+        MergeClasses
     ],
 
     props: {

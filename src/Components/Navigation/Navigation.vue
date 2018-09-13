@@ -6,8 +6,9 @@
 
 <script>
 import NavigationItem from './NavigationItem';
-import prefix from '../../Helpers/Prefix/Prefix';
-import Colorable from '../../Mixins/Colorable/Colorable';
+import prefix from '../../Helpers/Prefix';
+import Colorable from '../../Mixins/Colorable';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -18,7 +19,8 @@ export default {
     },
 
     mixins: [
-        Colorable
+        Colorable,
+        MergeClasses
     ],
 
     props: {
@@ -97,7 +99,7 @@ export default {
                 }
             });
 
-            return this.$mergeClasses(
+            return this.mergeClasses(
                 prefix(this.align, 'justify-content'),
                 this.colorableClasses, {
                     'card-header-tabs': this.isCard && this.tabs,

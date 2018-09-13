@@ -1,9 +1,9 @@
 <template>
-    <a v-if="href" :href="href" class="badge" :class="$mergeClasses(classes, variantClass)">
+    <a v-if="href" :href="href" class="badge" :class="mergeClasses(classes, variantClass)">
         <slot>{{label}}</slot>
         <span class="sr-only" v-html="accessibility"/>
     </a>
-    <span v-else class="badge" :class="$mergeClasses(classes, variantClass)">
+    <span v-else class="badge" :class="mergeClasses(classes, variantClass)">
         <slot>{{label}}</slot>
         <span class="sr-only" v-html="accessibility"/>
     </span>
@@ -11,15 +11,17 @@
 
 <script>
 
-import prefix from '../../Helpers/Prefix/Prefix';
-import Variant from '../../Mixins/Variant/Variant';
+import prefix from '../../Helpers/Prefix';
+import Variant from '../../Mixins/Variant';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
     name: 'badge',
 
     mixins: [
-        Variant
+        Variant,
+        MergeClasses
     ],
 
     props: {

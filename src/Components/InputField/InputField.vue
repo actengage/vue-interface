@@ -18,7 +18,7 @@
                 :maxlength="maxlength"
                 :placeholder="placeholder"
                 :disabled="disabled || readonly"
-                :class="$mergeClasses(controlClasses, colorableClasses)"
+                :class="mergeClasses(controlClasses, colorableClasses)"
                 :aria-label="label"
                 :aria-describedby="id"
                 :autocomplete="autocomplete"
@@ -50,6 +50,7 @@ import FormLabel from '../FormLabel';
 import FormFeedback from '../FormFeedback';
 import Colorable from '../../Mixins/Colorable';
 import FormControl from '../../Mixins/FormControl';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -57,7 +58,8 @@ export default {
 
     mixins: [
         Colorable,
-        FormControl
+        FormControl,
+        MergeClasses
     ],
 
     components: {

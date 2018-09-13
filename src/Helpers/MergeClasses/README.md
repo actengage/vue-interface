@@ -1,6 +1,6 @@
 # MergeClasses
 
-A plugin that adds the $mergeClasses() method Vue prototype.
+A helper that merges classes together.
 
 ## Methods
 

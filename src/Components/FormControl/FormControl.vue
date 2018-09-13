@@ -11,7 +11,7 @@
         :readonly="readonly"
         :placeholder="placeholder"
         :disabled="disabled || readonly"
-        :class="$mergeClasses(controlClasses, colorableClasses)"
+        :class="mergeClasses(controlClasses, colorableClasses)"
         :aria-label="label"
         :aria-describedby="id"
         v-bind-events="bindEvents"
@@ -21,8 +21,9 @@
 
 <script>
 
-import Colorable from '../../Mixins/Colorable/Colorable';
-import FormControl from '../../Mixins/FormControl/FormControl';
+import Colorable from '../../Mixins/Colorable';
+import FormControl from '../../Mixins/FormControl';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -30,7 +31,8 @@ export default {
 
     mixins: [
         Colorable,
-        FormControl
+        FormControl,
+        MergeClasses
     ],
 
     props: {

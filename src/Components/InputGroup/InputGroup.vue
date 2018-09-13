@@ -1,6 +1,6 @@
 <template>
 
-    <div class="input-group" :class="$mergeClasses(colorableClasses, sizeableClass)">
+    <div class="input-group" :class="mergeClasses(colorableClasses, sizeableClass)">
 
         <slot name="prepend">
             <template v-if="prepend instanceof Array">
@@ -30,12 +30,13 @@
 </template>
 
 <script>
+import HasSlots from '../../Mixins/HasSlots';
+import Sizeable from '../../Mixins/Sizeable';
 import InputGroupText from './InputGroupText';
+import Colorable from '../../Mixins/Colorable';
 import InputGroupAppend from './InputGroupAppend';
 import InputGroupPrepend from './InputGroupPrepend';
-import HasSlots from '../../Mixins/HasSlots/HasSlots';
-import Sizeable from '../../Mixins/Sizeable/Sizeable';
-import Colorable from '../../Mixins/Colorable/Colorable';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
@@ -50,7 +51,8 @@ export default {
     mixins: [
         HasSlots,
         Sizeable,
-        Colorable
+        Colorable,
+        MergeClasses
     ],
 
     props: {

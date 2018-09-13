@@ -1,6 +1,6 @@
 <template>
 
-    <div :class="$mergeClasses(controlClass, customControlClass, sizeableClass, inline ? inlineClass : '')">
+    <div :class="mergeClasses(controlClass, customControlClass, sizeableClass, inline ? inlineClass : '')">
 
         <template v-if="custom && id">
             <input
@@ -14,10 +14,10 @@
                 :readonly="readonly"
                 :pattern="pattern"
                 :checked="checkedValues.indexOf(value) !== -1 || checked"
-                :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
+                :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
                 @change="updated($event.target.value, 'change')">
 
-            <label :for="id" :class="$mergeClasses(labelClass, colorableClasses)">
+            <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
                 <slot>{{label}}</slot>
                 <slot name="feedback">
                     <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
@@ -28,7 +28,7 @@
         </template>
 
         <template v-else>
-            <label :for="id" :class="$mergeClasses(labelClass, colorableClasses)">
+            <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
                 <input
                     v-bind-events
                     type="checkbox"
@@ -40,7 +40,7 @@
                     :readonly="readonly"
                     :pattern="pattern"
                     :checked="checkedValues.indexOf(value) !== -1 || checked"
-                    :class="$mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
+                    :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
                     @change="updated($event.target.value, 'change')">
 
                 <slot>{{label}}</slot>
@@ -60,13 +60,18 @@
 
 <script>
 
-import RadioField from '../RadioField/RadioField';
+import RadioField from '../RadioField';
+import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
     name: 'checkbox-field',
 
     extends: RadioField,
+
+    mixins: [
+        MergeClasses
+    ],
 
     model: {
         event: 'change',
