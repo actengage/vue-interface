@@ -11,7 +11,7 @@
             @click.prevent="onClick($event, step)">
             <span v-if="step.componentOptions && step.componentOptions.propsData.label" class="wizard-step-label" v-html="step.componentOptions.propsData.label"/>
             <span v-else-if="step.componentOptions && step.componentOptions.propsData.title" class="wizard-step-label" v-html="step.componentOptions.propsData.title"/>
-        </a>g
+        </a>
     </div>
 </template>
 

@@ -20070,7 +20070,7 @@ var WizardProgress = {
 
     return _c('div', {
       staticClass: "wizard-progress"
-    }, [_vm._l(_vm.steps, function (step, i) {
+    }, _vm._l(_vm.steps, function (step, i) {
       return _c('a', {
         staticClass: "wizard-step",
         class: {
@@ -20104,7 +20104,7 @@ var WizardProgress = {
           "innerHTML": _vm._s(step.componentOptions.propsData.title)
         }
       }) : _vm._e()]);
-    }), _vm._v("g ")], 2);
+    }));
   },
   staticRenderFns: [],
   name: 'wizard-progress',
