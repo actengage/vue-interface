@@ -20421,13 +20421,15 @@
             this.next();
           }
         },
-        onEnter: function onEnter(slide, last) {
+        onEnter: function onEnter(slide, prev) {
           this.highestStep = Math.max(this.highestStep, this.$refs.slideDeck.$refs.slides.getSlideIndex(slide));
           slide.componentInstance.$refs.wizard = this;
-          slide.context.$emit('enter');
+          slide.context.$emit('enter', slide, prev);
+          this.$emit('enter', slide, prev);
         },
-        onLeave: function onLeave(slide) {
-          slide.context.$emit('leave');
+        onLeave: function onLeave(slide, prev) {
+          slide.context.$emit('leave', slide, prev);
+          this.$emit('leave', slide, prev);
         },
         onProgressClick: function onProgressClick(event, slide) {
           this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
@@ -20439,6 +20441,7 @@
         if (slide) {
           (slide.componentInstance || slide.context).$refs.wizard = this;
           (slide.componentInstance || slide.context).$emit('enter');
+          this.$emit('enter', slide);
         }
 
         this.steps = this.$refs.slideDeck.slides();

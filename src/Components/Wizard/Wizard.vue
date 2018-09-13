@@ -255,14 +255,16 @@ export default {
             }
         },
 
-        onEnter(slide, last) {
+        onEnter(slide, prev) {
             this.highestStep = Math.max(this.highestStep, this.$refs.slideDeck.$refs.slides.getSlideIndex(slide));
             slide.componentInstance.$refs.wizard = this;
-            slide.context.$emit('enter');
+            slide.context.$emit('enter', slide, prev);
+            this.$emit('enter', slide, prev);
         },
 
-        onLeave(slide) {
-            slide.context.$emit('leave');
+        onLeave(slide, prev) {
+            slide.context.$emit('leave', slide, prev);
+            this.$emit('leave', slide, prev);
         },
 
         onProgressClick(event, slide) {
@@ -277,6 +279,7 @@ export default {
         if(slide) {
             (slide.componentInstance || slide.context).$refs.wizard = this;
             (slide.componentInstance || slide.context).$emit('enter');
+            this.$emit('enter', slide);
         }
 
         this.steps = this.$refs.slideDeck.slides();
