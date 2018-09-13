@@ -20180,7 +20180,7 @@ var WizardSuccess = {
   props: {
     icon: {
       type: String,
-      default: 'fa fa-3x fa-check'
+      default: 'fa fa-check'
     },
     title: {
       type: String,
