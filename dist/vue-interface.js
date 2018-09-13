@@ -18322,6 +18322,16 @@
         },
 
         /**
+         * Center the slide-deck.
+         *
+         * @type Boolean
+         */
+        center: {
+          type: Boolean,
+          default: true
+        },
+
+        /**
          * Show the slide-deck controls to change the slide.
          *
          * @type Boolean
@@ -19754,52 +19764,7 @@
 
         return _c('div', {
           staticClass: "wizard-buttons"
-        }, [_c('btn-group', {
-          ref: "left",
-          staticClass: "wizard-buttons-left"
-        }, [_vm._t("buttons-left"), _vm._v(" "), _c('btn', {
-          ref: "back",
-          attrs: {
-            "type": "button",
-            "variant": "secondary",
-            "disabled": _vm.backButton === false || _vm.active === 0 && _vm.backButton !== true,
-            "size": _vm.sizeableClass
-          },
-          on: {
-            "click": _vm.onClickBack
-          }
-        }, [_c('i', {
-          staticClass: "fa fa-long-arrow-left"
-        }), _vm._v(" Back ")])], 2), _vm._v(" "), _c('btn-group', {
-          ref: "right",
-          staticClass: "wizard-buttons-right"
-        }, [_vm._t("buttons-right"), _vm._v(" "), _vm.active === _vm.steps.length - 1 ? _c('btn-activity', {
-          ref: "finish",
-          attrs: {
-            "activity": _vm.activity,
-            "size": _vm.sizeableClass,
-            "disabled": _vm.finishButton === false,
-            "type": "button",
-            "variant": "success"
-          },
-          on: {
-            "click": _vm.onClickFinish
-          }
-        }, [_vm._v(" Finish ")]) : _vm._e(), _vm._v(" "), _vm.active < _vm.steps.length - 1 ? _c('btn-activity', {
-          ref: "next",
-          attrs: {
-            "activity": _vm.activity,
-            "size": _vm.sizeableClass,
-            "disabled": _vm.nextButton === false,
-            "type": "button",
-            "variant": "primary"
-          },
-          on: {
-            "click": _vm.onClickNext
-          }
-        }, [_vm._v(" Next "), _c('i', {
-          staticClass: "fa fa-long-arrow-right"
-        })]) : _vm._e()], 2)], 1);
+        }, [_vm._v(" test ")]);
       },
       staticRenderFns: [],
       name: 'wizard-buttons',

@@ -73,6 +73,16 @@ export default {
         },
 
         /**
+         * Center the slide-deck.
+         *
+         * @type Boolean
+         */
+        center: {
+            type: Boolean,
+            default: true
+        },
+
+        /**
          * Show the slide-deck controls to change the slide.
          *
          * @type Boolean

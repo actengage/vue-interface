@@ -1,4 +1,4 @@
-import BtnGroup from './BtnGroup';
+import BtnGroup from './BtnGroup.vue';
 import BtnGroupToggle from './BtnGroupToggle';
 import BtnToolbar from './BtnToolbar';
 import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
