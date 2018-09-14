@@ -13257,7 +13257,7 @@
         bindEvents: {
           type: Array,
           default: function _default() {
-            return ['focus', 'blur', 'change', 'click', 'keyup', 'keydown', 'progress'];
+            return ['focus', 'blur', 'change', 'click', 'keyup', 'keydown', 'progress', 'paste'];
           }
         },
 
@@ -20778,11 +20778,43 @@
       Vue.directive('collapse', Collapse);
     }
 
+    var Slug = {
+      inserted: function inserted(el, binding, vnode) {
+        var input = el.querySelector('input, textarea') || el;
+        var editable = !input.value;
+        vnode.context.$watch(binding.expression, function (value) {
+          if (editable) {
+            input.value = kebabCase(value);
+            input.dispatchEvent(new Event('input'));
+          }
+        });
+        input.addEventListener('keyup', function (event) {
+          input.value = kebabCase(event.target.value) + (event.target.value.match(/\s$/) ? ' ' : '');
+        });
+        input.addEventListener('input', function (event) {
+          if (event instanceof InputEvent) {
+            editable = !event.target.value;
+          }
+        });
+        input.addEventListener('blur', function (event) {
+          input.value = kebabCase(event.target.value || binding.expression.split('.').reduce(function (o, i) {
+            return o[i];
+          }, vnode.context));
+          input.dispatchEvent(new Event('input'));
+        });
+      }
+    };
+
+    function index$3 (Vue, options) {
+      Vue.directive('slug', Slug);
+    }
+
 
 
     var directives$1 = /*#__PURE__*/Object.freeze({
         Autogrow: index$1,
-        Collapse: index$2
+        Collapse: index$2,
+        Slug: index$3
     });
 
     function blob(url, progress) {
@@ -21172,6 +21204,7 @@
     exports.WizardSuccess = WizardSuccess;
     exports.Autogrow = index$1;
     exports.Collapse = index$2;
+    exports.Slug = index$3;
     exports.DateFilter = index;
     exports.MomentFilter = index;
 

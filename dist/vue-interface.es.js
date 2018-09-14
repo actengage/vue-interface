@@ -13251,7 +13251,7 @@ var FormControl = {
     bindEvents: {
       type: Array,
       default: function _default() {
-        return ['focus', 'blur', 'change', 'click', 'keyup', 'keydown', 'progress'];
+        return ['focus', 'blur', 'change', 'click', 'keyup', 'keydown', 'progress', 'paste'];
       }
     },
 
@@ -20772,11 +20772,43 @@ function index$2 (Vue, options) {
   Vue.directive('collapse', Collapse);
 }
 
+var Slug = {
+  inserted: function inserted(el, binding, vnode) {
+    var input = el.querySelector('input, textarea') || el;
+    var editable = !input.value;
+    vnode.context.$watch(binding.expression, function (value) {
+      if (editable) {
+        input.value = kebabCase(value);
+        input.dispatchEvent(new Event('input'));
+      }
+    });
+    input.addEventListener('keyup', function (event) {
+      input.value = kebabCase(event.target.value) + (event.target.value.match(/\s$/) ? ' ' : '');
+    });
+    input.addEventListener('input', function (event) {
+      if (event instanceof InputEvent) {
+        editable = !event.target.value;
+      }
+    });
+    input.addEventListener('blur', function (event) {
+      input.value = kebabCase(event.target.value || binding.expression.split('.').reduce(function (o, i) {
+        return o[i];
+      }, vnode.context));
+      input.dispatchEvent(new Event('input'));
+    });
+  }
+};
+
+function index$3 (Vue, options) {
+  Vue.directive('slug', Slug);
+}
+
 
 
 var directives$1 = /*#__PURE__*/Object.freeze({
     Autogrow: index$1,
-    Collapse: index$2
+    Collapse: index$2,
+    Slug: index$3
 });
 
 function blob(url, progress) {
@@ -21046,5 +21078,5 @@ var main = VueInstaller.use({
 });
 
 export default main;
-export { Model, Request, RequestOptions, transformRequest, transformResponse, Colorable, FormControl as FormControlMixin, HasSlots, Proxy, Screenreaders, Sizeable, Triggerable, Variant, blob, elapsed, instantiate, prefix, readFile, script, transition, unit, uuid, wait, modal$1 as modal, overlay, popover, ActivityIndicator, Alert, AlertClose, AlertHeading, AlertLink, Badge, BaseForm, Breadcrumb, BreadcrumbItem, Btn, BtnActivity, BtnFile, BtnGroup, BtnGroupToggle, BtnToolbar, BtnDropdown, Card, CardBody, CardBtnGroup, CardDeck, CardFooter, CardHeader, CardImg, CardImgTop, CardImgBottom, CardImgOverlay, CardLink, CardSubtitle, CardTitle, CheckboxField, Container, DropdownMenu, DropdownMenuItem, DropdownMenuHeader, DropdownMenuDivider, Dropzone, FileField, FilePreview, FormControl$1 as FormControl, FormFeedback, FormGroup, FormLabel, HelpText, InfiniteScrolling, InputField, InputGroup, InputGroupAppend, InputGroupPrepend, InputGroupText, LightSwitchField, ListGroup, ListGroupItem, Navbar, NavbarBrand, NavbarCollapse, NavbarNav, NavbarText, NavbarToggler, NavbarTogglerIcon, Modal, ModalBackdrop, ModalBody, ModalContent, ModalDialog, ModalFooter, ModalHeader, ModalTitle, Navigation, NavigationItem, NavigationLink, NavigationDropdown, Overlay, Pagination, Popover, PopoverBody, PopoverHeader, ProgressBar, RadioField, SelectField, SlideDeck, Slides, TableView, TextareaField, ThumbnailList, ThumbnailListItem, UploadField, Wizard, WizardButtons, WizardHeader, WizardProgress, WizardStep, WizardSuccess, index$1 as Autogrow, index$2 as Collapse, index as DateFilter, index as MomentFilter };
+export { Model, Request, RequestOptions, transformRequest, transformResponse, Colorable, FormControl as FormControlMixin, HasSlots, Proxy, Screenreaders, Sizeable, Triggerable, Variant, blob, elapsed, instantiate, prefix, readFile, script, transition, unit, uuid, wait, modal$1 as modal, overlay, popover, ActivityIndicator, Alert, AlertClose, AlertHeading, AlertLink, Badge, BaseForm, Breadcrumb, BreadcrumbItem, Btn, BtnActivity, BtnFile, BtnGroup, BtnGroupToggle, BtnToolbar, BtnDropdown, Card, CardBody, CardBtnGroup, CardDeck, CardFooter, CardHeader, CardImg, CardImgTop, CardImgBottom, CardImgOverlay, CardLink, CardSubtitle, CardTitle, CheckboxField, Container, DropdownMenu, DropdownMenuItem, DropdownMenuHeader, DropdownMenuDivider, Dropzone, FileField, FilePreview, FormControl$1 as FormControl, FormFeedback, FormGroup, FormLabel, HelpText, InfiniteScrolling, InputField, InputGroup, InputGroupAppend, InputGroupPrepend, InputGroupText, LightSwitchField, ListGroup, ListGroupItem, Navbar, NavbarBrand, NavbarCollapse, NavbarNav, NavbarText, NavbarToggler, NavbarTogglerIcon, Modal, ModalBackdrop, ModalBody, ModalContent, ModalDialog, ModalFooter, ModalHeader, ModalTitle, Navigation, NavigationItem, NavigationLink, NavigationDropdown, Overlay, Pagination, Popover, PopoverBody, PopoverHeader, ProgressBar, RadioField, SelectField, SlideDeck, Slides, TableView, TextareaField, ThumbnailList, ThumbnailListItem, UploadField, Wizard, WizardButtons, WizardHeader, WizardProgress, WizardStep, WizardSuccess, index$1 as Autogrow, index$2 as Collapse, index$3 as Slug, index as DateFilter, index as MomentFilter };
 //# sourceMappingURL=vue-interface.es.js.map
