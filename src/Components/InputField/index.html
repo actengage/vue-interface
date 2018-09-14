@@ -12,7 +12,7 @@
         <div id="app" class="container">
             <h1 class="mb-5">input-field</h1>
 
-            <h3>Basic Usage</h3>
+            <h2>Basic Usage</h2>
 
             <input-field type="text" label="Text Field"></input-field>
             <input-field type="text" label="Descriptive Text Field" help-text="Some helpful text goes here."></input-field>
@@ -22,7 +22,7 @@
 
             <hr>
 
-            <h3>Sizes</h3>
+            <h2>Sizes</h2>
 
             <input-field type="text" size="sm" placeholder="Small"></input-field>
             <input-field type="text" size="md" placeholder="Medium"></input-field>
@@ -30,7 +30,7 @@
 
             <hr>
 
-            <h3>Colors</h3>
+            <h2>Colors</h2>
 
             <input-field type="text" value="Primary" text-white bg-primary></input-field>
             <input-field type="text" value="Secondary" text-white bg-secondary></input-field>
@@ -42,7 +42,21 @@
             <input-field type="text" value="Muted" text-dark bg-muted></input-field>
             <input-field type="text" value="White" text-dark bg-white></input-field>
 
-            <h3>Validation</h3>
+            <hr>
+
+            <h2>Activity Indicator</h2>
+
+            <input-field type="text" size="sm" placeholder="Small" :activity="showActivity"></input-field>
+            <input-field type="text" size="md" placeholder="Medium" :activity="showActivity"></input-field>
+            <input-field type="text" size="lg" placeholder="Large" :activity="showActivity"></input-field>
+
+            <btn @click="onToggleActivity">
+                <span v-if="!showActivity">Show</span><span v-else>Hide</span> Activity
+            </btn>
+
+            <hr>
+
+            <h2>Validation</h2>
 
             <input-field type="text" label="Single Inline Error" error="This is an inline error."></input-field>
 
@@ -55,8 +69,14 @@
         <script type="text/javascript">
             const vue = new Vue({
                 el: '#app',
+                methods: {
+                    onToggleActivity() {
+                        this.showActivity = !this.showActivity;
+                    }
+                },
                 data() {
                     return {
+                        showActivity: false,
                         value: null
                     };
                 }

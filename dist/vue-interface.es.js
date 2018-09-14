@@ -13411,7 +13411,13 @@ var InputField = {
 
     var _c = _vm._self._c || _h;
 
-    return _c('form-group', [_vm._t("label", [_vm.label || _vm.hasDefaultSlot ? _c('form-label', {
+    return _c('form-group', {
+      staticClass: "input-field",
+      class: {
+        'has-activity': _vm.activity
+      }
+    }, [_vm._t("label", [_vm.label || _vm.hasDefaultSlot ? _c('form-label', {
+      ref: "label",
       attrs: {
         "for": _vm.id
       },
@@ -13425,6 +13431,7 @@ var InputField = {
         value: _vm.bindEvents,
         expression: "bindEvents"
       }],
+      ref: "control",
       class: _vm.mergeClasses(_vm.controlClasses, _vm.colorableClasses),
       attrs: {
         "id": _vm.id,
@@ -13448,18 +13455,32 @@ var InputField = {
           _vm.updated($event.target.value);
         }
       }
-    })]), _vm._v(" "), _vm._t("default"), _vm._v(" "), _vm._t("help", [_vm.helpText ? _c('help-text', {
+    })]), _vm._v(" "), _vm._t("activity", [_c('transition', {
+      attrs: {
+        "name": "slide-fade"
+      }
+    }, [_vm.activity ? _c('activity-indicator', {
+      key: "test",
+      ref: "activity",
+      attrs: {
+        "type": "dots",
+        "size": _vm.size
+      }
+    }) : _vm._e()], 1)]), _vm._v(" "), _vm._t("default"), _vm._v(" "), _vm._t("help", [_vm.helpText ? _c('help-text', {
+      ref: "help",
       domProps: {
         "innerHTML": _vm._s(_vm.helpText)
       }
     }) : _vm._e()]), _vm._v(" "), _vm._t("feedback", [_vm.validFeedback ? _c('form-feedback', {
+      ref: "feedback",
       attrs: {
         "valid": ""
       },
       domProps: {
         "innerHTML": _vm._s(_vm.validFeedback)
       }
-    }) : _vm._e(), _vm._v(" "), _vm.invalidFeedback ? _c('form-feedback', {
+    }) : _vm.invalidFeedback ? _c('form-feedback', {
+      ref: "feedback",
       attrs: {
         "invalid": ""
       },
@@ -13475,9 +13496,20 @@ var InputField = {
     HelpText: HelpText,
     FormGroup: FormGroup,
     FormLabel: FormLabel,
-    FormFeedback: FormFeedback
+    FormFeedback: FormFeedback,
+    ActivityIndicator: ActivityIndicator
   },
   props: {
+    /**
+     * Show type activity indicator.
+     *
+     * @property Boolean
+     */
+    activity: {
+      type: Boolean,
+      default: false
+    },
+
     /**
      * The type attribute
      *
