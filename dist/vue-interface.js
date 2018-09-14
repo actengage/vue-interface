@@ -20708,10 +20708,6 @@
       }
     };
 
-    function index$1 (Vue, options) {
-      Vue.directive('autogrow', Autogrow);
-    }
-
     function show(el, target, vnode) {
       target.classList.remove('collapse');
       target.classList.add('show');
@@ -20774,10 +20770,6 @@
       }
     };
 
-    function index$2 (Vue, options) {
-      Vue.directive('collapse', Collapse);
-    }
-
     var Slug = {
       inserted: function inserted(el, binding, vnode) {
         var input = el.querySelector('input, textarea') || el;
@@ -20805,16 +20797,12 @@
       }
     };
 
-    function index$3 (Vue, options) {
-      Vue.directive('slug', Slug);
-    }
-
 
 
     var directives$1 = /*#__PURE__*/Object.freeze({
-        Autogrow: index$1,
-        Collapse: index$2,
-        Slug: index$3
+        Autogrow: Autogrow,
+        Collapse: Collapse,
+        Slug: Slug
     });
 
     function blob(url, progress) {
@@ -21202,9 +21190,9 @@
     exports.WizardProgress = WizardProgress;
     exports.WizardStep = WizardStep;
     exports.WizardSuccess = WizardSuccess;
-    exports.Autogrow = index$1;
-    exports.Collapse = index$2;
-    exports.Slug = index$3;
+    exports.Autogrow = Autogrow;
+    exports.Collapse = Collapse;
+    exports.Slug = Slug;
     exports.DateFilter = index;
     exports.MomentFilter = index;
 
