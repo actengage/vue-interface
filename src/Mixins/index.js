@@ -1,6 +1,7 @@
 import Colorable from './Colorable';
 import FormControlMixin from './FormControl';
 import HasSlots from './HasSlots';
+import MergeClasses from './MergeClasses';
 import Proxy from './Proxy';
 import Screenreaders from './Screenreaders';
 import Sizeable from './Sizeable';
@@ -11,6 +12,7 @@ export {
     Colorable,
     FormControlMixin,
     HasSlots,
+    MergeClasses,
     Proxy,
     Screenreaders,
     Sizeable,

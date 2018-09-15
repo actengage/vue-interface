@@ -21110,6 +21110,7 @@
     exports.Colorable = Colorable;
     exports.FormControlMixin = FormControl;
     exports.HasSlots = HasSlots;
+    exports.MergeClasses = MergeClasses;
     exports.Proxy = Proxy;
     exports.Screenreaders = Screenreaders;
     exports.Sizeable = Sizeable;
