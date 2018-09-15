@@ -4012,9 +4012,10 @@ function modal$1 (Vue, options) {
       options = {};
     }
 
-    var instance = instantiate(Vue, Modal, options.modal).$mount(document.body.appendChild(document.createElement('div')));
+    var instance = instantiate(Vue, Modal, options.modal);
     instance.$content = instantiate(Vue, Component, options.content);
     instance.$slots.default = [instance.$content.$mount()._vnode];
+    instance.$mount(document.body.appendChild(document.createElement('div')));
     return instance;
   };
 

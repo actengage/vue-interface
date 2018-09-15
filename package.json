@@ -1,6 +1,6 @@
 {
     "name": "vue-interface",
-    "version": "0.1.111",
+    "version": "0.1.112",
     "main": "./dist/vue-interface.js",
     "module": "./dist/vue-interface.es.js",
     "devDependencies": {
