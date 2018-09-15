@@ -15491,7 +15491,7 @@ var FilePreview = {
      * @property String
      */
     size: function size() {
-      return this.bytesToSize(this.file instanceof File ? this.file.size : this.file.bytes);
+      return this.bytesToSize(this.file.size);
     },
 
     /**

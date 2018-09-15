@@ -120,7 +120,7 @@ export default {
          * @property String
          */
         size() {
-            return this.bytesToSize(this.file instanceof File ? this.file.size : this.file.bytes);
+            return this.bytesToSize(this.file.size);
         },
 
         /**
