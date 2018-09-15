@@ -8243,25 +8243,23 @@ var merge = createAssigner(function(object, source, srcIndex) {
   baseMerge(object, source, srcIndex);
 });
 
-function MergeClasses () {
-  var classes = {};
-
-  forEach([].slice.call(arguments), function (arg) {
-    if (isObject(arg)) {
-      assignIn(classes, arg);
-    } else if (isArray(arg)) {
-      merge(classes, arg);
-    } else if (arg) {
-      classes[arg] = true;
-    }
-  });
-
-  return classes;
-}
-
-var MergeClasses$1 = {
+var MergeClasses = {
   methods: {
-    mergeClasses: MergeClasses
+    mergeClasses: function mergeClasses() {
+      var classes = {};
+
+      forEach([].slice.call(arguments), function (arg) {
+        if (isObject(arg)) {
+          assignIn(classes, arg);
+        } else if (isArray(arg)) {
+          merge(classes, arg);
+        } else if (arg) {
+          classes[arg] = true;
+        }
+      });
+
+      return classes;
+    }
   }
 };
 
@@ -8295,7 +8293,7 @@ var Popover = {
   },
   staticRenderFns: [],
   name: 'popover',
-  mixins: [Triggerable, MergeClasses$1],
+  mixins: [Triggerable, MergeClasses],
   props: {
     /**
      * Apply a CSS fade transition to the popover
@@ -8715,7 +8713,7 @@ var ProgressBar = {
   },
   staticRenderFns: [],
   name: 'progress-bar',
-  mixins: [Variant, MergeClasses$1],
+  mixins: [Variant, MergeClasses],
   props: {
     /**
      * The progress bar percentage value
@@ -8842,7 +8840,7 @@ var Alert = {
     AlertHeading: AlertHeading,
     ProgressBar: ProgressBar
   },
-  mixins: [Variant, MergeClasses$1],
+  mixins: [Variant, MergeClasses],
   props: {
     /**
      * Is the alert dismissible
@@ -8980,7 +8978,7 @@ var Badge = {
   },
   staticRenderFns: [],
   name: 'badge',
-  mixins: [Variant, MergeClasses$1],
+  mixins: [Variant, MergeClasses],
   props: {
     /**
      * The screen reader accessibility label.
@@ -12901,7 +12899,7 @@ var Btn = {
   },
   staticRenderFns: [],
   name: 'btn',
-  mixins: [Variant, Sizeable, Colorable, MergeClasses$1],
+  mixins: [Variant, Sizeable, Colorable, MergeClasses],
   props: {
     /**
      * Display button with active state
@@ -13491,7 +13489,7 @@ var InputField = {
   },
   staticRenderFns: [],
   name: 'input-field',
-  mixins: [Colorable, FormControl, MergeClasses$1],
+  mixins: [Colorable, FormControl, MergeClasses],
   components: {
     HelpText: HelpText,
     FormGroup: FormGroup,
@@ -13600,7 +13598,7 @@ var FileField = {
     FormGroup: FormGroup,
     FormLabel: FormLabel,
     FormFeedback: FormFeedback,
-    MergeClasses: MergeClasses$1
+    MergeClasses: MergeClasses
   },
   model: {
     event: 'change'
@@ -13750,7 +13748,7 @@ var BtnGroup = {
   components: {
     Btn: Btn
   },
-  mixins: [Colorable, MergeClasses$1],
+  mixins: [Colorable, MergeClasses],
   props: {
     /**
      * An array of buttons
@@ -14576,7 +14574,7 @@ var Card = {
   },
   staticRenderFns: [],
   name: 'card',
-  mixins: [HasSlots, Colorable, MergeClasses$1],
+  mixins: [HasSlots, Colorable, MergeClasses],
   computed: {
     className: function className() {
       return this.$options.name;
@@ -14638,7 +14636,7 @@ var CardHeader = {
   staticRenderFns: [],
   name: 'card-header',
   extends: Card,
-  mixins: [MergeClasses$1],
+  mixins: [MergeClasses],
   props: {
     /**
      * The component's HTML tag name
@@ -14705,7 +14703,7 @@ var CardImg = {
   staticRenderFns: [],
   name: 'card-img',
   extends: Card,
-  mixins: [MergeClasses$1],
+  mixins: [MergeClasses],
   props: {
     /**
      * The alt attribute
@@ -14792,7 +14790,7 @@ var CardLink = {
   staticRenderFns: [],
   name: 'card-link',
   extends: Card,
-  mixins: [MergeClasses$1],
+  mixins: [MergeClasses],
   props: {
     /**
      * The alt attribute
@@ -14837,7 +14835,7 @@ var CardSubtitle = {
   staticRenderFns: [],
   name: 'card-subtitle',
   extends: Card,
-  mixins: [MergeClasses$1]
+  mixins: [MergeClasses]
 };
 
 var CardTitle = {
@@ -14854,7 +14852,7 @@ var CardTitle = {
   },
   staticRenderFns: [],
   name: 'card-title',
-  mixins: [Card, MergeClasses$1]
+  mixins: [Card, MergeClasses]
 };
 
 var plugin$22 = VueInstaller.use({
@@ -14985,7 +14983,7 @@ var RadioField = {
     HelpText: HelpText,
     FormFeedback: FormFeedback
   },
-  mixins: [Colorable, FormControl, MergeClasses$1],
+  mixins: [Colorable, FormControl, MergeClasses],
   model: {
     event: 'change',
     prop: 'checkedValue'
@@ -15176,7 +15174,7 @@ var CheckboxField = {
   staticRenderFns: [],
   name: 'checkbox-field',
   extends: RadioField,
-  mixins: [MergeClasses$1],
+  mixins: [MergeClasses],
   model: {
     event: 'change',
     prop: 'checkedValues'
@@ -15628,7 +15626,7 @@ var FormControl$1 = {
   },
   staticRenderFns: [],
   name: 'form-control',
-  mixins: [Colorable, FormControl, MergeClasses$1],
+  mixins: [Colorable, FormControl, MergeClasses],
   props: {
     /**
      * Is the element a select?
@@ -16614,7 +16612,7 @@ var InputGroup = {
     InputGroupAppend: InputGroupAppend,
     InputGroupPrepend: InputGroupPrepend
   },
-  mixins: [HasSlots, Sizeable, Colorable, MergeClasses$1],
+  mixins: [HasSlots, Sizeable, Colorable, MergeClasses],
   props: {
     append: [Array, Number, String],
     prepend: [Array, Number, String]
@@ -17282,7 +17280,7 @@ var Navbar = {
     NavbarToggler: NavbarToggler,
     NavbarTogglerIcon: NavbarTogglerIcon
   },
-  mixins: [Variant, Colorable, MergeClasses$1],
+  mixins: [Variant, Colorable, MergeClasses],
   props: {
     /**
      * Expand the navbar. If true, applies to all size, otherwise pass a string.
@@ -17515,7 +17513,7 @@ var Navigation = {
   components: {
     NavigationItem: NavigationItem
   },
-  mixins: [Colorable, MergeClasses$1],
+  mixins: [Colorable, MergeClasses],
   props: {
     /**
      * Helper to add the justify-content-X class.
@@ -18016,7 +18014,7 @@ var SelectField = {
     FormFeedback: FormFeedback
   },
   extends: FormControl,
-  mixins: [Colorable, FormControl, MergeClasses$1],
+  mixins: [Colorable, FormControl, MergeClasses],
   props: {
     /**
      * Add `custom-select` to the form control if true.
@@ -19129,7 +19127,7 @@ var TextareaField = {
     FormLabel: FormLabel,
     FormFeedback: FormFeedback
   },
-  mixins: [Colorable, FormControl, MergeClasses$1],
+  mixins: [Colorable, FormControl, MergeClasses],
   props: {
     /**
      * The type attribute
