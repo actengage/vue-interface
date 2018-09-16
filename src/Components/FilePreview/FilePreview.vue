@@ -138,7 +138,7 @@ export default {
          * @property String
          */
         isImage() {
-            return this.type.match(/^image\//);
+            return this.type.match(/^image\/);
         },
 
         /**
@@ -147,7 +147,7 @@ export default {
          * @property String
          */
         isVideo() {
-            return this.type.match(/^video\//);
+            return this.type.match(/^video\/);
         },
 
         /**
