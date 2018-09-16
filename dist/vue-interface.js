@@ -15584,8 +15584,8 @@
       },
       data: function data() {
         return {
-          loaded: false,
-          image: this.file.url
+          image: this.file.url,
+          loaded: this.file instanceof File ? 0 : false
         };
       }
     };
