@@ -15449,7 +15449,7 @@ var FilePreview = {
 
     /**
      * An image URL to instead of using the file reader.
-     * @type {String}
+     * @property {String}
      */
     poster: String,
 
@@ -15458,7 +15458,7 @@ var FilePreview = {
      * use to show an ajax request with a single progress bar. If a progress
      * value is passed, even a 0, the progress bar will not be used to show
      * the progress of the file reader.
-     * @type {Number}
+     * @property {Number}
      */
     progress: {
       type: Number,
@@ -15508,7 +15508,7 @@ var FilePreview = {
      * @property String
      */
     isImage: function isImage() {
-      return this.type.match(/^image\//);
+      return !!this.type.match(/^image/);
     },
 
     /**
@@ -15517,7 +15517,7 @@ var FilePreview = {
      * @property String
      */
     isVideo: function isVideo() {
-      return this.type.match(/^video\//);
+      return !!this.type.match(/^video/);
     },
 
     /**
@@ -15545,23 +15545,24 @@ var FilePreview = {
       if (this.file instanceof File) {
         var start = moment();
         this.loaded = 0;
+        this.$nextTick(function () {
+          readFile(_this2.file, function (e) {
+            if (e.lengthComputable) {
+              _this2.$emit('progress', _this2.loaded = parseInt(e.loaded / e.total * 100, 10));
+            }
+          }).then(function (event) {
+            _this2.$emit('read', event);
 
-        readFile(this.file, function (e) {
-          if (e.lengthComputable) {
-            _this2.$emit('progress', _this2.loaded = parseInt(e.loaded / e.total * 100, 10));
-          }
-        }).then(function (event) {
-          _this2.$emit('read', event);
+            setTimeout(function () {
+              _this2.image = event.target.result;
 
-          setTimeout(function () {
-            _this2.image = event.target.result;
-
-            _this2.$nextTick(function () {
-              _this2.loaded = false;
-            });
-          }, 500 - moment().diff(start));
-        }, function (error) {
-          _this2.$emit('error', error);
+              _this2.$nextTick(function () {
+                _this2.loaded = false;
+              });
+            }, 500 - moment().diff(start));
+          }, function (error) {
+            _this2.$emit('error', error);
+          });
         });
       }
     },

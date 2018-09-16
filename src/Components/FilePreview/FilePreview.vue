@@ -76,7 +76,7 @@ export default {
 
         /**
          * An image URL to instead of using the file reader.
-         * @type {String}
+         * @property {String}
          */
         poster: String,
 
@@ -85,7 +85,7 @@ export default {
          * use to show an ajax request with a single progress bar. If a progress
          * value is passed, even a 0, the progress bar will not be used to show
          * the progress of the file reader.
-         * @type {Number}
+         * @property {Number}
          */
         progress: {
             type: Number,
@@ -138,7 +138,7 @@ export default {
          * @property String
          */
         isImage() {
-            return this.type.match(/^image\/);
+            return !!this.type.match(/^image/);
         },
 
         /**
@@ -147,7 +147,7 @@ export default {
          * @property String
          */
         isVideo() {
-            return this.type.match(/^video\/);
+            return !!this.type.match(/^video/);
         },
 
         /**
@@ -177,22 +177,23 @@ export default {
                 const start = moment();
 
                 this.loaded = 0;
+                this.$nextTick(() => {
+                    readFile(this.file, e => {
+                        if(e.lengthComputable) {
+                            this.$emit('progress', this.loaded = parseInt((e.loaded / e.total) * 100, 10));
+                        }
+                    }).then(event => {
+                        this.$emit('read', event);
 
-                readFile(this.file, e => {
-                    if(e.lengthComputable) {
-                        this.$emit('progress', this.loaded = parseInt((e.loaded / e.total) * 100, 10));
-                    }
-                }).then(event => {
-                    this.$emit('read', event);
-
-                    setTimeout(() => {
-                        this.image = event.target.result;
-                        this.$nextTick(() => {
-                            this.loaded = false;
-                        });
-                    }, 500 - moment().diff(start));
-                }, error => {
-                    this.$emit('error', error);
+                        setTimeout(() => {
+                            this.image = event.target.result;
+                            this.$nextTick(() => {
+                                this.loaded = false;
+                            });
+                        }, 500 - moment().diff(start));
+                    }, error => {
+                        this.$emit('error', error);
+                    });
                 });
             }
         },
