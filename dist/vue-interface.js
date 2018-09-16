@@ -15400,7 +15400,7 @@
             'fa-file-video-o': _vm.isVideo,
             'fa-file-o': !_vm.isVideo
           }
-        })]), _vm._v(" "), _vm.progress || _vm.isImage && _vm.loaded !== false ? _c('progress-bar', {
+        })]), _vm._v(" progress: " + _vm._s(_vm.progress)), _c('br'), _vm._v(" isImage: " + _vm._s(_vm.isImage)), _c('br'), _vm._v(" loaded: " + _vm._s(_vm.loaded) + " "), _vm.progress || _vm.isImage && _vm.loaded !== false ? _c('progress-bar', {
           directives: [{
             name: "ready",
             rawName: "v-ready",

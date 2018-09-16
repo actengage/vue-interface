@@ -16,6 +16,10 @@
                 <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}"></i>
             </div>
 
+            progress: {{progress}}<br>
+            isImage: {{isImage}}<br>
+            loaded: {{loaded}}
+
             <progress-bar
                 v-if="progress || isImage && loaded !== false"
                 v-ready="readFile"
@@ -210,7 +214,7 @@ export default {
 
     data() {
         return {
-            loaded: 0,
+            loaded: false,
             image: this.file.url
         };
     }
