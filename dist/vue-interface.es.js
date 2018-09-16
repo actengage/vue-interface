@@ -20674,8 +20674,8 @@ function int(str) {
   return parseInt(str.replace(/[^\d.]+/g, ''));
 }
 
-function input(div, event) {
-  div.innerHTML = event.target.value.replace(/(?:\r\n|\r|\n)/g, '<br />');
+function input(div, el) {
+  div.innerHTML = el.value.replace(/(?:\r\n|\r|\n)/g, '<br />');
 }
 
 function height(el) {
@@ -20711,11 +20711,12 @@ function init(el, maxHeight) {
   var div = mimic(el);
   var minHeight = height(el);
   el.addEventListener('input', function (event) {
-    input(div, event);
+    input(div, event.target);
     resize(el, div, minHeight, maxHeight);
   });
   document.body.appendChild(div);
-  el.dispatchEvent(new Event('input'));
+  input(div, el);
+  resize(el, div, minHeight, maxHeight);
 }
 
 var Autogrow = {

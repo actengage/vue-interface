@@ -97,6 +97,22 @@ function init(el, maxHeight) {
 
     document.body.appendChild(div);
 
-    input(div, event.target);
+    input(div, el);
     resize(el, div, minHeight, maxHeight);
+}
+
+export default {
+
+    inserted(el, binding, vnode) {
+        if(el.tagName.toLowerCase() !== 'textarea') {
+            el = el.querySelector('textarea');
+        }
+
+        if(!el) {
+            throw new Error('A textarea is required for the v-autogrow directive.');
+        }
+
+        init(el, binding.value);
+    }
+
 }
