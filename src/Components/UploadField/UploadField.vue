@@ -278,7 +278,7 @@ export default {
             model.set(this.name, file);
 
             this.$emit('uploading', model);
-            this.$set(this.progressBars, this.multiple ? this.values.length : 0, 0);
+            this.$set(this.progressBars, this.multiple ? (this.value ? this.value.length : 0) : 0, 0);
 
             return model.save(null, extend({
                 onUploadProgress: e => {
@@ -407,8 +407,13 @@ export default {
 <style lang="scss">
 
 .upload-field {
-    .uploading .file-preview {
-        opacity: .5;
+     .file-preview {
+        min-width: 100px;
+        min-height: 100px;
+
+        .uploading .file-preview {
+            opacity: .5;
+        }
     }
 }
 </style>

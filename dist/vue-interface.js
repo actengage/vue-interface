@@ -19682,7 +19682,7 @@
 
           model.set(this.name, file);
           this.$emit('uploading', model);
-          this.$set(this.progressBars, this.multiple ? this.values.length : 0, 0);
+          this.$set(this.progressBars, this.multiple ? this.value ? this.value.length : 0 : 0, 0);
           return model.save(null, assignIn({
             onUploadProgress: function onUploadProgress(e) {
               if (!file.index) {

@@ -1617,8 +1617,11 @@
     .thumbnail-list-item > img.img-fluid {
       width: 100%; }
 
-.upload-field .uploading .file-preview {
-  opacity: .5; }
+.upload-field .file-preview {
+  min-width: 100px;
+  min-height: 100px; }
+  .upload-field .file-preview .uploading .file-preview {
+    opacity: .5; }
 
 .wizard .slide-deck-content {
   margin: 1rem; }
