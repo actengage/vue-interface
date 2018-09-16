@@ -16,10 +16,6 @@
                 <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}"></i>
             </div>
 
-            progress: {{progress}}<br>
-            isImage: {{isImage}}<br>
-            loaded: {{loaded}}
-
             <progress-bar
                 v-if="progress || isImage && loaded !== false"
                 v-ready="readFile"
@@ -179,6 +175,8 @@ export default {
         readFile() {
             if(this.file instanceof File) {
                 const start = moment();
+
+                this.loaded = 0;
 
                 readFile(this.file, e => {
                     if(e.lengthComputable) {
