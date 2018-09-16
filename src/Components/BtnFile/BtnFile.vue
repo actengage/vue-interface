@@ -13,7 +13,7 @@
             :required="required"
             :multiple="multiple"
             :readonly="readonly"
-            v-on:change="$emit('change', $event.target.file)">
+            v-on:change="$emit('change', $event.target.files)">
     </btn>
 
 </template>

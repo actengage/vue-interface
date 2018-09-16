@@ -13695,7 +13695,7 @@
           },
           on: {
             "change": function change($event) {
-              _vm.$emit('change', $event.target.file);
+              _vm.$emit('change', $event.target.files);
             }
           }
         })], 2);
