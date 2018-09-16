@@ -24,7 +24,7 @@
                 :required="required"
                 :multiple="multiple"
                 :readonly="readonly"
-                @change="updated($event.target.files, 'change')">
+                @change="$emit('change', $event.target.files)">
 
             <slot name="help">
                 <help-text v-if="helpText" v-html="helpText" />

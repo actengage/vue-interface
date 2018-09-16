@@ -15,7 +15,7 @@
                 :pattern="pattern"
                 :checked="checkedValues.indexOf(value) !== -1 || checked"
                 :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
-                @change="updated($event.target.value, 'change')">
+                @change="update($event.target.value)">
 
             <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
                 <slot>{{label}}</slot>
@@ -41,7 +41,7 @@
                     :pattern="pattern"
                     :checked="checkedValues.indexOf(value) !== -1 || checked"
                     :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
-                    @change="updated($event.target.value, 'change')">
+                    @change="update($event.target.value)">
 
                 <slot>{{label}}</slot>
 
@@ -96,7 +96,7 @@ export default {
 
     methods: {
 
-        updated(value) {
+        update(value) {
             const checked = this.checkedValues.slice(0);
             const index = this.checkedValues.indexOf(value);
 

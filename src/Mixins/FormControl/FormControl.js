@@ -225,10 +225,6 @@ export default {
             }
 
             return !errors || isArray(errors) || isObject(errors) ? errors : [errors];
-        },
-
-        updated(value, event) {
-            this.$emit(event || 'input', value);
         }
 
     },

@@ -22,7 +22,7 @@
                 :disabled="disabled || readonly"
                 :class="mergeClasses(controlClasses, colorableClasses)"
                 v-bind-events="bindEvents"
-                v-on:input="updated($event.target.value)">
+                @input="$emit('input', $event.target.value)">
             </textarea>
         </slot>
 

@@ -13358,9 +13358,6 @@ var FormControl = {
       }
 
       return !errors || isArray(errors) || isObject(errors) ? errors : [errors];
-    },
-    updated: function updated(value, event) {
-      this.$emit(event || 'input', value);
     }
   },
   computed: {
@@ -13451,7 +13448,7 @@ var InputField = {
       },
       on: {
         "input": function input($event) {
-          _vm.updated($event.target.value);
+          _vm.$emit('input', $event.target.value);
         }
       }
     })]), _vm._v(" "), _vm._t("activity", [_c('transition', {
@@ -13568,7 +13565,7 @@ var FileField = {
       },
       on: {
         "change": function change($event) {
-          _vm.updated($event.target.files, 'change');
+          _vm.$emit('change', $event.target.files);
         }
       }
     }), _vm._v(" "), _vm._t("help", [_vm.helpText ? _c('help-text', {
@@ -13692,7 +13689,7 @@ var BtnFile = {
       },
       on: {
         "change": function change($event) {
-          _vm.updated($event.target.files, 'change');
+          _vm.$emit('change', $event.target.file);
         }
       }
     })], 2);
@@ -14907,7 +14904,7 @@ var RadioField = {
       },
       on: {
         "change": function change($event) {
-          _vm.updated($event.target.value, 'change');
+          _vm.$emit('change', $event.target.value);
         }
       }
     }), _vm._v(" "), _c('label', {
@@ -14955,7 +14952,7 @@ var RadioField = {
       },
       on: {
         "change": function change($event) {
-          _vm.updated($event.target.value, 'change');
+          _vm.$emit('change', $event.target.value);
         }
       }
     }), _vm._v(" "), _vm._t("default", [_vm._v(_vm._s(_vm.label))]), _vm._v(" "), _vm._t("feedback", [_vm.validFeedback ? _c('form-feedback', {
@@ -15101,7 +15098,7 @@ var CheckboxField = {
       },
       on: {
         "change": function change($event) {
-          _vm.updated($event.target.value, 'change');
+          _vm.update($event.target.value);
         }
       }
     }), _vm._v(" "), _c('label', {
@@ -15149,7 +15146,7 @@ var CheckboxField = {
       },
       on: {
         "change": function change($event) {
-          _vm.updated($event.target.value, 'change');
+          _vm.update($event.target.value);
         }
       }
     }), _vm._v(" "), _vm._t("default", [_vm._v(_vm._s(_vm.label))]), _vm._v(" "), _vm._t("feedback", [_vm.validFeedback ? _c('form-feedback', {
@@ -15194,7 +15191,7 @@ var CheckboxField = {
     }
   },
   methods: {
-    updated: function updated(value) {
+    update: function update(value) {
       var checked = this.checkedValues.slice(0);
       var index = this.checkedValues.indexOf(value);
 
@@ -17985,7 +17982,7 @@ var SelectField = {
       },
       on: {
         "input": function input($event) {
-          _vm.updated($event.target.value);
+          _vm.$emit('input', $event.target.value);
         }
       }
     }, [_vm._t("default")], 2)]), _vm._v(" "), _vm._t("help", [_vm.helpText ? _c('help-text', {
@@ -19099,7 +19096,7 @@ var TextareaField = {
       },
       on: {
         "input": function input($event) {
-          _vm.updated($event.target.value);
+          _vm.$emit('input', $event.target.value);
         }
       }
     })]), _vm._v(" "), _vm._t("help", [_vm.helpText ? _c('help-text', {
@@ -19610,13 +19607,13 @@ var UploadField = {
           remove(files, data);
         }
 
-        this.updated(files, 'change');
+        this.$emit('change', files);
       } else {
         if (data.request && data.request.cancel) {
           data.request.cancel();
         }
 
-        this.updated(null, 'change');
+        this.$emit('change', null);
       }
     },
     addFile: function addFile(file, subject) {
@@ -19633,11 +19630,11 @@ var UploadField = {
 
         if ((!this.maxUploads || this.maxUploads > files.length) && findIndex$1(files, data) === -1) {
           files.push(file);
-          this.updated(files, 'change');
+          this.$emit('change', files);
           this.upload(file);
         }
       } else {
-        this.updated(file, 'change');
+        this.$emit('change', file);
         this.upload(file);
       }
     },

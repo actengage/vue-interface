@@ -16,7 +16,7 @@
                 :readonly="readonly"
                 :pattern="pattern"
                 :class="mergeClasses(controlClasses, colorableClasses)"
-                v-on:input="updated($event.target.value)">
+                @input="$emit('input', $event.target.value)">
                 <slot />
             </select>
         </slot>

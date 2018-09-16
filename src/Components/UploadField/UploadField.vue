@@ -210,14 +210,14 @@ export default {
                     remove(files, data);
                 }
 
-                this.updated(files, 'change');
+                this.$emit('change', files);
             }
             else {
                 if(data.request && data.request.cancel) {
                     data.request.cancel();
                 }
 
-                this.updated(null, 'change');
+                this.$emit('change', null);
             }
         },
 
@@ -236,12 +236,12 @@ export default {
                 if((!this.maxUploads || this.maxUploads > files.length) && findIndex(files, data) === -1) {
                     files.push(file);
 
-                    this.updated(files, 'change');
+                    this.$emit('change', files);
                     this.upload(file);
                 }
             }
             else {
-                this.updated(file, 'change');
+                this.$emit('change', file);
                 this.upload(file);
             }
         },

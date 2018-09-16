@@ -15,7 +15,7 @@
                 :pattern="pattern"
                 :checked="checkedValue === value || checked"
                 :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
-                @change="updated($event.target.value, 'change')">
+                @change="$emit('change', $event.target.value)">
 
             <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
                 <slot>{{label}}</slot>
@@ -40,7 +40,7 @@
                     :pattern="pattern"
                     :checked="checkedValue === value || checked"
                     :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
-                    @change="updated($event.target.value, 'change')">
+                    @change="$emit('change', $event.target.value)">
 
                 <slot>{{label}}</slot>
 
