@@ -1,11 +1,11 @@
 <template>
     <div v-if="center" class="center-wrapper" :class="{'position-relative': relative, 'position-fixed': fixed}" :style="{minHeight: unit(this.minHeight), minWidth: unit(this.minWidth)}">
-        <div class="center-content">
+        <div class="center-content d-flex flex-column align-items-center">
             <component :is="component" :size="size" :prefix="prefix"/>
             <div v-if="label" v-html="label" class="activity-indicator-label"/>
         </div>
     </div>
-    <div v-else>
+    <div v-else class="d-flex flex-column align-items-center">
         <component :is="component" :style="{minHeight: unit(this.minHeight), minWidth: unit(this.minWidth)}" :size="size" :prefix="prefix"/>
         <div v-if="label" v-html="label" class="activity-indicator-label"/>
     </div>

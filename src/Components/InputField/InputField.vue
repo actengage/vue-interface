@@ -27,13 +27,13 @@
                     v-bind-events="bindEvents"
                     @input="$emit('input', $event.target.value)"
                 />
-            </div>
 
-            <slot name="activity">
-                <transition name="slide-fade">
-                    <activity-indicator key="test" v-if="activity" ref="activity" type="dots" :size="size"/>
-                </transition>
-            </slot>
+                <slot name="activity">
+                    <transition name="slide-fade">
+                        <activity-indicator key="test" v-if="activity" ref="activity" type="dots" :size="size"/>
+                    </transition>
+                </slot>
+            </div>
         </slot>
 
         <slot/>

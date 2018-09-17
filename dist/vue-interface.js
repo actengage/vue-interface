@@ -2734,7 +2734,7 @@
             minWidth: _vm.unit(this.minWidth)
           }
         }, [_c('div', {
-          staticClass: "center-content"
+          staticClass: "center-content d-flex flex-column align-items-center"
         }, [_c(_vm.component, {
           tag: "component",
           attrs: {
@@ -2746,7 +2746,9 @@
           domProps: {
             "innerHTML": _vm._s(_vm.label)
           }
-        }) : _vm._e()], 1)]) : _c('div', [_c(_vm.component, {
+        }) : _vm._e()], 1)]) : _c('div', {
+          staticClass: "d-flex flex-column align-items-center"
+        }, [_c(_vm.component, {
           tag: "component",
           style: {
             minHeight: _vm.unit(this.minHeight),
@@ -13470,7 +13472,7 @@
               _vm.$emit('input', $event.target.value);
             }
           }
-        })]), _vm._v(" "), _vm._t("activity", [_c('transition', {
+        }), _vm._v(" "), _vm._t("activity", [_c('transition', {
           attrs: {
             "name": "slide-fade"
           }
@@ -13481,7 +13483,7 @@
             "type": "dots",
             "size": _vm.size
           }
-        }) : _vm._e()], 1)])]), _vm._v(" "), _vm._t("default"), _vm._v(" "), _vm._t("help", [_vm.helpText ? _c('help-text', {
+        }) : _vm._e()], 1)])], 2)]), _vm._v(" "), _vm._t("default"), _vm._v(" "), _vm._t("help", [_vm.helpText ? _c('help-text', {
           ref: "help",
           domProps: {
             "innerHTML": _vm._s(_vm.helpText)
