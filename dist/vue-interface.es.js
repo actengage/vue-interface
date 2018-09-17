@@ -2735,7 +2735,12 @@ var ActivityIndicator = {
         "size": _vm.size,
         "prefix": _vm.prefix
       }
-    })], 1)]) : _c(_vm.component, {
+    }), _vm._v(" "), _vm.label ? _c('div', {
+      staticClass: "activity-indicator-label",
+      domProps: {
+        "innerHTML": _vm._s(_vm.label)
+      }
+    }) : _vm._e()], 1)]) : _c('div', [_c(_vm.component, {
       tag: "component",
       style: {
         minHeight: _vm.unit(this.minHeight),
@@ -2745,7 +2750,12 @@ var ActivityIndicator = {
         "size": _vm.size,
         "prefix": _vm.prefix
       }
-    });
+    }), _vm._v(" "), _vm.label ? _c('div', {
+      staticClass: "activity-indicator-label",
+      domProps: {
+        "innerHTML": _vm._s(_vm.label)
+      }
+    }) : _vm._e()], 1);
   },
   staticRenderFns: [],
   name: 'activity-indicator',
@@ -2753,6 +2763,7 @@ var ActivityIndicator = {
   props: {
     center: Boolean,
     fixed: Boolean,
+    label: String,
     relative: Boolean,
     type: {
       type: String,

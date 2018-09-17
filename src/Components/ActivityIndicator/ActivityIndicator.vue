@@ -1,10 +1,14 @@
 <template>
     <div v-if="center" class="center-wrapper" :class="{'position-relative': relative, 'position-fixed': fixed}" :style="{minHeight: unit(this.minHeight), minWidth: unit(this.minWidth)}">
         <div class="center-content">
-            <component :is="component" :size="size" :prefix="prefix"></component>
+            <component :is="component" :size="size" :prefix="prefix"/>
+            <div v-if="label" v-html="label" class="activity-indicator-label"/>
         </div>
     </div>
-    <component v-else :is="component" :style="{minHeight: unit(this.minHeight), minWidth: unit(this.minWidth)}" :size="size" :prefix="prefix"></component>
+    <div v-else>
+        <component :is="component" :style="{minHeight: unit(this.minHeight), minWidth: unit(this.minWidth)}" :size="size" :prefix="prefix"/>
+        <div v-if="label" v-html="label" class="activity-indicator-label"/>
+    </div>
 </template>
 
 <script>
@@ -25,6 +29,8 @@ export default {
         center: Boolean,
 
         fixed: Boolean,
+
+        label: String,
 
         relative: Boolean,
 
