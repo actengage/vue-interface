@@ -7,31 +7,33 @@
         </slot>
 
         <slot name="control">
-            <input
-                ref="control"
-                :id="id"
-                :type="type"
-                :name="name"
-                :value="value"
-                :pattern="pattern"
-                :readonly="readonly"
-                :required="required"
-                :maxlength="maxlength"
-                :placeholder="placeholder"
-                :disabled="disabled || readonly"
-                :class="mergeClasses(controlClasses, colorableClasses)"
-                :aria-label="label"
-                :aria-describedby="id"
-                :autocomplete="autocomplete"
-                v-bind-events="bindEvents"
-                @input="$emit('input', $event.target.value)"
-            />
-        </slot>
+            <div class="position-relative">
+                <input
+                    ref="control"
+                    :id="id"
+                    :type="type"
+                    :name="name"
+                    :value="value"
+                    :pattern="pattern"
+                    :readonly="readonly"
+                    :required="required"
+                    :maxlength="maxlength"
+                    :placeholder="placeholder"
+                    :disabled="disabled || readonly"
+                    :class="mergeClasses(controlClasses, colorableClasses)"
+                    :aria-label="label"
+                    :aria-describedby="id"
+                    :autocomplete="autocomplete"
+                    v-bind-events="bindEvents"
+                    @input="$emit('input', $event.target.value)"
+                />
+            </div>
 
-        <slot name="activity">
-            <transition name="slide-fade">
-                <activity-indicator key="test" v-if="activity" ref="activity" type="dots" :size="size"/>
-            </transition>
+            <slot name="activity">
+                <transition name="slide-fade">
+                    <activity-indicator key="test" v-if="activity" ref="activity" type="dots" :size="size"/>
+                </transition>
+            </slot>
         </slot>
 
         <slot/>

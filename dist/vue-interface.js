@@ -13426,7 +13426,9 @@
           domProps: {
             "innerHTML": _vm._s(_vm.label)
           }
-        }) : _vm._e()]), _vm._v(" "), _vm._t("control", [_c('input', {
+        }) : _vm._e()]), _vm._v(" "), _vm._t("control", [_c('div', {
+          staticClass: "position-relative"
+        }, [_c('input', {
           directives: [{
             name: "bind-events",
             rawName: "v-bind-events",
@@ -13468,7 +13470,7 @@
             "type": "dots",
             "size": _vm.size
           }
-        }) : _vm._e()], 1)]), _vm._v(" "), _vm._t("default"), _vm._v(" "), _vm._t("help", [_vm.helpText ? _c('help-text', {
+        }) : _vm._e()], 1)])]), _vm._v(" "), _vm._t("default"), _vm._v(" "), _vm._t("help", [_vm.helpText ? _c('help-text', {
           ref: "help",
           domProps: {
             "innerHTML": _vm._s(_vm.helpText)
