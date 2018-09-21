@@ -2170,6 +2170,75 @@
       return apply(mergeWith, undefined, args);
     });
 
+    function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+      }
+    }
+
+    function _defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    function _createClass(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties(Constructor, staticProps);
+      return Constructor;
+    }
+
+    function _defineProperty(obj, key, value) {
+      if (key in obj) {
+        Object.defineProperty(obj, key, {
+          value: value,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        });
+      } else {
+        obj[key] = value;
+      }
+
+      return obj;
+    }
+
+    function _inherits(subClass, superClass) {
+      if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function");
+      }
+
+      subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+          value: subClass,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+      if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+    }
+
+    function _assertThisInitialized(self) {
+      if (self === void 0) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+      }
+
+      return self;
+    }
+
+    function _possibleConstructorReturn(self, call) {
+      if (call && (typeof call === "object" || typeof call === "function")) {
+        return call;
+      }
+
+      return _assertThisInitialized(self);
+    }
+
     /**
      * A specialized version of `_.reduce` for arrays without support for
      * iteratee shorthands.
@@ -2729,10 +2798,7 @@
             'position-relative': _vm.relative,
             'position-fixed': _vm.fixed
           },
-          style: {
-            minHeight: _vm.unit(this.minHeight),
-            minWidth: _vm.unit(this.minWidth)
-          }
+          style: _vm.style
         }, [_c('div', {
           staticClass: "center-content d-flex flex-column align-items-center"
         }, [_c(_vm.component, {
@@ -2747,13 +2813,10 @@
             "innerHTML": _vm._s(_vm.label)
           }
         }) : _vm._e()], 1)]) : _c('div', {
-          staticClass: "d-flex flex-column align-items-center"
+          staticClass: "d-flex flex-column justify-content-center align-items-center",
+          style: _vm.style
         }, [_c(_vm.component, {
           tag: "component",
-          style: {
-            minHeight: _vm.unit(this.minHeight),
-            minWidth: _vm.unit(this.minWidth)
-          },
           attrs: {
             "size": _vm.size,
             "prefix": _vm.prefix
@@ -2777,7 +2840,11 @@
           type: String,
           default: 'dots'
         },
+        height: [String, Number],
+        maxHeight: [String, Number],
         minHeight: [String, Number],
+        width: [String, Number],
+        maxWidth: [String, Number],
         minWidth: [String, Number]
       },
       components: {
@@ -2790,6 +2857,15 @@
         }
       },
       computed: {
+        style: function style() {
+          return _defineProperty({
+            width: this.width,
+            maxWidth: this.maxWidth,
+            minWidth: this.minWidth,
+            height: this.height,
+            maxHeight: this.maxHeight
+          }, "maxWidth", this.maxWidth);
+        },
         component: function component() {
           return kebabCase(this.prefix + this.type.replace(this.prefix, ''));
         }
@@ -4738,7 +4814,7 @@
       return obj;
     };
 
-    var _extends = Object.assign || function (target) {
+    var _extends$1 = Object.assign || function (target) {
       for (var i = 1; i < arguments.length; i++) {
         var source = arguments[i];
 
@@ -4760,7 +4836,7 @@
      * @returns {Object} ClientRect like output
      */
     function getClientRect(offsets) {
-      return _extends({}, offsets, {
+      return _extends$1({}, offsets, {
         right: offsets.left + offsets.width,
         bottom: offsets.top + offsets.height
       });
@@ -5042,7 +5118,7 @@
       };
 
       var sortedAreas = Object.keys(rects).map(function (key) {
-        return _extends({
+        return _extends$1({
           key: key
         }, rects[key], {
           area: getArea(rects[key])
@@ -5630,9 +5706,9 @@
       };
 
       // Update `data` attributes, styles and arrowStyles
-      data.attributes = _extends({}, attributes, data.attributes);
-      data.styles = _extends({}, styles, data.styles);
-      data.arrowStyles = _extends({}, data.offsets.arrow, data.arrowStyles);
+      data.attributes = _extends$1({}, attributes, data.attributes);
+      data.styles = _extends$1({}, styles, data.styles);
+      data.arrowStyles = _extends$1({}, data.offsets.arrow, data.arrowStyles);
 
       return data;
     }
@@ -5905,7 +5981,7 @@
 
           // this object contains `position`, we want to preserve it along with
           // any additional property we may add in the future
-          data.offsets.popper = _extends({}, data.offsets.popper, getPopperOffsets(data.instance.popper, data.offsets.reference, data.placement));
+          data.offsets.popper = _extends$1({}, data.offsets.popper, getPopperOffsets(data.instance.popper, data.offsets.reference, data.placement));
 
           data = runModifiers(data.instance.modifiers, data, 'flip');
         }
@@ -6179,7 +6255,7 @@
 
       order.forEach(function (placement) {
         var side = ['left', 'top'].indexOf(placement) !== -1 ? 'primary' : 'secondary';
-        popper = _extends({}, popper, check[side](placement));
+        popper = _extends$1({}, popper, check[side](placement));
       });
 
       data.offsets.popper = popper;
@@ -6214,7 +6290,7 @@
           end: defineProperty$1({}, side, reference[side] + reference[measurement] - popper[measurement])
         };
 
-        data.offsets.popper = _extends({}, popper, shiftOffsets[shiftvariation]);
+        data.offsets.popper = _extends$1({}, popper, shiftOffsets[shiftvariation]);
       }
 
       return data;
@@ -6730,7 +6806,7 @@
         this.update = debounce(this.update.bind(this));
 
         // with {} we create a new object with the options inside it
-        this.options = _extends({}, Popper.Defaults, options);
+        this.options = _extends$1({}, Popper.Defaults, options);
 
         // init state
         this.state = {
@@ -6745,13 +6821,13 @@
 
         // Deep merge modifiers options
         this.options.modifiers = {};
-        Object.keys(_extends({}, Popper.Defaults.modifiers, options.modifiers)).forEach(function (name) {
-          _this.options.modifiers[name] = _extends({}, Popper.Defaults.modifiers[name] || {}, options.modifiers ? options.modifiers[name] : {});
+        Object.keys(_extends$1({}, Popper.Defaults.modifiers, options.modifiers)).forEach(function (name) {
+          _this.options.modifiers[name] = _extends$1({}, Popper.Defaults.modifiers[name] || {}, options.modifiers ? options.modifiers[name] : {});
         });
 
         // Refactoring modifiers' list (Object => Array)
         this.modifiers = Object.keys(this.options.modifiers).map(function (name) {
-          return _extends({
+          return _extends$1({
             name: name
           }, _this.options.modifiers[name]);
         })
@@ -9052,75 +9128,6 @@
         });
       }
     });
-
-    function _classCallCheck(instance, Constructor) {
-      if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-      }
-    }
-
-    function _defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    function _createClass(Constructor, protoProps, staticProps) {
-      if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) _defineProperties(Constructor, staticProps);
-      return Constructor;
-    }
-
-    function _defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value: value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-
-      return obj;
-    }
-
-    function _inherits(subClass, superClass) {
-      if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function");
-      }
-
-      subClass.prototype = Object.create(superClass && superClass.prototype, {
-        constructor: {
-          value: subClass,
-          enumerable: false,
-          writable: true,
-          configurable: true
-        }
-      });
-      if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-    }
-
-    function _assertThisInitialized(self) {
-      if (self === void 0) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-      }
-
-      return self;
-    }
-
-    function _possibleConstructorReturn(self, call) {
-      if (call && (typeof call === "object" || typeof call === "function")) {
-        return call;
-      }
-
-      return _assertThisInitialized(self);
-    }
 
     /**
      * The base implementation of `_.reduce` and `_.reduceRight`, without support
@@ -13366,6 +13373,16 @@
         }
       },
       methods: {
+        blur: function blur() {
+          if (this.getInputField()) {
+            this.getInputField().blur();
+          }
+        },
+        focus: function focus() {
+          if (this.getInputField()) {
+            this.getInputField().focus();
+          }
+        },
         getInputField: function getInputField() {
           return this.$el.querySelector('.form-control, input, select, textarea');
         },
@@ -18290,14 +18307,8 @@
 
     var RESIZE_MODES = {
       auto: function auto(el) {
-        var _this = this;
-
-        this.height = null;
-        this.width = null;
-        this.$nextTick(function () {
-          _this.width = getComputedStyle(el).width;
-          _this.height = getComputedStyle(el).height;
-        });
+        this.width = getComputedStyle(el).width;
+        this.height = getComputedStyle(el).height;
       },
       initial: function initial(el) {
         if (!this.height && this.$el.clientHeight) {
@@ -18433,13 +18444,13 @@
       },
       methods: {
         resize: function resize(el) {
-          var _this2 = this;
+          var _this = this;
 
           this.$nextTick(function () {
-            if (isFunction$1(_this2.resizeMode)) {
-              _this2.resizeMode.call(_this2, el || _this2.$el);
-            } else if (isFunction$1(RESIZE_MODES[_this2.resizeMode])) {
-              RESIZE_MODES[_this2.resizeMode].call(_this2, el || _this2.$el);
+            if (isFunction$1(_this.resizeMode)) {
+              _this.resizeMode.call(_this, el || _this.$el);
+            } else if (isFunction$1(RESIZE_MODES[_this.resizeMode])) {
+              RESIZE_MODES[_this.resizeMode].call(_this, el || _this.$el);
             }
           });
         },
@@ -18456,29 +18467,31 @@
           this.$emit('after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
         onSlideBeforeEnter: function onSlideBeforeEnter(el) {
+          this.resize(el);
           this.$emit('before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
         onSlideEnter: function onSlideEnter(el, done) {
-          var _this3 = this;
+          var _this2 = this;
 
-          this.resize(el);
           transition(el).then(function (delay) {
-            _this3.$nextTick(done);
+            _this2.$nextTick(done);
           });
           this.$emit('enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
         onSlideAfterLeave: function onSlideAfterLeave(el) {
+          this.width = null;
+          this.height = null;
           this.$emit('after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         },
         onSlideBeforeLeave: function onSlideBeforeLeave(el) {
+          this.resize(el);
           this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         },
         onSlideLeave: function onSlideLeave(el, done) {
-          var _this4 = this;
+          var _this3 = this;
 
-          this.resize(el);
           transition(el).then(function (delay) {
-            _this4.$nextTick(done);
+            _this3.$nextTick(done);
           });
           this.$emit('leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         }
@@ -18502,14 +18515,13 @@
         }
       },
       mounted: function mounted() {
-        var _this5 = this;
+        var _this4 = this;
 
         this.$nextTick(function () {
-          if (_this5.overflowElement) {
-            _this5.overflowElement.style.overflow = 'hidden';
-          }
+          if (_this4.overflowElement) {
+            _this4.overflowElement.style.overflow = 'hidden';
+          } //this.resize();
 
-          _this5.resize();
         });
       },
       data: function data() {

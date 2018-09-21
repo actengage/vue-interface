@@ -213,6 +213,18 @@ export default {
 
     methods: {
 
+        blur() {
+            if(this.getInputField()) {
+                this.getInputField().blur();
+            }
+        },
+
+        focus() {
+            if(this.getInputField()) {
+                this.getInputField().focus();
+            }
+        },
+
         getInputField() {
             return this.$el.querySelector('.form-control, input, select, textarea');
         },

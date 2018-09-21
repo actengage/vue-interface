@@ -1,12 +1,12 @@
 <template>
-    <div v-if="center" class="center-wrapper" :class="{'position-relative': relative, 'position-fixed': fixed}" :style="{minHeight: unit(this.minHeight), minWidth: unit(this.minWidth)}">
+    <div v-if="center" class="center-wrapper" :class="{'position-relative': relative, 'position-fixed': fixed}" :style="style">
         <div class="center-content d-flex flex-column align-items-center">
             <component :is="component" :size="size" :prefix="prefix"/>
             <div v-if="label" v-html="label" class="activity-indicator-label"/>
         </div>
     </div>
-    <div v-else class="d-flex flex-column align-items-center">
-        <component :is="component" :style="{minHeight: unit(this.minHeight), minWidth: unit(this.minWidth)}" :size="size" :prefix="prefix"/>
+    <div v-else class="d-flex flex-column justify-content-center align-items-center" :style="style">
+        <component :is="component" :size="size" :prefix="prefix"/>
         <div v-if="label" v-html="label" class="activity-indicator-label"/>
     </div>
 </template>
@@ -39,7 +39,15 @@ export default {
             default: 'dots'
         },
 
+        height: [String, Number],
+
+        maxHeight: [String, Number],
+
         minHeight: [String, Number],
+
+        width: [String, Number],
+
+        maxWidth: [String, Number],
 
         minWidth: [String, Number]
 
@@ -59,6 +67,17 @@ export default {
     },
 
     computed: {
+
+        style() {
+            return {
+                width: this.width,
+                maxWidth: this.maxWidth,
+                minWidth: this.minWidth,
+                height: this.height,
+                maxHeight: this.maxHeight,
+                maxWidth: this.maxWidth
+            }
+        },
 
         component() {
             return kebabCase(this.prefix + this.type.replace(this.prefix, ''));

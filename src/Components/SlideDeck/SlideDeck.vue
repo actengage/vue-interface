@@ -32,13 +32,8 @@ import SlideDeckControls from './SlideDeckControls';
 
 const RESIZE_MODES = {
     auto(el) {
-        this.height = null;
-        this.width = null;
-
-        this.$nextTick(() => {
-            this.width = getComputedStyle(el).width;
-            this.height = getComputedStyle(el).height;
-        });
+        this.width = getComputedStyle(el).width;
+        this.height = getComputedStyle(el).height;
     },
     initial(el) {
         if(!this.height && this.$el.clientHeight) {
@@ -166,11 +161,11 @@ export default {
         },
 
         onSlideBeforeEnter(el) {
+            this.resize(el);
             this.$emit('before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
 
         onSlideEnter(el, done) {
-            this.resize(el);
 
             transition(el).then(delay => {
                 this.$nextTick(done);
@@ -180,15 +175,17 @@ export default {
         },
 
         onSlideAfterLeave(el) {
+            this.width = null;
+            this.height = null;
             this.$emit('after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         },
 
         onSlideBeforeLeave(el) {
+            this.resize(el);
             this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         },
 
         onSlideLeave(el, done) {
-            this.resize(el);
 
             transition(el).then(delay => {
                 this.$nextTick(done);
@@ -230,7 +227,7 @@ export default {
                 this.overflowElement.style.overflow = 'hidden';
             }
 
-            this.resize();
+            //this.resize();
         });
     },
 
@@ -286,12 +283,12 @@ export default {
     .slide-backward-leave-active {
         opacity: 0;
         transition: all .5s ease;
+            position: absolute;
+            top: 0;
     }
 
     .slide-forward-enter-active,
     .slide-backward-enter-active {
-        position: absolute;
-        top: 0;
         width: 100%;
     }
 
@@ -319,50 +316,5 @@ export default {
         transform: translateX(0);
     }
 
-
-
-    /*
-    .slide-fade-forward-leave-active,
-    .slide-fade-forward-leave-to {
-        z-index: 1;
-        transform: translateX(-100%);
-    }
-
-    .slide-fade-forward-enter-active,
-    .slide-fade-backward-enter-active {
-        z-index: 2;
-        transition: all 2s ease-out;
-    }
-    .slide-fade-forward-leave-active,
-    .slide-fade-backward-leave-active {
-        z-index: 1;
-        transition: all 2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-    }
-
-    .slide-fade-forward-enter,
-    .slide-fade-forward-leave-to,
-    .slide-fade-backward-enter,
-    .slide-fade-backward-leave-to {
-        position: absolute !important;
-        top: 0;
-        width: 100%;
-        opacity: 0;
-    }
-
-    .slide-fade-forward-enter,
-    .slide-fade-forward-leave-to {
-        right: 0;
-    }
-
-    .slide-fade-forward-enter,
-    .slide-fade-forward-leave-to {
-        transform: translateX(100%);
-    }
-
-    .slide-fade-backward-enter,
-    .slide-fade-backward-leave-to {
-        transform: translateX(100%);
-    }
-    */
 }
 </style>

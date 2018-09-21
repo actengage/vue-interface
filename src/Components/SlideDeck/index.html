@@ -23,22 +23,26 @@
 
             <div class="w-25">
                 <slide-deck fluid :active="currentSlide" style="background: pink;">
-                    <div key="Slide 1">
-                        Slide 1
+                    <div key="Slide 1" class="p-3">
+                        <h2>Slide 1</h2>
+                        <input-field v-model="form.field1" label="Field 1"/>
                         <btn type="button" @click="currentSlide = 'Slide 2'">Next <i class="fa fa-long-arrow-right"></i></btn>
                     </div>
-                    <div key="Slide 2" style="background: red; height: 400px;">
-                        Slide 2
+                    <div key="Slide 2" class="p-3" style="background: red; height: 400px;">
+                        <h2>Slide 2</h2>
+                        <input-field v-model="form.field2" label="Field 2"/>
                         <btn type="button" @click="currentSlide = 'Slide 1'"><i class="fa fa-long-arrow-left"></i> Prev</btn>
                         <btn type="button" @click="currentSlide = 'Slide 3'">Next <i class="fa fa-long-arrow-right"></i></btn>
                     </div>
-                    <div key="Slide 3" style="height: 300px; background: yellow;">
-                        Slide 3
+                    <div key="Slide 3" class="p-3" style="height: 300px; background: yellow;">
+                        <h2>Slide 3</h2>
+                        <input-field v-model="form.field3" label="Field 3"/>
                         <btn type="button" @click="currentSlide = 'Slide 2'"><i class="fa fa-long-arrow-left"></i> Prev</btn>
                         <btn type="button" @click="currentSlide = 'Slide 4'">Next <i class="fa fa-long-arrow-right"></i></btn>
                     </div>
-                    <div key="Slide 4">
-                        Slide 4
+                    <div key="Slide 4" class="p-3">
+                        <h2>Slide 4</h2>
+                        <input-field v-model="form.field4" label="Field 4"/>
                         <btn type="button" @click="currentSlide = 'Slide 3'"><i class="fa fa-long-arrow-left"></i> Prev</btn>
                     </div>
                 </slide-deck>
@@ -62,7 +66,9 @@
                             <btn>Login</btn>
                             <a href="#" class="ml-3">Forget Password</a>
                         </form>
-                        <activity-indicator label="Authenticating..." size="md" center></activity-indicator>
+                        <div class="position-relative">
+                            <activity-indicator label="Authenticating..." size="md" width="200px" height="200px"></activity-indicator>
+                        </div>
                         <div class="text-center py-5">
                             <p><i class="text-success fa fa-check fa-4x"></i></p>
                             You have been logged in!
@@ -83,6 +89,7 @@
                     <img src="http://via.placeholder.com/1440x500?text=Slide 3" class="img-fluid"/>
                 </slide-deck>
             </div>
+
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
