@@ -20831,13 +20831,19 @@
     var Slug = {
       inserted: function inserted(el, binding, vnode) {
         var input = el.querySelector('input, textarea') || el;
+
+        var value = get(vnode.context, binding.expression);
+
         var editable = !input.value;
-        vnode.context.$watch(binding.expression, function (value) {
+
+        var update = function update(value) {
           if (editable) {
             input.value = kebabCase(value);
             input.dispatchEvent(new Event('input'));
           }
-        });
+        };
+
+        vnode.context.$watch(binding.expression, update);
         input.addEventListener('keyup', function (event) {
           input.value = kebabCase(event.target.value) + (event.target.value.match(/\s$/) ? ' ' : '');
         });
@@ -20852,6 +20858,7 @@
           }, vnode.context));
           input.dispatchEvent(new Event('input'));
         });
+        !input.value && update(value);
       }
     };
 
