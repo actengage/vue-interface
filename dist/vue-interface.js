@@ -18305,21 +18305,6 @@
       }
     };
 
-    var RESIZE_MODES = {
-      auto: function auto(el) {
-        this.width = getComputedStyle(el).width;
-        this.height = getComputedStyle(el).height;
-      },
-      initial: function initial(el) {
-        if (!this.height && this.$el.clientHeight) {
-          this.height = unit(this.$el.clientHeight);
-        }
-
-        if (!this.width && this.$el.clientWidth) {
-          this.width = unit(this.$el.clientWidth);
-        }
-      }
-    };
     var SlideDeck = {
       render: function render() {
         var _vm = this;
@@ -18332,13 +18317,14 @@
           staticClass: "slide-deck",
           class: {
             'slide-deck-flex': _vm.center
-          },
+          }
+        }, [_c('div', {
+          ref: "content",
+          staticClass: "slide-deck-content",
           style: {
             width: _vm.width,
             height: _vm.height
           }
-        }, [_c('div', {
-          staticClass: "slide-deck-content"
         }, [_c('keep-alive', [_c('transition', {
           attrs: {
             "name": "slide-".concat(_vm.direction)
@@ -18358,6 +18344,7 @@
             "active": _vm.currentSlide
           }
         }, [_vm._t("default")], 2)], 1)], 1)], 1), _vm._v(" "), _vm._t("controls", [_vm.controls ? _c('slide-deck-controls', {
+          ref: "controls",
           attrs: {
             "slides": _vm.slides(),
             "active": _vm.currentSlide
@@ -18444,15 +18431,14 @@
       },
       methods: {
         resize: function resize(el) {
-          var _this = this;
-
-          this.$nextTick(function () {
-            if (isFunction$1(_this.resizeMode)) {
-              _this.resizeMode.call(_this, el || _this.$el);
-            } else if (isFunction$1(RESIZE_MODES[_this.resizeMode])) {
-              RESIZE_MODES[_this.resizeMode].call(_this, el || _this.$el);
-            }
-          });
+          if (isFunction$1(this.resizeMode)) {
+            this.resizeMode.call(this, el || this.$el);
+          } else {
+            var style = getComputedStyle(el);
+            this.width = "calc(".concat(style.width, " + ").concat(style.marginLeft, " + ").concat(style.marginRight, ")");
+            this.height = "calc(".concat(style.height, " + ").concat(style.marginTop, " + ").concat(style.marginBottom, ")");
+            console.log(this.width, this.height);
+          }
         },
         slide: function slide(index) {
           return this.$refs.slides ? this.$refs.slides.slide(index || this.active) : null;
@@ -18464,32 +18450,36 @@
           this.currentSlide = vnode.data ? vnode.data.key : vnode.key;
         },
         onSlideAfterEnter: function onSlideAfterEnter(el) {
+          this.width = null;
+          this.height = null;
           this.$emit('after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
         onSlideBeforeEnter: function onSlideBeforeEnter(el) {
-          this.resize(el);
           this.$emit('before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
         onSlideEnter: function onSlideEnter(el, done) {
-          var _this2 = this;
+          var _this = this;
 
+          this.resize(el);
           transition(el).then(function (delay) {
-            _this2.$nextTick(done);
+            _this.$nextTick(done);
           });
           this.$emit('enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
         onSlideAfterLeave: function onSlideAfterLeave(el) {
-          this.width = null;
-          this.height = null;
-          this.$emit('after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
+          var _this2 = this;
+
+          this.$nextTick(function () {
+            _this2.$emit('after-leave', _this2.$refs.slides.slide(_this2.lastSlide), _this2.$refs.slides.slide(_this2.currentSlide));
+          });
         },
         onSlideBeforeLeave: function onSlideBeforeLeave(el) {
-          this.resize(el);
           this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         },
         onSlideLeave: function onSlideLeave(el, done) {
           var _this3 = this;
 
+          this.resize(el);
           transition(el).then(function (delay) {
             _this3.$nextTick(done);
           });
@@ -18520,8 +18510,7 @@
         this.$nextTick(function () {
           if (_this4.overflowElement) {
             _this4.overflowElement.style.overflow = 'hidden';
-          } //this.resize();
-
+          }
         });
       },
       data: function data() {

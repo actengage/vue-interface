@@ -1,6 +1,6 @@
 <template>
-    <div class="slide-deck" :class="{'slide-deck-flex': center}" :style="{width: width, height: height}">
-        <div class="slide-deck-content">
+    <div class="slide-deck" :class="{'slide-deck-flex': center}">
+        <div ref="content" class="slide-deck-content" :style="{width: width, height: height}">
             <keep-alive>
                 <transition
                     :name="`slide-${direction}`"
@@ -17,7 +17,7 @@
             </keep-alive>
         </div>
         <slot name="controls">
-            <slide-deck-controls v-if="controls" :slides="slides()" :active="currentSlide" @click="onClickControl" />
+            <slide-deck-controls v-if="controls" ref="controls" :slides="slides()" :active="currentSlide" @click="onClickControl" />
         </slot>
     </div>
 </template>
@@ -134,14 +134,18 @@ export default {
     methods: {
 
         resize(el) {
-            this.$nextTick(() => {
-                if(isFunction(this.resizeMode)) {
-                    this.resizeMode.call(this, el || this.$el);
-                }
-                else if(isFunction(RESIZE_MODES[this.resizeMode])) {
-                    RESIZE_MODES[this.resizeMode].call(this, el || this.$el);
-                }
-            });
+            if(isFunction(this.resizeMode)) {
+                this.resizeMode.call(this, el || this.$el);
+            }
+            else {
+                const style = getComputedStyle(el);
+                
+                this.width = `calc(${style.width} + ${style.marginLeft} + ${style.marginRight})`;
+                this.height = `calc(${style.height} + ${style.marginTop} + ${style.marginBottom})`;
+
+
+                console.log(this.width, this.height);
+            }
         },
 
         slide(index) {
@@ -157,15 +161,17 @@ export default {
         },
 
         onSlideAfterEnter(el) {
+            this.width = null;
+            this.height = null;
             this.$emit('after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
 
         onSlideBeforeEnter(el) {
-            this.resize(el);
             this.$emit('before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
         },
 
         onSlideEnter(el, done) {
+            this.resize(el);
 
             transition(el).then(delay => {
                 this.$nextTick(done);
@@ -175,17 +181,17 @@ export default {
         },
 
         onSlideAfterLeave(el) {
-            this.width = null;
-            this.height = null;
-            this.$emit('after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
+            this.$nextTick(() => {
+                this.$emit('after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
+            });
         },
 
         onSlideBeforeLeave(el) {
-            this.resize(el);
             this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         },
 
         onSlideLeave(el, done) {
+            this.resize(el);
 
             transition(el).then(delay => {
                 this.$nextTick(done);
@@ -226,8 +232,6 @@ export default {
             if(this.overflowElement) {
                 this.overflowElement.style.overflow = 'hidden';
             }
-
-            //this.resize();
         });
     },
 
@@ -261,6 +265,7 @@ export default {
     }
 
     .slide-deck-content {
+        position: relative;
         // overflow-y: auto;
     }
 
@@ -283,8 +288,8 @@ export default {
     .slide-backward-leave-active {
         opacity: 0;
         transition: all .5s ease;
-            position: absolute;
-            top: 0;
+        position: absolute;
+        top: 0;
     }
 
     .slide-forward-enter-active,
@@ -302,12 +307,12 @@ export default {
 
     .slide-forward-enter-active,
     .slide-backward-leave-to {
-        transform: translateX(100%);
+        transform: translateX(200%);
     }
 
     .slide-forward-leave-to,
     .slide-backward-enter-active {
-        transform: translateX(-100%);
+        transform: translateX(-200%);
     }
 
     .slide-forward-enter-to,

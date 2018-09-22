@@ -55,9 +55,8 @@
 
             <div class="position-relative" style="min-height: 400px">
                 <popover>
-                    <slide-deck :active="step">
-                        <form @submit.prevent="step = 1">
-                            {{form}}
+                    <slide-deck :active="step" resize-mode="initial">
+                        <form key="1" @submit.prevent="step = 1">
                             <alert variant="info">
                                 <i class="fa fa-info-circle"></i> You can enter any username and password value.
                             </alert>
@@ -66,10 +65,10 @@
                             <btn>Login</btn>
                             <a href="#" class="ml-3">Forget Password</a>
                         </form>
-                        <div class="position-relative">
-                            <activity-indicator label="Authenticating..." size="md" width="200px" height="200px"></activity-indicator>
+                        <div key="2" class="position-relative p-5" style="min-width: 250px">
+                            <activity-indicator label="Authenticating..." size="md"></activity-indicator>
                         </div>
-                        <div class="text-center py-5">
+                        <div key="3" class="text-center py-5 px-4" style="min-width: 250px">
                             <p><i class="text-success fa fa-check fa-4x"></i></p>
                             You have been logged in!
                         </div>
