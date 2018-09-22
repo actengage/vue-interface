@@ -18468,12 +18468,12 @@ var SlideDeck = {
       });
     },
     onSlideBeforeLeave: function onSlideBeforeLeave(el) {
+      this.resize(el);
       this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
     },
     onSlideLeave: function onSlideLeave(el, done) {
       var _this3 = this;
 
-      this.resize(el);
       transition(el).then(function (delay) {
         _this3.$nextTick(done);
       });

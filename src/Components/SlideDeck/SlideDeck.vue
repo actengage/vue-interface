@@ -143,7 +143,6 @@ export default {
                 this.width = `calc(${style.width} + ${style.marginLeft} + ${style.marginRight})`;
                 this.height = `calc(${style.height} + ${style.marginTop} + ${style.marginBottom})`;
 
-
                 console.log(this.width, this.height);
             }
         },
@@ -187,11 +186,11 @@ export default {
         },
 
         onSlideBeforeLeave(el) {
+            this.resize(el);
             this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
         },
 
         onSlideLeave(el, done) {
-            this.resize(el);
 
             transition(el).then(delay => {
                 this.$nextTick(done);
