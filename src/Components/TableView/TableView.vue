@@ -84,16 +84,17 @@
 </template>
 
 <script>
+import Alert from '../Alert';
 import { keys } from 'lodash-es';
 import { each } from 'lodash-es';
 import { extend } from 'lodash-es';
 import { isObject } from 'lodash-es';
-import Pagination from '../Pagination';
-import ActivityIndicator from '../ActivityIndicator';
 import unit from '../../Helpers/Unit';
+import Pagination from '../Pagination';
 import Proxy from '../../Mixins/Proxy';
 import Request from '../../Http/Request';
 import TableViewHeader from './TableViewHeader';
+import ActivityIndicator from '../ActivityIndicator';
 import TableViewTransformer from '../../Http/TableViewTransformer/TableViewTransformer';
 
 export default {
@@ -102,6 +103,7 @@ export default {
     mixins: [Proxy],
 
     components: {
+        Alert,
         Pagination,
         ActivityIndicator,
         TableViewHeader

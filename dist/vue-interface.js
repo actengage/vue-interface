@@ -18833,6 +18833,7 @@
       name: 'table-view',
       mixins: [Proxy],
       components: {
+        Alert: Alert,
         Pagination: Pagination,
         ActivityIndicator: ActivityIndicator,
         TableViewHeader: TableViewHeader
