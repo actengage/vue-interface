@@ -18404,7 +18404,10 @@
          *
          * @type {String|Element|Boolean}
          */
-        overflow: [Object, String, Element, Boolean],
+        overflow: {
+          type: [Object, String, Element, Boolean],
+          default: true
+        },
 
         /**
          * The mode determines how the popover content will flex based on the
@@ -18435,9 +18438,14 @@
             this.resizeMode.call(this, el || this.$el);
           } else {
             var style = getComputedStyle(el);
-            this.width = "calc(".concat(style.width, " + ").concat(style.marginLeft, " + ").concat(style.marginRight, ")");
-            this.height = "calc(".concat(style.height, " + ").concat(style.marginTop, " + ").concat(style.marginBottom, ")");
-            console.log(this.width, this.height);
+
+            if (!el.style.width) {
+              el.width = el.style.width = "calc(".concat(style.width, " + ").concat(style.marginLeft, " + ").concat(style.marginRight, ")");
+            }
+
+            if (!el.style.height) {
+              el.height = el.style.height = "calc(".concat(style.height, " + ").concat(style.marginTop, " + ").concat(style.marginBottom, ")");
+            }
           }
         },
         slide: function slide(index) {
@@ -18450,6 +18458,14 @@
           this.currentSlide = vnode.data ? vnode.data.key : vnode.key;
         },
         onSlideAfterEnter: function onSlideAfterEnter(el) {
+          if (el.width) {
+            el.width = el.style.width = null;
+          }
+
+          if (el.height) {
+            el.height = el.style.height = null;
+          }
+
           this.width = null;
           this.height = null;
           this.$emit('after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
@@ -18461,6 +18477,8 @@
           var _this = this;
 
           this.resize(el);
+          this.width = el.style.width;
+          this.height = el.style.height;
           transition(el).then(function (delay) {
             _this.$nextTick(done);
           });
@@ -18468,6 +18486,14 @@
         },
         onSlideAfterLeave: function onSlideAfterLeave(el) {
           var _this2 = this;
+
+          if (el.width) {
+            el.width = el.style.width = null;
+          }
+
+          if (el.height) {
+            el.height = el.style.height = null;
+          }
 
           this.$nextTick(function () {
             _this2.$emit('after-leave', _this2.$refs.slides.slide(_this2.lastSlide), _this2.$refs.slides.slide(_this2.currentSlide));
@@ -18505,13 +18531,9 @@
         }
       },
       mounted: function mounted() {
-        var _this4 = this;
-
-        this.$nextTick(function () {
-          if (_this4.overflowElement) {
-            _this4.overflowElement.style.overflow = 'hidden';
-          }
-        });
+        if (this.overflowElement) {
+          this.overflowElement.style.overflow = 'hidden';
+        }
       },
       data: function data() {
         return {

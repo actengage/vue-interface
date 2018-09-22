@@ -30,22 +30,6 @@ import transition from '../../Helpers/Transition';
 import Slides from './Slides';
 import SlideDeckControls from './SlideDeckControls';
 
-const RESIZE_MODES = {
-    auto(el) {
-        this.width = getComputedStyle(el).width;
-        this.height = getComputedStyle(el).height;
-    },
-    initial(el) {
-        if(!this.height && this.$el.clientHeight) {
-            this.height = unit(this.$el.clientHeight);
-        }
-
-        if(!this.width && this.$el.clientWidth) {
-            this.width = unit(this.$el.clientWidth);
-        }
-    }
-};
-
 export default {
 
     name: 'slide-deck',
@@ -100,7 +84,10 @@ export default {
          *
          * @type {String|Element|Boolean}
          */
-        overflow: [Object, String, Element, Boolean],
+        overflow: {
+            type: [Object, String, Element, Boolean],
+            default: true
+        },
 
         /**
          * The mode determines how the popover content will flex based on the
@@ -140,10 +127,13 @@ export default {
             else {
                 const style = getComputedStyle(el);
 
-                this.width = `calc(${style.width} + ${style.marginLeft} + ${style.marginRight})`;
-                this.height = `calc(${style.height} + ${style.marginTop} + ${style.marginBottom})`;
+                if(!el.style.width) {
+                    el.width = el.style.width = `calc(${style.width} + ${style.marginLeft} + ${style.marginRight})`;
+                }
 
-                console.log(this.width, this.height);
+                if(!el.style.height) {
+                    el.height = el.style.height = `calc(${style.height} + ${style.marginTop} + ${style.marginBottom})`;
+                }
             }
         },
 
@@ -160,43 +150,72 @@ export default {
         },
 
         onSlideAfterEnter(el) {
+            if(el.width) {
+                el.width = el.style.width = null;
+            }
+
+            if(el.height) {
+                el.height = el.style.height = null;
+            }
+            
             this.width = null;
             this.height = null;
-            this.$emit('after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
+            this.$emit(
+                'after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide)
+            );
         },
 
         onSlideBeforeEnter(el) {
-            this.$emit('before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
+            this.$emit(
+                'before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide)
+            );
         },
 
         onSlideEnter(el, done) {
             this.resize(el);
+            this.width = el.style.width;
+            this.height = el.style.height;
 
             transition(el).then(delay => {
                 this.$nextTick(done);
             });
 
-            this.$emit('enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
+            this.$emit(
+                'enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide)
+            );
         },
 
         onSlideAfterLeave(el) {
+            if(el.width) {
+                el.width = el.style.width = null;
+            }
+
+            if(el.height) {
+                el.height = el.style.height = null;
+            }
+
             this.$nextTick(() => {
-                this.$emit('after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
+                this.$emit(
+                    'after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide)
+                );
             });
         },
 
         onSlideBeforeLeave(el) {
             this.resize(el);
-            this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
+            this.$emit(
+                'before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide)
+            );
         },
 
         onSlideLeave(el, done) {
-
             transition(el).then(delay => {
                 this.$nextTick(done);
             });
 
-            this.$emit('leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
+            this.$emit(
+                'leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide)
+            );
         }
 
     },
@@ -227,11 +246,9 @@ export default {
     },
 
     mounted() {
-        this.$nextTick(() => {
-            if(this.overflowElement) {
-                this.overflowElement.style.overflow = 'hidden';
-            }
-        });
+        if(this.overflowElement) {
+            this.overflowElement.style.overflow = 'hidden';
+        }
     },
 
     data() {
@@ -251,7 +268,6 @@ export default {
 .slide-deck {
     height: auto;
     position: relative;
-    transition: all .5s ease;
 
     &.slide-deck-flex {
         display: flex;
@@ -265,7 +281,7 @@ export default {
 
     .slide-deck-content {
         position: relative;
-        // overflow-y: auto;
+        transition: all .333s ease;
     }
 
     /*
@@ -286,13 +302,14 @@ export default {
     .slide-backward-enter-active,
     .slide-backward-leave-active {
         opacity: 0;
-        transition: all .5s ease;
+        transition: all .333s ease-out;
         position: absolute;
         top: 0;
     }
 
     .slide-forward-enter-active,
     .slide-backward-enter-active {
+        transition: all .333s ease-out;
         width: 100%;
     }
 
@@ -306,12 +323,12 @@ export default {
 
     .slide-forward-enter-active,
     .slide-backward-leave-to {
-        transform: translateX(150%);
+        transform: translateX(115%);
     }
 
     .slide-forward-leave-to,
     .slide-backward-enter-active {
-        transform: translateX(-150%);
+        transform: translateX(-115%);
     }
 
     .slide-forward-enter-to,
