@@ -139,7 +139,7 @@ export default {
             }
             else {
                 const style = getComputedStyle(el);
-                
+
                 this.width = `calc(${style.width} + ${style.marginLeft} + ${style.marginRight})`;
                 this.height = `calc(${style.height} + ${style.marginTop} + ${style.marginBottom})`;
 
@@ -307,12 +307,12 @@ export default {
 
     .slide-forward-enter-active,
     .slide-backward-leave-to {
-        transform: translateX(200%);
+        transform: translateX(150%);
     }
 
     .slide-forward-leave-to,
     .slide-backward-enter-active {
-        transform: translateX(-200%);
+        transform: translateX(-150%);
     }
 
     .slide-forward-enter-to,

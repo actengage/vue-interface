@@ -1521,10 +1521,10 @@
     right: 0; }
   .slide-deck .slide-forward-enter-active,
   .slide-deck .slide-backward-leave-to {
-    transform: translateX(200%); }
+    transform: translateX(150%); }
   .slide-deck .slide-forward-leave-to,
   .slide-deck .slide-backward-enter-active {
-    transform: translateX(-200%); }
+    transform: translateX(-150%); }
   .slide-deck .slide-forward-enter-to,
   .slide-deck .slide-backward-enter-to {
     opacity: 1;
