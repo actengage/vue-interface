@@ -39,15 +39,16 @@
 </template>
 
 <script>
+import Btn from '../Btn';
 import { each } from 'lodash-es';
-import { isString } from 'lodash-es';
-import BtnActivity from '../BtnActivity';
 import ModalBody from './ModalBody';
-import ModalBackdrop from './ModalBackdrop';
-import ModalContent from './ModalContent';
+import { isString } from 'lodash-es';
 import ModalDialog from './ModalDialog';
 import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';
+import BtnActivity from '../BtnActivity';
+import ModalContent from './ModalContent';
+import ModalBackdrop from './ModalBackdrop';
 import Triggerable from '../../Mixins/Triggerable';
 
 export default {
@@ -55,6 +56,7 @@ export default {
     name: 'modal',
 
     components: {
+        Btn,
         BtnActivity,
         ModalBody,
         ModalBackdrop,

@@ -35,7 +35,8 @@ import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';
 import FormFeedback from '../FormFeedback';
 import { isUndefined } from 'lodash-es'
-import FormControl from '../../Mixins/FormControl/FormControl';
+import FormControl from '../FormControl';
+import FormControlMixin from '../../Mixins/FormControl';
 
 export default {
 
@@ -45,11 +46,12 @@ export default {
         HelpText,
         FormGroup,
         FormLabel,
+        FormControl,
         FormFeedback
     },
 
     mixins: [
-        FormControl
+        FormControlMixin
     ],
 
     props: {

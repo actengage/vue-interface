@@ -29,7 +29,7 @@ export default {
         title: {
             type: String,
             default: 'Success!'
-        }
+        },
 
     }
 
@@ -45,7 +45,7 @@ $wizard-success-color: #55b776;
 .wizard-success {
     text-align: center;
     font-size: $font-size-lg;
-    padding: $font-size-lg;
+    padding: $font-size-lg * 4 $font-size-lg;
 
     .wizard-success-title {
         font-size: $font-size-lg * 1.5;

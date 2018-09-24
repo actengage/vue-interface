@@ -15,7 +15,6 @@ export default class Transformer {
             throw new Error('The transformer must be instantiated with a response object.');
         }
 
-
         if(!isArray(this.$required = this.required()) || !this.$required.length) {
             throw new Error('A transformer must have at least one required property.');
         }

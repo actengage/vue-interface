@@ -14,8 +14,7 @@
         :class="mergeClasses(controlClasses, colorableClasses)"
         :aria-label="label"
         :aria-describedby="id"
-        v-bind-events="bindEvents"
-        v-on:input="updated"/>
+        v-bind-events="bindEvents"/>
 
 </template>
 

@@ -18,7 +18,7 @@ export default function(Vue, options) {
         instance.$mount(
             document.body.appendChild(document.createElement('div'))
         );
-        
+
         return instance;
     };
 
@@ -45,10 +45,10 @@ export default function(Vue, options) {
 
     Vue.prototype.$confirm = function(title, Component, options) {
         return new Promise((resolve, reject) => {
-            const modal = this.$modal(Component, defaultsDeep(options, {
+            const modal = this.$modal(Component || title, defaultsDeep(options, {
                 modal: {
                     propsData: {
-                        title: title,
+                        title: Component ? title : null,
                         type: 'confirm'
                     }
                 }

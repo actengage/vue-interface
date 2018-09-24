@@ -95,7 +95,7 @@ import Proxy from '../../Mixins/Proxy';
 import Request from '../../Http/Request';
 import TableViewHeader from './TableViewHeader';
 import ActivityIndicator from '../ActivityIndicator';
-import TableViewTransformer from '../../Http/TableViewTransformer/TableViewTransformer';
+import TableViewTransformer from '../../Http/TableViewTransformer';
 
 export default {
     name: 'table-view',

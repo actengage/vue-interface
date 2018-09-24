@@ -4,7 +4,7 @@
         <wizard-header v-if="header && !isFinished" ref="header" v-html="header"/>
 
         <wizard-progress
-            v-if="$refs.slideDeck && !isFinished && !hasFailed"
+            v-if="!isFinished"
             ref="progress"
             :active="currentStep"
             :highest-step="highestStep"
@@ -13,7 +13,7 @@
         />
 
         <div class="wizard-content" ref="content">
-            <slot name="content"/>
+            <slot v-if="!isFinished" name="content"/>
 
             <slide-deck
                 v-if="!isFinished"
@@ -31,15 +31,14 @@
             </slot>
 
             <slot v-else-if="isFinished && hasFailed" name="error">
-                <wizard-error ref="error"/>
+                <wizard-error ref="error" :errors="errors" @back="onClickTest"/>
             </slot>
         </div>
 
-        <slot name="buttons">
+        <slot v-if="!isFinished" name="buttons">
             <hr>
 
             <wizard-buttons
-                v-if="!isFinished && !hasFailed"
                 ref="buttons"
                 size="lg"
                 :steps="steps"
@@ -93,6 +92,13 @@ export default {
             type: [String, Number],
             default: 0
         },
+
+        /**
+         * The the index or key of the max completed step.
+         *
+         * @type {String|Number}
+         */
+        completed: [String, Number],
 
         /**
          * Show the activity indicator in the next or finish button.
@@ -227,14 +233,15 @@ export default {
             this.isNextButtonDisabled = false;
         },
 
-        finish(status) {
+        finish(status, errors = null) {
+            this.errors = errors;
             this.hasFailed = status === false;
             this.isFinished = true;
         },
 
-        index() {
+        index(key = null) {
             return Math.max(0, this.$slots.default.indexOf(
-                find(this.$slots.default, ['key', this.active]) || this.$slots.default[this.active]
+                find(this.$slots.default, ['key', key || this.active]) || this.$slots.default[key || this.active]
             ));
         },
 
@@ -245,6 +252,10 @@ export default {
         onBeforeEnter(slide, prev) {
             slide.context.$emit('before-enter', slide, prev);
             this.$emit('before-enter', slide, prev);
+        },
+
+        onClickTest(event) {
+            this.isFinished = false;
         },
 
         onClickBack(event) {
@@ -284,7 +295,13 @@ export default {
         },
 
         onProgressClick(event, slide) {
-            this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
+            if(this.$refs.slideDeck) {
+                this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
+            }
+            else {
+                this.isFinished = false;
+                this.currentStep = this.index(slide.key);
+            }
         }
 
     },
@@ -304,10 +321,11 @@ export default {
     data() {
         return {
             steps: [],
+            errors: null,
             hasFailed: false,
             isFinished: false,
             currentStep: this.index(),
-            highestStep: this.index(),
+            highestStep: this.index(this.completed),
             isBackButtonDisabled: this.backButton === false,
             isNextButtonDisabled: this.nextButton === false,
             isFinishButtonDisabled: this.finishButton === false

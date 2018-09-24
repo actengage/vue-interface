@@ -7,10 +7,27 @@
         <h3 v-if="title" class="wizard-error-title" v-html="title"/>
 
         <slot/>
+
+        <div class="row justify-content-center">
+            <div class="col-sm-6">
+                <div v-if="errors" class="my-5">
+                    <ul class="mb-0 text-left">
+                        <li v-for="(error, i) in errors" :key="i">
+                            {{ error[0] }}
+                        </li>
+                    </ul>
+                </div>
+
+                <btn size="lg" variant="danger" block @click="$emit('back')">
+                    <i class="fa fa-long-arrow-left"/> Go Back
+                </btn>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import Btn from '../Btn';
 import WizardStep from './WizardStep';
 
 export default {
@@ -18,6 +35,10 @@ export default {
     name: 'wizard-error',
 
     extends: WizardStep,
+
+    components: {
+        Btn
+    },
 
     props: {
 
@@ -47,7 +68,7 @@ $wizard-error-color: #b10805;
 .wizard-error {
     text-align: center;
     font-size: $font-size-lg;
-    padding: $font-size-lg;
+    padding: $font-size-lg * 4 $font-size-lg;
 
     .wizard-error-title {
         font-size: $font-size-lg * 1.5;

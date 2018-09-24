@@ -105,15 +105,21 @@ export default {
     methods: {
 
         onClickBack(event) {
-            this.$emit('click:back', event);
+            if(this.backButton !== false) {
+                this.$emit('click:back', event);
+            }
         },
 
         onClickFinish(event) {
-            this.$emit('click:finish', event);
+            if(this.finishButton !== false) {
+                this.$emit('click:finish', event);
+            }
         },
 
         onClickNext(event) {
-            this.$emit('click:next', event);
+            if(this.nextButton !== false) {
+                this.$emit('click:next', event);
+            }
         }
 
     }

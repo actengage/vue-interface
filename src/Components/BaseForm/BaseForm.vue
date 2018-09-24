@@ -38,6 +38,13 @@ export default {
         },
 
         /**
+         * A JSON object of request headers
+         *
+         * @property Object
+         */
+        headers: Object,
+
+        /**
          * Display the form fields inline
          *
          * @property Object
@@ -48,7 +55,7 @@ export default {
                 return value instanceof Model;
             }
         },
-
+        
         /**
          * Display the form fields inline
          *
@@ -65,6 +72,13 @@ export default {
             type: Boolean,
             default: true
         },
+
+        /**
+         * A JSON object of key/value pairs to build the query string.
+         *
+         * @property Object
+         */
+        query: Object,
 
         /**
          * A URI or URL used to redirect user after form submits successfully.
@@ -126,6 +140,8 @@ export default {
             this.$emit('submit', event);
 
             return this.model[this.method](this.data, {
+                query: this.query,
+                headers: this.headers,
                 onUploadProgress: event => {
                     this.$emit('submit:progress', event);
                 }

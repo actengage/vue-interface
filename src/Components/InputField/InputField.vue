@@ -6,8 +6,8 @@
             <form-label ref="label" v-if="label || hasDefaultSlot" :for="id" v-html="label"/>
         </slot>
 
-        <slot name="control">
-            <div class="position-relative">
+        <div class="position-relative">
+            <slot name="control">
                 <input
                     ref="control"
                     :id="id"
@@ -27,26 +27,24 @@
                     v-bind-events="bindEvents"
                     @input="$emit('input', $event.target.value)"
                 />
+            </slot>
 
-                <slot name="activity">
-                    <transition name="slide-fade">
-                        <activity-indicator key="test" v-if="activity" ref="activity" type="dots" :size="size"/>
-                    </transition>
-                </slot>
-            </div>
-        </slot>
+            <slot name="activity">
+                <transition name="slide-fade">
+                    <activity-indicator key="test" v-if="activity" ref="activity" type="dots" :size="size"/>
+                </transition>
+            </slot>
 
-        <slot/>
+            <slot name="feedback">
+                <form-feedback v-if="validFeedback" ref="feedback" v-html="validFeedback" valid />
+                <form-feedback v-else-if="invalidFeedback" ref="feedback" v-html="invalidFeedback" invalid />
+            </slot>
+        </div>
 
         <slot name="help">
             <help-text v-if="helpText" ref="help" v-html="helpText" />
         </slot>
-
-        <slot name="feedback">
-            <form-feedback v-if="validFeedback" ref="feedback" v-html="validFeedback" valid />
-            <form-feedback v-else-if="invalidFeedback" ref="feedback" v-html="invalidFeedback" invalid />
-        </slot>
-
+        
     </form-group>
 
 </template>
