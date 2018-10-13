@@ -1,13 +1,20 @@
 <template>
-    <component :is="component" :href="href" :to="to" :class="classes">
+    <component :is="component" :href="href || (to ? '#' : null)" :to="to" :class="classes" @click="$emit('click', $event)">
         <slot />
+        <navigation-error v-if="error" :error="error"/>
     </component>
 </template>
 
 <script>
+import NavigationError from './NavigationError';
+
 export default {
 
     name: 'navigation-link',
+
+    components: {
+        NavigationError
+    },
 
     props: {
 
@@ -24,6 +31,13 @@ export default {
          * @prop {Boolean}
          */
         disabled: Boolean,
+
+        /**
+         * The error string.
+         *
+         * @prop {String}
+         */
+        error: String,
 
         /**
          * The href attribute
@@ -72,8 +86,8 @@ export default {
             });
 
             return {
-                'nav-link': this.href,
-                'nav-item': this.item,
+                'nav-link': !!this.href || !!this.to,
+                'nav-item': !!this.item,
                 'active': this.active,
                 'disabled': this.disabled
             }

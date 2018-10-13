@@ -1,7 +1,8 @@
 <template>
     <div class="progress" :style="{'height': formattedHeight}">
-        <div class="progress-bar" role="progressbar" :style="{'width': offsetValue + '%'}" :class="mergeClasses(progressClasses, variantClass)" :aria-valuenow="offsetValue" :aria-valuemin="min" :aria-valuemax="max">
-            <span v-if="label">{{offsetValue}}%</span>
+        <div class="progress-bar" role="progressbar" :style="styles" :class="mergeClasses(progressClasses, variantClass)" :aria-valuenow="offsetValue" :aria-valuemin="min" :aria-valuemax="max">
+            <span v-if="!!label"><template v-if="label !== true">{{label}}</template> {{offsetValue}}%</span>
+            <span v-else><slot/></span>
         </div>
     </div>
 </template>
@@ -22,6 +23,14 @@ export default {
     ],
 
     props: {
+
+        /**
+         * A custom color to be applied inline in the styles vs a contextual
+         * variant.
+         *
+         * @property String
+         */
+        color: String,
 
         /**
          * The progress bar percentage value
@@ -45,7 +54,7 @@ export default {
          *
          * @property String
          */
-        label: Boolean,
+        label: [String, Boolean],
 
         /**
          * Should the progress bar appear with stripes
@@ -101,6 +110,13 @@ export default {
             return {
                 'progress-bar-striped': this.striped,
                 'progress-bar-animated': this.animated
+            };
+        },
+
+        styles() {
+            return {
+                width: `${this.offsetValue}%`,
+                background: `${this.color} !important`
             };
         }
 

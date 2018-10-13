@@ -1482,6 +1482,9 @@
       right: 0;
       background: #ebedef; }
 
+.navigation-error {
+  color: #dc3545; }
+
 .slide-deck {
   height: auto;
   position: relative;
@@ -1539,6 +1542,14 @@
 
 .slide-deck-controls .slide-deck-control-icon.is-active {
   color: #007bff; }
+
+.card > .table {
+  margin-bottom: 0; }
+  .card > .table thead th {
+    border-top: 0;
+    border-bottom: 0; }
+  .card > .table tfoot .pagination {
+    margin-bottom: 0; }
 
 .thumbnail-list {
   width: 100%;

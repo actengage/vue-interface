@@ -17,7 +17,9 @@ import Proxy from '../../Mixins/Proxy/Proxy';
 
 export default {
 
-    mixins: [Proxy],
+    mixins: [
+        Proxy
+    ],
 
     props: {
 

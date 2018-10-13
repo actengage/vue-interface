@@ -66,6 +66,7 @@ import NavbarText from './Navbar/NavbarText';
 import NavbarToggler from './Navbar/NavbarToggler';
 import NavbarTogglerIcon from './Navbar/NavbarTogglerIcon';
 import Navigation from './Navigation';
+import NavigationError from './Navigation/NavigationError';
 import NavigationItem from './Navigation/NavigationItem';
 import NavigationLink from './Navigation/NavigationLink';
 import NavigationDropdown from './Navigation/NavigationDropdown';
@@ -160,6 +161,7 @@ export {
     ModalHeader,
     ModalTitle,
     Navigation,
+    NavigationError,
     NavigationItem,
     NavigationLink,
     NavigationDropdown,

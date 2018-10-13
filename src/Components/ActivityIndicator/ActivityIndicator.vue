@@ -58,24 +58,16 @@ export default {
         ActivityIndicatorSpinner
     },
 
-    methods: {
-
-        unit(value) {
-            return unit(value);
-        }
-
-    },
-
     computed: {
 
         style() {
             return {
-                width: this.width,
-                maxWidth: this.maxWidth,
-                minWidth: this.minWidth,
-                height: this.height,
-                maxHeight: this.maxHeight,
-                maxWidth: this.maxWidth
+                width: unit(this.width),
+                maxWidth: unit(this.maxWidth),
+                minWidth: unit(this.minWidth),
+                height: unit(this.height),
+                maxHeight: unit(this.maxHeight),
+                minHeight: unit(this.minHeight)
             }
         },
 

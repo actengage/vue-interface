@@ -13,24 +13,27 @@
             :required="required"
             :multiple="multiple"
             :readonly="readonly"
-            v-on:change="$emit('change', $event.target.files)">
+            v-on:change="$emit('change', multiple ? $event.target.files : $event.target.files[0])">
     </btn>
 
 </template>
 
 <script>
-
-import Btn from '../Btn/Btn';
-import FileField from '../FileField/FileField';
+import Btn from '../Btn';
+import FileField from '../FileField';
 
 export default {
 
     name: 'btn-file',
 
     mixins: [
-        Btn,
         FileField
     ],
+
+    components: {
+        Btn,
+        FileField
+    },
 
     model: {
         event: 'change'

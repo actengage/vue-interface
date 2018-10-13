@@ -1,5 +1,5 @@
 <template>
-    <component :is="component" :class="classes">
+    <component :is="component" :class="classes" @click="$emit('click', $event)">
         <slot />
     </component>
 </template>

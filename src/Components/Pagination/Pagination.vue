@@ -72,9 +72,8 @@ export default {
         showPages: {
             type: Number,
             default: 6
-        },
-
-        onPaginate: Function
+        }
+        
     },
 
     methods: {
@@ -93,10 +92,6 @@ export default {
             }
 
 			this.setActivePage(page);
-
-            if(this.onPaginate) {
-                this.onPaginate(page, event);
-            }
 
             this.$emit('paginate', page, event);
         },

@@ -3,6 +3,9 @@
         <a v-if="!active && href" :href="href">
             <slot>{{label}}</slot>
         </a>
+        <router-link v-else-if="!active && to" :to="to">
+            <slot>{{label}}</slot>
+        </router-link>
         <template v-else>
             <slot>{{label}}</slot>
         </template>
@@ -35,7 +38,14 @@ export default {
          *
          * @prop {String}
          */
-        label: String
+        label: String,
+
+        /**
+         * The to attribute which is passed to the <router-link> component.
+         *
+         * @prop {Object}
+         */
+        to: [String, Object]
 
     }
 

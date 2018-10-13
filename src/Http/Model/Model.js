@@ -1,8 +1,6 @@
-import { map } from 'lodash-es';
 import { each } from 'lodash-es';
 import { keys } from 'lodash-es';
 import { size } from 'lodash-es';
-import { extend } from 'lodash-es';
 import { filter } from 'lodash-es';
 import { isNull } from 'lodash-es';
 import { pickBy } from 'lodash-es';
@@ -23,8 +21,8 @@ export default class Model {
     constructor(data = {}, params = {}) {
         this.$request = null;
         this.$key = this.key();
-        this.$properties = this.properties();
         this.$files = this.files();
+        this.$properties = this.properties();
 
         each(params, (value, key) => {
             this[key] = value;
@@ -69,8 +67,7 @@ export default class Model {
             (this.endpoint() || ''),
             (this.exists() ? this.id() : null)
         ].concat([].slice.call(arguments)))
-        .join('/')
-        .replace(/^\//, '');
+        .join('/');
     }
 
     /**
@@ -374,9 +371,8 @@ export default class Model {
         return new Promise((resolve, reject) => {
             const data = !this.hasFiles() ? this.toJson() : this.toFormData();
 
-            this.$request = this.constructor.request(this.uri(), extend({}, config));
+            this.$request = this.constructor.request(this.uri(), Object.assign({}, config));
             this.$request.post(data).then(response => {
-                this.$request = null;
                 resolve(this.fill(response));
             }, reject);
         });
@@ -396,7 +392,6 @@ export default class Model {
 
             this.$request = this.constructor.request(this.uri(), config);
             this.$request[(this.hasFiles() ? 'post' : 'put')](data).then(response => {
-                this.$request = null;
                 resolve(this.fill(response));
             }, reject);
         });
@@ -416,7 +411,6 @@ export default class Model {
 
             this.$request = this.constructor.request(this.uri(), config);
             this.$request.delete().then(response => {
-                this.$request = null;
                 resolve(response);
             }, reject);
         });
@@ -492,20 +486,17 @@ export default class Model {
      * @param data object
      * @return bool
      */
-    static search(uri, params = {}, config = {}) {
+    static search(params = {}, config = {}) {
         const model = new this;
 
-        if(!uri) {
-            uri = model.uri();
-        }
-
         return new Promise((resolve, reject) => {
-            model.$request = this.request(uri, config);
+            model.$request = this.request(config.uri || model.uri(), config);
             model.$request.get(params).then(response => {
-                model.$request = null;
-                resolve(map(response.data, data => {
+                response.data = response.data.map(data => {
                     return new this(data);
-                }));
+                });
+
+                resolve(response);
             }, errors => {
                 reject(errors);
             });
@@ -523,7 +514,6 @@ export default class Model {
             const model = new this;
             model.$request = this.request(model.uri(id), config);
             model.$request.get().then(response => {
-                model.$request = null;
                 resolve(model.initialize(response));
             }, error => {
                 reject(error);

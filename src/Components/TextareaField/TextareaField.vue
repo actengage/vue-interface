@@ -9,30 +9,32 @@
         </slot>
 
         <slot name="control">
-            <textarea
-                :id="id"
-                :rows="rows"
-                :value="value"
-                :errors="errors"
-                :pattern="pattern"
-                :readonly="readonly"
-                :required="required"
-                :maxlength="maxlength"
-                :placeholder="placeholder"
-                :disabled="disabled || readonly"
-                :class="mergeClasses(controlClasses, colorableClasses)"
-                v-bind-events="bindEvents"
-                @input="$emit('input', $event.target.value)">
-            </textarea>
+            <div class="position-relative">
+                <textarea
+                    :id="id"
+                    :rows="rows"
+                    :value="value"
+                    :errors="errors"
+                    :pattern="pattern"
+                    :readonly="readonly"
+                    :required="required"
+                    :maxlength="maxlength"
+                    :placeholder="placeholder"
+                    :disabled="disabled || readonly"
+                    :class="mergeClasses(controlClasses, colorableClasses)"
+                    v-bind-events="bindEvents"
+                    @input="$emit('input', $event.target.value)">
+                </textarea>
+
+                <slot name="feedback">
+                    <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
+                    <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+                </slot>
+            </div>
         </slot>
 
         <slot name="help">
             <help-text v-if="helpText" v-html="helpText" />
-        </slot>
-
-        <slot name="feedback">
-            <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-            <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
         </slot>
 
     </form-group>
