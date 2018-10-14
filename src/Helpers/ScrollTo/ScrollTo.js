@@ -49,12 +49,13 @@ export default function scrollTo(destination, duration = 1000, easing = 'easeInQ
     const destinationBounds = destination.getBoundingClientRect();
     const destinationOffsetToScroll = Math.ceil(destinationBounds.top + document.documentElement.scrollTop);
 
+    function isScrollBottom() {
+        return document.documentElement.scrollTop >= Math.floor(viewportBounds.height) - window.innerHeight;
+    }
+
     return new Promise((resolve, reject) => {
         const startTime = performance.now();
-
-        function isScrollBottom() {
-            return document.documentElement.scrollTop >= Math.floor(viewportBounds.height) - window.innerHeight;
-        }
+        const isStartingBottom = isScrollBottom();
 
         function scroll() {
             const start = document.documentElement.scrollTop;
@@ -63,7 +64,7 @@ export default function scrollTo(destination, duration = 1000, easing = 'easeInQ
 
             window.scroll(0, Math.ceil((timeFunction * (destinationOffsetToScroll - start)) + start));
 
-            if (document.documentElement.scrollTop === destinationOffsetToScroll || isScrollBottom()) {
+            if (document.documentElement.scrollTop === destinationOffsetToScroll || isScrollBottom() && !isStartingBottom) {
                 resolve();
                 return;
             }
