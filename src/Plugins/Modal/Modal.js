@@ -1,6 +1,6 @@
-import { isObject } from 'lodash-es';
-import { isFunction } from 'lodash-es';
-import { defaultsDeep } from 'lodash-es';
+import { isObject } from '../../Helpers/Functions';
+import { isFunction } from '../../Helpers/Functions';
+import { deepExtend } from '../../Helpers/Functions';
 import Modal from '../../Components/Modal';
 import instantiate from '../../Helpers/Instantiate';
 
@@ -24,7 +24,7 @@ export default function(Vue, options) {
 
     Vue.prototype.$alert = function(title, Component, options) {
         return new Promise((resolve, reject) => {
-            const modal = this.$modal(Component, defaultsDeep(options, {
+            const modal = this.$modal(Component, deepExtend(options, {
                 modal: {
                     propsData: {
                         title: title,
@@ -45,7 +45,7 @@ export default function(Vue, options) {
 
     Vue.prototype.$confirm = function(title, Component, options) {
         return new Promise((resolve, reject) => {
-            const modal = this.$modal(Component || title, defaultsDeep(options, {
+            const modal = this.$modal(Component || title, deepExtend(options, {
                 modal: {
                     propsData: {
                         title: Component ? title : null,
@@ -77,7 +77,7 @@ export default function(Vue, options) {
                 predicate = () => true;
             }
 
-            const modal = this.$modal(Component, defaultsDeep(options, {
+            const modal = this.$modal(Component, deepExtend(options, {
                 modal: {
                     propsData: {
                         title: title,

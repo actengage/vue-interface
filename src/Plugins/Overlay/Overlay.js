@@ -1,5 +1,5 @@
-import { isObject } from 'lodash-es';
-import { defaultsDeep } from 'lodash-es';
+import { isObject } from '../../Helpers/Functions';
+import { deepExtend } from '../../Helpers/Functions';
 import instantiate from '../../Helpers/Instantiate';
 import Overlay from '../../Components/Overlay';
 
@@ -10,7 +10,7 @@ export default function(Vue, options) {
         }
 
         if(!target.$overlay) {
-            target.$overlay = instantiate(Vue, Overlay, defaultsDeep(options.overlay, {
+            target.$overlay = instantiate(Vue, Overlay, deepExtend(options.overlay, {
                 propsData: {
                     target: target
                 }

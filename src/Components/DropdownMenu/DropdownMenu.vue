@@ -8,9 +8,9 @@
 </template>
 
 <script>
-import { each } from 'lodash-es';
-import uuid from '../../Helpers/Uuid/Uuid';
-import prefix from '../../Helpers/Prefix/Prefix';
+import uuid from '../../Helpers/Uuid';
+import prefix from '../../Helpers/Prefix';
+import { each } from '../../Helpers/Functions';
 import DropdownMenuItem from './DropdownMenuItem';
 import DropdownMenuHeader from './DropdownMenuHeader';
 import DropdownMenuDivider from './DropdownMenuDivider';

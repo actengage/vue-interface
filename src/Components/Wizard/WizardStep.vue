@@ -1,6 +1,5 @@
 <script>
-import { isFunction } from 'lodash-es';
-import { isUndefined } from 'lodash-es';
+import { isFunction } from '../../Helpers/Functions';
 
 export default {
 

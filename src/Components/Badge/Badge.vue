@@ -10,7 +10,6 @@
 </template>
 
 <script>
-
 import prefix from '../../Helpers/Prefix';
 import Variant from '../../Mixins/Variant';
 import MergeClasses from '../../Mixins/MergeClasses';

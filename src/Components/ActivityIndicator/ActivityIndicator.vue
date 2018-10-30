@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import { kebabCase } from 'lodash-es';
+import unit from '../../Helpers/Unit';
 import BaseType from './Types/BaseType';
 import ActivityIndicatorDots from './Types/Dots';
+import { kebabCase } from '../../Helpers/Functions';
 import ActivityIndicatorSpinner from './Types/Spinner';
-import unit from '../../Helpers/Unit';
 
 export default {
 
@@ -80,10 +80,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import './node_modules/bootstrap/scss/functions.scss';
-@import './node_modules/bootstrap/scss/variables.scss';
-
-// Content Positioning Helpers
 .center-wrapper {
     position: absolute;
     top: 0;
@@ -98,5 +94,4 @@ export default {
     margin-right: -50%;
     transform: translate(-50%, -50%)
 }
-
 </style>

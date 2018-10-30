@@ -1,5 +1,5 @@
-import { isObject } from 'lodash-es';
-import { isString } from 'lodash-es';
+import { isObject } from '../Functions';
+import { isString } from '../Functions';
 
 export default function instantiate(Vue, Component, options) {
     if(Component instanceof Vue) {

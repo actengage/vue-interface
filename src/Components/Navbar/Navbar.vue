@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import { each } from 'lodash-es';
-import { isBoolean } from 'lodash-es';
+import { each } from '../../Helpers/Functions';
+import { isBoolean } from '../../Helpers/Functions';
 import prefix from '../../Helpers/Prefix';
 import Variant from '../../Mixins/Variant';
 import Colorable from '../../Mixins/Colorable';

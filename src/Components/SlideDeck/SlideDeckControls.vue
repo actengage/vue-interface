@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import { map } from 'lodash-es';
-
 export default {
 
     name: 'slide-deck-controls',

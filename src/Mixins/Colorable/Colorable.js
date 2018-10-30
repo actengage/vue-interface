@@ -1,9 +1,7 @@
-import { map } from 'lodash-es';
-import { each } from 'lodash-es';
-import { filter } from 'lodash-es';
-import { omitBy } from 'lodash-es';
-import { camelCase } from 'lodash-es';
-import prefix from '../../Helpers/Prefix/Prefix';
+import prefix from '../../Helpers/Prefix';
+import { each } from '../../Helpers/Functions';
+import { omitBy } from '../../Helpers/Functions';
+import { camelCase } from '../../Helpers/Functions';
 
 const COLORS = [
     'primary',
@@ -27,9 +25,10 @@ each(['border', 'text', 'bg', 'bg-gradient'], namespace => {
 });
 
 function classes(instance, namespace) {
-    return filter(map(COLORS, color => {
+    return COLORS.map(color => {
         return instance[camelCase(color = prefix(color, namespace))] ? color : null;
-    }));
+    })
+    .filter(value => !!value);
 }
 
 export default {

@@ -1,5 +1,5 @@
-import { wrap } from 'lodash-es';
-import { isFunction } from 'lodash-es';
+import { wrap } from '../Functions';
+import { isFunction } from '../Functions';
 
 export default function elapsed(milliseconds, callback, elapsedCallback) {
     let hasElapsed = false;

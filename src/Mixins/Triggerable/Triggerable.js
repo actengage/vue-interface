@@ -1,5 +1,5 @@
-import { each } from 'lodash-es';
-import { isString } from 'lodash-es';
+import { each } from '../../Helpers/Functions';
+import { isString } from '../../Helpers/Functions';
 import transition from '../../Helpers/Transition';
 
 export default {

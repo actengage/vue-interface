@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import { isFunction } from 'lodash-es';
 import Proxy from '../../Mixins/Proxy/Proxy';
 
 export default {

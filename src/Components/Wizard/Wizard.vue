@@ -56,11 +56,8 @@
 </template>
 
 <script>
-import { map } from 'lodash-es';
-import { each } from 'lodash-es';
-import { find } from 'lodash-es';
-import { extend } from 'lodash-es';
-import { filter } from 'lodash-es';
+import { each } from '../../Helpers/Functions';
+import { find } from '../../Helpers/Functions';
 import SlideDeck from '../SlideDeck';
 import WizardButtons from './WizardButtons';
 import WizardError from './WizardError';

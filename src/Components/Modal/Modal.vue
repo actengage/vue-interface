@@ -40,9 +40,9 @@
 
 <script>
 import Btn from '../Btn';
-import { each } from 'lodash-es';
+import { each } from '../../Helpers/Functions';
 import ModalBody from './ModalBody';
-import { isString } from 'lodash-es';
+import { isString } from '../../Helpers/Functions';
 import ModalDialog from './ModalDialog';
 import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';

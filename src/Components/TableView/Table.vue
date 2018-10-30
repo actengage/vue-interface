@@ -58,9 +58,8 @@
 
 <script>
 import Alert from '../Alert';
-import { keys } from 'lodash-es';
-import { each } from 'lodash-es';
-import { isObject } from 'lodash-es';
+import { each } from '../../Helpers/Functions';
+import { isObject } from '../../Helpers/Functions';
 import unit from '../../Helpers/Unit';
 import Pagination from '../Pagination';
 import TableViewHeader from './TableViewHeader';
@@ -135,7 +134,7 @@ export default {
             let columns = this.columns;
 
             if(!columns || !columns.length) {
-                columns = keys(this.data[0]);
+                columns = Object.keys(this.data[0]);
             }
 
             return columns.map(column => {

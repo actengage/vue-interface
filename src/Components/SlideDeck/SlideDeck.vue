@@ -23,8 +23,7 @@
 </template>
 
 <script>
-import { extend } from 'lodash-es';
-import { isFunction } from 'lodash-es';
+import { isFunction } from '../../Helpers/Functions';
 import unit from '../../Helpers/Unit';
 import transition from '../../Helpers/Transition';
 import Slides from './Slides';
@@ -157,7 +156,7 @@ export default {
             if(el.height) {
                 el.height = el.style.height = null;
             }
-            
+
             this.width = null;
             this.height = null;
             this.$emit(

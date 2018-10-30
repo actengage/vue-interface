@@ -16,8 +16,6 @@
 </template>
 
 <script>
-import { reduce } from 'lodash-es';
-
 export default {
 
     name: 'wizard-progress',

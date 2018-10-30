@@ -1,14 +1,10 @@
-import { each } from 'lodash-es';
-import { keys } from 'lodash-es';
-import { size } from 'lodash-es';
-import { filter } from 'lodash-es';
-import { isNull } from 'lodash-es';
-import { pickBy } from 'lodash-es';
-import { reduce } from 'lodash-es';
-import { isArray } from 'lodash-es';
-import { isObject } from 'lodash-es';
-import { isUndefined } from 'lodash-es'
 import Request from '../Request';
+import { each } from '../../Helpers/Functions';
+import { isNull } from '../../Helpers/Functions';
+import { pickBy } from '../../Helpers/Functions';
+import { isArray } from '../../Helpers/Functions';
+import { isObject } from '../../Helpers/Functions';
+import { isUndefined } from '../../Helpers/Functions';
 
 export default class Model {
 
@@ -63,10 +59,12 @@ export default class Model {
      * @return string
      */
     uri() {
-        return filter([
+        return [
             (this.endpoint() || ''),
             (this.exists() ? this.id() : null)
-        ].concat([].slice.call(arguments)))
+        ]
+        .filter(value => !!value)
+        .concat([].slice.call(arguments))
         .join('/');
     }
 
@@ -170,7 +168,7 @@ export default class Model {
      * @return array
      */
     getChangedAttributes() {
-        return keys(this.$changed);
+        return Object.keys(this.$changed);
     }
 
     /**
@@ -197,7 +195,7 @@ export default class Model {
      * @return array
      */
     getUnchangedAttributes() {
-        return filter(keys(this.$attributes), key => !(key in this.$changed));
+        return Object.keys(this.$attributes).filter(key => !(key in this.$changed));
     }
 
     /**
@@ -280,7 +278,7 @@ export default class Model {
      * @return bool
      */
     hasChanged(key) {
-        return !key ? size(this.$changed) > 0 : !isUndefined(this.$changed[key]);
+        return !key ? this.getChangedAttributes().length > 0 : !isUndefined(this.$changed[key]);
     }
 
     /**
@@ -290,7 +288,7 @@ export default class Model {
      */
     hasFiles() {
         function count(files, total = 0) {
-            return reduce(files, (carry, value) => {
+            return files.reduce((carry, value) => {
                 if(isArray(value)) {
                     return carry + count(value, total);
                 }

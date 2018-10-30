@@ -21,8 +21,8 @@ $('#myPopover').on('hidden.bs.popover', function () {
   // do something…
 })
 */
-import { each } from 'lodash-es';
-import { isString } from 'lodash-es';
+import { each } from '../../Helpers/Functions';
+import { isString } from '../../Helpers/Functions';
 import Popper from 'popper.js';
 import prefix from '../../Helpers/Prefix';
 import Triggerable from '../../Mixins/Triggerable';

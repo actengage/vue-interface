@@ -6,7 +6,7 @@
 
 <script>
 import Model from '../../Http/Model/Model';
-import { isFunction } from 'lodash-es';
+import { isFunction } from '../../Helpers/Functions';
 
 export default {
 
@@ -55,7 +55,7 @@ export default {
                 return value instanceof Model;
             }
         },
-        
+
         /**
          * Display the form fields inline
          *
@@ -113,7 +113,7 @@ export default {
                 if(this.redirect && isFunction(this.redirect)) {
                     this.redirect(this);
                 }
-                else if(this.redirect) {
+                else if(this.redirect && this.$router) {
                     this.$router.push(this.redirect);
                 }
             }

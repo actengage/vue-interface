@@ -1,5 +1,5 @@
-import { get } from 'lodash-es';
-import { kebabCase } from 'lodash-es';
+import { get } from '../../Helpers/Functions';
+import { kebabCase } from '../../Helpers/Functions';
 
 export default {
 

@@ -1,4 +1,4 @@
-import { isArray } from 'lodash-es';
+import { isArray } from '../../Helpers/Functions';
 import Transformer from '../Transformer';
 
 export default class TableViewTransformer extends Transformer {

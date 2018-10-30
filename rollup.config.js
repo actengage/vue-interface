@@ -66,15 +66,17 @@ const OUTPUT_GLOBALS = {
     'vue': 'Vue',
     'axios': 'axios',
     'moment': 'moment',
-    'lodash': 'lodash'
+    'popper.js': 'popper',
+    'bootstrap': 'bootstrap'
 };
 
 // Define an array of external packages to not include in the bundle
 const EXTERNAL = [
-    'vue',
     'axios',
+    'bootstrap',
     'moment',
-    'lodash'
+    'popper.js',
+    'vue'
 ];
 
 // Define the plugins used for the rollup process
@@ -91,7 +93,6 @@ const plugins = [
         '@': `${SRC}`,
         'moment': 'moment/src/moment'
     }),
-
     rootImport({
       // Will first look in `client/src/*` and then `common/src/*`.
       root: SRC,

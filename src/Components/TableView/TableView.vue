@@ -44,7 +44,7 @@
 <script>
 import Card from '../Card';
 import DataTable from './Table';
-import { extend } from 'lodash-es';
+import { extend } from '../../Helpers/Functions';
 import Proxy from '../../Mixins/Proxy';
 import Request from '../../Http/Request';
 import TableViewHeader from './TableViewHeader';

@@ -1,5 +1,5 @@
-import { isObject } from 'lodash-es';
-import { defaultsDeep } from 'lodash-es';
+import { isObject } from '../../Helpers/Functions';
+import { deepExtend } from '../../Helpers/Functions';
 import instantiate from '../../Helpers/Instantiate';
 import Popover from '../../Components/Popover';
 
@@ -10,7 +10,7 @@ export default function(Vue, options) {
         }
 
         if(!target.$popover) {
-            target.$popover = instantiate(Vue, Popover, defaultsDeep(options.popover, {
+            target.$popover = instantiate(Vue, Popover, deepExtend(options.popover, {
                 propsData: {
                     target: target
                 }

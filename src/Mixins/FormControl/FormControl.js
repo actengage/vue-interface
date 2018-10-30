@@ -1,9 +1,9 @@
-import { each } from 'lodash-es';
-import { isArray } from 'lodash-es';
-import { isObject } from 'lodash-es';
-import { camelCase } from 'lodash-es';
-import { isUndefined } from 'lodash-es'
-import prefix from '../../Helpers/Prefix/Prefix';
+import prefix from '../../Helpers/Prefix';
+import { each } from '../../Helpers/Functions';
+import { isArray } from '../../Helpers/Functions';
+import { isObject } from '../../Helpers/Functions';
+import { camelCase } from '../../Helpers/Functions';
+import { isUndefined } from '../../Helpers/Functions';
 
 export default {
 

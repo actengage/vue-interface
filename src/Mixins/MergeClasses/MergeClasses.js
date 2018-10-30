@@ -1,8 +1,7 @@
-import { each } from 'lodash-es';
-import { merge } from 'lodash-es';
-import { extend } from 'lodash-es';
-import { isArray } from 'lodash-es';
-import { isObject } from 'lodash-es';
+import { each } from '../../Helpers/Functions';
+import { extend } from '../../Helpers/Functions';
+import { isArray } from '../../Helpers/Functions';
+import { isObject } from '../../Helpers/Functions';
 
 export default {
 
@@ -16,7 +15,7 @@ export default {
                     extend(classes, arg);
                 }
                 else if(isArray(arg)) {
-                    merge(classes, arg);
+                    classes = classes.concat(arg);
                 }
                 else if(arg) {
                     classes[arg] = true;

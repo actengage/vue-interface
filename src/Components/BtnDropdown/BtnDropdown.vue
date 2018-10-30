@@ -48,14 +48,13 @@
 </template>
 
 <script>
-
-import { each } from 'lodash-es';
-import uuid from '../../Helpers/Uuid/Uuid';
-import prefix from '../../Helpers/Prefix/Prefix';
 import Btn from '../Btn';
-import BtnGroup from '../BtnGroup';
-import DropdownMenu from '../DropdownMenu';
 import Popper from 'popper.js';
+import BtnGroup from '../BtnGroup';
+import uuid from '../../Helpers/Uuid';
+import prefix from '../../Helpers/Prefix';
+import DropdownMenu from '../DropdownMenu';
+import { each } from '../../Helpers/Functions';
 
 const TAB_KEYCODE = 9;
 const LEFT_ARROW_KEYCODE = 37;

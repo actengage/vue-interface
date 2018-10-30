@@ -1,21 +1,18 @@
-import { filter } from 'lodash-es';
-import { isNull } from 'lodash-es';
-import { mapKeys } from 'lodash-es';
-import { isObject } from 'lodash-es';
-import { isBoolean } from 'lodash-es';
-import { isUndefined } from 'lodash-es';
+import { isNull } from '../Functions';
+import { mapKeys } from '../Functions';
+import { isObject } from '../Functions';
+import { isBoolean } from '../Functions';
+import { isUndefined } from '../Functions';
 
 export default function prefix(subject, prefix, delimeter = '-') {
     const prefixer = (value, key) => {
-        const string = key || value;
+        const string = (key || value)
+            .replace(new RegExp(`^${prefix}${delimeter}?`), '');
 
-        return filter([
-            prefix,
-            string.replace(new RegExp(`^${prefix}${delimeter}?`), '')
-        ]).join(delimeter);
+        return [prefix, string].filter(value => !!value).join(delimeter);
     }
 
-    if(isBoolean(subject) || isNull(subject) || isUndefined(subject)) {
+    if(isBoolean(subject)) {
         return subject;
     }
 

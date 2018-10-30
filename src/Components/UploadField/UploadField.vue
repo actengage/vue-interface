@@ -43,12 +43,11 @@
 </template>
 
 <script>
-import { each } from 'lodash-es';
-import { extend } from 'lodash-es';
-import { remove } from 'lodash-es';
-import { isArray } from 'lodash-es';
-import { findIndex } from 'lodash-es';
-import { isUndefined } from 'lodash-es'
+import { each } from '../../Helpers/Functions';
+import { extend } from '../../Helpers/Functions';
+import { remove } from '../../Helpers/Functions';
+import { isArray } from '../../Helpers/Functions';
+import { isUndefined } from '../../Helpers/Functions';
 import FormGroup from '../FormGroup';
 import Model from '../../Http/Model';
 import Dropzone from '../Dropzone/Dropzone';
@@ -233,7 +232,7 @@ export default {
             if(this.multiple) {
                 const files = subject || (isArray(this.value) ? this.value.slice(0) : []);
 
-                if((!this.maxUploads || this.maxUploads > files.length) && findIndex(files, data) === -1) {
+                if((!this.maxUploads || this.maxUploads > files.length) && files.indexOf(data) === -1) {
                     files.push(file);
 
                     this.$emit('change', files);
@@ -283,7 +282,7 @@ export default {
             return model.save(null, extend({
                 onUploadProgress: e => {
                     if(!file.index) {
-                        file.index = findIndex(this.files, file);
+                        file.index = this.files.indexOf(file);
                     }
 
                     if(!file.request) {

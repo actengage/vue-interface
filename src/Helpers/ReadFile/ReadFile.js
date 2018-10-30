@@ -1,4 +1,4 @@
-import { isFunction } from 'lodash-es';
+import { isFunction } from '../Functions';
 
 export default function readFile(file, progress) {
     if(!(file instanceof File)) {

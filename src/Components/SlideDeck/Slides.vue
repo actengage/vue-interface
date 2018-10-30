@@ -1,12 +1,8 @@
 <script>
-import { extend } from 'lodash-es';
-import { findIndex } from 'lodash-es';
-import { filter } from 'lodash-es';
-import { first } from 'lodash-es';
-import { isObject } from 'lodash-es';
-import { isUndefined } from 'lodash-es';
-import { map } from 'lodash-es';
-import transition from '../../Helpers/Transition';
+import { extend } from '../../Helpers/Functions';
+import { first } from '../../Helpers/Functions';
+import { findIndex } from '../../Helpers/Functions';
+import { isUndefined } from '../../Helpers/Functions';
 
 export default {
 
@@ -44,17 +40,19 @@ export default {
          * @return {Array}
          */
         slides() {
-            return map(filter(this.$slots.default, (vnode, i) => {
-                return !!vnode.tag;
-            }), (vnode, i) => {
-                if(!vnode.key || !vnode.data && !vnode.data.key) {
-                    vnode.data = extend(vnode.data, {
-                        key: vnode.key = i
-                    });
-                }
+            return this.$slots.default
+                .filter((vnode, i) => {
+                    return !!vnode.tag;
+                })
+                .map((vnode, i) => {
+                    if(!vnode.key || !vnode.data && !vnode.data.key) {
+                        vnode.data = extend(vnode.data, {
+                            key: vnode.key = i
+                        });
+                    }
 
-                return vnode;
-            });
+                    return vnode;
+                });
         },
 
         /**
@@ -73,7 +71,7 @@ export default {
          * @return {VNode|null}
          */
         findSlideByKey(key) {
-            return first(filter(this.slides(), (vnode, i) => {
+            return first(this.slides().filter((vnode, i) => {
                 if(vnode.key === key) {
                     return vnode;
                 }
@@ -82,7 +80,7 @@ export default {
                 }
 
                 return null;
-            }));
+            }))
         },
 
         /**

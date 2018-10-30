@@ -1,4 +1,4 @@
-import { isFunction } from 'lodash-es';
+import { isFunction } from '../../Helpers/Functions';
 import RequestOptions from './RequestOptions';
 
 export default function transformResponse(transformer, context) {

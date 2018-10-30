@@ -33,9 +33,9 @@
 
 <script>
 import moment from 'moment';
-import { isFunction } from 'lodash-es';
-import readFile from '../../Helpers/ReadFile/ReadFile';
 import ProgressBar from '../ProgressBar';
+import { isFunction } from '../../Helpers/Functions';
+import readFile from '../../Helpers/ReadFile/ReadFile';
 
 export default {
 
