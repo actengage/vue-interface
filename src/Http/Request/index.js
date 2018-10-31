@@ -1,12 +1,8 @@
 import Request from './Request';
-import RequestOptions from './RequestOptions';
-import transformRequest from './TransformRequest';
-import transformResponse from './TransformResponse';
+import Response from './Response';
 
 export {
-    RequestOptions,
-    transformRequest,
-    transformResponse
+    Response
 }
 
 export default Request;

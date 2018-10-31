@@ -354,44 +354,16 @@ export default class Model {
      * @return bool
      */
     save(data = {}, config = {}) {
-        return !this.exists() ? this.create(data, config) : this.update(data, config);
-    }
-
-    /**
-     * Create a new model
-     *
-     * @param data object
-     * @return bool
-     */
-    create(data = {}, config = {}) {
         this.fill(data);
 
         return new Promise((resolve, reject) => {
-            const data = !this.hasFiles() ? this.toJson() : this.toFormData();
+            const data = !this.hasFiles() ? this.toJSON() : this.toFormData();
+            const method = !this.exists() || this.hasFiles() ? 'post' : 'put';
 
-            this.$request = this.constructor.request(this.uri(), Object.assign({}, config));
-            this.$request.post(data).then(response => {
-                resolve(this.fill(response));
-            }, reject);
-        });
-    }
-
-    /**
-     * Update an existing model
-     *
-     * @param data object
-     * @return bool
-     */
-    update(data = {}, config = {}) {
-        this.fill(data);
-
-        return new Promise((resolve, reject) => {
-            const data = !this.hasFiles() ? this.toJson() : this.toFormData();
-
-            this.$request = this.constructor.request(this.uri(), config);
-            this.$request[(this.hasFiles() ? 'post' : 'put')](data).then(response => {
-                resolve(this.fill(response));
-            }, reject);
+            this.$request = this.constructor.request(method, config.uri || this.uri(), config);
+            this.$request.send({
+                data: data
+            }).then(response => resolve(this.fill(response)), reject);
         });
     }
 
@@ -407,8 +379,8 @@ export default class Model {
                 reject(new Error('The model must have a primary key before it can be delete.'));
             }
 
-            this.$request = this.constructor.request(this.uri(), config);
-            this.$request.delete().then(response => {
+            this.$request = this.constructor.request('delete', config.uri || this.uri(), config);
+            this.$request.send().then(response => {
                 resolve(response);
             }, reject);
         });
@@ -430,7 +402,7 @@ export default class Model {
     /**
      * Convert the Model instance to a FormData instance
      *
-     * @return object
+     * @return Object
      */
     toFormData() {
         const form = new FormData();
@@ -459,7 +431,7 @@ export default class Model {
     /**
      * Convert the instance to JSON payload
      *
-     * @return object
+     * @return Object
      */
     toJSON() {
         return pickBy(this.$attributes, (value, key) => {
@@ -470,9 +442,18 @@ export default class Model {
     }
 
     /**
+     * Convert the model to a string
+     *
+     * @return String
+     */
+    toString() {
+        return JSON.stringify(this.toJSON());
+    }
+
+    /**
      * Alias for toJSON
      *
-     * @return object
+     * @return Object
      */
     toJson() {
         return this.toJSON();
@@ -488,12 +469,8 @@ export default class Model {
         const model = new this;
 
         return new Promise((resolve, reject) => {
-            model.$request = this.request(config.uri || model.uri(), config);
-            model.$request.get(params).then(response => {
-                response.data = response.data.map(data => {
-                    return new this(data);
-                });
-
+            model.$request = this.request('get', (config.uri || model.uri()), config);
+            model.$request.send().then(response => {
                 resolve(response);
             }, errors => {
                 reject(errors);
@@ -510,8 +487,8 @@ export default class Model {
     static find(id, config = {}) {
         return new Promise((resolve, reject) => {
             const model = new this;
-            model.$request = this.request(model.uri(id), config);
-            model.$request.get().then(response => {
+            model.$request = this.request('get', (config.uri || model.uri(id)), config);
+            model.$request.send().then(response => {
                 resolve(model.initialize(response));
             }, error => {
                 reject(error);
@@ -525,8 +502,8 @@ export default class Model {
      * @param data object
      * @return bool
      */
-    static request(url, config = {}) {
-        return new Request(url, config);
+    static request(method, url, config = {}) {
+        return Request.make(method, url, config);
     }
 
 }

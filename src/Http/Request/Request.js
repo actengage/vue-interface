@@ -1,232 +1,135 @@
 import axios from 'axios';
-import moment from 'moment';
-// import { bind } from '../../Helpers/Functions';
-import { each } from '../../Helpers/Functions';
-import { first } from '../../Helpers/Functions';
+import Response from './Response';
+import BaseClass from '../../Support/BaseClass';
 import { extend } from '../../Helpers/Functions';
-import { isArray } from '../../Helpers/Functions';
 import { isObject } from '../../Helpers/Functions';
-import { cloneDeep } from '../../Helpers/Functions';
-import { camelCase } from '../../Helpers/Functions';
-//import { mergeWith } from '../../Helpers/Functions';
-import RequestOptions from './RequestOptions';
-import transformRequest from './TransformRequest';
-import transformResponse from './TransformResponse';
+import { isString } from '../../Helpers/Functions';
 
-const PROXY_OPTION_PROPERTIES = [
-    'headers',
-    'params',
-    'data'
-];
-
-const PROXY_OPTION_METHODS = {
-    get(prop, context) {
-        return () => {
-            return context[prop];
-        };
-    },
-    set(prop, context) {
-        return (value) => {
-            context[prop] = value;
-        };
-    },
-    add(prop, context) {
-        return (key, value) => {
-            context[prop][key] = value;
-        };
-    },
-    remove(prop, context) {
-        return (key) => {
-            delete context[prop][key];
-        };
-    },
-    merge(prop, context) {
-        return (key, values) => {
-            extend(context[prop], key);
-        };
-    }
+const DEFAULTS = {
+    transformRequest: [],
+    transformResponse: []
 };
 
-const method = function(action, prop) {
-    return camelCase([action, prop].join(' '));
-};
+export default class Request extends BaseClass {
 
-const chainable = function(prop) {
-    return (key, value) => {
-        if(key instanceof FormData) {
-            this[method('set', prop)](key);
-        }
-        else if(isObject(key)) {
-            this[method('merge', prop)](key);
-        }
-        else {
-            this[method('add', prop)](key, value);
-        }
-
-        return this;
-    };
-};
-
-function merge() {
-    const args = [].slice.call(arguments);
-    const items = args.splice(1);
-    let subject = first(args);
-
-    for(let i in items) {
-        subject = mergeWith(subject, items[i], (subject, value) => {
-            if(isArray(subject)) {
-                return subject.concat(value);
-            }
-            else if(isObject(subject)) {
-                return extend(subject, value);
-            }
-
-            return value;
-        });
-    }
-
-    return subject;
-}
-
-export default class Request {
-
-    constructor(url, options = {}) {
-        this.$options = merge({
-            url: url,
+    constructor(method, url, attributes) {
+        super({
+            options: {},
             data: {},
             headers: {},
             params: {},
-        }, cloneDeep(RequestOptions), options, {
-            cancelToken: new axios.CancelToken(cancel => {
-                this.$cancel = cancel;
-            })
-        });
+            url: url,
+            method: method
+        })
 
-        each(PROXY_OPTION_METHODS, (callback, key) => {
-            this[method(key, 'option')] = bind(callback)('$options', this);
-        });
-
-        each(PROXY_OPTION_PROPERTIES, (prop) => {
-            each(PROXY_OPTION_METHODS, (callback, key) => {
-                this[method(key, prop)] = bind(callback)(prop, this.$options);
-            });
-
-            this[prop] = bind(chainable, this)(prop);
-        });
-
-        this.reset();
+        if(isObject(attributes)) {
+            this.setAttribute(attributes);
+        }
     }
 
-    reset() {
-        this.$error = null;
-        this.$status = null;
-        this.$statusText = null;
-        this.$response = null;
-        this.$requestSentAt = null;
-        this.$responseReceivedAt = null;
-    }
-
-    hasSent() {
-        return !!this.$requestSentAt;
-    }
-
-    hasResponse() {
-        return !!this.$responseReceivedAt;
-    }
-
-    passed() {
-        return this.hasResponse() && !this.$error;
-    }
-
-    failed() {
-        return this.hasResponse() && !!this.$error;
-    }
-
-    cancel() {
-        !this.$response && this.$cancel();
-    }
-
-    get(params = {}, headers = {}) {
-        return this.params(params).headers(headers).send('get');
-    }
-
-    post(data = {}, headers = {}) {
-        return this.data(data).headers(headers).send('post');
-    }
-
-    put(data = {}, headers = {}) {
-        return this.data(data).headers(headers).send('put');
-    }
-
-    delete(headers = {}) {
-        return this.headers(headers).send('delete');
-    }
-
-    send(method) {
-        this.reset();
-        this.$requestSentAt = moment();
-        this.addOption('method', method);
+    send(attributes) {
+        this.sentAt = new Date;
+        this.setAttributes(attributes);
 
         return new Promise((resolve, reject) => {
-            axios(this.$options).then(response => {
-                this.$response = response;
-                this.$responseReceivedAt = moment();
-                this.$status = response.status;
-                this.$statusText = response.statusText;
-
-                resolve(response.data);
-            }, error => {
-                this.$error = error;
-                this.$response = error.response;
-                this.$responseReceivedAt = moment();
-                this.$status = error.response ? error.response.status : null;
-                this.$statusText = error.response ? error.response.statusText : null;
-
-                reject(error.response || error);
-            });
+            axios(this.options).then(
+                data => resolve(this.response = new Response(data)),
+                errors => reject(this.errors = errors)
+            );
         });
     }
 
-    transformRequest(transformer) {
-        if(!this.$options.transformRequest) {
-            this.$options.transformRequest = [];
+    set cancel(value) {
+        this.$cancel = value;
+    }
+
+    get cancel() {
+        return this.$cancel || (() => {
+            throw new Error('The request has not been sent yet.');
+        });
+    }
+
+    get options() {
+        return extend({
+            cancelToken: new axios.CancelToken(
+                cancel => this.cancel = cancel
+            )
+        }, DEFAULTS, this.getPublicAttributes());
+    }
+
+    set options(attributes) {
+        this.setAttribute(attributes);
+    }
+
+    get response() {
+        return this.$response;
+    }
+
+    set response(value) {
+        this.$response = value;
+    }
+
+    get errors() {
+        return this.$errors;
+    }
+
+    set errors(value) {
+        this.$errors = value;
+    }
+
+    get passed() {
+        return !!this.response && !this.errors;
+    }
+
+    get failed() {
+        return !!this.response && !!this.$error;
+    }
+
+    static get transform() {
+        return {
+            request: this.transformRequest,
+            response: this.transformResponse
         }
-
-        transformRequest(transformer, this.$options.transformRequest);
     }
 
-    transformResponse(transformer) {
-        if(this.$options.transformResponse) {
-            this.$options.transformResponse = [];
-        }
-
-        transformResponse(transformer, this.$options.transformResponse);
+    static get defaults() {
+        return DEFAULTS;
     }
 
-    static interceptRequest(success, error) {
-        this.interceptors().request.use(success, error);
+    static set defaults(value) {
+        extend(DEFAULTS, value);
     }
 
-    static interceptResponse(success, error) {
-        this.interceptors().response.use(success, error);
+    static transformRequest(fn) {
+        DEFAULTS.transformRequest.push(fn);
     }
 
-    static interceptors() {
-        return axios.interceptors;
+    static transformResponse(fn) {
+        DEFAULTS.transformResponse.push(fn);
     }
 
-    static option(key, value) {
-        if(isObject(key)) {
-            merge(RequestOptions, key);
-        }
-        else {
-            const option = {};
-            option[key] = value;
-            merge(RequestOptions, option);
-        }
+    static get(url, attributes) {
+        return this.make('get', url).send(attributes);
     }
 
-    static make(url, params = {}) {
-        return new this(url, params);
+    static post(url, attributes) {
+        return this.make('post', url, attributes).send();
     }
+
+    static put(url, attributes) {
+        return this.make('put', url, attributes).send();
+    }
+
+    static patch(url, data, attributes) {
+        return this.make('path', url, attributes).send();
+    }
+
+    static delete(url, attributes) {
+        return this.make('delete', url, attributes).send();
+    }
+
+    static make(method, url, attributes) {
+        return new this(method, url, attributes);
+    }
+
 }

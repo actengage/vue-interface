@@ -16,29 +16,15 @@
         <script type="text/javascript">
             const Request = VueInterface.Request;
 
-            Request.option('baseURL', 'http://kimbrell.test/api/v1');
+            Request.defaults.baseURL = 'http://kimbrell.test/api/v1';
 
-            const request = Request.make('images', {
+            const request = Request.make('GET', 'media', {
                 headers: {
-                    Authorization: 'Bearer 22a560f2-034d-4a3d-bef9-5f5e169f0b57 '
+                    Authorization: 'Bearer 22a560f2-034d-4a3d-bef9-5f5e169f0b57'
                 }
             });
 
-            /*
-            request.responseTransformer(function(data) {
-                console.log(data);
-            })
-
-            request.requestTranformer(function() {
-                console.log('requestTranformer 1', arguments);
-            });
-
-            request.requestTranformer(function() {
-                console.log('requestTranformer 2', arguments);
-            });
-            */
-
-            request.get().then(response => {
+            request.send().then(response => {
                 console.log(response);
             }, error => {
                 console.log(error);
@@ -47,24 +33,6 @@
             setTimeout(() => {
                 request.cancel();
             }, 1000);
-
-            /*
-            const request2 = VueInterface.Request.make(url, {
-                headers: {
-                    Authorization: 'test'
-                }
-            });
-
-            request2.requestTranformer(function() {
-                console.log('2', arguments);
-            });
-
-            request2.get().then(response => {
-                console.log(response);
-            }, error => {
-                console.log(error);
-            });
-            */
 
         </script>
     </body>

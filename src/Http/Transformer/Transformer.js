@@ -43,12 +43,12 @@ export default class Transformer {
     }
 
     /**
-     * Tranform the response object
+     * Tranform the Response object
      *
      * @property String
      */
     transform(response) {
-        return response;
+        return response.data;
     }
 
     /**

@@ -184,11 +184,9 @@ export default {
         },
 
         fetch() {
-            const request = new Request(this.url, this.request);
-
             this.loading = true;
 
-            return request.get().then(response => {
+            return Request.get(this.url, this.request).then(response => {
                 const transformer = this.transformer || new TableViewTransformer(response);
                 this.response = transformer.response();
                 this.data = transformer.data();
