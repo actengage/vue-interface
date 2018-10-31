@@ -1,6 +1,6 @@
 import chunk from '../chunk';
 
-test('chunking with maximum of 2 items', () => {
+test('chunk() with maximum of 2 items', () => {
     const subject = chunk([1, 2, 3, 4, 5], 2);
 
     expect(subject).toHaveLength(3);
@@ -9,7 +9,7 @@ test('chunking with maximum of 2 items', () => {
     expect(subject[2]).toHaveLength(1);
 });
 
-test('chunking with maximum of 3 items', () => {
+test('chunk() with maximum of 3 items', () => {
     const subject = chunk([1, 2, 3, 4, 5], 3);
 
     expect(subject).toHaveLength(2);
@@ -17,7 +17,7 @@ test('chunking with maximum of 3 items', () => {
     expect(subject[1]).toHaveLength(2);
 });
 
-test('chunking with maximum of 4 items', () => {
+test('chunk() with maximum of 4 items', () => {
     const subject = chunk([1, 2, 3, 4, 5], 4);
 
     expect(subject).toHaveLength(2);
