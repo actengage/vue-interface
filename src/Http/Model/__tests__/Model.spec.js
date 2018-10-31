@@ -5,14 +5,12 @@ import { first } from '../../../Helpers/Functions';
 Request.defaults.baseURL = 'http://kimbrell.test/';
 
 class Media extends Model {
-
     endpoint() {
         return 'api/v1/media';
     }
-
 }
 
-test('model setters and getters', async () => {
+test('model setters and getters', async() => {
     const model = new Media({
         id: 1
     });
@@ -35,10 +33,10 @@ test('model setters and getters', async () => {
     expect(model.get('extension')).toBe('jpg');
     expect(model.get('filename')).toBe('test2.jpg');
     expect(model.getChangedAttributes()).toHaveLength(2);
-    expect(model.toString()).toBe(JSON.stringify({"id": 1, "filename": "test2.jpg", "extension": "jpg"}));
+    expect(model.toString()).toBe(JSON.stringify({ 'id': 1, 'filename': 'test2.jpg', 'extension': 'jpg' }));
 });
 
-test('Model.search() and Model.find()', async () => {
+test('Model.search() and Model.find()', async() => {
     await Media.search().then(async response => {
         expect(response.data).toBeInstanceOf(Object);
         expect(response.data.current_page).toBe(1);
@@ -50,8 +48,6 @@ test('Model.search() and Model.find()', async () => {
 
         await Media.find(first.id).then(model => {
             expect(model).toBeInstanceOf(Media);
-        }, error => {
-            throw error
         });
     });
 });

@@ -9,5 +9,5 @@ export default {
 
     name: 'btn-group-toggle'
 
-}
+};
 </script>

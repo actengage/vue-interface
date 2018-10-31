@@ -6,4 +6,4 @@ export {
     Autogrow,
     Collapse,
     Slug
-}
+};

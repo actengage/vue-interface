@@ -9,6 +9,6 @@ test('isArray()', () => {
     expect(isArray('0')).toBe(false);
     expect(isArray(null)).toBe(false);
     expect(isArray('null')).toBe(false);
-    expect(isArray({a: 1, b: 2})).toBe(false);
+    expect(isArray({ a: 1, b: 2 })).toBe(false);
     expect(isArray(undefined)).toBe(false);
 });

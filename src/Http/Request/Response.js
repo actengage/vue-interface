@@ -2,10 +2,9 @@ import BaseClass from '../../Support/BaseClass';
 import { extend } from '../../Helpers/Functions';
 
 export default class Response extends BaseClass {
-
     constructor(data) {
         super(extend({
-            date: new Date
+            date: new Date()
         }, data));
     }
 
@@ -32,5 +31,4 @@ export default class Response extends BaseClass {
     set date(value) {
         this.$date = value;
     }
-
 }

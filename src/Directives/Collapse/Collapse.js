@@ -39,7 +39,7 @@ function hide(el, target, vnode) {
 export default {
 
     inserted(el, binding, vnode) {
-        if(isUndefined(binding.value) || binding.value === true) {
+        if (isUndefined(binding.value) || binding.value === true) {
             el.classList.add('collapsed');
             el.setAttribute('data-toggle', 'collapse');
 
@@ -48,7 +48,7 @@ export default {
 
             el.addEventListener('click', event => {
                 elements.forEach(element => {
-                    if(!element.classList.contains('show')) {
+                    if (!element.classList.contains('show')) {
                         show(el, element, vnode);
                     }
                     else {
@@ -66,11 +66,11 @@ export default {
                 }
                 */
 
-                if(!element.classList.contains('collapse')) {
+                if (!element.classList.contains('collapse')) {
                     element.classList.add('collapse');
                 }
             });
         }
     }
 
-}
+};

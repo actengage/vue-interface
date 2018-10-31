@@ -15,8 +15,9 @@ export default function deepExtend(target, ...sources) {
             if (isObject(source[key])) {
                 if (!target[key]) extend(target, { [key]: {} });
                 deepExtend(target[key], source[key]);
-            } else {
-                extend(target, {[key]: source[key]});
+            }
+            else {
+                extend(target, { [key]: source[key] });
             }
         }
     }

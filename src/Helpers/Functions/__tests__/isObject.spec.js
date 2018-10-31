@@ -1,7 +1,7 @@
 import isObject from '../isObject';
 
 test('isObject()', () => {
-    expect(isObject({a: 1, b: 2})).toBe(true);
+    expect(isObject({ a: 1, b: 2 })).toBe(true);
     expect(isObject(0)).toBe(false);
     expect(isObject('0')).toBe(false);
     expect(isObject(null)).toBe(false);

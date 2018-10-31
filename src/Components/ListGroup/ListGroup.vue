@@ -73,7 +73,7 @@ export default {
          */
         onClickItem(event, child) {
             this.$emit('item:click', event, child);
-        },
+        }
 
     },
 
@@ -85,6 +85,5 @@ export default {
         this.bindEventsToChildren();
     }
 
-}
-
+};
 </script>

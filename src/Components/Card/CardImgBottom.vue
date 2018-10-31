@@ -7,5 +7,5 @@ export default {
 
     extends: CardImg
 
-}
+};
 </script>

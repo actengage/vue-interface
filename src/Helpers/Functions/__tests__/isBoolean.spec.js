@@ -8,7 +8,7 @@ test('isBoolean()', () => {
     expect(isBoolean('0')).toBe(false);
     expect(isBoolean(null)).toBe(false);
     expect(isBoolean('null')).toBe(false);
-    expect(isBoolean({a: 1, b: 2})).toBe(false);
+    expect(isBoolean({ a: 1, b: 2 })).toBe(false);
     expect(isBoolean([1, 2])).toBe(false);
     expect(isBoolean(undefined)).toBe(false);
 });

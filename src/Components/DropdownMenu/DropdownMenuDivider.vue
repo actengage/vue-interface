@@ -8,6 +8,5 @@ export default {
 
     name: 'dropdown-menu-divider'
 
-}
-
+};
 </script>

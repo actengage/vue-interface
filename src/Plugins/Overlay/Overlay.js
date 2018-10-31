@@ -1,15 +1,14 @@
-import { isObject } from '../../Helpers/Functions';
-import { deepExtend } from '../../Helpers/Functions';
+import { isObject, deepExtend } from '../../Helpers/Functions';
 import instantiate from '../../Helpers/Instantiate';
 import Overlay from '../../Components/Overlay';
 
 export default function(Vue, options) {
     Vue.prototype.$overlay = function(target, Component, options) {
-        if(!isObject(options)) {
+        if (!isObject(options)) {
             options = {};
         }
 
-        if(!target.$overlay) {
+        if (!target.$overlay) {
             target.$overlay = instantiate(Vue, Overlay, deepExtend(options.overlay, {
                 propsData: {
                     target: target

@@ -2,7 +2,6 @@ import { isArray } from '../../Helpers/Functions';
 import Transformer from '../Transformer';
 
 export default class TableViewTransformer extends Transformer {
-
     required() {
         return [
             // The end of the count of the paginated list.
@@ -33,9 +32,8 @@ export default class TableViewTransformer extends Transformer {
     }
 
     initialize() {
-        if(!isArray(this.data())) {
+        if (!isArray(this.data())) {
             throw new Error('The data property must be an array.');
         }
     }
-
 }

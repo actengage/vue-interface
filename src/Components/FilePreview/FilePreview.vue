@@ -48,7 +48,7 @@ export default {
     directives: {
         ready: {
             inserted(el, binding, vnode) {
-                if(isFunction(binding.value)) {
+                if (isFunction(binding.value)) {
                     vnode.context.$nextTick(binding.value);
                 }
             }
@@ -173,14 +173,14 @@ export default {
     methods: {
 
         readFile() {
-            if(this.file instanceof File) {
+            if (this.file instanceof File) {
                 const start = moment();
 
                 this.loaded = 0;
 
                 this.$nextTick(() => {
                     readFile(this.file, e => {
-                        if(e.lengthComputable) {
+                        if (e.lengthComputable) {
                             this.$emit('progress', this.loaded = parseInt((e.loaded / e.total) * 100, 10));
                         }
                     }).then(event => {
@@ -199,12 +199,12 @@ export default {
             }
         },
 
-    	bytesToSize: function(bytes) {
-    		var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    		if (bytes == 0) return '0 Byte';
-    		var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    		return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-    	},
+        bytesToSize(bytes) {
+            var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            if (bytes === 0) return '0 Byte';
+            var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+            return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+        },
 
         onLoad(event) {
             this.$emit('loaded');
@@ -215,12 +215,11 @@ export default {
     data() {
         return {
             image: this.file.url,
-            loaded: this.file instanceof File ? 0 : false,
+            loaded: this.file instanceof File ? 0 : false
         };
     }
 
-}
-
+};
 </script>
 
 <style lang="scss">

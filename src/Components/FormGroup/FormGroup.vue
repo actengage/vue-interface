@@ -6,11 +6,9 @@
 
 <script>
 
-
 export default {
 
     name: 'form-group'
-    
-}
 
+};
 </script>

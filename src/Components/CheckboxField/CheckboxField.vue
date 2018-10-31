@@ -100,7 +100,7 @@ export default {
             const checked = this.checkedValues.slice(0);
             const index = this.checkedValues.indexOf(value);
 
-            if(index === -1) {
+            if (index === -1) {
                 checked.push(value);
             }
             else {
@@ -111,6 +111,5 @@ export default {
         }
 
     }
-}
-
+};
 </script>

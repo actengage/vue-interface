@@ -44,12 +44,12 @@ export default {
                 'thumbnail-list-noflex': this.noFlex,
                 'thumbnail-list-grid': this.grid,
                 'thumbnail-list-wrap': this.wrap
-            }
+            };
         }
 
     }
 
-}
+};
 </script>
 
 <style lang="scss">

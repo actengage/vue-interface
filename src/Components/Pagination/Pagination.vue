@@ -73,7 +73,7 @@ export default {
             type: Number,
             default: 6
         }
-        
+
     },
 
     methods: {
@@ -87,24 +87,24 @@ export default {
         },
 
         paginate(page, event) {
-            if(event.currentTarget.parentNode.classList.contains('disabled')) {
+            if (event.currentTarget.parentNode.classList.contains('disabled')) {
                 return;
             }
 
-			this.setActivePage(page);
+            this.setActivePage(page);
 
             this.$emit('paginate', page, event);
         },
 
-		setActivePage(page) {
-			if(this.currentPage !== page) {
-				this.currentPage = page;
-			}
-		},
+        setActivePage(page) {
+            if (this.currentPage !== page) {
+                this.currentPage = page;
+            }
+        },
 
         generate() {
             const pages = [];
-            const showPages = this.showPages % 2 ? this.showPages + 1: this.showPages;
+            const showPages = this.showPages % 2 ? this.showPages + 1 : this.showPages;
 
             let startPage = (this.currentPage >= showPages) ? this.currentPage - (showPages / 2) : 1;
             const startOffset = showPages + startPage;
@@ -114,23 +114,23 @@ export default {
             startPage -= (startPage - diff > 0) ? diff : 0;
 
             if (startPage > 1) {
-                pages.push({page: 1});
+                pages.push({ page: 1 });
             }
 
-            if(startPage > 2) {
-                pages.push({divider: true});
+            if (startPage > 2) {
+                pages.push({ divider: true });
             }
 
-            for(let i = startPage; i < endPage; i++) {
-                pages.push({page: i});
+            for (let i = startPage; i < endPage; i++) {
+                pages.push({ page: i });
             }
 
             if (endPage <= this.totalPages) {
-                if(this.totalPages - 1 > endPage) {
-                    pages.push({divider: true});
+                if (this.totalPages - 1 > endPage) {
+                    pages.push({ divider: true });
                 }
 
-                pages.push({page: this.totalPages});
+                pages.push({ page: this.totalPages });
             }
 
             return pages;
@@ -155,7 +155,7 @@ export default {
     },
 
     data() {
-        return  {
+        return {
             currentPage: this.page
         };
     }

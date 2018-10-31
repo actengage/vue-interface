@@ -1,9 +1,7 @@
 import axios from 'axios';
 import Response from './Response';
 import BaseClass from '../../Support/BaseClass';
-import { extend } from '../../Helpers/Functions';
-import { isObject } from '../../Helpers/Functions';
-import { isString } from '../../Helpers/Functions';
+import { extend, isObject } from '../../Helpers/Functions';
 
 const DEFAULTS = {
     transformRequest: [],
@@ -11,7 +9,6 @@ const DEFAULTS = {
 };
 
 export default class Request extends BaseClass {
-
     constructor(method, url, attributes) {
         super({
             options: {},
@@ -20,15 +17,15 @@ export default class Request extends BaseClass {
             params: {},
             url: url,
             method: method
-        })
+        });
 
-        if(isObject(attributes)) {
+        if (isObject(attributes)) {
             this.setAttribute(attributes);
         }
     }
 
     send(attributes) {
-        this.sentAt = new Date;
+        this.sentAt = new Date();
         this.setAttributes(attributes);
 
         return new Promise((resolve, reject) => {
@@ -51,9 +48,11 @@ export default class Request extends BaseClass {
 
     get options() {
         return extend({
-            cancelToken: new axios.CancelToken(
-                cancel => this.cancel = cancel
-            )
+            cancelToken: new axios.CancelToken(cancel => {
+                this.cancel = cancel;
+
+                return cancel;
+            })
         }, DEFAULTS, this.getPublicAttributes());
     }
 
@@ -89,7 +88,7 @@ export default class Request extends BaseClass {
         return {
             request: this.transformRequest,
             response: this.transformResponse
-        }
+        };
     }
 
     static get defaults() {
@@ -131,5 +130,4 @@ export default class Request extends BaseClass {
     static make(method, url, attributes) {
         return new this(method, url, attributes);
     }
-
 }

@@ -6,4 +6,4 @@ export {
     Model,
     Request,
     Response
-}
+};

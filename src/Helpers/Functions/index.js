@@ -7,7 +7,7 @@ import each from './each';
 import extend from './extend';
 import find from './find';
 import findIndex from './findIndex';
-import findKey from './findIndex';
+import findKey from './findKey';
 import first from './first';
 import flatten from './flatten';
 import get from './get';
@@ -58,6 +58,7 @@ export {
     isString,
     isUndefined,
     kebabCase,
+    key,
     map,
     mapKeys,
     matches,
@@ -69,4 +70,4 @@ export {
     property,
     remove,
     wrap
-}
+};

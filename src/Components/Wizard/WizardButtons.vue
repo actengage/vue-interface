@@ -105,26 +105,26 @@ export default {
     methods: {
 
         onClickBack(event) {
-            if(this.backButton !== false) {
+            if (this.backButton !== false) {
                 this.$emit('click:back', event);
             }
         },
 
         onClickFinish(event) {
-            if(this.finishButton !== false) {
+            if (this.finishButton !== false) {
                 this.$emit('click:finish', event);
             }
         },
 
         onClickNext(event) {
-            if(this.nextButton !== false) {
+            if (this.nextButton !== false) {
                 this.$emit('click:next', event);
             }
         }
 
     }
 
-}
+};
 </script>
 
 <style lang="scss">

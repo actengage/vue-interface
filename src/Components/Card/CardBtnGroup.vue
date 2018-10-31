@@ -15,7 +15,7 @@ export default {
 
     extends: Card
 
-}
+};
 </script>
 
 <style lang="scss">

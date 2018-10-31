@@ -14,8 +14,8 @@ export default {
         onClick(event) {
             this.$emit('click', event);
         }
-        
+
     }
 
-}
+};
 </script>

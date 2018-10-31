@@ -123,11 +123,10 @@ export default {
             const unit = duration.match(/m?s/);
 
             switch (unit[0]) {
-                case 's':
-                    return numeric * 1000;
-                case 'ms':
-                    return numeric;
-
+            case 's':
+                return numeric * 1000;
+            case 'ms':
+                return numeric;
             }
 
             throw new Error(`"${unit[0]}" is not a valid unit of measure. Unit must be "s" (seconds) or "ms" (milliseconds).`);
@@ -155,8 +154,7 @@ export default {
         };
     }
 
-}
-
+};
 </script>
 
 <style lang="scss">

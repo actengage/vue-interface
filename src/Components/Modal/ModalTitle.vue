@@ -7,5 +7,5 @@ export default {
 
     name: 'modal-title'
 
-}
+};
 </script>

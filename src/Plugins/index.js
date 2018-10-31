@@ -6,4 +6,4 @@ export {
     modal,
     overlay,
     popover
-}
+};

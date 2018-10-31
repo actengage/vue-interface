@@ -11,5 +11,5 @@ export default {
 
     name: 'card-deck'
 
-}
+};
 </script>

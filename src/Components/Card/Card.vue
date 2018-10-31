@@ -24,11 +24,10 @@ export default {
     computed: {
 
         className() {
-            return this.$options.name
+            return this.$options.name;
         }
 
     }
 
-}
-
+};
 </script>

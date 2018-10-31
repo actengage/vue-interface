@@ -1,8 +1,5 @@
 <script>
-import { extend } from '../../Helpers/Functions';
-import { first } from '../../Helpers/Functions';
-import { findIndex } from '../../Helpers/Functions';
-import { isUndefined } from '../../Helpers/Functions';
+import { extend, first, findIndex, isUndefined } from '../../Helpers/Functions';
 
 export default {
 
@@ -45,7 +42,7 @@ export default {
                     return !!vnode.tag;
                 })
                 .map((vnode, i) => {
-                    if(!vnode.key || !vnode.data && !vnode.data.key) {
+                    if (!vnode.key || (!vnode.data && !vnode.data.key)) {
                         vnode.data = extend(vnode.data, {
                             key: vnode.key = i
                         });
@@ -72,15 +69,15 @@ export default {
          */
         findSlideByKey(key) {
             return first(this.slides().filter((vnode, i) => {
-                if(vnode.key === key) {
+                if (vnode.key === key) {
                     return vnode;
                 }
-                else if(vnode.data && vnode.data.key === key) {
+                else if (vnode.data && vnode.data.key === key) {
                     return vnode;
                 }
 
                 return null;
-            }))
+            }));
         },
 
         /**
@@ -103,16 +100,16 @@ export default {
             const key = !isUndefined(slide.data) ? slide.data.key : slide.key || slide;
 
             return findIndex(this.slides(), (vnode, i) => {
-                if(slide === vnode) {
+                if (slide === vnode) {
                     return true;
                 }
-                else if(vnode.data && vnode.data.key === key) {
+                else if (vnode.data && vnode.data.key === key) {
                     return true;
                 }
-                else if(vnode.key && vnode.key === key) {
+                else if (vnode.key && vnode.key === key) {
                     return true;
                 }
-                else if(i === slide) {
+                else if (i === slide) {
                     return true;
                 }
 
@@ -126,7 +123,7 @@ export default {
         return {
             lastSlide: null,
             currentSlide: this.active
-        }
+        };
     },
 
     render(h) {

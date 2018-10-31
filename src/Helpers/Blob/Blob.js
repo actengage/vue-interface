@@ -1,3 +1,5 @@
+import { isFunction } from '../Functions';
+
 export default function blob(url, progress) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -5,7 +7,7 @@ export default function blob(url, progress) {
         xhr.open('GET', url, true);
         xhr.responseType = 'blob';
 
-        if(isFunction(progress)) {
+        if (isFunction(progress)) {
             xhr.onprogress = e => progress(e, xhr);
         }
 

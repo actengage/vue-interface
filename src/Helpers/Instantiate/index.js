@@ -1,2 +1,2 @@
-import instantiate from './Instantiate'
+import instantiate from './Instantiate';
 export default instantiate;

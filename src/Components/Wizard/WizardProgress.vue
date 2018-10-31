@@ -39,7 +39,7 @@ export default {
          */
         highestStep: {
             type: Number,
-            required: true,
+            required: true
         },
 
         /**
@@ -57,7 +57,7 @@ export default {
     methods: {
 
         onClick(event, step) {
-            if(!event.target.classList.contains('disabled')) {
+            if (!event.target.classList.contains('disabled')) {
                 this.$emit('click', event, step);
             }
         }
@@ -67,10 +67,10 @@ export default {
     data() {
         return {
             isActive: false
-        }
+        };
     }
 
-}
+};
 </script>
 
 <style lang="scss">

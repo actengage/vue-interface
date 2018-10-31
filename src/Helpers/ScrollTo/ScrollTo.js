@@ -41,7 +41,7 @@ const easings = {
 };
 
 export default function scrollTo(destination, duration = 1000, easing = 'easeInQuad', viewport = false) {
-    if(!viewport) {
+    if (!viewport) {
         viewport = document.querySelector('body');
     }
 
@@ -64,7 +64,7 @@ export default function scrollTo(destination, duration = 1000, easing = 'easeInQ
 
             window.scroll(0, Math.ceil((timeFunction * (destinationOffsetToScroll - start)) + start));
 
-            if (document.documentElement.scrollTop === destinationOffsetToScroll || isScrollBottom() && !isStartingBottom) {
+            if (document.documentElement.scrollTop === destinationOffsetToScroll || (isScrollBottom() && !isStartingBottom)) {
                 resolve();
                 return;
             }

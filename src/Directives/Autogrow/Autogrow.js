@@ -35,12 +35,11 @@ const STYLE_ATTRIBUTES = [
     'wordWrap'
 ];
 
-
 function int(str) {
-    if(typeof str === "number") {
+    if (typeof str === 'number') {
         return str;
     }
-    else if(!str || !str.replace) {
+    else if (!str || !str.replace) {
         return 0;
     }
 
@@ -64,15 +63,17 @@ function resize(target, div, minHeight, maxHeight) {
     target.style.height = ((!maxHeight || dynamicHeight < maxHeight) ? dynamicHeight : maxHeight) + 'px';
 }
 
+/*
 function setMinHeight(div, el) {
     div.style.minHeight = height(el) + 'px';
 }
+*/
 
 function mimic(el) {
     const div = document.createElement('div');
     const styles = window.getComputedStyle(el);
 
-    for(let i in STYLE_ATTRIBUTES) {
+    for (let i in STYLE_ATTRIBUTES) {
         const key = STYLE_ATTRIBUTES[i];
 
         div.style[key] = styles[key];
@@ -104,15 +105,15 @@ function init(el, maxHeight) {
 export default {
 
     inserted(el, binding, vnode) {
-        if(el.tagName.toLowerCase() !== 'textarea') {
+        if (el.tagName.toLowerCase() !== 'textarea') {
             el = el.querySelector('textarea');
         }
 
-        if(!el) {
+        if (!el) {
             throw new Error('A textarea is required for the v-autogrow directive.');
         }
 
         init(el, binding.value);
     }
 
-}
+};

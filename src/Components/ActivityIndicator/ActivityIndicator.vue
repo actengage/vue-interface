@@ -68,7 +68,7 @@ export default {
                 height: unit(this.height),
                 maxHeight: unit(this.maxHeight),
                 minHeight: unit(this.minHeight)
-            }
+            };
         },
 
         component() {
@@ -76,7 +76,7 @@ export default {
         }
     }
 
-}
+};
 </script>
 
 <style lang="scss">

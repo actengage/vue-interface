@@ -8,10 +8,22 @@ module.exports = {
     extends: 'standard',
     // required to lint *.vue files
     plugins: [
-        'html'
+        'html',
+        'jest'
     ],
+    env: {
+        'browser': true,
+        'node': true,
+        'jest': true
+    },
     // add your custom rules here
-    'rules': {
+    rules: {
+        'brace-style': ['error', 'stroustrup'],
+        'space-before-function-paren': ['error', 'never'],
+        // Indent for tabs because spaces suck
+        'indent': ['error', 4],
+        // Semi colons always where they need to be
+        'semi': [2,'always'],
         // allow paren-less arrow functions
         'arrow-parens': 0,
         // allow async-await

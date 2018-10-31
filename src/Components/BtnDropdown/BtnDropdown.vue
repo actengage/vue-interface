@@ -203,8 +203,8 @@ export default {
         isFocusable(element) {
             const nodes = this.queryFocusable();
 
-            for(let i in nodes) {
-                if(element === nodes[i]) {
+            for (let i in nodes) {
+                if (element === nodes[i]) {
                     return true;
                 }
             }
@@ -232,13 +232,13 @@ export default {
             this.$nextTick(() => {
                 let side = 'bottom';
 
-                if(this.dropup) {
-                    side = 'top'
+                if (this.dropup) {
+                    side = 'top';
                 }
-                else if(this.dropleft) {
-                    side = 'left'
+                else if (this.dropleft) {
+                    side = 'left';
                 }
-                else if(this.dropright) {
+                else if (this.dropright) {
                     side = 'right';
                 }
 
@@ -246,11 +246,11 @@ export default {
                 const toggle = this.$el.querySelector('.dropdown-toggle');
                 const position = [side, this.align === 'left' ? 'start' : 'end'];
 
-                new Popper(toggle, menu, {
+                this.$popper = new Popper(toggle, menu, {
                     placement: position.join('-')
                 });
 
-                if(this.queryFocusable().item(0)) {
+                if (this.queryFocusable().item(0)) {
                     this.$el.querySelector('input, select, textarea').focus();
                 }
 
@@ -284,7 +284,7 @@ export default {
          * @return void
          */
         onBlur(event) {
-            if(!this.$el.contains(event.relatedTarget)) {
+            if (!this.$el.contains(event.relatedTarget)) {
                 this.hide();
             }
         },
@@ -295,7 +295,7 @@ export default {
          * @return void
          */
         onMenuClick(event, item) {
-            if(event.target === this.$el.querySelector('.dropdown-menu')) {
+            if (event.target === this.$el.querySelector('.dropdown-menu')) {
                 this.focus();
             }
         },
@@ -306,7 +306,7 @@ export default {
          * @return void
          */
         onItemClick(event, item) {
-            if(!this.isFocusable(event.target)) {
+            if (!this.isFocusable(event.target)) {
                 this.hide();
             }
 
@@ -341,7 +341,7 @@ export default {
                 this.sizeableClass,
                 this.active ? 'active' : '',
                 this.block ? 'btn-block' : '',
-                (this.split ? 'dropdown-toggle-split' : ''),
+                (this.split ? 'dropdown-toggle-split' : '')
             ].join(' ');
         }
     },
@@ -363,13 +363,13 @@ export default {
                     TAB_KEYCODE
                 ];
 
-                if(ignore.indexOf(event.keyCode) !== -1) {
+                if (ignore.indexOf(event.keyCode) !== -1) {
                     ignoreBlurEvent = true;
                 }
             };
 
             const blur = event => {
-                if(!ignoreBlurEvent) {
+                if (!ignoreBlurEvent) {
                     this.focus();
                 }
 
@@ -391,6 +391,5 @@ export default {
         });
     }
 
-}
-
+};
 </script>

@@ -43,7 +43,7 @@ import Colorable from '../../Mixins/Colorable';
 import FormControl from '../../Mixins/FormControl';
 import MergeClasses from '../../Mixins/MergeClasses';
 
-const CUSTOM_SELECT_PREFIX = 'custom-select-'
+const CUSTOM_SELECT_PREFIX = 'custom-select-';
 
 export default {
 
@@ -84,12 +84,12 @@ export default {
 
         customSelectClasses() {
             return [
-                CUSTOM_SELECT_PREFIX.replace(/\-$/, '') + (this.plaintext ? '-plaintext' : ''),
+                CUSTOM_SELECT_PREFIX.replace(/-$/, '') + (this.plaintext ? '-plaintext' : ''),
                 this.customSelectSizeClass,
                 (this.spacing || '')
             ].join(' ');
         }
     }
 
-}
+};
 </script>

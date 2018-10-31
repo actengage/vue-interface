@@ -18,7 +18,7 @@ import Card from './Card';
 import CardBody from './Card/CardBody';
 import CardBtnGroup from './Card/CardBtnGroup';
 import CardDeck from './Card/CardDeck';
-import CardFooter from './Card/CardFooter'
+import CardFooter from './Card/CardFooter';
 import CardHeader from './Card/CardHeader';
 import CardImg from './Card/CardImg';
 import CardImgTop from './Card/CardImgTop';
@@ -186,4 +186,4 @@ export {
     WizardProgress,
     WizardStep,
     WizardSuccess
-}
+};

@@ -1,7 +1,6 @@
 import { isObject } from '../Helpers/Functions';
 
 export default class BaseClass {
-
     constructor(attributes) {
         this.setAttribute(attributes);
     }
@@ -33,8 +32,8 @@ export default class BaseClass {
     }
 
     setAttribute(key, value) {
-        if(isObject(key)) {
-            this.setAttributes(key)
+        if (isObject(key)) {
+            this.setAttributes(key);
         }
         else {
             this[key] = value;
@@ -42,9 +41,8 @@ export default class BaseClass {
     }
 
     setAttributes(values) {
-        for(const i in values) {
+        for (const i in values) {
             this.setAttribute(i, values[i]);
         }
     }
-
 }

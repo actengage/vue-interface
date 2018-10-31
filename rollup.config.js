@@ -1,4 +1,5 @@
 import fs from 'fs';
+import cssnano from 'cssnano';
 import pkg from "./package.json";
 import { kebabCase } from 'lodash';
 import { camelCase } from 'lodash';
@@ -11,13 +12,13 @@ import serve from 'rollup-plugin-serve';
 import replace from 'rollup-plugin-replace';
 import progress from 'rollup-plugin-progress';
 import commonjs from 'rollup-plugin-commonjs';
+import { eslint } from 'rollup-plugin-eslint';
 import resolve from 'rollup-plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import globals from 'rollup-plugin-node-globals';
 import builtins from 'rollup-plugin-node-builtins';
 import rootImport from 'rollup-plugin-root-import';
-
-//import postcss from 'rollup-plugin-postcss';
+import postcss from 'rollup-plugin-postcss';
 
 // The type of package Rollup should create
 const PACKAGE_FORMAT = 'umd';
@@ -94,26 +95,11 @@ const plugins = [
         'moment': 'moment/src/moment'
     }),
     rootImport({
-      // Will first look in `client/src/*` and then `common/src/*`.
-      root: SRC,
-      useEntry: 'prepend',
-
-      // If we don't find the file verbatim, try adding these extensions
-      extensions: ['.vue', '.js']
-  }),
-    resolve({
-        main: true,
-        jsnext: true,
-        browser: true,
-        extensions: [ '.js', '.vue']
+        root: SRC,
+        useEntry: 'prepend',
+        extensions: ['.vue', '.js']
     }),
-    commonjs({
-        include: NODE_MODULES,
-        namedExports: {
-            // 'moment': 'moment/src/moment'
-            // 'node_modules/axios/index.js': 'axios'
-        }
-    }),
+    eslint(),
     vue({
         scss: {
             indentedSyntax: false
@@ -122,8 +108,23 @@ const plugins = [
             fs.writeFileSync(`${DIST}${FILENAME}.css`, style);
         }
     }),
+    postcss({
+        extract: `${DIST}${FILENAME}.css`,
+        plugins: [
+            cssnano()
+        ]
+    }),
     babel({
         exclude: NODE_MODULES
+    }),
+    resolve({
+        main: true,
+        jsnext: true,
+        browser: true,
+        extensions: [ '.js', '.vue']
+    }),
+    commonjs({
+        include: NODE_MODULES
     }),
     globals(),
     builtins()
@@ -131,8 +132,8 @@ const plugins = [
 
 /*
 postcss({
-    plugins: [],
-    extensions: ['.scss', '.sass', '.css' ]
+plugins: [],
+extensions: ['.scss', '.sass', '.css' ]
 }),
 */
 

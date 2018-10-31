@@ -1,2 +1,2 @@
-import blob from './Blob'
+import blob from './Blob';
 export default blob;

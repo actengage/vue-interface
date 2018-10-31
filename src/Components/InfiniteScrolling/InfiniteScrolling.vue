@@ -65,7 +65,7 @@ export default {
          */
         threshold: {
             type: Number,
-            default: .75,
+            default: 0.75,
             validate(value) {
                 return value >= 0 && value <= 1;
             }
@@ -78,7 +78,7 @@ export default {
         scrollIntoViewport(entry) {
             this.$emit('scroll:in', entry);
 
-            if(!this.activity) {
+            if (!this.activity) {
                 this.$emit('load', entry);
             }
         },
@@ -101,11 +101,11 @@ export default {
         this.$nextTick(() => {
             new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
-                    if(entry.isIntersecting && !this.hasScrolledIntoViewport) {
+                    if (entry.isIntersecting && !this.hasScrolledIntoViewport) {
                         this.scrollIntoViewport(entry, observer);
                         this.hasScrolledIntoViewport = true;
                     }
-                    else if(this.hasScrolledIntoViewport) {
+                    else if (this.hasScrolledIntoViewport) {
                         this.scrollOutViewport(entry, observer);
                         this.hasScrolledIntoViewport = false;
                     }
@@ -119,10 +119,10 @@ export default {
     data() {
         return {
             hasScrolledIntoViewport: false
-        }
+        };
     }
 
-}
+};
 </script>
 
 <style lang="scss">

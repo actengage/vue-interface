@@ -43,11 +43,6 @@
 </template>
 
 <script>
-import { each } from '../../Helpers/Functions';
-import { extend } from '../../Helpers/Functions';
-import { remove } from '../../Helpers/Functions';
-import { isArray } from '../../Helpers/Functions';
-import { isUndefined } from '../../Helpers/Functions';
 import FormGroup from '../FormGroup';
 import Model from '../../Http/Model';
 import Dropzone from '../Dropzone/Dropzone';
@@ -56,6 +51,7 @@ import FileField from '../FileField/FileField';
 import FilePreview from '../FilePreview/FilePreview';
 import ThumbnailList from '../ThumbnailList/ThumbnailList';
 import ThumbnailListItem from '../ThumbnailList/ThumbnailListItem';
+import { each, extend, remove, isArray, isUndefined } from '../../Helpers/Functions';
 
 export default {
 
@@ -190,12 +186,11 @@ export default {
     methods: {
 
         removeFile(data) {
-
-            if(this.multiple) {
+            if (this.multiple) {
                 const files = isArray(this.value) ? this.value.slice(0) : [];
 
-                if(data instanceof File) {
-                    if(data.request && data.request.cancel) {
+                if (data instanceof File) {
+                    if (data.request && data.request.cancel) {
                         data.request.cancel();
                     }
 
@@ -212,7 +207,7 @@ export default {
                 this.$emit('change', files);
             }
             else {
-                if(data.request && data.request.cancel) {
+                if (data.request && data.request.cancel) {
                     data.request.cancel();
                 }
 
@@ -227,12 +222,12 @@ export default {
                 lastModifiedDate: file.lastModifiedDate,
                 size: file.size,
                 type: file.type
-            }
+            };
 
-            if(this.multiple) {
+            if (this.multiple) {
                 const files = subject || (isArray(this.value) ? this.value.slice(0) : []);
 
-                if((!this.maxUploads || this.maxUploads > files.length) && files.indexOf(data) === -1) {
+                if ((!this.maxUploads || this.maxUploads > files.length) && files.indexOf(data) === -1) {
                     files.push(file);
 
                     this.$emit('change', files);
@@ -264,14 +259,16 @@ export default {
          */
         upload(file) {
             // Stop upload silently if no model is defined.
-            if(!this.model) {
+            if (!this.model) {
                 return Promise.resolve();
             }
 
             let model = this.model;
 
-            if(!(this.model instanceof Model)) {
-                model = new this.model;
+            if (!(this.model instanceof Model)) {
+                const Model = this.model;
+
+                model = new Model();
             }
 
             model.set(this.name, file);
@@ -281,11 +278,11 @@ export default {
 
             return model.save(null, extend({
                 onUploadProgress: e => {
-                    if(!file.index) {
+                    if (!file.index) {
                         file.index = this.files.indexOf(file);
                     }
 
-                    if(!file.request) {
+                    if (!file.request) {
                         file.request = model.getRequest();
                     }
 
@@ -293,23 +290,14 @@ export default {
                     this.$emit('progress', model, this.progressBars[file.index]);
                 }
             }, this.request))
-            .then(response => {
-                this.$nextTick(() => {
-                    this.$emit('upload', model);
-                    this.progressBars[file.index] = false;
+                .then(response => {
+                    this.$nextTick(() => {
+                        this.$emit('upload', model);
+                        this.progressBars[file.index] = false;
+                    });
+
+                    return response;
                 });
-
-                return response;
-            });
-        },
-
-        /**
-         * The `drop` event callback.
-         *
-         * @type Object
-         */
-        onDrop(event) {
-            this.onChange(event.dataTransfer.files);
         },
 
         /**
@@ -318,7 +306,7 @@ export default {
          * @type Object
          */
         onChange(files) {
-            if(files instanceof FileList) {
+            if (files instanceof FileList) {
                 this.addFiles(files);
             }
             else {
@@ -388,7 +376,7 @@ export default {
         },
 
         showDropElement() {
-            return !isUndefined(this.dragging) ? this.dragging : this.isDraggingInside
+            return !isUndefined(this.dragging) ? this.dragging : this.isDraggingInside;
         }
 
     },
@@ -400,7 +388,7 @@ export default {
         };
     }
 
-}
+};
 </script>
 
 <style lang="scss">

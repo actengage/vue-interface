@@ -9,5 +9,5 @@ export default {
 
     name: 'btn-toolbar'
 
-}
+};
 </script>

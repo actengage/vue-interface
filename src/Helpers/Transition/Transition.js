@@ -4,10 +4,10 @@ function duration(el) {
     const unit = duration.match(/m?s/);
 
     switch (unit[0]) {
-        case 's':
-            return numeric * 1000;
-        case 'ms':
-            return numeric;
+    case 's':
+        return numeric * 1000;
+    case 'ms':
+        return numeric;
     }
 }
 
@@ -17,10 +17,10 @@ export default function transition(el) {
             const delay = duration(el);
 
             setTimeout(() => {
-                resolve(delay)
+                resolve(delay);
             }, delay);
         }
-        catch(e) {
+        catch (e) {
             reject(e);
         }
     });

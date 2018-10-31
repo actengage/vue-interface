@@ -13,7 +13,7 @@ test('each() on array', () => {
 test('each() on object', () => {
     let sum = 0;
 
-    each({a: 1, b: 2, c: 3, d: 4}, value => {
+    each({ a: 1, b: 2, c: 3, d: 4 }, value => {
         sum += value;
     });
 

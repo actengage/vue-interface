@@ -10,7 +10,6 @@
 <script>
 import unit from '../../Helpers/Unit';
 import Variant from '../../Mixins/Variant';
-import { isNumber } from '../../Helpers/Functions';
 import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
@@ -122,6 +121,5 @@ export default {
 
     }
 
-}
-
+};
 </script>

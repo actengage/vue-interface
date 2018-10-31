@@ -1,7 +1,5 @@
 import prefix from '../../Helpers/Prefix';
-import { each } from '../../Helpers/Functions';
-import { omitBy } from '../../Helpers/Functions';
-import { camelCase } from '../../Helpers/Functions';
+import { each, omitBy, camelCase } from '../../Helpers/Functions';
 
 const COLORS = [
     'primary',
@@ -28,7 +26,7 @@ function classes(instance, namespace) {
     return COLORS.map(color => {
         return instance[camelCase(color = prefix(color, namespace))] ? color : null;
     })
-    .filter(value => !!value);
+        .filter(value => !!value);
 }
 
 export default {
@@ -88,4 +86,4 @@ export default {
 
     }
 
-}
+};

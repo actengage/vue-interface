@@ -33,7 +33,7 @@ export default {
         backButton: {
             type: [Function, Boolean],
             default() {
-                return null
+                return null;
             }
         },
 
@@ -56,15 +56,15 @@ export default {
 
         checkValidity(prop) {
             // Validate the property for the step first.
-            if(isFunction(this[prop]) ? this[prop](this) === false : this[prop] === false) {
-                return false
+            if (isFunction(this[prop]) ? this[prop](this) === false : this[prop] === false) {
+                return false;
             }
 
             // Then validate the property of the wizard, this is the global validator
-            if(this.$refs.wizard) {
-                if( isFunction(this.$refs.wizard[prop]) ?
-                    this.$refs.wizard[prop](this) === false :
-                    this.$refs.wizard[prop] === false) {
+            if (this.$refs.wizard) {
+                if (isFunction(this.$refs.wizard[prop])
+                    ? this.$refs.wizard[prop](this) === false
+                    : this.$refs.wizard[prop] === false) {
                     return false;
                 }
             }
@@ -73,21 +73,21 @@ export default {
         },
 
         performValidityChecks() {
-            if(this.$refs.wizard) {
+            if (this.$refs.wizard) {
                 this.checkValidity('validate') ? this.enable() : this.disable();
                 this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
             }
         },
 
         disable() {
-            if(this.$refs.wizard) {
+            if (this.$refs.wizard) {
                 this.$refs.wizard.disableNextButton();
                 this.$refs.wizard.disableFinishButton();
             }
         },
 
         enable() {
-            if(this.$refs.wizard) {
+            if (this.$refs.wizard) {
                 this.$refs.wizard.enableNextButton();
                 this.$refs.wizard.enableFinishButton();
             }
@@ -104,7 +104,7 @@ export default {
     },
 
     render(h) {
-        if(this.$slots.default.length !== 1) {
+        if (this.$slots.default.length !== 1) {
             throw new Error('The <wizard-slot> must contain a single parent DOM node.');
         }
 

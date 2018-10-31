@@ -69,7 +69,7 @@ export default {
          *
          * @property Object
          */
-        src: String,
+        src: String
 
     },
 
@@ -87,6 +87,5 @@ export default {
         }
     }
 
-}
-
+};
 </script>

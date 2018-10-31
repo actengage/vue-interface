@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { each } from '../../Helpers/Functions';
-import { isBoolean } from '../../Helpers/Functions';
 import prefix from '../../Helpers/Prefix';
 import Variant from '../../Mixins/Variant';
 import Colorable from '../../Mixins/Colorable';
@@ -16,6 +14,7 @@ import NavbarText from './NavbarText';
 import NavbarToggler from './NavbarToggler';
 import NavbarTogglerIcon from './NavbarTogglerIcon';
 import MergeClasses from '../../Mixins/MergeClasses';
+import { isBoolean } from '../../Helpers/Functions';
 
 export default {
 
@@ -92,7 +91,7 @@ export default {
     computed: {
 
         expandedClass() {
-            if(isBoolean(this.expand)) {
+            if (isBoolean(this.expand)) {
                 return this.expand;
             }
 
@@ -112,9 +111,8 @@ export default {
     },
 
     data() {
-        return {}
+        return {};
     }
 
-}
-
+};
 </script>

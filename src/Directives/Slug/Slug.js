@@ -1,5 +1,4 @@
-import { get } from '../../Helpers/Functions';
-import { kebabCase } from '../../Helpers/Functions';
+import { get, kebabCase } from '../../Helpers/Functions';
 
 export default {
 
@@ -10,7 +9,7 @@ export default {
         let editable = !input.value;
 
         const update = value => {
-            if(editable) {
+            if (editable) {
                 input.value = kebabCase(value);
                 input.dispatchEvent(new Event('input'));
             }
@@ -25,17 +24,17 @@ export default {
         });
 
         input.addEventListener('input', event => {
-            if(event instanceof InputEvent) {
+            if (event instanceof InputEvent) {
                 editable = !event.target.value;
             }
         });
 
         input.addEventListener('blur', event => {
-            input.value = kebabCase(event.target.value || binding.expression.split('.').reduce((o,i)=>o[i], vnode.context));
+            input.value = kebabCase(event.target.value || binding.expression.split('.').reduce((o, i) => o[i], vnode.context));
             input.dispatchEvent(new Event('input'));
         });
 
         !input.value && update(value);
     }
 
-}
+};

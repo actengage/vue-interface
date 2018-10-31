@@ -39,7 +39,7 @@ export default {
     methods: {
 
         onClick(event, slide) {
-            this.$emit('click', event, slide)
+            this.$emit('click', event, slide);
         }
 
     },
@@ -49,7 +49,7 @@ export default {
     },
 
     data() {
-        return {}
+        return {};
     }
 
 };

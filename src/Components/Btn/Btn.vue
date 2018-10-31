@@ -17,7 +17,6 @@
 import Variant from '../../Mixins/Variant';
 import Sizeable from '../../Mixins/Sizeable';
 import Colorable from '../../Mixins/Colorable';
-import transition from '../../Helpers/Transition';
 import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
@@ -119,7 +118,7 @@ export default {
 
     }
 
-}
+};
 </script>
 
 <style lang="scss">

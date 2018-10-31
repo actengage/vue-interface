@@ -168,6 +168,5 @@ export default {
 
     }
 
-}
-
+};
 </script>

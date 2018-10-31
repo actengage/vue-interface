@@ -58,12 +58,11 @@
 
 <script>
 import Alert from '../Alert';
-import { each } from '../../Helpers/Functions';
-import { isObject } from '../../Helpers/Functions';
 import unit from '../../Helpers/Unit';
 import Pagination from '../Pagination';
 import TableViewHeader from './TableViewHeader';
 import ActivityIndicator from '../ActivityIndicator';
+import { each, isObject } from '../../Helpers/Functions';
 
 export default {
 
@@ -80,7 +79,9 @@ export default {
         // [{id: 'database_id', name: 'Database id', width: '20%'}]
         columns: {
             type: Array,
-            default: () => { return []; }
+            default: () => {
+                return [];
+            }
         },
 
         data: {
@@ -133,7 +134,7 @@ export default {
         tableColumns() {
             let columns = this.columns;
 
-            if(!columns || !columns.length) {
+            if (!columns || !columns.length) {
                 columns = Object.keys(this.data[0]);
             }
 
@@ -145,6 +146,5 @@ export default {
         }
     }
 
-}
-
+};
 </script>

@@ -1,5 +1,4 @@
-import { wrap } from '../Functions';
-import { isFunction } from '../Functions';
+import { wrap, isFunction } from '../Functions';
 
 export default function elapsed(milliseconds, callback, elapsedCallback) {
     let hasElapsed = false;
@@ -8,17 +7,17 @@ export default function elapsed(milliseconds, callback, elapsedCallback) {
         return setTimeout(() => {
             hasElapsed = true;
 
-            if(isFunction(elapsedCallback)) {
+            if (isFunction(elapsedCallback)) {
                 elapsedCallback();
             }
-        }, milliseconds)
+        }, milliseconds);
     }
 
     function stop() {
         clearTimeout(interval);
     }
 
-    const interval = start(), promise = new Promise((resolve, reject) => {
+    const interval = start(); const promise = new Promise((resolve, reject) => {
         function resolver(resolver, response) {
             return resolver(response || hasElapsed);
         };

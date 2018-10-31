@@ -1,5 +1,4 @@
-import { each } from '../../Helpers/Functions';
-import { isString } from '../../Helpers/Functions';
+import { each, isString } from '../../Helpers/Functions';
 import transition from '../../Helpers/Transition';
 
 export default {
@@ -72,8 +71,8 @@ export default {
          * @return void
          */
         initializeTriggers() {
-            if(this.target && this.trigger !== 'manual') {
-                if(this.target instanceof Element) {
+            if (this.target && this.trigger !== 'manual') {
+                if (this.target instanceof Element) {
                     this.initializeTrigger(this.target);
                 }
                 else {
@@ -83,7 +82,7 @@ export default {
                 }
             }
 
-            if(this.show || !this.target) {
+            if (this.show || !this.target) {
                 this.$nextTick(() => {
                     this.isShowing = true;
                 });
@@ -99,7 +98,7 @@ export default {
             this.$nextTick(() => {
                 const el = this.$el.querySelector('.form-control, input, select, textarea');
 
-                if(el) {
+                if (el) {
                     el.focus();
                 }
                 else {
@@ -150,7 +149,7 @@ export default {
          * @return this
          */
         toggle() {
-            if(!this.isShowing) {
+            if (!this.isShowing) {
                 this.open();
             }
             else {
@@ -176,7 +175,7 @@ export default {
     watch: {
 
         isShowing(value) {
-            if(value) {
+            if (value) {
                 this.focus();
             }
         },
@@ -195,7 +194,7 @@ export default {
         return {
             isDisplaying: this.show || !this.target,
             isShowing: false
-        }
+        };
     }
 
-}
+};

@@ -6,7 +6,7 @@ export default {
     name: 'activity-indicator-dots',
 
     extends: BaseType
-}
+};
 </script>
 
 <style lang="scss">

@@ -7,7 +7,7 @@ import ModalFooter from './ModalFooter';
 import ModalHeader from './ModalHeader';
 import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
-const plugin = VueInstaller.use({
+VueInstaller.use({
 
     install(Vue, options) {
         VueInstaller.components({
@@ -24,6 +24,6 @@ export {
     ModalDialog,
     ModalFooter,
     ModalHeader
-}
+};
 
 export default Modal;

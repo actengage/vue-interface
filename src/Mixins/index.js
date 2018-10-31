@@ -18,4 +18,4 @@ export {
     Sizeable,
     Triggerable,
     Variant
-}
+};

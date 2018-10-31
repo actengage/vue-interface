@@ -1,9 +1,5 @@
 import prefix from '../../Helpers/Prefix';
-import { each } from '../../Helpers/Functions';
-import { isArray } from '../../Helpers/Functions';
-import { isObject } from '../../Helpers/Functions';
-import { camelCase } from '../../Helpers/Functions';
-import { isUndefined } from '../../Helpers/Functions';
+import { each, isArray, isObject, camelCase, isUndefined } from '../../Helpers/Functions';
 
 export default {
 
@@ -94,7 +90,7 @@ export default {
         errors: {
             type: Object,
             default() {
-                return {}
+                return {};
             }
         },
 
@@ -214,13 +210,13 @@ export default {
     methods: {
 
         blur() {
-            if(this.getInputField()) {
+            if (this.getInputField()) {
                 this.getInputField().blur();
             }
         },
 
         focus() {
-            if(this.getInputField()) {
+            if (this.getInputField()) {
                 this.getInputField().focus();
             }
         },
@@ -232,7 +228,7 @@ export default {
         getFieldErrors() {
             let errors = this.error || this.errors;
 
-            if(isObject(this.errors)) {
+            if (isObject(this.errors)) {
                 errors = this.errors[this.name || this.id];
             }
 
@@ -248,12 +244,12 @@ export default {
                 return {
                     name: event,
                     callback: this[camelCase(['on', event].join(' '))]
-                }
+                };
             }).filter(event => !isUndefined(event.callback));
         },
 
         invalidFeedback() {
-            if(this.error) {
+            if (this.error) {
                 return this.error;
             }
 
@@ -283,10 +279,10 @@ export default {
             ].join(' ');
         },
 
-        hasDefaultSlot () {
-            return !!this.$slots.default
+        hasDefaultSlot() {
+            return !!this.$slots.default;
         }
 
     }
 
-}
+};

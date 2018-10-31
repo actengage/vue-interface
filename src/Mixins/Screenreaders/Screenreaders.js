@@ -22,9 +22,9 @@ export default {
         screenreaderClasses() {
             return {
                 'sr-only': this.srOnly,
-                'sr-only-focusable': this.srOnlyFocusable,
+                'sr-only-focusable': this.srOnlyFocusable
             };
         }
     }
 
-}
+};

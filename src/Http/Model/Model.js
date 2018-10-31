@@ -1,13 +1,7 @@
 import Request from '../Request';
-import { each } from '../../Helpers/Functions';
-import { isNull } from '../../Helpers/Functions';
-import { pickBy } from '../../Helpers/Functions';
-import { isArray } from '../../Helpers/Functions';
-import { isObject } from '../../Helpers/Functions';
-import { isUndefined } from '../../Helpers/Functions';
+import { each, isNull, pickBy, isArray, isObject, isUndefined } from '../../Helpers/Functions';
 
 export default class Model {
-
     /**
      * Construct the model instance
      *
@@ -63,9 +57,9 @@ export default class Model {
             (this.endpoint() || ''),
             (this.exists() ? this.id() : null)
         ]
-        .filter(value => !!value)
-        .concat([].slice.call(arguments))
-        .join('/');
+            .filter(value => !!value)
+            .concat([].slice.call(arguments))
+            .join('/');
     }
 
     /**
@@ -126,9 +120,9 @@ export default class Model {
      * @return array|mixed
      */
     get(key) {
-        if(isArray(key) || isObject(key)) {
-            return this.getAttributes().filter((value) => {
-                return data.indexOf(value) !== -1;
+        if (isArray(key)) {
+            return this.getAttributes().filter((value, i) => {
+                return key.indexOf(i) !== -1;
             });
         }
         else {
@@ -143,7 +137,7 @@ export default class Model {
      * @return this
      */
     set(key, value = undefined) {
-        if(isArray(key) || isObject(key)) {
+        if (isArray(key) || isObject(key)) {
             this.setAttributes(key);
         }
         else {
@@ -216,7 +210,7 @@ export default class Model {
      * @return void
      */
     setAttributes(data) {
-        if(isArray(data) || isObject(data)) {
+        if (isArray(data) || isObject(data)) {
             each(data, (value, key) => {
                 this.setAttribute(key, value);
             });
@@ -233,10 +227,10 @@ export default class Model {
      * @return void
      */
     setAttribute(key, value) {
-        if(this.getAttribute(key) !== value) {
+        if (this.getAttribute(key) !== value) {
             this.handleAttributeChange(key, value);
 
-            if(isUndefined(value)) {
+            if (isUndefined(value)) {
                 delete this.$attributes[key];
             }
             else {
@@ -252,7 +246,7 @@ export default class Model {
      */
     revert() {
         each(this.$changed, (value, key) => {
-            if(!isUndefined(value)) {
+            if (!isUndefined(value)) {
                 this.$attributes[key] = value;
             }
             else {
@@ -289,10 +283,10 @@ export default class Model {
     hasFiles() {
         function count(files, total = 0) {
             return files.reduce((carry, value) => {
-                if(isArray(value)) {
+                if (isArray(value)) {
                     return carry + count(value, total);
                 }
-                else if(value instanceof File || value instanceof FileList) {
+                else if (value instanceof File || value instanceof FileList) {
                     return carry + 1;
                 }
                 else {
@@ -312,11 +306,11 @@ export default class Model {
      * @return void
      */
     handleAttributeChange(key, value) {
-        if(this.$initialized) {
-            if(this.$changed[key] === value) {
+        if (this.$initialized) {
+            if (this.$changed[key] === value) {
                 delete this.$changed[key];
             }
-            else if(!(key in this.$changed)) {
+            else if (!(key in this.$changed)) {
                 this.$changed[key] = this.getAttribute(key);
             }
         }
@@ -332,19 +326,9 @@ export default class Model {
      * @return void
      */
     handlePrimaryKeyChange(key, value) {
-        if(this.$key === key) {
+        if (this.$key === key) {
             this.$exists = !isUndefined(value) && !isNull(value);
         }
-    }
-
-    /**
-     * Cancel the current request
-     *
-     * @param data object
-     * @return bool
-     */
-    cancel() {
-        this.$request && this.$request.cancel();
     }
 
     /**
@@ -375,7 +359,7 @@ export default class Model {
      */
     delete(config = {}) {
         return new Promise((resolve, reject) => {
-            if(!this.exists()) {
+            if (!this.exists()) {
                 reject(new Error('The model must have a primary key before it can be delete.'));
             }
 
@@ -392,7 +376,7 @@ export default class Model {
      * @return {self}
      */
     cancel() {
-        if(this.$request) {
+        if (this.$request) {
             this.$request.cancel();
         }
 
@@ -408,19 +392,19 @@ export default class Model {
         const form = new FormData();
 
         each(this.toJSON(), (value, key) => {
-            if(isArray(value)) {
+            if (isArray(value)) {
                 each(value, item => {
-                    if(!(item instanceof File) && (isObject(item) || isArray(item))) {
+                    if (!(item instanceof File) && (isObject(item) || isArray(item))) {
                         item = JSON.stringify(item);
                     }
 
-                    form.append(key.replace(/(.+)(\[.+\]?)$/, '$1')+'[]', item);
+                    form.append(key.replace(/(.+)(\[.+\]?)$/, '$1') + '[]', item);
                 });
             }
-            else if(!(value instanceof File) && isObject(value)) {
+            else if (!(value instanceof File) && isObject(value)) {
                 form.append(key, JSON.stringify(value));
             }
-            else if(!isNull(value)) {
+            else if (!isNull(value)) {
                 form.append(key, value);
             }
         });
@@ -466,7 +450,7 @@ export default class Model {
      * @return bool
      */
     static search(params = {}, config = {}) {
-        const model = new this;
+        const model = new this();
 
         return new Promise((resolve, reject) => {
             model.$request = this.request('get', (config.uri || model.uri()), config);
@@ -486,7 +470,7 @@ export default class Model {
      */
     static find(id, config = {}) {
         return new Promise((resolve, reject) => {
-            const model = new this;
+            const model = new this();
             model.$request = this.request('get', (config.uri || model.uri(id)), config);
             model.$request.send().then(response => {
                 resolve(model.initialize(response));
@@ -505,5 +489,4 @@ export default class Model {
     static request(method, url, config = {}) {
         return Request.make(method, url, config);
     }
-
 }

@@ -109,14 +109,14 @@ export default {
 
         classes() {
             const classes = prefix({
-                'action': this.action,
+                'action': this.action
             }, 'list-group-item');
 
             classes['list-group-item'] = true;
             classes['active'] = this.active;
             classes['disabled'] = this.disabled;
 
-            if(this.variant) {
+            if (this.variant) {
                 classes[prefix(this.variant, 'list-group-item')] = true;
             }
 
@@ -135,12 +135,10 @@ export default {
 
         active(value, prevValue) {
             this.$emit('toggle', value);
-            this.$emit(!!value ? 'activate' : 'deactivate');
+            this.$emit(value ? 'activate' : 'deactivate');
         }
 
-    },
+    }
 
-
-}
-
+};
 </script>

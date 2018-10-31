@@ -40,9 +40,7 @@
 
 <script>
 import Btn from '../Btn';
-import { each } from '../../Helpers/Functions';
 import ModalBody from './ModalBody';
-import { isString } from '../../Helpers/Functions';
 import ModalDialog from './ModalDialog';
 import ModalHeader from './ModalHeader';
 import ModalFooter from './ModalFooter';
@@ -86,7 +84,7 @@ export default {
          */
         backdrop: {
             type: Boolean,
-            default: true,
+            default: true
         },
 
         /**
@@ -209,7 +207,7 @@ export default {
          * @return {void}
          */
         onEsc(event) {
-            (this.type === 'confirm' || this.type ===  'prompt') ? this.cancel(event) : this.close(event);
+            (this.type === 'confirm' || this.type === 'prompt') ? this.cancel(event) : this.close(event);
         }
 
     },
@@ -217,13 +215,13 @@ export default {
     watch: {
 
         isShowing(value) {
-            if(value) {
+            if (value) {
                 document.querySelector('body').classList.add('modal-open');
-                //this.mountBackdrop();
+                // this.mountBackdrop();
             }
             else {
                 document.querySelector('body').classList.remove('modal-open');
-                //this.unmountBackdrop();
+                // this.unmountBackdrop();
             }
 
             this.$emit('update:show', value);
@@ -236,24 +234,18 @@ export default {
             backdropComponent: null,
             isDisplaying: this.show || !this.target,
             isShowing: false
-        }
+        };
     },
 
     mounted() {
         this.initializeTriggers();
-        /*
-        if(this.show || !this.target) {
-            this.mountBackdrop();
-        }
-        */
     },
 
     beforeRouteLeave(to, from, next) {
-        modal.close();
+        this.close();
     }
 
-}
-
+};
 </script>
 
 <style lang="scss">

@@ -1,6 +1,5 @@
-import { each } from '../Functions';
-import { isFunction } from '../Functions';
 import script from '../Script';
+import { each, isFunction } from '../Functions';
 
 const VueInstaller = {
     use,
@@ -16,7 +15,7 @@ const VueInstaller = {
     $plugins: {},
     $filters: {},
     $directives: {},
-    $components: {},
+    $components: {}
 };
 
 export function use(plugin) {
@@ -28,7 +27,7 @@ export function use(plugin) {
 }
 
 export function plugin(Vue, name, def) {
-    if(!VueInstaller.$plugins[name]) {
+    if (!VueInstaller.$plugins[name]) {
         Vue.use(VueInstaller.$plugins[name] = def);
     }
 }
@@ -40,7 +39,7 @@ export function plugins(Vue, plugins) {
 }
 
 export function filter(Vue, name, def) {
-    if(!VueInstaller.$filters[name]) {
+    if (!VueInstaller.$filters[name]) {
         Vue.use(VueInstaller.$filters[name] = def);
     }
 }
@@ -52,7 +51,7 @@ export function filters(Vue, filters) {
 }
 
 export function component(Vue, name, def) {
-    if(!VueInstaller.$components[name]) {
+    if (!VueInstaller.$components[name]) {
         Vue.component(name, VueInstaller.$components[name] = def);
     }
 }
@@ -64,8 +63,8 @@ export function components(Vue, components) {
 }
 
 export function directive(Vue, name, def) {
-    if(!VueInstaller.$directives[name]) {
-        if(isFunction(def)) {
+    if (!VueInstaller.$directives[name]) {
+        if (isFunction(def)) {
             Vue.use(VueInstaller.$directives[name] = def);
         }
         else {

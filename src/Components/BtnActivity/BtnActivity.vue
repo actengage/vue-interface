@@ -17,13 +17,13 @@ const convertAnimationDelayToInt = function(delay) {
     let milliseconds;
 
     switch (unit) {
-        case "s": // seconds
-            milliseconds = num * 1000;
-            break;
-        case "ms":
-        default:
-            milliseconds = num;
-            break;
+    case 's': // seconds
+        milliseconds = num * 1000;
+        break;
+    case 'ms':
+    default:
+        milliseconds = num;
+        break;
     }
 
     return milliseconds || 0;
@@ -225,7 +225,7 @@ export default {
     watch: {
 
         activity(value) {
-            if(value) {
+            if (value) {
                 this.showActivity();
             }
             else {
@@ -235,7 +235,7 @@ export default {
 
     }
 
-}
+};
 </script>
 
 <style lang="scss">

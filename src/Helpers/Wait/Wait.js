@@ -1,11 +1,10 @@
-import { wrap } from '../Functions';
-import { findKey } from '../Functions';
+import { wrap, findKey } from '../Functions';
 
 const CALLBACKS = {};
 
 function id(callback) {
     return findKey(CALLBACKS, compare => {
-        return callback.toString() == compare.toString();
+        return callback.toString() === compare.toString();
     });
 }
 
@@ -20,7 +19,7 @@ function stop(id) {
 }
 
 function start(callback, milliseconds) {
-    return CALLBACKS[setTimeout(callback, milliseconds)] = callback;
+    CALLBACKS[setTimeout(callback, milliseconds)] = callback;
 }
 
 export default function wait(milliseconds, callback) {
@@ -33,41 +32,4 @@ export default function wait(milliseconds, callback) {
             return callback(wrap(resolve, resolver), wrap(reject, resolver));
         }), milliseconds);
     });
-
-    return promise.finally(stop, stop);
 }
-
-
-/*
-import { wrap } from '../Functions';
-import { isFunction } from '../Functions';
-
-export default function elapsed(delay, callback, elapsedCallback) {
-    let hasElapsed = false;
-
-    function start() {
-        return setInterval(() => {
-            hasElapsed = true;
-
-            if(isFunction(elapsedCallback)) {
-                elapsedCallback();
-            }
-        }, delay)
-    }
-
-    function stop() {
-        clearInterval(interval);
-    }
-
-    const interval = start(), promise = new Promise((resolve, reject) => {
-        function resolver(resolver, response) {
-            return resolver(response || hasElapsed);
-        };
-
-        callback(wrap(resolve, resolver), wrap(reject, resolver));
-    });
-
-    return promise.finally(stop, stop);
-}
-
- */

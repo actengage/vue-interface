@@ -105,14 +105,18 @@ export default {
         // [{href: 'test-123', label: 'Test 123'}]
         buttons: {
             type: Array,
-            default: () => { return []; }
+            default: () => {
+                return [];
+            }
         },
 
         // (array) An array of table column
         // [{id: 'database_id', name: 'Database id', width: '20%'}]
         columns: {
             type: Array,
-            default: () => { return []; }
+            default: () => {
+                return [];
+            }
         },
 
         // (string) The table heading
@@ -160,11 +164,11 @@ export default {
         },
 
         getRequestHeader(key, value) {
-            return this.request.headers[key] || value
+            return this.request.headers[key] || value;
         },
 
         addRequestHeader(key, value) {
-            if(!this.request.headers) {
+            if (!this.request.headers) {
                 this.request.headers = {};
             }
 
@@ -172,11 +176,11 @@ export default {
         },
 
         getRequestParam(key, value) {
-            return this.request.params[key] || value
+            return this.request.params[key] || value;
         },
 
         addRequestParam(key, value) {
-            if(!this.request.params) {
+            if (!this.request.params) {
                 this.request.params = {};
             }
 
@@ -197,7 +201,7 @@ export default {
         },
 
         onPaginate(page, event) {
-            if(!this.request.params) {
+            if (!this.request.params) {
                 this.request.params = {};
             }
 
@@ -237,8 +241,7 @@ export default {
     beforeDestroy() {
         this.$off();
     }
-}
-
+};
 </script>
 
 <style lang="scss">

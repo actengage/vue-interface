@@ -9,24 +9,11 @@
 </template>
 
 <script>
-/*
-Events
-Event Type	Description
-close.bs.popover	This event fires immediately when the close instance method is called.
-closen.bs.popover	This event is fired when the popover has been made visible to the user (will wait for CSS transitions to complete).
-open.bs.popover	This event is fired immediately when the open instance method has been called.
-hidden.bs.popover	This event is fired when the popover has finished being hidden from the user (will wait for CSS transitions to complete).
-inserted.bs.popover	This event is fired after the close.bs.popover event when the popover template has been added to the DOM.
-$('#myPopover').on('hidden.bs.popover', function () {
-  // do something…
-})
-*/
-import { each } from '../../Helpers/Functions';
-import { isString } from '../../Helpers/Functions';
 import Popper from 'popper.js';
 import prefix from '../../Helpers/Prefix';
 import Triggerable from '../../Mixins/Triggerable';
 import MergeClasses from '../../Mixins/MergeClasses';
+import { each, isString } from '../../Helpers/Functions';
 
 export default {
 
@@ -242,7 +229,6 @@ export default {
                 el.addEventListener(trigger, this.$poppers[el].event);
             });
         }
-
     },
 
     watch: {
@@ -251,7 +237,7 @@ export default {
             this.$nextTick(() => {
                 this.align();
 
-                if(value) {
+                if (value) {
                     this.focus();
                 }
             });
@@ -273,7 +259,7 @@ export default {
     },
 
     beforeCreate() {
-        if(!this.$poppers) {
+        if (!this.$poppers) {
             this.$poppers = {};
         }
     }

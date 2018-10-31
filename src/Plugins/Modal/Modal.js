@@ -1,13 +1,10 @@
-import { isObject } from '../../Helpers/Functions';
-import { isFunction } from '../../Helpers/Functions';
-import { deepExtend } from '../../Helpers/Functions';
 import Modal from '../../Components/Modal';
 import instantiate from '../../Helpers/Instantiate';
+import { isObject, isFunction, deepExtend } from '../../Helpers/Functions';
 
 export default function(Vue, options) {
-
     Vue.prototype.$modal = function(Component, options) {
-        if(!isObject(options)) {
+        if (!isObject(options)) {
             options = {};
         }
 
@@ -66,14 +63,14 @@ export default function(Vue, options) {
 
     Vue.prototype.$prompt = function(title, Component, options, predicate) {
         return new Promise((resolve, reject) => {
-            if(isFunction(options)) {
+            if (isFunction(options)) {
                 predicate = options;
                 options = {};
             }
-            else if(isObject(options) && isFunction(options.predicate)) {
+            else if (isObject(options) && isFunction(options.predicate)) {
                 predicate = options.predicate;
             }
-            else if(!isFunction(predicate)) {
+            else if (!isFunction(predicate)) {
                 predicate = () => true;
             }
 
@@ -94,11 +91,10 @@ export default function(Vue, options) {
                 const succeed = () => resolve(modal.close());
                 const fail = () => reject(modal.close());
 
-                if(predicate(modal, succeed, fail) === true) {
-                    success();
+                if (predicate(modal, succeed, fail) === true) {
+                    succeed();
                 }
             });
         });
     };
-
 }

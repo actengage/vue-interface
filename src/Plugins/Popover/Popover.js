@@ -1,15 +1,14 @@
-import { isObject } from '../../Helpers/Functions';
-import { deepExtend } from '../../Helpers/Functions';
 import instantiate from '../../Helpers/Instantiate';
 import Popover from '../../Components/Popover';
+import { isObject, deepExtend } from '../../Helpers/Functions';
 
 export default function(Vue, options) {
     Vue.prototype.$popover = function(target, Component, options) {
-        if(!isObject(options)) {
+        if (!isObject(options)) {
             options = {};
         }
 
-        if(!target.$popover) {
+        if (!target.$popover) {
             target.$popover = instantiate(Vue, Popover, deepExtend(options.popover, {
                 propsData: {
                     target: target

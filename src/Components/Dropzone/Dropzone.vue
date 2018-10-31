@@ -59,10 +59,10 @@ export default {
         return {
             files: null,
             isDragging: false
-        }
+        };
     }
 
-}
+};
 </script>
 
 <style lang="scss">

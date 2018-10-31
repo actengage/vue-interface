@@ -25,16 +25,14 @@ test('Request attribute setter/getter', () => {
     expect(request.getAttribute('data').a).toBe(1);
 });
 
-test('sending a GET request', async () => {
+test('sending a GET request', async() => {
     await Request.get('api/v1/posts').then(response => {
         expect(response.data).toBeInstanceOf(Object);
         expect(response.data.current_page).toBe(1);
-    }, error => {
-        throw new Error('This should not fail.');
     });
 });
 
-test('transforming a response', async () => {
+test('transforming a response', async() => {
     // Set a global transformer
     Request.transform.response(data => {
         return JSON.parse(data);
@@ -44,12 +42,10 @@ test('transforming a response', async () => {
         transformResponse: [data => 'test']
     }).then(response => {
         expect(response.data).toBe('test');
-    }, error => {
-        throw new Error('This should not fail.');
     });
 });
 
-test('transforming a request', async () => {
+test('transforming a request', async() => {
     // Set a global transformer
     Request.transform.request((data, headers) => {
         headers.test = 123;
@@ -58,12 +54,10 @@ test('transforming a request', async () => {
 
     await Request.get('api/v1/posts').then(response => {
         expect(response.config.headers.test).toBe(123);
-    }, error => {
-        throw new Error('This should not fail.');
     });
 });
 
-test('cancelling a request', async () => {
+test('cancelling a request', async() => {
     const request = Request.make('GET', 'api/v1/posts');
 
     request.send().then(response => {

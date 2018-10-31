@@ -2,7 +2,7 @@ import remove from '../remove';
 
 test('remove()', () => {
     const array = remove([1, 2, 3, 4], value => {
-        return value % 2 == 0
+        return value % 2 === 0;
     });
 
     expect(array).toHaveLength(2);

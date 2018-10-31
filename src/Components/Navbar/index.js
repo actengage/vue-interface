@@ -7,7 +7,7 @@ import NavbarToggler from './NavbarToggler';
 import NavbarTogglerIcon from './NavbarTogglerIcon';
 import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
-const plugin = VueInstaller.use({
+VueInstaller.use({
 
     install(Vue, options) {
         VueInstaller.components({
