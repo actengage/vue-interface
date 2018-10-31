@@ -8,6 +8,7 @@ import isObject from './isObject';
 */
 export default function deepExtend(target, ...sources) {
     if (!sources.length) return target;
+
     const source = sources.shift();
 
     if (isObject(target) && isObject(source)) {

@@ -1,4 +1,5 @@
 import camelCase from './camelCase';
+import chunk from './chunk';
 import cloneDeep from './cloneDeep';
 import concatMap from './concatMap';
 import deepExtend from './deepExtend';
@@ -36,6 +37,7 @@ import wrap from './wrap';
 
 export {
     camelCase,
+    chunk,
     cloneDeep,
     concatMap,
     deepExtend,
