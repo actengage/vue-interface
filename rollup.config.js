@@ -105,7 +105,7 @@ const plugins = [
         css: false
     }),
     postcss({
-        extract: `${DIST}${FILENAME}.css`,
+        extract: `${DIST}${FILENAME}.min.css`,
         plugins: [
             cssnano()
         ]
@@ -148,7 +148,7 @@ export default [{
     watch: WATCH_OPTIONS,
     external: EXTERNAL,
     plugins: plugins
-}/*, {
+}, {
     input: MAINJS,
     output: {
         name: NAMESPACE,
@@ -161,4 +161,4 @@ export default [{
     watch: WATCH_OPTIONS,
     external: EXTERNAL,
     plugins: plugins
-}*/];
+}];
