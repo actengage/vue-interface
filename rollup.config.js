@@ -1,4 +1,3 @@
-import fs from 'fs';
 import cssnano from 'cssnano';
 import pkg from "./package.json";
 import { kebabCase } from 'lodash';
@@ -6,6 +5,7 @@ import { camelCase } from 'lodash';
 import { upperFirst } from 'lodash';
 import vue from 'rollup-plugin-vue';
 import json from 'rollup-plugin-json';
+import css from 'rollup-plugin-css-only'
 import alias from 'rollup-plugin-alias';
 import babel from 'rollup-plugin-babel';
 import serve from 'rollup-plugin-serve';
@@ -18,7 +18,7 @@ import livereload from 'rollup-plugin-livereload';
 import globals from 'rollup-plugin-node-globals';
 import builtins from 'rollup-plugin-node-builtins';
 import rootImport from 'rollup-plugin-root-import';
-import purgecss from '@fullhuman/postcss-purgecss';
+import postcss from 'rollup-plugin-postcss';
 
 // The type of package Rollup should create
 const PACKAGE_FORMAT = 'umd';
@@ -82,13 +82,15 @@ const EXTERNAL = [
 
 // Define the plugins used for the rollup process
 const plugins = [
-    progress(),
-    replace({
-        'process.env.NODE_ENV': JSON.stringify( process.env.ROLLUP_WATCH == 'true' ? 'development' : 'production' ),
-        'process.env.SERVE_OPTIONS': JSON.stringify(SERVE_OPTIONS),
-        'process.env.LIVERELOAD_OPTIONS': JSON.stringify(LIVERELOAD_OPTIONS)
+    resolve({
+        main: true,
+        jsnext: true,
+        browser: true,
+        extensions: [ '.js', '.vue']
     }),
-    json(),
+    commonjs({
+        include: NODE_MODULES
+    }),
     alias({
         resolve: ['.js', '.vue'],
         '@': `${SRC}`,
@@ -99,35 +101,29 @@ const plugins = [
         useEntry: 'prepend',
         extensions: ['.vue', '.js']
     }),
-    resolve({
-        main: true,
-        jsnext: true,
-        browser: true,
-        extensions: [ '.js', '.vue']
-    }),
-    commonjs({
-        include: NODE_MODULES
-    }),
     vue({
-        scss: {
-            indentedSyntax: false
-        },
-        css: function(style, styles, compiler) {
-            fs.writeFileSync(`${DIST}${FILENAME}.css`, style);
-        },
-        postcss: {
-            plugins: [
-                purgecss(),
-                cssnano()
-            ]
-        }
+        css: false
     }),
+    postcss({
+        extract: `${DIST}${FILENAME}.css`,
+        plugins: [
+            cssnano()
+        ]
+    }),
+    css(),
+    json(),
     eslint(),
     babel({
         exclude: NODE_MODULES
     }),
     globals(),
-    builtins()
+    builtins(),
+    progress(),
+    replace({
+        'process.env.NODE_ENV': JSON.stringify( process.env.ROLLUP_WATCH == 'true' ? 'development' : 'production' ),
+        'process.env.SERVE_OPTIONS': JSON.stringify(SERVE_OPTIONS),
+        'process.env.LIVERELOAD_OPTIONS': JSON.stringify(LIVERELOAD_OPTIONS)
+    })
 ];
 
 // Add the serve/livereload plugins if watch argument has been passed
@@ -152,7 +148,7 @@ export default [{
     watch: WATCH_OPTIONS,
     external: EXTERNAL,
     plugins: plugins
-}, {
+}/*, {
     input: MAINJS,
     output: {
         name: NAMESPACE,
@@ -165,4 +161,4 @@ export default [{
     watch: WATCH_OPTIONS,
     external: EXTERNAL,
     plugins: plugins
-}];
+}*/];
