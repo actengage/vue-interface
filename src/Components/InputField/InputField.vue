@@ -44,13 +44,12 @@
         <slot name="help">
             <help-text v-if="helpText" ref="help" v-html="helpText" />
         </slot>
-        
+
     </form-group>
 
 </template>
 
 <script>
-
 import HelpText from '../HelpText';
 import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';

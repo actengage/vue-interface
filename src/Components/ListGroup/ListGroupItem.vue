@@ -2,7 +2,7 @@
     <router-link v-if="to" :to="to" :class="classes" @click="$emit('click', $event)">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </router-link>
-    <a v-elseif="href" :href="href" :class="classes" @click="$emit('click', $event)">
+    <a v-else-if="href" :href="href" :class="classes" @click="$emit('click', $event)">
         <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
     </a>
     <button v-else-if="action" type="button" :class="classes" @click.prevent="$emit('click', $event)">
@@ -14,10 +14,9 @@
 </template>
 
 <script>
-
-import { isObject } from '../../Helpers/Functions';
 import Badge from '../Badge';
 import prefix from '../../Helpers/Prefix/Prefix';
+import { isObject } from '../../Helpers/Functions';
 
 export default {
 

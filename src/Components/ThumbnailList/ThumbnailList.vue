@@ -1,6 +1,6 @@
 <template>
     <div class="thumbnail-list" :class="classes">
-        <thumbnail-list-item v-if="!!images" v-for="image in images" :src="image" :width="width" />
+        <thumbnail-list-item v-if="!!images" v-for="image in images" :key="image" :src="image" :width="width" />
         <slot/>
     </div>
 </template>

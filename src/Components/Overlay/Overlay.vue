@@ -1,7 +1,7 @@
 <template>
     <div class="overlay" :class="triggerableClasses" :style="{'background': background, 'display': isDisplaying ? 'flex' : 'none'}" role="dialog" tabindex="-1" @keydown.esc="onEsc">
         <button v-if="closeable && !hideCloseButton" type="button" class="btn btn-link overlay-close" @click="onClickClose">
-            <i class="fa fa-times-circle"></i>
+            <i class="fa fa-times-circle"/>
         </button>
 
         <overlay-content :class="{'overlay-content-fixed': fixedContent, 'overlay-content-center': center}" :style="{minHeight: minHeight}">

@@ -5,7 +5,7 @@
         <div class="file-preview-inner">
 
             <a v-if="!hideClose" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
-                <i class="fa fa-times-circle"></i>
+                <i class="fa fa-times-circle"/>
             </a>
 
             <div v-if="!!poster || isImage" class="file-preview-image">
@@ -13,7 +13,7 @@
             </div>
 
             <div v-else v-ready="() => this.$emit('loaded')" class="file-preview-icon">
-                <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}"></i>
+                <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}"/>
             </div>
 
             <progress-bar
@@ -23,9 +23,9 @@
                 :height="10"
                 class="mt-3"/>
 
-            <div class="file-preview-filename" v-html="name"></div>
+            <div class="file-preview-filename" v-html="name"/>
             <div class="file-preview-filesize">({{size}})</div>
-        <div>
+        </div>
 
     </div>
 

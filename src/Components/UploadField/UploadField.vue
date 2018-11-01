@@ -28,11 +28,11 @@
                     :class="{'uploading': !!progressBars[key]}">
                     <file-preview :file="file" :progress="progressBars[key] || 0" @loaded="onLoadedPreview" @close="removeFile(file)"/>
                     <slot :file="file"/>
-                <thumbnail-list-item>
+                </thumbnail-list-item>
             </thumbnail-list>
 
             <div v-if="showDropElement" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
-                <i class="fa fa-cloud-upload"></i>
+                <i class="fa fa-cloud-upload"/>
                 <div>Drag and drop files to upload</div>
             </div>
 

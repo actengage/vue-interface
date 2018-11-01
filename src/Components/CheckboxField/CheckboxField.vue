@@ -59,7 +59,6 @@
 </template>
 
 <script>
-
 import RadioField from '../RadioField';
 import MergeClasses from '../../Mixins/MergeClasses';
 

@@ -18,7 +18,7 @@ import livereload from 'rollup-plugin-livereload';
 import globals from 'rollup-plugin-node-globals';
 import builtins from 'rollup-plugin-node-builtins';
 import rootImport from 'rollup-plugin-root-import';
-import postcss from 'rollup-plugin-postcss';
+import purgecss from '@fullhuman/postcss-purgecss';
 
 // The type of package Rollup should create
 const PACKAGE_FORMAT = 'umd';
@@ -99,24 +99,6 @@ const plugins = [
         useEntry: 'prepend',
         extensions: ['.vue', '.js']
     }),
-    eslint(),
-    vue({
-        scss: {
-            indentedSyntax: false
-        },
-        css: function(style, styles, compiler) {
-            fs.writeFileSync(`${DIST}${FILENAME}.css`, style);
-        }
-    }),
-    postcss({
-        extract: `${DIST}${FILENAME}.css`,
-        plugins: [
-            cssnano()
-        ]
-    }),
-    babel({
-        exclude: NODE_MODULES
-    }),
     resolve({
         main: true,
         jsnext: true,
@@ -126,16 +108,27 @@ const plugins = [
     commonjs({
         include: NODE_MODULES
     }),
+    vue({
+        scss: {
+            indentedSyntax: false
+        },
+        css: function(style, styles, compiler) {
+            fs.writeFileSync(`${DIST}${FILENAME}.css`, style);
+        },
+        postcss: {
+            plugins: [
+                purgecss(),
+                cssnano()
+            ]
+        }
+    }),
+    eslint(),
+    babel({
+        exclude: NODE_MODULES
+    }),
     globals(),
     builtins()
 ];
-
-/*
-postcss({
-plugins: [],
-extensions: ['.scss', '.sass', '.css' ]
-}),
-*/
 
 // Add the serve/livereload plugins if watch argument has been passed
 if(process.env.ROLLUP_WATCH == 'true') {

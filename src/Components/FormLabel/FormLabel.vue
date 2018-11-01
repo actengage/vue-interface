@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 import { extend } from '../../Helpers/Functions';
 import Colorable from '../../Mixins/Colorable/Colorable';
 import Screenreaders from '../../Mixins/Screenreaders/Screenreaders';

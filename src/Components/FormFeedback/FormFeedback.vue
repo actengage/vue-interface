@@ -7,7 +7,6 @@
 </template>
 
 <script>
-
 import Colorable from '../../Mixins/Colorable/Colorable';
 
 export default {

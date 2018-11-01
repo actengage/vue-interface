@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 import { each } from '../../Helpers/Functions';
 import ListGroupItem from './ListGroupItem';
 import prefix from '../../Helpers/Prefix/Prefix';

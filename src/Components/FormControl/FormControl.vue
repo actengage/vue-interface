@@ -19,7 +19,6 @@
 </template>
 
 <script>
-
 import Colorable from '../../Mixins/Colorable';
 import FormControl from '../../Mixins/FormControl';
 import MergeClasses from '../../Mixins/MergeClasses';

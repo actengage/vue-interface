@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import 'intersection-observer';
 import unit from '../../Helpers/Unit';
 import ActivityIndicator from '../ActivityIndicator';
 

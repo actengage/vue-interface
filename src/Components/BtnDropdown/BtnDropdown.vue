@@ -3,10 +3,10 @@
     <btn-group v-if="split">
         <template v-if="!dropleft">
             <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
-                <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
+                <slot name="label"><i v-if="icon" :class="icon"/> {{label}}</slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
-                <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
+                <slot name="label-wrapper"><i v-if="icon" :class="icon"/> <slot name="label">{{label}}</slot></slot>
             </button>
         </template>
         <btn-group :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}">
@@ -22,17 +22,17 @@
         </btn-group>
         <template v-if="dropleft">
             <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
-                <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
+                <slot name="label"><i v-if="icon" :class="icon"/> {{label}}</slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
-                <slot name="label-wrapper"><i v-if="icon" :class="icon"></i> <slot name="label">{{label}}</slot></slot>
+                <slot name="label-wrapper"><i v-if="icon" :class="icon"/> <slot name="label">{{label}}</slot></slot>
             </button>
         </template>
     </btn-group>
 
     <btn-group v-else :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}" @click="onClick">
         <button aria-haspopup="true" :aria-expanded="isDropdownShowing" :type="type" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur">
-            <slot name="label"><i v-if="icon" :class="icon"></i> {{label}}</slot>
+            <slot name="label"><i v-if="icon" :class="icon"/> {{label}}</slot>
         </button>
 
         <dropdown-menu
