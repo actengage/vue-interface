@@ -1,6 +1,6 @@
 {
     "name": "vue-interface",
-    "version": "0.2.8",
+    "version": "0.2.9",
     "main": "./dist/vue-interface.js",
     "module": "./dist/vue-interface.es.js",
     "dependencies": {
@@ -75,7 +75,7 @@
         "release-patch": "npm version patch --no-git-tag-version; npm run release;",
         "release-minor": "npm version minor --no-git-tag-version; npm run release;",
         "release-major": "npm version major --no-git-tag-version; npm run release;",
-        "release": "npm run build; npm run uglify; npm run commit; npm publish; git push;",
+        "release": "npm run fix; npm run build; npm run uglify; npm run commit; npm publish; git push;",
         "build-vendor": "./node_modules/.bin/rollup -c rollup.vendor.js;",
         "uglify": "./node_modules/.bin/rollup -c --config-minify"
     },

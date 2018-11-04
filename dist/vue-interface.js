@@ -4284,7 +4284,7 @@
 
       hasFiles() {
         function count(files, total = 0) {
-          return files.reduce((carry, value) => {
+          return files ? files.reduce((carry, value) => {
             if (isArray(value)) {
               return carry + count(value, total);
             } else if (value instanceof File || value instanceof FileList) {
@@ -4292,7 +4292,7 @@
             } else {
               return carry;
             }
-          }, total);
+          }, total) : 0;
         }
 
         return count(this.toJSON()) !== 0;
