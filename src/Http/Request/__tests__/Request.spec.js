@@ -7,6 +7,11 @@ test('instantiating Request\'s', () => {
 });
 
 test('Request attribute setter/getter', () => {
+    Request.defaults.headers = {
+        d: 4,
+        e: 5
+    };
+
     const params = {
         a: 1,
         b: 2,
@@ -19,9 +24,15 @@ test('Request attribute setter/getter', () => {
         data: params
     });
 
-    expect(request.headers).toBe(params);
-    expect(request.params).toBe(params);
-    expect(request.data).toBe(params);
+    expect(request.options.headers.a).toBe(1);
+    expect(request.options.headers.d).toBe(4);
+    expect(request.options.headers.e).toBe(5);
+    expect(request.options.params.a).toBe(1);
+    expect(request.options.params.c).toBe(3);
+    expect(request.options.params.d).toBe(undefined);
+    expect(request.options.data.a).toBe(1);
+    expect(request.options.data.c).toBe(3);
+    expect(request.options.data.d).toBe(undefined);
     expect(request.getAttribute('data').a).toBe(1);
 });
 

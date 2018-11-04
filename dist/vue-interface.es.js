@@ -77,7 +77,7 @@ function isNumber(value) {
 }
 
 function isNumeric(value) {
-  return isNumber(value) || !!value && !!value.toString().match(/^-?[\d.,]+$/);
+  return isNumber(value) || !!value && !isArray(value) && !!value.toString().match(/^-?[\d.,]+$/);
 }
 
 function key(value) {
