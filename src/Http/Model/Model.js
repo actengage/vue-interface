@@ -282,7 +282,9 @@ export default class Model {
      */
     hasFiles() {
         function count(files, total = 0) {
-            return files ? files.reduce((carry, value) => {
+            return Object.keys(files).reduce((carry, key) => {
+                const value = files[key];
+
                 if (isArray(value)) {
                     return carry + count(value, total);
                 }
@@ -292,7 +294,7 @@ export default class Model {
                 else {
                     return carry;
                 }
-            }, total) : 0;
+            }, total);
         }
 
         return count(this.toJSON()) !== 0;

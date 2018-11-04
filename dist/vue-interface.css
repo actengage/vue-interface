@@ -87,6 +87,11 @@
       width: 100%;
 }
 
+.wizard-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
 .card > .wizard .wizard-header {
   margin-top: 1rem;
 }
@@ -200,11 +205,6 @@
 }
 .wizard:not(.wizard-finished) .wizard-step.complete:hover + .wizard-step:after {
     background-color: #b10805;
-}
-
-.wizard-buttons {
-  display: flex;
-  justify-content: space-between;
 }
 
 .wizard-success {
@@ -421,20 +421,6 @@
   .btn-xl-block + .btn-lg-block,
   .btn-xl-block + .btn-xl-block {
     margin-top: 0.5rem;
-}
-
-.btn-file {
-  cursor: pointer;
-  position: relative;
-}
-.btn-file input {
-    z-index: 1;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
 }
 
 @keyframes btn-activity-in {
@@ -831,6 +817,20 @@
 .btn-activity.btn-xl.btn-activity-indicator-spinner .activity-indicator > div:before,
   .btn-activity.btn-xl .activity-indicator-spinner > div:before {
     width: 7.5%;
+}
+
+.btn-file {
+  cursor: pointer;
+  position: relative;
+}
+.btn-file input {
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .dropzone {

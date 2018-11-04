@@ -4278,7 +4278,9 @@ class Model {
 
   hasFiles() {
     function count(files, total = 0) {
-      return files ? files.reduce((carry, value) => {
+      return Object.keys(files).reduce((carry, key$$1) => {
+        const value = files[key$$1];
+
         if (isArray(value)) {
           return carry + count(value, total);
         } else if (value instanceof File || value instanceof FileList) {
@@ -4286,7 +4288,7 @@ class Model {
         } else {
           return carry;
         }
-      }, total) : 0;
+      }, total);
     }
 
     return count(this.toJSON()) !== 0;
