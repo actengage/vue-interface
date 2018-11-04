@@ -4345,8 +4345,9 @@
         this.fill(data);
         return new Promise((resolve, reject) => {
           const data = !this.hasFiles() ? this.toJSON() : this.toFormData();
-          const method = !this.exists() || this.hasFiles() ? 'post' : 'put';
-          this.$request = this.constructor.request(method, config.uri || this.uri(), config);
+          const uri = config.uri || this.uri();
+          const method = config.method || (!this.exists() || this.hasFiles() ? 'post' : 'put');
+          this.$request = this.constructor.request(method, uri, config);
           this.$request.send({
             data: data
           }).then(response => resolve(this.fill(response)), reject);
