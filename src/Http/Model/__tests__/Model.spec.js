@@ -46,7 +46,7 @@ test('Model.search() and Model.find()', async() => {
         expect(model).toBeInstanceOf(Object);
         expect(typeof model.id).toBe('number');
 
-        await Media.find(first.id).then(model => {
+        await Media.find(first.id).then(async model => {
             expect(model).toBeInstanceOf(Media);
         });
     });

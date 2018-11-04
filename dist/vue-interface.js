@@ -4474,7 +4474,7 @@
           const model = new this();
           model.$request = this.request('get', config.uri || model.uri(id), config);
           model.$request.send().then(response => {
-            resolve(model.initialize(response));
+            resolve(model.initialize(response.data));
           }, error => {
             reject(error);
           });
