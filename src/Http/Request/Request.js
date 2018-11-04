@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Response from './Response';
 import BaseClass from '../../Support/BaseClass';
-import { extend, isObject } from '../../Helpers/Functions';
+import { extend, deepExtend, isObject } from '../../Helpers/Functions';
 
 const DEFAULTS = {
     transformRequest: [],
@@ -47,7 +47,7 @@ export default class Request extends BaseClass {
     }
 
     get options() {
-        return extend({
+        return deepExtend({
             cancelToken: new axios.CancelToken(cancel => {
                 this.cancel = cancel;
 

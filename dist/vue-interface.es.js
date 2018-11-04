@@ -1,6 +1,6 @@
-import moment from 'moment';
-import Popper from 'popper.js';
 import axios from 'axios';
+import Popper from 'popper.js';
+import moment from 'moment';
 
 function DateFilter (value, format) {
   if (value) {
@@ -28,106 +28,8 @@ function camelCase(string) {
   return string.charAt(0).toLowerCase() + string.substring(1);
 }
 
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function (obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function (obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function extend() {
-  return Object.assign.apply(Object, arguments);
+function extend(...args) {
+  return Object.assign(...args);
 }
 
 function isNull(value) {
@@ -139,7 +41,7 @@ function isArray(value) {
 }
 
 function isObject(value) {
-  return _typeof(value) === 'object' && !isNull(value) && !isArray(value);
+  return typeof value === 'object' && !isNull(value) && !isArray(value);
 }
 
 /**
@@ -148,26 +50,26 @@ function isObject(value) {
  * @param ...sources
 */
 
-function deepExtend(target) {
-  for (var _len = arguments.length, sources = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    sources[_key - 1] = arguments[_key];
-  }
-
+function deepExtend(target, ...sources) {
   if (!sources.length) return target;
-  var source = sources.shift();
+  const source = sources.shift();
 
   if (isObject(target) && isObject(source)) {
-    for (var key in source) {
+    for (const key in source) {
       if (isObject(source[key])) {
-        if (!target[key]) extend(target, _defineProperty({}, key, {}));
+        if (!target[key]) extend(target, {
+          [key]: {}
+        });
         deepExtend(target[key], source[key]);
       } else {
-        extend(target, _defineProperty({}, key, source[key]));
+        extend(target, {
+          [key]: source[key]
+        });
       }
     }
   }
 
-  return deepExtend.apply(void 0, [target].concat(sources));
+  return deepExtend(target, ...sources);
 }
 
 function isNumber(value) {
@@ -183,7 +85,7 @@ function key(value) {
 }
 
 function each(subject, fn) {
-  for (var i in subject) {
+  for (const i in subject) {
     fn(subject[i], key(i));
   }
 }
@@ -193,8 +95,8 @@ function first(array) {
 }
 
 function matches(properties) {
-  return function (subject) {
-    for (var i in properties) {
+  return subject => {
+    for (const i in properties) {
       if (isObject(properties[i])) {
         return subject[i] ? matches(properties[i])(subject[i]) : false;
       } else if (!subject || subject[i] !== properties[i]) {
@@ -211,13 +113,11 @@ function isString(value) {
 }
 
 function get(object, path) {
-  return (isString(path) ? path.split('.') : !isArray(path) ? [path] : path).reduce(function (a, b) {
-    return a[b];
-  }, object);
+  return (isString(path) ? path.split('.') : !isArray(path) ? [path] : path).reduce((a, b) => a[b], object);
 }
 
 function property(path) {
-  return function (object) {
+  return object => {
     return get(object, path);
   };
 }
@@ -227,7 +127,7 @@ function isFunction(value) {
 }
 
 function matchesProperty(path, value) {
-  return function (subject) {
+  return subject => {
     return get(subject, path) === value;
   };
 }
@@ -245,13 +145,11 @@ function predicate(value) {
 }
 
 function find(subject, value) {
-  return first(subject.filter(function (object) {
-    return predicate(value)(object);
-  }));
+  return first(subject.filter(object => predicate(value)(object)));
 }
 
 function findIndex(subject, value) {
-  for (var i in subject) {
+  for (const i in subject) {
     if (predicate(value)(subject[i])) {
       return key(i);
     }
@@ -261,9 +159,7 @@ function findIndex(subject, value) {
 }
 
 function findIndex$1(object, value) {
-  return first(Object.keys(object).filter(function (key) {
-    return predicate(value)(object[key]);
-  }));
+  return first(Object.keys(object).filter(key => predicate(value)(object[key])));
 }
 
 function isBoolean(value) {
@@ -279,22 +175,20 @@ function kebabCase(str) {
 }
 
 function mapKeys(object, fn) {
-  var mapped = {};
-  each(object, function (value, key) {
+  const mapped = {};
+  each(object, (value, key) => {
     mapped[fn(value, key)] = value;
   });
   return mapped;
 }
 
 function negate(fn) {
-  return function () {
-    return isFunction(fn) ? !fn.apply(void 0, arguments) : !fn;
-  };
+  return (...args) => isFunction(fn) ? !fn(...args) : !fn;
 }
 
 function pickBy(object, match) {
-  var subject = {};
-  each(object, function (value, key) {
+  const subject = {};
+  each(object, (value, key) => {
     if (predicate(match)(value)) {
       subject[key] = value;
     }
@@ -307,33 +201,29 @@ function omitBy(object, fn) {
 }
 
 function remove(array, match) {
-  var indexes = [];
+  const indexes = [];
 
-  for (var i in array) {
+  for (const i in array) {
     if (predicate(match)(array[i])) {
       indexes.push(key(i));
     }
   }
 
-  return array.filter(function (value, i) {
+  return array.filter((value, i) => {
     return indexes.indexOf(i) !== -1;
   });
 }
 
 function wrap(subject, fn) {
-  return function (value) {
+  return value => {
     return isFunction(fn) ? fn(subject, value) : value;
   };
 }
 
-function prefix(subject, prefix) {
-  var delimeter = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '-';
-
-  var prefixer = function prefixer(value, key$$1) {
-    var string = (key$$1 || value).replace(new RegExp("^".concat(prefix).concat(delimeter, "?")), '');
-    return [prefix, string].filter(function (value) {
-      return !!value;
-    }).join(delimeter);
+function prefix(subject, prefix, delimeter = '-') {
+  const prefixer = (value, key$$1) => {
+    const string = (key$$1 || value).replace(new RegExp(`^${prefix}${delimeter}?`), '');
+    return [prefix, string].filter(value => !!value).join(delimeter);
   };
 
   if (isBoolean(subject)) {
@@ -360,12 +250,14 @@ var Variant = {
     }
   },
   computed: {
-    variantClassPrefix: function variantClassPrefix() {
+    variantClassPrefix() {
       return this.$options.name;
     },
-    variantClass: function variantClass() {
+
+    variantClass() {
       return prefix(this.variant, this.variantClassPrefix);
     }
+
   }
 };
 
@@ -379,84 +271,91 @@ var Sizeable = {
     size: {
       type: String,
       default: 'md',
-      validate: function validate(value) {
-        return ['sm', 'md', 'lg'].indexOf(value) !== -1;
-      }
+      validate: value => ['sm', 'md', 'lg'].indexOf(value) !== -1
     }
   },
   computed: {
-    sizeableClassPrefix: function sizeableClassPrefix() {
+    sizeableClassPrefix() {
       return this.$options.name;
     },
-    sizeableClass: function sizeableClass() {
+
+    sizeableClass() {
       return prefix(this.size, this.sizeableClassPrefix);
     }
+
   }
 };
 
-var COLORS = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'white', 'muted'];
-var props = {};
-each(['border', 'text', 'bg', 'bg-gradient'], function (namespace) {
-  each(COLORS, function (color) {
+const COLORS = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'white', 'muted'];
+const props = {};
+each(['border', 'text', 'bg', 'bg-gradient'], namespace => {
+  each(COLORS, color => {
     props[camelCase(prefix(color, namespace))] = Boolean;
   });
 });
 
 function classes(instance, namespace) {
-  return COLORS.map(function (color) {
+  return COLORS.map(color => {
     return instance[camelCase(color = prefix(color, namespace))] ? color : null;
-  }).filter(function (value) {
-    return !!value;
-  });
+  }).filter(value => !!value);
 }
 
 var Colorable = {
   props: props,
   methods: {
-    textColor: function textColor() {
+    textColor() {
       return classes(this, 'text');
     },
-    bgColor: function bgColor() {
+
+    bgColor() {
       return classes(this, 'bg');
     },
-    borderColor: function borderColor() {
+
+    borderColor() {
       return classes(this, 'border');
     },
-    bgGradientColor: function bgGradientColor() {
+
+    bgGradientColor() {
       return classes(this, 'bg-gradient');
     }
+
   },
   computed: {
-    textColorClasses: function textColorClasses() {
+    textColorClasses() {
       return this.textColor().join(' ').trim() || null;
     },
-    borderColorClasses: function borderColorClasses() {
+
+    borderColorClasses() {
       return this.borderColor().join(' ').trim() || null;
     },
-    bgColorClasses: function bgColorClasses() {
+
+    bgColorClasses() {
       return this.bgColor().join(' ').trim() || null;
     },
-    bgGradientColorClasses: function bgGradientColorClasses() {
+
+    bgGradientColorClasses() {
       return this.bgGradientColor().join(' ').trim() || null;
     },
-    colorableClasses: function colorableClasses() {
-      var classes = {};
+
+    colorableClasses() {
+      const classes = {};
       classes[this.textColorClasses] = !!this.textColorClasses;
       classes[this.borderColorClasses] = !!this.borderColorClasses;
       classes[this.bgColorClasses] = !!this.bgColorClasses;
       classes[this.bgGradientColorClasses] = !!this.bgGradientColorClasses;
-      return omitBy(classes, function (key$$1, value) {
+      return omitBy(classes, (key$$1, value) => {
         return !key$$1 || !value;
       });
     }
+
   }
 };
 
 var MergeClasses = {
   methods: {
-    mergeClasses: function mergeClasses() {
-      var classes = {};
-      each([].slice.call(arguments), function (arg) {
+    mergeClasses() {
+      let classes = {};
+      each([].slice.call(arguments), arg => {
         if (isObject(arg)) {
           extend(classes, arg);
         } else if (isArray(arg)) {
@@ -467,6 +366,7 @@ var MergeClasses = {
       });
       return classes;
     }
+
   }
 };
 
@@ -533,19 +433,97 @@ var script = {
     type: String
   },
   methods: {
-    onClick: function onClick(event) {
+    onClick(event) {
       this.$emit('click', event);
     }
+
   },
   computed: {
-    variantClassPrefix: function variantClassPrefix() {
+    variantClassPrefix() {
       return this.$options.name + (this.outline ? '-outline' : '');
     },
-    classes: function classes() {
+
+    classes() {
       return this.mergeClasses('btn', this.variantClass, this.sizeableClass, this.colorableClasses, this.block ? 'btn-block' : '', this.active ? 'active' : '');
     }
+
   }
 };
+
+function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+    if (typeof isShadowMode === 'function') {
+        createInjectorSSR = createInjector;
+        createInjector = isShadowMode;
+        isShadowMode = false;
+    }
+    // Vue.extend constructor export interop
+    const options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport;
+    // render functions
+    if (compiledTemplate && compiledTemplate.render) {
+        options.render = compiledTemplate.render;
+        options.staticRenderFns = compiledTemplate.staticRenderFns;
+        options._compiled = true;
+        // functional template
+        if (isFunctionalTemplate) {
+            options.functional = true;
+        }
+    }
+    // scopedId
+    if (scopeId) {
+        options._scopeId = scopeId;
+    }
+    let hook;
+    if (moduleIdentifier) {
+        // server build
+        hook = function (context) {
+            // 2.3 injection
+            context =
+                context || // cached call
+                    (this.$vnode && this.$vnode.ssrContext) || // stateful
+                    (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext); // functional
+            // 2.2 with runInNewContext: true
+            if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                context = __VUE_SSR_CONTEXT__;
+            }
+            // inject component styles
+            if (injectStyle) {
+                injectStyle.call(this, createInjectorSSR(context));
+            }
+            // register component module identifier for async chunk inference
+            if (context && context._registeredComponents) {
+                context._registeredComponents.add(moduleIdentifier);
+            }
+        };
+        // used by ssr in case component is cached and beforeCreate
+        // never gets called
+        options._ssrRegister = hook;
+    }
+    else if (injectStyle) {
+        hook = isShadowMode
+            ? function () {
+                injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+            }
+            : function (context) {
+                injectStyle.call(this, createInjector(context));
+            };
+    }
+    if (hook) {
+        if (options.functional) {
+            // register for functional component in vue file
+            const originalRender = options.render;
+            options.render = function renderWithStyleInjection(h, context) {
+                hook.call(context);
+                return originalRender(h, context);
+            };
+        }
+        else {
+            // inject component registration as beforeCreate hook
+            const existing = options.beforeCreate;
+            options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+        }
+    }
+    return defaultExport;
+}
 
 /* script */
             const __vue_script__ = script;
@@ -609,36 +587,13 @@ __vue_render__._withStripped = true;
   const __vue_module_identifier__ = undefined;
   /* functional template */
   const __vue_is_functional_template__ = false;
-  /* component normalizer */
-  function __vue_normalize__(
-    template, style, script$$1,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Btn/Btn.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Btn = __vue_normalize__(
+  var Btn = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -649,10 +604,10 @@ __vue_render__._withStripped = true;
     undefined
   );
 
-var LOADED_SCRIPTS = {};
+const LOADED_SCRIPTS = {};
 
 function element(url) {
-  var script = document.createElement('script');
+  const script = document.createElement('script');
   script.setAttribute('src', url);
   script.setAttribute('type', 'text/javascript');
   script.setAttribute('charset', 'utf-8');
@@ -672,15 +627,15 @@ function append(script) {
 function script$1(url) {
   if (LOADED_SCRIPTS[url] instanceof Promise) {
     return LOADED_SCRIPTS[url];
-  } else if (LOADED_SCRIPTS[url] || document.querySelector("script[src=\"".concat(url, "\"]"))) {
-    return new Promise(function (resolve, reject) {
+  } else if (LOADED_SCRIPTS[url] || document.querySelector(`script[src="${url}"]`)) {
+    return new Promise((resolve, reject) => {
       resolve(LOADED_SCRIPTS[url]);
     });
   }
 
-  LOADED_SCRIPTS[url] = new Promise(function (resolve, reject) {
+  LOADED_SCRIPTS[url] = new Promise((resolve, reject) => {
     try {
-      append(element(url)).addEventListener('load', function (event) {
+      append(element(url)).addEventListener('load', event => {
         resolve(LOADED_SCRIPTS[url] = event);
       });
     } catch (e) {
@@ -690,17 +645,17 @@ function script$1(url) {
   return LOADED_SCRIPTS[url];
 }
 
-var VueInstaller = {
-  use: use,
+const VueInstaller = {
+  use,
   script: script$1,
-  plugin: plugin,
-  plugins: plugins,
-  filter: filter,
+  plugin,
+  plugins,
+  filter,
   filters: filters$1,
-  component: component,
-  components: components,
-  directive: directive,
-  directives: directives,
+  component,
+  components,
+  directive,
+  directives,
   $plugins: {},
   $filters: {},
   $directives: {},
@@ -719,7 +674,7 @@ function plugin(Vue, name, def) {
   }
 }
 function plugins(Vue, plugins) {
-  each(plugins, function (def, name) {
+  each(plugins, (def, name) => {
     plugin(Vue, name, def);
   });
 }
@@ -729,7 +684,7 @@ function filter(Vue, name, def) {
   }
 }
 function filters$1(Vue, filters) {
-  each(filters, function (def, name) {
+  each(filters, (def, name) => {
     filter(Vue, name, def);
   });
 }
@@ -739,7 +694,7 @@ function component(Vue, name, def) {
   }
 }
 function components(Vue, components) {
-  each(components, function (def, name) {
+  each(components, (def, name) => {
     component(Vue, name, def);
   });
 }
@@ -753,17 +708,18 @@ function directive(Vue, name, def) {
   }
 }
 function directives(Vue, directives) {
-  each(directives, function (def, name) {
+  each(directives, (def, name) => {
     directive(Vue, name, def);
   });
 }
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Btn: Btn
+      Btn
     });
   }
+
 });
 
 //
@@ -795,36 +751,13 @@ __vue_render__$1._withStripped = true;
   const __vue_module_identifier__$1 = undefined;
   /* functional template */
   const __vue_is_functional_template__$1 = false;
-  /* component normalizer */
-  function __vue_normalize__$1(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalBody.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ModalBody = __vue_normalize__$1(
+  var ModalBody = normalizeComponent(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -869,36 +802,13 @@ __vue_render__$2._withStripped = true;
   const __vue_module_identifier__$2 = undefined;
   /* functional template */
   const __vue_is_functional_template__$2 = false;
-  /* component normalizer */
-  function __vue_normalize__$2(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalDialog.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ModalDialog = __vue_normalize__$2(
+  var ModalDialog = normalizeComponent(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
@@ -938,36 +848,13 @@ __vue_render__$3._withStripped = true;
   const __vue_module_identifier__$3 = undefined;
   /* functional template */
   const __vue_is_functional_template__$3 = false;
-  /* component normalizer */
-  function __vue_normalize__$3(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalTitle.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ModalTitle = __vue_normalize__$3(
+  var ModalTitle = normalizeComponent(
     { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
     __vue_inject_styles__$3,
     __vue_script__$3,
@@ -982,7 +869,7 @@ __vue_render__$3._withStripped = true;
 var script$5 = {
   name: 'modal-header',
   components: {
-    ModalTitle: ModalTitle
+    ModalTitle
   },
   props: {
     ariaLabel: {
@@ -1042,36 +929,13 @@ __vue_render__$4._withStripped = true;
   const __vue_module_identifier__$4 = undefined;
   /* functional template */
   const __vue_is_functional_template__$4 = false;
-  /* component normalizer */
-  function __vue_normalize__$4(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalHeader.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ModalHeader = __vue_normalize__$4(
+  var ModalHeader = normalizeComponent(
     { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
     __vue_inject_styles__$4,
     __vue_script__$4,
@@ -1111,36 +975,13 @@ __vue_render__$5._withStripped = true;
   const __vue_module_identifier__$5 = undefined;
   /* functional template */
   const __vue_is_functional_template__$5 = false;
-  /* component normalizer */
-  function __vue_normalize__$5(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalFooter.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ModalFooter = __vue_normalize__$5(
+  var ModalFooter = normalizeComponent(
     { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
     __vue_inject_styles__$5,
     __vue_script__$5,
@@ -1177,8 +1018,8 @@ var script$7 = {
     }
   },
   computed: {
-    classes: function classes() {
-      var classes = {};
+    classes: function () {
+      const classes = {};
       classes[this.$options.name] = !!this.$options.name;
       classes[this.prefix + this.size.replace(this.prefix, '')] = !!this.size;
       return classes;
@@ -1213,36 +1054,13 @@ __vue_render__$6._withStripped = true;
   const __vue_module_identifier__$6 = undefined;
   /* functional template */
   const __vue_is_functional_template__$6 = false;
-  /* component normalizer */
-  function __vue_normalize__$6(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ActivityIndicator/Types/BaseType.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var BaseType = __vue_normalize__$6(
+  var BaseType = normalizeComponent(
     { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
     __vue_inject_styles__$6,
     __vue_script__$6,
@@ -1270,36 +1088,13 @@ var script$8 = {
   const __vue_module_identifier__$7 = undefined;
   /* functional template */
   const __vue_is_functional_template__$7 = undefined;
-  /* component normalizer */
-  function __vue_normalize__$7(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ActivityIndicator/Types/Dots.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ActivityIndicatorDots = __vue_normalize__$7(
+  var ActivityIndicatorDots = normalizeComponent(
     {},
     __vue_inject_styles__$7,
     __vue_script__$7,
@@ -1333,36 +1128,13 @@ var script$9 = {
   const __vue_module_identifier__$8 = undefined;
   /* functional template */
   const __vue_is_functional_template__$8 = undefined;
-  /* component normalizer */
-  function __vue_normalize__$8(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ActivityIndicator/Types/Spinner.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ActivityIndicatorSpinner = __vue_normalize__$8(
+  var ActivityIndicatorSpinner = normalizeComponent(
     {},
     __vue_inject_styles__$8,
     __vue_script__$8,
@@ -1394,11 +1166,11 @@ var script$a = {
     minWidth: [String, Number]
   },
   components: {
-    ActivityIndicatorDots: ActivityIndicatorDots,
-    ActivityIndicatorSpinner: ActivityIndicatorSpinner
+    ActivityIndicatorDots,
+    ActivityIndicatorSpinner
   },
   computed: {
-    style: function style() {
+    style() {
       return {
         width: unit(this.width),
         maxWidth: unit(this.maxWidth),
@@ -1408,9 +1180,11 @@ var script$a = {
         minHeight: unit(this.minHeight)
       };
     },
-    component: function component() {
+
+    component() {
       return kebabCase(this.prefix + this.type.replace(this.prefix, ''));
     }
+
   }
 };
 
@@ -1491,36 +1265,13 @@ __vue_render__$7._withStripped = true;
   const __vue_module_identifier__$9 = undefined;
   /* functional template */
   const __vue_is_functional_template__$9 = false;
-  /* component normalizer */
-  function __vue_normalize__$9(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ActivityIndicator/ActivityIndicator.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ActivityIndicator = __vue_normalize__$9(
+  var ActivityIndicator = normalizeComponent(
     { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
     __vue_inject_styles__$9,
     __vue_script__$9,
@@ -1532,20 +1283,21 @@ __vue_render__$7._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      ActivityIndicator: ActivityIndicator
+      ActivityIndicator
     });
   }
+
 });
 
 //
 
-var convertAnimationDelayToInt = function convertAnimationDelayToInt(delay) {
-  var num = parseFloat(delay, 10);
-  var matches = delay.match(/m?s/);
-  var unit = matches ? matches[0] : false;
-  var milliseconds;
+const convertAnimationDelayToInt = function (delay) {
+  const num = parseFloat(delay, 10);
+  const matches = delay.match(/m?s/);
+  const unit = matches ? matches[0] : false;
+  let milliseconds;
 
   switch (unit) {
     case 's':
@@ -1562,9 +1314,9 @@ var convertAnimationDelayToInt = function convertAnimationDelayToInt(delay) {
   return milliseconds || 0;
 };
 
-var animated = function animated(el, callback) {
-  var defaultView = (el.ownerDocument || document).defaultView;
-  setTimeout(function () {
+const animated = function (el, callback) {
+  const defaultView = (el.ownerDocument || document).defaultView;
+  setTimeout(() => {
     callback.apply();
   }, convertAnimationDelayToInt(defaultView.getComputedStyle(el).animationDuration));
 };
@@ -1572,7 +1324,7 @@ var animated = function animated(el, callback) {
 var script$b = {
   name: 'activity-button',
   components: {
-    ActivityIndicator: ActivityIndicator
+    ActivityIndicator
   },
   props: {
     /**
@@ -1671,7 +1423,7 @@ var script$b = {
      *
      * @return void
      */
-    disable: function disable() {
+    disable() {
       this.$el.disabled = true;
     },
 
@@ -1680,7 +1432,7 @@ var script$b = {
      *
      * @return void
      */
-    enable: function enable() {
+    enable() {
       this.$el.disabled = false;
     },
 
@@ -1689,14 +1441,11 @@ var script$b = {
      *
      * @return void
      */
-    showActivity: function showActivity() {
-      var _this = this;
-
+    showActivity() {
       this.disable();
-      animated(this.$el, function () {
-        _this.$el.classList.add('btn-activity');
-
-        _this.$emit('activity:show');
+      animated(this.$el, () => {
+        this.$el.classList.add('btn-activity');
+        this.$emit('activity:show');
       });
     },
 
@@ -1705,16 +1454,12 @@ var script$b = {
      *
      * @return void
      */
-    hideActivity: function hideActivity() {
-      var _this2 = this;
-
+    hideActivity() {
       this.$el.classList.add('btn-hide-activity');
-      animated(this.$el, function () {
-        _this2.enable();
-
-        _this2.$el.classList.remove('btn-activity', 'btn-hide-activity');
-
-        _this2.$emit('activity:hide');
+      animated(this.$el, () => {
+        this.enable();
+        this.$el.classList.remove('btn-activity', 'btn-hide-activity');
+        this.$emit('activity:hide');
       });
     },
 
@@ -1723,9 +1468,10 @@ var script$b = {
      *
      * @return void
      */
-    onClick: function onClick(event) {
+    onClick(event) {
       this.$emit('click', event);
     }
+
   },
   computed: {
     /**
@@ -1733,8 +1479,8 @@ var script$b = {
      *
      * @return void
      */
-    classes: function classes() {
-      var classes = {
+    classes() {
+      const classes = {
         'disabled': this.disabled,
         'active': this.active,
         'btn-block': this.block,
@@ -1746,15 +1492,17 @@ var script$b = {
       classes['btn-activity-indicator-' + this.indicator.replace('btn-activity-indicator-', '')] = !!this.indicator;
       return classes;
     }
+
   },
   watch: {
-    activity: function activity(value) {
+    activity(value) {
       if (value) {
         this.showActivity();
       } else {
         this.hideActivity();
       }
     }
+
   }
 };
 
@@ -1794,36 +1542,13 @@ __vue_render__$8._withStripped = true;
   const __vue_module_identifier__$a = undefined;
   /* functional template */
   const __vue_is_functional_template__$a = false;
-  /* component normalizer */
-  function __vue_normalize__$a(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnActivity/BtnActivity.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var BtnActivity = __vue_normalize__$a(
+  var BtnActivity = normalizeComponent(
     { render: __vue_render__$8, staticRenderFns: __vue_staticRenderFns__$8 },
     __vue_inject_styles__$a,
     __vue_script__$a,
@@ -1835,11 +1560,12 @@ __vue_render__$8._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      BtnActivity: BtnActivity
+      BtnActivity
     });
   }
+
 });
 
 //
@@ -1871,36 +1597,13 @@ __vue_render__$9._withStripped = true;
   const __vue_module_identifier__$b = undefined;
   /* functional template */
   const __vue_is_functional_template__$b = false;
-  /* component normalizer */
-  function __vue_normalize__$b(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalContent.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ModalContent = __vue_normalize__$b(
+  var ModalContent = normalizeComponent(
     { render: __vue_render__$9, staticRenderFns: __vue_staticRenderFns__$9 },
     __vue_inject_styles__$b,
     __vue_script__$b,
@@ -1971,36 +1674,13 @@ __vue_render__$a._withStripped = true;
   const __vue_module_identifier__$c = undefined;
   /* functional template */
   const __vue_is_functional_template__$c = false;
-  /* component normalizer */
-  function __vue_normalize__$c(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalBackdrop.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ModalBackdrop = __vue_normalize__$c(
+  var ModalBackdrop = normalizeComponent(
     { render: __vue_render__$a, staticRenderFns: __vue_staticRenderFns__$a },
     __vue_inject_styles__$c,
     __vue_script__$c,
@@ -2012,9 +1692,9 @@ __vue_render__$a._withStripped = true;
   );
 
 function duration(el) {
-  var duration = getComputedStyle(el).transitionDuration;
-  var numeric = parseFloat(duration, 10) || 0;
-  var unit = duration.match(/m?s/);
+  const duration = getComputedStyle(el).transitionDuration;
+  const numeric = parseFloat(duration, 10) || 0;
+  const unit = duration.match(/m?s/);
 
   switch (unit[0]) {
     case 's':
@@ -2026,10 +1706,10 @@ function duration(el) {
 }
 
 function transition(el) {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     try {
-      var delay = duration(el);
-      setTimeout(function () {
+      const delay = duration(el);
+      setTimeout(() => {
         resolve(delay);
       }, delay);
     } catch (e) {
@@ -2089,12 +1769,10 @@ var Triggerable = {
      * @param  {Element} el
      * @return {void}
      */
-    initializeTrigger: function initializeTrigger(el) {
-      var _this = this;
-
-      each(isString(this.trigger) ? this.trigger.split(' ') : this.trigger, function (trigger) {
-        el.addEventListener(trigger, function (event) {
-          _this.toggle();
+    initializeTrigger(el) {
+      each(isString(this.trigger) ? this.trigger.split(' ') : this.trigger, trigger => {
+        el.addEventListener(trigger, event => {
+          this.toggle();
         });
       });
     },
@@ -2104,22 +1782,20 @@ var Triggerable = {
      *
      * @return void
      */
-    initializeTriggers: function initializeTriggers() {
-      var _this2 = this;
-
+    initializeTriggers() {
       if (this.target && this.trigger !== 'manual') {
         if (this.target instanceof Element) {
           this.initializeTrigger(this.target);
         } else {
-          document.querySelectorAll(this.target).forEach(function (el) {
-            _this2.initializeTrigger(el);
+          document.querySelectorAll(this.target).forEach(el => {
+            this.initializeTrigger(el);
           });
         }
       }
 
       if (this.show || !this.target) {
-        this.$nextTick(function () {
-          _this2.isShowing = true;
+        this.$nextTick(() => {
+          this.isShowing = true;
         });
       }
     },
@@ -2129,16 +1805,14 @@ var Triggerable = {
      *
      * @return this
      */
-    focus: function focus() {
-      var _this3 = this;
-
-      this.$nextTick(function () {
-        var el = _this3.$el.querySelector('.form-control, input, select, textarea');
+    focus() {
+      this.$nextTick(() => {
+        const el = this.$el.querySelector('.form-control, input, select, textarea');
 
         if (el) {
           el.focus();
         } else {
-          _this3.$el.focus();
+          this.$el.focus();
         }
       });
       return this;
@@ -2149,15 +1823,12 @@ var Triggerable = {
      *
      * @return this
      */
-    open: function open() {
-      var _this4 = this;
-
+    open() {
       this.isDisplaying = true;
-      this.$nextTick(function () {
-        transition(_this4.$el).then(function (delay) {
-          _this4.isShowing = true;
-
-          _this4.$emit('open');
+      this.$nextTick(() => {
+        transition(this.$el).then(delay => {
+          this.isShowing = true;
+          this.$emit('open');
         });
       });
       return this;
@@ -2168,13 +1839,10 @@ var Triggerable = {
      *
      * @return this
      */
-    close: function close(event) {
-      var _this5 = this;
-
-      transition(this.$el).then(function (delay) {
-        _this5.isDisplaying = false;
-
-        _this5.$emit('close', event);
+    close(event) {
+      transition(this.$el).then(delay => {
+        this.isDisplaying = false;
+        this.$emit('close', event);
       });
       this.isShowing = false;
       return this;
@@ -2185,7 +1853,7 @@ var Triggerable = {
      *
      * @return this
      */
-    toggle: function toggle() {
+    toggle() {
       if (!this.isShowing) {
         this.open();
       } else {
@@ -2194,48 +1862,55 @@ var Triggerable = {
 
       return this;
     }
+
   },
   computed: {
-    triggerableClasses: function triggerableClasses() {
+    triggerableClasses() {
       return {
         'fade': this.animation,
         'show': this.isShowing
       };
     }
+
   },
   watch: {
-    isShowing: function isShowing(value) {
+    isShowing(value) {
       if (value) {
         this.focus();
       }
     },
-    show: function show(value) {
+
+    show(value) {
       this.isShowing = value;
     }
+
   },
-  mounted: function mounted() {
+
+  mounted() {
     this.initializeTriggers();
   },
-  data: function data() {
+
+  data() {
     return {
       isDisplaying: this.show || !this.target,
       isShowing: false
     };
   }
+
 };
 
 //
 var script$e = {
   name: 'modal',
   components: {
-    Btn: Btn,
-    BtnActivity: BtnActivity,
-    ModalBody: ModalBody,
-    ModalBackdrop: ModalBackdrop,
-    ModalContent: ModalContent,
-    ModalDialog: ModalDialog,
-    ModalHeader: ModalHeader,
-    ModalFooter: ModalFooter
+    Btn,
+    BtnActivity,
+    ModalBody,
+    ModalBackdrop,
+    ModalContent,
+    ModalDialog,
+    ModalHeader,
+    ModalFooter
   },
   mixins: [Triggerable],
   props: {
@@ -2316,9 +1991,11 @@ var script$e = {
     type: {
       type: [Boolean, String],
       default: false,
-      validate: function validate(value) {
+
+      validate(value) {
         return ['alert', 'confirm', 'prompt'].indexOf(value) !== -1;
       }
+
     }
   },
   methods: {
@@ -2353,7 +2030,7 @@ var script$e = {
      *
      * @return {void}
      */
-    cancel: function cancel(event) {
+    cancel(event) {
       this.$emit('cancel', event);
       this.close(event);
     },
@@ -2363,7 +2040,7 @@ var script$e = {
      *
      * @return {void}
      */
-    confirm: function confirm(event) {
+    confirm(event) {
       this.$emit('confirm', event);
     },
 
@@ -2372,12 +2049,13 @@ var script$e = {
      *
      * @return {void}
      */
-    onEsc: function onEsc(event) {
+    onEsc(event) {
       this.type === 'confirm' || this.type === 'prompt' ? this.cancel(event) : this.close(event);
     }
+
   },
   watch: {
-    isShowing: function isShowing(value) {
+    isShowing(value) {
       if (value) {
         document.querySelector('body').classList.add('modal-open'); // this.mountBackdrop();
       } else {
@@ -2386,20 +2064,25 @@ var script$e = {
 
       this.$emit('update:show', value);
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       backdropComponent: null,
       isDisplaying: this.show || !this.target,
       isShowing: false
     };
   },
-  mounted: function mounted() {
+
+  mounted() {
     this.initializeTriggers();
   },
-  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+
+  beforeRouteLeave(to, from, next) {
     this.close();
   }
+
 };
 
 /* script */
@@ -2521,36 +2204,13 @@ __vue_render__$b._withStripped = true;
   const __vue_module_identifier__$d = undefined;
   /* functional template */
   const __vue_is_functional_template__$d = false;
-  /* component normalizer */
-  function __vue_normalize__$d(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/Modal.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Modal = __vue_normalize__$d(
+  var Modal = normalizeComponent(
     { render: __vue_render__$b, staticRenderFns: __vue_staticRenderFns__$b },
     __vue_inject_styles__$d,
     __vue_script__$d,
@@ -2562,11 +2222,12 @@ __vue_render__$b._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Modal: Modal
+      Modal
     });
   }
+
 });
 
 function instantiate(Vue, Component, options) {
@@ -2577,12 +2238,14 @@ function instantiate(Vue, Component, options) {
   if (isObject(Component)) {
     Component = Vue.extend(Component);
   } else if (isString(Component)) {
-    var text = Component;
+    const text = Component;
     Component = Vue.extend({
       functional: true,
-      render: function render(h, context) {
+
+      render(h, context) {
         return this._v(text);
       }
+
     });
   }
 
@@ -2595,7 +2258,7 @@ function modal (Vue, options) {
       options = {};
     }
 
-    var instance = instantiate(Vue, Modal, options.modal);
+    const instance = instantiate(Vue, Modal, options.modal);
     instance.$content = instantiate(Vue, Component, options.content);
     instance.$slots.default = [instance.$content.$mount()._vnode];
     instance.$mount(document.body.appendChild(document.createElement('div')));
@@ -2603,10 +2266,8 @@ function modal (Vue, options) {
   };
 
   Vue.prototype.$alert = function (title, Component, options) {
-    var _this = this;
-
-    return new Promise(function (resolve, reject) {
-      var modal = _this.$modal(Component, deepExtend(options, {
+    return new Promise((resolve, reject) => {
+      const modal = this.$modal(Component, deepExtend(options, {
         modal: {
           propsData: {
             title: title,
@@ -2614,21 +2275,18 @@ function modal (Vue, options) {
           }
         }
       }));
-
-      modal.$on('confirm', function (event) {
+      modal.$on('confirm', event => {
         modal.close();
       });
-      modal.$on('close', function (event) {
+      modal.$on('close', event => {
         resolve(modal);
       });
     });
   };
 
   Vue.prototype.$confirm = function (title, Component, options) {
-    var _this2 = this;
-
-    return new Promise(function (resolve, reject) {
-      var modal = _this2.$modal(Component || title, deepExtend(options, {
+    return new Promise((resolve, reject) => {
+      const modal = this.$modal(Component || title, deepExtend(options, {
         modal: {
           propsData: {
             title: Component ? title : null,
@@ -2636,32 +2294,27 @@ function modal (Vue, options) {
           }
         }
       }));
-
-      modal.$on('cancel', function (event) {
+      modal.$on('cancel', event => {
         reject(modal);
       });
-      modal.$on('confirm', function (event) {
+      modal.$on('confirm', event => {
         resolve(modal.close());
       });
     });
   };
 
   Vue.prototype.$prompt = function (title, Component, options, predicate) {
-    var _this3 = this;
-
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       if (isFunction(options)) {
         predicate = options;
         options = {};
       } else if (isObject(options) && isFunction(options.predicate)) {
         predicate = options.predicate;
       } else if (!isFunction(predicate)) {
-        predicate = function predicate() {
-          return true;
-        };
+        predicate = () => true;
       }
 
-      var modal = _this3.$modal(Component, deepExtend(options, {
+      const modal = this.$modal(Component, deepExtend(options, {
         modal: {
           propsData: {
             title: title,
@@ -2669,18 +2322,13 @@ function modal (Vue, options) {
           }
         }
       }));
-
-      modal.$on('cancel', function (event) {
+      modal.$on('cancel', event => {
         reject(modal);
       });
-      modal.$on('confirm', function (event) {
-        var succeed = function succeed() {
-          return resolve(modal.close());
-        };
+      modal.$on('confirm', event => {
+        const succeed = () => resolve(modal.close());
 
-        var fail = function fail() {
-          return reject(modal.close());
-        };
+        const fail = () => reject(modal.close());
 
         if (predicate(modal, succeed, fail) === true) {
           succeed();
@@ -2719,36 +2367,13 @@ __vue_render__$c._withStripped = true;
   const __vue_module_identifier__$e = undefined;
   /* functional template */
   const __vue_is_functional_template__$e = false;
-  /* component normalizer */
-  function __vue_normalize__$e(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Overlay/OverlayBody.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var OverlayBody = __vue_normalize__$e(
+  var OverlayBody = normalizeComponent(
     { render: __vue_render__$c, staticRenderFns: __vue_staticRenderFns__$c },
     __vue_inject_styles__$e,
     __vue_script__$e,
@@ -2790,36 +2415,13 @@ __vue_render__$d._withStripped = true;
   const __vue_module_identifier__$f = undefined;
   /* functional template */
   const __vue_is_functional_template__$f = false;
-  /* component normalizer */
-  function __vue_normalize__$f(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Container/Container.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Container = __vue_normalize__$f(
+  var Container = normalizeComponent(
     { render: __vue_render__$d, staticRenderFns: __vue_staticRenderFns__$d },
     __vue_inject_styles__$f,
     __vue_script__$f,
@@ -2831,18 +2433,19 @@ __vue_render__$d._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Container: Container
+      Container
     });
   }
+
 });
 
 //
 var script$h = {
   name: 'overlay-content',
   components: {
-    Container: Container
+    Container
   }
 };
 
@@ -2871,36 +2474,13 @@ __vue_render__$e._withStripped = true;
   const __vue_module_identifier__$g = undefined;
   /* functional template */
   const __vue_is_functional_template__$g = false;
-  /* component normalizer */
-  function __vue_normalize__$g(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Overlay/OverlayContent.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var OverlayContent = __vue_normalize__$g(
+  var OverlayContent = normalizeComponent(
     { render: __vue_render__$e, staticRenderFns: __vue_staticRenderFns__$e },
     __vue_inject_styles__$g,
     __vue_script__$g,
@@ -2915,8 +2495,8 @@ __vue_render__$e._withStripped = true;
 var script$i = {
   name: 'overlay',
   components: {
-    OverlayBody: OverlayBody,
-    OverlayContent: OverlayContent
+    OverlayBody,
+    OverlayContent
   },
   mixins: [Triggerable],
   props: {
@@ -2977,13 +2557,15 @@ var script$i = {
      *
      * @return void
      */
-    onClickClose: function onClickClose(event) {
+    onClickClose(event) {
       this.$emit('click:close', event);
       this.close();
     },
-    onEsc: function onEsc(event) {
+
+    onEsc(event) {
       this.closeable && this.close();
     }
+
   }
 };
 
@@ -3060,36 +2642,13 @@ __vue_render__$f._withStripped = true;
   const __vue_module_identifier__$h = undefined;
   /* functional template */
   const __vue_is_functional_template__$h = false;
-  /* component normalizer */
-  function __vue_normalize__$h(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Overlay/Overlay.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Overlay = __vue_normalize__$h(
+  var Overlay = normalizeComponent(
     { render: __vue_render__$f, staticRenderFns: __vue_staticRenderFns__$f },
     __vue_inject_styles__$h,
     __vue_script__$h,
@@ -3101,11 +2660,12 @@ __vue_render__$f._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Overlay: Overlay
+      Overlay
     });
   }
+
 });
 
 function overlay (Vue, options) {
@@ -3123,7 +2683,7 @@ function overlay (Vue, options) {
       target.$overlay.$mount(document.body.appendChild(document.createElement('div')));
       target.$overlay.$content = instantiate(Vue, Component, options.content);
       target.$overlay.$slots.default = [target.$overlay.$content.$mount()._vnode];
-      target.$overlay.$nextTick(function () {
+      target.$overlay.$nextTick(() => {
         target.$overlay.open();
       });
     }
@@ -3158,9 +2718,11 @@ var script$j = {
     boundary: {
       type: [String, Array],
       default: 'scrollParent',
-      validate: function validate(value) {
+
+      validate(value) {
         return ['viewport', 'window', 'viewport'].indexOf(value) !== -1;
       }
+
     },
 
     /**
@@ -3231,9 +2793,11 @@ var script$j = {
     placement: {
       type: [String, Function],
       default: 'top',
-      validate: function validate(value) {
+
+      validate(value) {
         return ['auto', 'top', 'bottom', 'left', 'right'].indexOf(value) !== -1;
       }
+
     },
 
     /**
@@ -3286,12 +2850,13 @@ var script$j = {
     }
   },
   methods: {
-    align: function align() {
-      each(this.$poppers, function (el) {
+    align() {
+      each(this.$poppers, el => {
         el.popper.update();
       });
     },
-    createPopper: function createPopper(el) {
+
+    createPopper(el) {
       return new Popper(el, this.$el, {
         offset: this.offset,
         placement: this.placement,
@@ -3311,7 +2876,8 @@ var script$j = {
         }
       });
     },
-    getArrowElement: function getArrowElement() {
+
+    getArrowElement() {
       return this.$el.querySelector('.arrow');
     },
 
@@ -3321,38 +2887,35 @@ var script$j = {
      * @param  {Element} el
      * @return {void}
      */
-    initializeTrigger: function initializeTrigger(el) {
-      var _this = this;
-
+    initializeTrigger(el) {
       this.$poppers[el] = {
         trigger: isString(this.trigger) ? this.trigger.split(' ') : this.trigger,
         popper: this.createPopper(el),
-        event: function event(_event) {
-          _this.toggle();
-
-          _this.$poppers[el].popper.update();
+        event: event => {
+          this.toggle();
+          this.$poppers[el].popper.update();
         }
       };
-      each(this.$poppers[el].trigger, function (trigger) {
-        el.addEventListener(trigger, _this.$poppers[el].event);
+      each(this.$poppers[el].trigger, trigger => {
+        el.addEventListener(trigger, this.$poppers[el].event);
       });
     }
+
   },
   watch: {
-    isShowing: function isShowing(value) {
-      var _this2 = this;
-
-      this.$nextTick(function () {
-        _this2.align();
+    isShowing(value) {
+      this.$nextTick(() => {
+        this.align();
 
         if (value) {
-          _this2.focus();
+          this.focus();
         }
       });
     }
+
   },
   computed: {
-    classes: function classes() {
+    classes() {
       return prefix({
         'top': this.placement === 'top',
         'bottom': this.placement === 'bottom',
@@ -3360,12 +2923,15 @@ var script$j = {
         'right': this.placement === 'right'
       }, 'bs-popover');
     }
+
   },
-  beforeCreate: function beforeCreate() {
+
+  beforeCreate() {
     if (!this.$poppers) {
       this.$poppers = {};
     }
   }
+
 };
 
 /* script */
@@ -3414,36 +2980,13 @@ __vue_render__$g._withStripped = true;
   const __vue_module_identifier__$i = undefined;
   /* functional template */
   const __vue_is_functional_template__$i = false;
-  /* component normalizer */
-  function __vue_normalize__$i(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Popover/Popover.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Popover = __vue_normalize__$i(
+  var Popover = normalizeComponent(
     { render: __vue_render__$g, staticRenderFns: __vue_staticRenderFns__$g },
     __vue_inject_styles__$i,
     __vue_script__$i,
@@ -3485,36 +3028,13 @@ __vue_render__$h._withStripped = true;
   const __vue_module_identifier__$j = undefined;
   /* functional template */
   const __vue_is_functional_template__$j = false;
-  /* component normalizer */
-  function __vue_normalize__$j(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Popover/PopoverBody.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var PopoverBody = __vue_normalize__$j(
+  var PopoverBody = normalizeComponent(
     { render: __vue_render__$h, staticRenderFns: __vue_staticRenderFns__$h },
     __vue_inject_styles__$j,
     __vue_script__$j,
@@ -3572,36 +3092,13 @@ __vue_render__$i._withStripped = true;
   const __vue_module_identifier__$k = undefined;
   /* functional template */
   const __vue_is_functional_template__$k = false;
-  /* component normalizer */
-  function __vue_normalize__$k(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Popover/PopoverHeader.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var PopoverHeader = __vue_normalize__$k(
+  var PopoverHeader = normalizeComponent(
     { render: __vue_render__$i, staticRenderFns: __vue_staticRenderFns__$i },
     __vue_inject_styles__$k,
     __vue_script__$k,
@@ -3613,13 +3110,14 @@ __vue_render__$i._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Popover: Popover,
-      PopoverBody: PopoverBody,
-      PopoverHeader: PopoverHeader
+      Popover,
+      PopoverBody,
+      PopoverHeader
     });
   }
+
 });
 
 function popover (Vue, options) {
@@ -3635,9 +3133,9 @@ function popover (Vue, options) {
         }
       }));
       target.$popover.$mount(document.body.appendChild(document.createElement('div')));
-      var content = instantiate(Vue, Component, options.content);
+      const content = instantiate(Vue, Component, options.content);
       target.$popover.$slots.default = [content.$mount()._vnode];
-      target.$popover.$nextTick(function () {
+      target.$popover.$nextTick(() => {
         target.$popover.open();
       });
     }
@@ -3663,9 +3161,10 @@ var plugins$1 = /*#__PURE__*/Object.freeze({
 var script$m = {
   name: 'alert-close',
   methods: {
-    onClick: function onClick(event) {
+    onClick(event) {
       this.$emit('click', event);
     }
+
   }
 };
 
@@ -3698,36 +3197,13 @@ __vue_render__$j._withStripped = true;
   const __vue_module_identifier__$l = undefined;
   /* functional template */
   const __vue_is_functional_template__$l = false;
-  /* component normalizer */
-  function __vue_normalize__$l(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Alert/AlertClose.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var AlertClose = __vue_normalize__$l(
+  var AlertClose = normalizeComponent(
     { render: __vue_render__$j, staticRenderFns: __vue_staticRenderFns__$j },
     __vue_inject_styles__$l,
     __vue_script__$l,
@@ -3767,36 +3243,13 @@ __vue_render__$k._withStripped = true;
   const __vue_module_identifier__$m = undefined;
   /* functional template */
   const __vue_is_functional_template__$m = false;
-  /* component normalizer */
-  function __vue_normalize__$m(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Alert/AlertHeading.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var AlertHeading = __vue_normalize__$m(
+  var AlertHeading = normalizeComponent(
     { render: __vue_render__$k, staticRenderFns: __vue_staticRenderFns__$k },
     __vue_inject_styles__$m,
     __vue_script__$m,
@@ -3879,27 +3332,32 @@ var script$o = {
     }
   },
   computed: {
-    variantClassPrefix: function variantClassPrefix() {
+    variantClassPrefix() {
       return 'bg';
     },
-    offsetValue: function offsetValue() {
+
+    offsetValue() {
       return this.value / this.max * 100;
     },
-    formattedHeight: function formattedHeight() {
+
+    formattedHeight() {
       return this.height ? unit(this.height) : null;
     },
-    progressClasses: function progressClasses() {
+
+    progressClasses() {
       return {
         'progress-bar-striped': this.striped,
         'progress-bar-animated': this.animated
       };
     },
-    styles: function styles() {
+
+    styles() {
       return {
-        width: "".concat(this.offsetValue, "%"),
-        background: "".concat(this.color, " !important")
+        width: `${this.offsetValue}%`,
+        background: `${this.color} !important`
       };
     }
+
   }
 };
 
@@ -3955,36 +3413,13 @@ __vue_render__$l._withStripped = true;
   const __vue_module_identifier__$n = undefined;
   /* functional template */
   const __vue_is_functional_template__$n = false;
-  /* component normalizer */
-  function __vue_normalize__$n(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ProgressBar/ProgressBar.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ProgressBar = __vue_normalize__$n(
+  var ProgressBar = normalizeComponent(
     { render: __vue_render__$l, staticRenderFns: __vue_staticRenderFns__$l },
     __vue_inject_styles__$n,
     __vue_script__$n,
@@ -3996,20 +3431,21 @@ __vue_render__$l._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      ProgressBar: ProgressBar
+      ProgressBar
     });
   }
+
 });
 
 //
 var script$p = {
   name: 'alert',
   components: {
-    AlertClose: AlertClose,
-    AlertHeading: AlertHeading,
-    ProgressBar: ProgressBar
+    AlertClose,
+    AlertHeading,
+    ProgressBar
   },
   mixins: [Variant, MergeClasses],
   props: {
@@ -4056,39 +3492,37 @@ var script$p = {
     }
   },
   methods: {
-    dismiss: function dismiss() {
-      var _this = this;
-
-      transition(this.$el).then(function (delay) {
-        _this.$emit('dismissed');
+    dismiss() {
+      transition(this.$el).then(delay => {
+        this.$emit('dismissed');
       });
       this.$emit('update:visible', this.isVisible = false);
     }
+
   },
-  mounted: function mounted() {
-    var _this2 = this;
 
+  mounted() {
     if (typeof this.show === 'number') {
-      var el = this.$el.querySelector('.progress-bar');
+      const el = this.$el.querySelector('.progress-bar');
       this.$emit('dismiss-countdown', this.dismissCount = this.show);
-      var interval = setInterval(function () {
-        _this2.$emit('dismiss-countdown', _this2.dismissCount -= 1);
+      const interval = setInterval(() => {
+        this.$emit('dismiss-countdown', this.dismissCount -= 1);
 
-        if (!_this2.dismissCount) {
+        if (!this.dismissCount) {
           clearInterval(interval);
-          transition(el).then(function (delay) {
-            return _this2.dismiss();
-          });
+          transition(el).then(delay => this.dismiss());
         }
       }, 1000);
     }
   },
-  data: function data() {
+
+  data() {
     return {
       dismissCount: this.show,
       isVisible: this.show
     };
   }
+
 };
 
 /* script */
@@ -4152,36 +3586,13 @@ __vue_render__$m._withStripped = true;
   const __vue_module_identifier__$o = undefined;
   /* functional template */
   const __vue_is_functional_template__$o = false;
-  /* component normalizer */
-  function __vue_normalize__$o(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Alert/Alert.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Alert = __vue_normalize__$o(
+  var Alert = normalizeComponent(
     { render: __vue_render__$m, staticRenderFns: __vue_staticRenderFns__$m },
     __vue_inject_styles__$o,
     __vue_script__$o,
@@ -4221,36 +3632,13 @@ __vue_render__$n._withStripped = true;
   const __vue_module_identifier__$p = undefined;
   /* functional template */
   const __vue_is_functional_template__$p = false;
-  /* component normalizer */
-  function __vue_normalize__$p(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Alert/AlertLink.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var AlertLink = __vue_normalize__$p(
+  var AlertLink = normalizeComponent(
     { render: __vue_render__$n, staticRenderFns: __vue_staticRenderFns__$n },
     __vue_inject_styles__$p,
     __vue_script__$p,
@@ -4262,14 +3650,15 @@ __vue_render__$n._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Alert: Alert,
-      AlertLink: AlertLink,
-      AlertClose: AlertClose,
-      AlertHeading: AlertHeading
+      Alert,
+      AlertLink,
+      AlertClose,
+      AlertHeading
     });
   }
+
 });
 
 //
@@ -4313,12 +3702,13 @@ var script$r = {
     secondary: Boolean
   },
   computed: {
-    classes: function classes() {
+    classes() {
       return prefix({
         'pill': this.pill,
         'secondary': this.secondary
       }, this.$options.name);
     }
+
   }
 };
 
@@ -4376,36 +3766,13 @@ __vue_render__$o._withStripped = true;
   const __vue_module_identifier__$q = undefined;
   /* functional template */
   const __vue_is_functional_template__$q = false;
-  /* component normalizer */
-  function __vue_normalize__$q(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Badge/Badge.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Badge = __vue_normalize__$q(
+  var Badge = normalizeComponent(
     { render: __vue_render__$o, staticRenderFns: __vue_staticRenderFns__$o },
     __vue_inject_styles__$q,
     __vue_script__$q,
@@ -4417,294 +3784,227 @@ __vue_render__$o._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Badge: Badge
+      Badge
     });
   }
+
 });
 
-var BaseClass =
-/*#__PURE__*/
-function () {
-  function BaseClass(attributes) {
-    _classCallCheck(this, BaseClass);
-
+class BaseClass {
+  constructor(attributes) {
     this.setAttribute(attributes);
   }
 
-  _createClass(BaseClass, [{
-    key: "getAttribute",
-    value: function getAttribute(key$$1) {
-      return this.hasOwnProperty(key$$1) ? this[key$$1] : null;
-    }
-  }, {
-    key: "getAttributes",
-    value: function getAttributes() {
-      var _this = this;
-
-      var attributes = {};
-      Object.getOwnPropertyNames(this).forEach(function (key$$1) {
-        attributes[key$$1] = _this.getAttribute(key$$1);
-      });
-      return attributes;
-    }
-  }, {
-    key: "getPublicAttributes",
-    value: function getPublicAttributes() {
-      var _this2 = this;
-
-      return Object.keys(this.getAttributes()).filter(function (key$$1) {
-        return !key$$1.match(/^\$/);
-      }).reduce(function (obj, key$$1) {
-        obj[key$$1] = _this2.getAttribute(key$$1);
-        return obj;
-      }, {});
-    }
-  }, {
-    key: "setAttribute",
-    value: function setAttribute(key$$1, value) {
-      if (isObject(key$$1)) {
-        this.setAttributes(key$$1);
-      } else {
-        this[key$$1] = value;
-      }
-    }
-  }, {
-    key: "setAttributes",
-    value: function setAttributes(values) {
-      for (var i in values) {
-        this.setAttribute(i, values[i]);
-      }
-    }
-  }]);
-
-  return BaseClass;
-}();
-
-var Response =
-/*#__PURE__*/
-function (_BaseClass) {
-  _inherits(Response, _BaseClass);
-
-  function Response(data) {
-    _classCallCheck(this, Response);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(Response).call(this, extend({
-      date: new Date()
-    }, data)));
+  getAttribute(key$$1) {
+    return this.hasOwnProperty(key$$1) ? this[key$$1] : null;
   }
 
-  _createClass(Response, [{
-    key: "data",
-    get: function get$$1() {
-      return this.$data;
-    },
-    set: function set(value) {
-      this.$data = value;
-    }
-  }, {
-    key: "request",
-    get: function get$$1() {
-      return this.$request;
-    },
-    set: function set(value) {
-      this.$request = value;
-    }
-  }, {
-    key: "date",
-    get: function get$$1() {
-      return this.$date;
-    },
-    set: function set(value) {
-      this.$date = value;
-    }
-  }]);
+  getAttributes() {
+    const attributes = {};
+    Object.getOwnPropertyNames(this).forEach(key$$1 => {
+      attributes[key$$1] = this.getAttribute(key$$1);
+    });
+    return attributes;
+  }
 
-  return Response;
-}(BaseClass);
+  getPublicAttributes() {
+    return Object.keys(this.getAttributes()).filter(key$$1 => {
+      return !key$$1.match(/^\$/);
+    }).reduce((obj, key$$1) => {
+      obj[key$$1] = this.getAttribute(key$$1);
+      return obj;
+    }, {});
+  }
 
-var DEFAULTS = {
+  setAttribute(key$$1, value) {
+    if (isObject(key$$1)) {
+      this.setAttributes(key$$1);
+    } else {
+      this[key$$1] = value;
+    }
+  }
+
+  setAttributes(values) {
+    for (const i in values) {
+      this.setAttribute(i, values[i]);
+    }
+  }
+
+}
+
+class Response extends BaseClass {
+  constructor(data) {
+    super(extend({
+      date: new Date()
+    }, data));
+  }
+
+  get data() {
+    return this.$data;
+  }
+
+  set data(value) {
+    this.$data = value;
+  }
+
+  get request() {
+    return this.$request;
+  }
+
+  set request(value) {
+    this.$request = value;
+  }
+
+  get date() {
+    return this.$date;
+  }
+
+  set date(value) {
+    this.$date = value;
+  }
+
+}
+
+const DEFAULTS = {
   transformRequest: [],
   transformResponse: []
 };
-
-var Request =
-/*#__PURE__*/
-function (_BaseClass) {
-  _inherits(Request, _BaseClass);
-
-  function Request(method, url, attributes) {
-    var _this;
-
-    _classCallCheck(this, Request);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Request).call(this, {
+class Request extends BaseClass {
+  constructor(method, url, attributes) {
+    super({
       options: {},
       data: {},
       headers: {},
       params: {},
       url: url,
       method: method
-    }));
+    });
 
     if (isObject(attributes)) {
-      _this.setAttribute(attributes);
-    }
-
-    return _this;
-  }
-
-  _createClass(Request, [{
-    key: "send",
-    value: function send(attributes) {
-      var _this2 = this;
-
-      this.sentAt = new Date();
-      this.setAttributes(attributes);
-      return new Promise(function (resolve, reject) {
-        axios(_this2.options).then(function (data) {
-          return resolve(_this2.response = new Response(data));
-        }, function (errors) {
-          return reject(_this2.errors = errors);
-        });
-      });
-    }
-  }, {
-    key: "cancel",
-    set: function set(value) {
-      this.$cancel = value;
-    },
-    get: function get$$1() {
-      return this.$cancel || function () {
-        throw new Error('The request has not been sent yet.');
-      };
-    }
-  }, {
-    key: "options",
-    get: function get$$1() {
-      var _this3 = this;
-
-      return extend({
-        cancelToken: new axios.CancelToken(function (cancel) {
-          _this3.cancel = cancel;
-          return cancel;
-        })
-      }, DEFAULTS, this.getPublicAttributes());
-    },
-    set: function set(attributes) {
       this.setAttribute(attributes);
     }
-  }, {
-    key: "response",
-    get: function get$$1() {
-      return this.$response;
-    },
-    set: function set(value) {
-      this.$response = value;
-    }
-  }, {
-    key: "errors",
-    get: function get$$1() {
-      return this.$errors;
-    },
-    set: function set(value) {
-      this.$errors = value;
-    }
-  }, {
-    key: "passed",
-    get: function get$$1() {
-      return !!this.response && !this.errors;
-    }
-  }, {
-    key: "failed",
-    get: function get$$1() {
-      return !!this.response && !!this.$error;
-    }
-  }], [{
-    key: "transformRequest",
-    value: function transformRequest(fn) {
-      DEFAULTS.transformRequest.push(fn);
-    }
-  }, {
-    key: "transformResponse",
-    value: function transformResponse(fn) {
-      DEFAULTS.transformResponse.push(fn);
-    }
-  }, {
-    key: "get",
-    value: function get$$1(url, attributes) {
-      return this.make('get', url).send(attributes);
-    }
-  }, {
-    key: "post",
-    value: function post(url, attributes) {
-      return this.make('post', url, attributes).send();
-    }
-  }, {
-    key: "put",
-    value: function put(url, attributes) {
-      return this.make('put', url, attributes).send();
-    }
-  }, {
-    key: "patch",
-    value: function patch(url, data, attributes) {
-      return this.make('path', url, attributes).send();
-    }
-  }, {
-    key: "delete",
-    value: function _delete(url, attributes) {
-      return this.make('delete', url, attributes).send();
-    }
-  }, {
-    key: "make",
-    value: function make(method, url, attributes) {
-      return new this(method, url, attributes);
-    }
-  }, {
-    key: "transform",
-    get: function get$$1() {
-      return {
-        request: this.transformRequest,
-        response: this.transformResponse
-      };
-    }
-  }, {
-    key: "defaults",
-    get: function get$$1() {
-      return DEFAULTS;
-    },
-    set: function set(value) {
-      extend(DEFAULTS, value);
-    }
-  }]);
+  }
 
-  return Request;
-}(BaseClass);
+  send(attributes) {
+    this.sentAt = new Date();
+    this.setAttributes(attributes);
+    return new Promise((resolve, reject) => {
+      axios(this.options).then(data => resolve(this.response = new Response(data)), errors => reject(this.errors = errors));
+    });
+  }
 
-var Model =
-/*#__PURE__*/
-function () {
+  set cancel(value) {
+    this.$cancel = value;
+  }
+
+  get cancel() {
+    return this.$cancel || (() => {
+      throw new Error('The request has not been sent yet.');
+    });
+  }
+
+  get options() {
+    return deepExtend({
+      cancelToken: new axios.CancelToken(cancel => {
+        this.cancel = cancel;
+        return cancel;
+      })
+    }, DEFAULTS, this.getPublicAttributes());
+  }
+
+  set options(attributes) {
+    this.setAttribute(attributes);
+  }
+
+  get response() {
+    return this.$response;
+  }
+
+  set response(value) {
+    this.$response = value;
+  }
+
+  get errors() {
+    return this.$errors;
+  }
+
+  set errors(value) {
+    this.$errors = value;
+  }
+
+  get passed() {
+    return !!this.response && !this.errors;
+  }
+
+  get failed() {
+    return !!this.response && !!this.$error;
+  }
+
+  static get transform() {
+    return {
+      request: this.transformRequest,
+      response: this.transformResponse
+    };
+  }
+
+  static get defaults() {
+    return DEFAULTS;
+  }
+
+  static set defaults(value) {
+    extend(DEFAULTS, value);
+  }
+
+  static transformRequest(fn) {
+    DEFAULTS.transformRequest.push(fn);
+  }
+
+  static transformResponse(fn) {
+    DEFAULTS.transformResponse.push(fn);
+  }
+
+  static get(url, attributes) {
+    return this.make('get', url).send(attributes);
+  }
+
+  static post(url, attributes) {
+    return this.make('post', url, attributes).send();
+  }
+
+  static put(url, attributes) {
+    return this.make('put', url, attributes).send();
+  }
+
+  static patch(url, data, attributes) {
+    return this.make('path', url, attributes).send();
+  }
+
+  static delete(url, attributes) {
+    return this.make('delete', url, attributes).send();
+  }
+
+  static make(method, url, attributes) {
+    return new this(method, url, attributes);
+  }
+
+}
+
+class Model {
   /**
    * Construct the model instance
    *
    * @param data object
    * @return void
    */
-  function Model() {
-    var _this = this;
-
-    var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-    _classCallCheck(this, Model);
-
+  constructor(data = {}, params = {}) {
     this.$request = null;
     this.$key = this.key();
     this.$files = this.files();
     this.$properties = this.properties();
-    each(params, function (value, key$$1) {
-      _this[key$$1] = value;
+    each(params, (value, key$$1) => {
+      this[key$$1] = value;
     });
     this.initialize(data);
   }
@@ -4717,546 +4017,476 @@ function () {
    */
 
 
-  _createClass(Model, [{
-    key: "initialize",
-    value: function initialize(data) {
-      this.$exists = false;
-      this.$changed = {};
-      this.$attributes = {};
-      this.fill(data);
-      this.$initialized = true;
-      return this;
+  initialize(data) {
+    this.$exists = false;
+    this.$changed = {};
+    this.$attributes = {};
+    this.fill(data);
+    this.$initialized = true;
+    return this;
+  }
+  /**
+   * Define the corresponding API endpoint slug
+   *
+   * @return string
+   */
+
+
+  endpoint() {} //
+
+  /**
+   * Define the corresponding uri schema.
+   *
+   * @return string
+   */
+
+
+  uri() {
+    return [this.endpoint() || '', this.exists() ? this.id() : null].filter(value => !!value).concat([].slice.call(arguments)).join('/');
+  }
+  /**
+   * Return the primary key value for the model
+   *
+   * @return {Number}
+   */
+
+
+  id() {
+    return this.get(this.key());
+  }
+  /**
+   * Define a primary key. This is used to determine if the model exists and
+   * which endpoint to use.
+   *
+   * @return string
+   */
+
+
+  key() {
+    return 'id';
+  }
+  /**
+   * Return an array of properties that are sent to the API. If no properties
+   * are defined, then all the attributes will be included in the request.
+   *
+   * @return array
+   */
+
+
+  properties() {
+    return [];
+  }
+  /**
+   * Return an array of file properties that are sent to the API. If no fies
+   * are defined, then request will always be sent with JSON vs. multipart.
+   *
+   * @return array
+   */
+
+
+  files() {
+    return [];
+  }
+  /**
+   * Set the attributes in the model with the data given.
+   *
+   * @param data object
+   * @return this
+   */
+
+
+  fill(data) {
+    this.setAttributes(data);
+    return this;
+  }
+  /**
+   * Get one or more attributes from the model.
+   *
+   * @param data string|array
+   * @return array|mixed
+   */
+
+
+  get(key$$1) {
+    if (isArray(key$$1)) {
+      return this.getAttributes().filter((value, i) => {
+        return key$$1.indexOf(i) !== -1;
+      });
+    } else {
+      return this.getAttribute(key$$1);
     }
-    /**
-     * Define the corresponding API endpoint slug
-     *
-     * @return string
-     */
+  }
+  /**
+   * Alias for setAttributes() except this method returns `this`. This method
+   * also accepts an array of values or key/value pair.
+   *
+   * @return this
+   */
 
-  }, {
-    key: "endpoint",
-    value: function endpoint() {} //
 
-    /**
-     * Define the corresponding uri schema.
-     *
-     * @return string
-     */
-
-  }, {
-    key: "uri",
-    value: function uri() {
-      return [this.endpoint() || '', this.exists() ? this.id() : null].filter(function (value) {
-        return !!value;
-      }).concat([].slice.call(arguments)).join('/');
+  set(key$$1, value = undefined) {
+    if (isArray(key$$1) || isObject(key$$1)) {
+      this.setAttributes(key$$1);
+    } else {
+      this.setAttribute(key$$1, value);
     }
-    /**
-     * Return the primary key value for the model
-     *
-     * @return {Number}
-     */
 
-  }, {
-    key: "id",
-    value: function id() {
-      return this.get(this.key());
-    }
-    /**
-     * Define a primary key. This is used to determine if the model exists and
-     * which endpoint to use.
-     *
-     * @return string
-     */
+    return this;
+  }
+  /**
+   * Get all the defined attributes.
+   *
+   * @return array
+   */
 
-  }, {
-    key: "key",
-    value: function key$$1() {
-      return 'id';
-    }
-    /**
-     * Return an array of properties that are sent to the API. If no properties
-     * are defined, then all the attributes will be included in the request.
-     *
-     * @return array
-     */
 
-  }, {
-    key: "properties",
-    value: function properties() {
-      return [];
-    }
-    /**
-     * Return an array of file properties that are sent to the API. If no fies
-     * are defined, then request will always be sent with JSON vs. multipart.
-     *
-     * @return array
-     */
+  getAttributes() {
+    return this.$attributes;
+  }
+  /**
+   * Get the changed attributes
+   *
+   * @return array
+   */
 
-  }, {
-    key: "files",
-    value: function files() {
-      return [];
-    }
-    /**
-     * Set the attributes in the model with the data given.
-     *
-     * @param data object
-     * @return this
-     */
 
-  }, {
-    key: "fill",
-    value: function fill(data) {
-      this.setAttributes(data);
-      return this;
-    }
-    /**
-     * Get one or more attributes from the model.
-     *
-     * @param data string|array
-     * @return array|mixed
-     */
+  getChangedAttributes() {
+    return Object.keys(this.$changed);
+  }
+  /**
+   * Get the changed attributes
+   *
+   * @return array
+   */
 
-  }, {
-    key: "get",
-    value: function get$$1(key$$1) {
-      if (isArray(key$$1)) {
-        return this.getAttributes().filter(function (value, i) {
-          return key$$1.indexOf(i) !== -1;
-        });
-      } else {
-        return this.getAttribute(key$$1);
-      }
-    }
-    /**
-     * Alias for setAttributes() except this method returns `this`. This method
-     * also accepts an array of values or key/value pair.
-     *
-     * @return this
-     */
 
-  }, {
-    key: "set",
-    value: function set(key$$1) {
-      var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+  getOriginalValue(key$$1) {
+    return this.$changed[key$$1] || this.$attributes[key$$1];
+  }
+  /**
+   * Get the Request object.
+   *
+   * @return {mixed}
+   */
 
-      if (isArray(key$$1) || isObject(key$$1)) {
-        this.setAttributes(key$$1);
-      } else {
+
+  getRequest() {
+    return this.$request;
+  }
+  /**
+   * Get the unchanged attributes
+   *
+   * @return array
+   */
+
+
+  getUnchangedAttributes() {
+    return Object.keys(this.$attributes).filter(key$$1 => !(key$$1 in this.$changed));
+  }
+  /**
+   * Get an attribute with a given key. If no key is defined
+   *
+   * @param key string
+   * @param default undefined|mixed
+   * @return array
+   */
+
+
+  getAttribute(key$$1, value = undefined) {
+    return this.$attributes[key$$1] || value;
+  }
+  /**
+   * Set an array or object of data as attributes.
+   *
+   * @param attributes array|object
+   * @return void
+   */
+
+
+  setAttributes(data) {
+    if (isArray(data) || isObject(data)) {
+      each(data, (value, key$$1) => {
         this.setAttribute(key$$1, value);
-      }
-
-      return this;
-    }
-    /**
-     * Get all the defined attributes.
-     *
-     * @return array
-     */
-
-  }, {
-    key: "getAttributes",
-    value: function getAttributes() {
-      return this.$attributes;
-    }
-    /**
-     * Get the changed attributes
-     *
-     * @return array
-     */
-
-  }, {
-    key: "getChangedAttributes",
-    value: function getChangedAttributes() {
-      return Object.keys(this.$changed);
-    }
-    /**
-     * Get the changed attributes
-     *
-     * @return array
-     */
-
-  }, {
-    key: "getOriginalValue",
-    value: function getOriginalValue(key$$1) {
-      return this.$changed[key$$1] || this.$attributes[key$$1];
-    }
-    /**
-     * Get the Request object.
-     *
-     * @return {mixed}
-     */
-
-  }, {
-    key: "getRequest",
-    value: function getRequest() {
-      return this.$request;
-    }
-    /**
-     * Get the unchanged attributes
-     *
-     * @return array
-     */
-
-  }, {
-    key: "getUnchangedAttributes",
-    value: function getUnchangedAttributes() {
-      var _this2 = this;
-
-      return Object.keys(this.$attributes).filter(function (key$$1) {
-        return !(key$$1 in _this2.$changed);
       });
     }
-    /**
-     * Get an attribute with a given key. If no key is defined
-     *
-     * @param key string
-     * @param default undefined|mixed
-     * @return array
-     */
+  }
+  /**
+   * Set an attribute with a given key/value pair. This will track the changes
+   * in the model within the `this.$changed` property. If the primary key
+   * is set, it will also change the `this.$exists` property.
+   *
+   * @param key string
+   * @param value mixed
+   * @return void
+   */
 
-  }, {
-    key: "getAttribute",
-    value: function getAttribute(key$$1) {
-      var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
-      return this.$attributes[key$$1] || value;
-    }
-    /**
-     * Set an array or object of data as attributes.
-     *
-     * @param attributes array|object
-     * @return void
-     */
 
-  }, {
-    key: "setAttributes",
-    value: function setAttributes(data) {
-      var _this3 = this;
+  setAttribute(key$$1, value) {
+    if (this.getAttribute(key$$1) !== value) {
+      this.handleAttributeChange(key$$1, value);
 
-      if (isArray(data) || isObject(data)) {
-        each(data, function (value, key$$1) {
-          _this3.setAttribute(key$$1, value);
-        });
+      if (isUndefined(value)) {
+        delete this.$attributes[key$$1];
+      } else {
+        this.$attributes[key$$1] = value;
       }
     }
-    /**
-     * Set an attribute with a given key/value pair. This will track the changes
-     * in the model within the `this.$changed` property. If the primary key
-     * is set, it will also change the `this.$exists` property.
-     *
-     * @param key string
-     * @param value mixed
-     * @return void
-     */
+  }
+  /**
+   * Revert the model to its original state.
+   *
+   * @return bool
+   */
 
-  }, {
-    key: "setAttribute",
-    value: function setAttribute(key$$1, value) {
-      if (this.getAttribute(key$$1) !== value) {
-        this.handleAttributeChange(key$$1, value);
 
-        if (isUndefined(value)) {
-          delete this.$attributes[key$$1];
-        } else {
-          this.$attributes[key$$1] = value;
-        }
+  revert() {
+    each(this.$changed, (value, key$$1) => {
+      if (!isUndefined(value)) {
+        this.$attributes[key$$1] = value;
+      } else {
+        delete this.$attributes[key$$1];
       }
-    }
-    /**
-     * Revert the model to its original state.
-     *
-     * @return bool
-     */
+    });
+    this.$changed = {};
+  }
+  /**
+   * Returns if the model has a primary key set.
+   *
+   * @return bool
+   */
 
-  }, {
-    key: "revert",
-    value: function revert() {
-      var _this4 = this;
 
-      each(this.$changed, function (value, key$$1) {
-        if (!isUndefined(value)) {
-          _this4.$attributes[key$$1] = value;
-        } else {
-          delete _this4.$attributes[key$$1];
-        }
-      });
-      this.$changed = {};
-    }
-    /**
-     * Returns if the model has a primary key set.
-     *
-     * @return bool
-     */
+  exists() {
+    return !!this.$exists;
+  }
+  /**
+   * Returns the model been changed or not.
+   *
+   * @return bool
+   */
 
-  }, {
-    key: "exists",
-    value: function exists() {
-      return !!this.$exists;
-    }
-    /**
-     * Returns the model been changed or not.
-     *
-     * @return bool
-     */
 
-  }, {
-    key: "hasChanged",
-    value: function hasChanged(key$$1) {
-      return !key$$1 ? this.getChangedAttributes().length > 0 : !isUndefined(this.$changed[key$$1]);
-    }
-    /**
-     * Does the model have any File objects. If so, need to send as multipart.
-     *
-     * @return bool
-     */
+  hasChanged(key$$1) {
+    return !key$$1 ? this.getChangedAttributes().length > 0 : !isUndefined(this.$changed[key$$1]);
+  }
+  /**
+   * Does the model have any File objects. If so, need to send as multipart.
+   *
+   * @return bool
+   */
 
-  }, {
-    key: "hasFiles",
-    value: function hasFiles() {
-      function count(files) {
-        var total = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-        return files.reduce(function (carry, value) {
-          if (isArray(value)) {
-            return carry + count(value, total);
-          } else if (value instanceof File || value instanceof FileList) {
-            return carry + 1;
-          } else {
-            return carry;
-          }
-        }, total);
-      }
 
-      return count(this.toJSON()) !== 0;
-    }
-    /**
-     * Handle settings the $changed attributes when an attribute value is set.
-     *
-     * @param key string
-     * @param value mixed
-     * @return void
-     */
-
-  }, {
-    key: "handleAttributeChange",
-    value: function handleAttributeChange(key$$1, value) {
-      if (this.$initialized) {
-        if (this.$changed[key$$1] === value) {
-          delete this.$changed[key$$1];
-        } else if (!(key$$1 in this.$changed)) {
-          this.$changed[key$$1] = this.getAttribute(key$$1);
-        }
-      }
-
-      this.handlePrimaryKeyChange(key$$1, value);
-    }
-    /**
-     * Set an array or object of data as attributes.
-     *
-     * @param key string
-     * @param value mixed
-     * @return void
-     */
-
-  }, {
-    key: "handlePrimaryKeyChange",
-    value: function handlePrimaryKeyChange(key$$1, value) {
-      if (this.$key === key$$1) {
-        this.$exists = !isUndefined(value) && !isNull(value);
-      }
-    }
-    /**
-     * Save the model to the database
-     *
-     * @param data object
-     * @return bool
-     */
-
-  }, {
-    key: "save",
-    value: function save() {
-      var _this5 = this;
-
-      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      this.fill(data);
-      return new Promise(function (resolve, reject) {
-        var data = !_this5.hasFiles() ? _this5.toJSON() : _this5.toFormData();
-        var method = !_this5.exists() || _this5.hasFiles() ? 'post' : 'put';
-        _this5.$request = _this5.constructor.request(method, config.uri || _this5.uri(), config);
-
-        _this5.$request.send({
-          data: data
-        }).then(function (response) {
-          return resolve(_this5.fill(response));
-        }, reject);
-      });
-    }
-    /**
-     * Delete an existing model
-     *
-     * @param  {object} config
-     * @return {bool}
-     */
-
-  }, {
-    key: "delete",
-    value: function _delete() {
-      var _this6 = this;
-
-      var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      return new Promise(function (resolve, reject) {
-        if (!_this6.exists()) {
-          reject(new Error('The model must have a primary key before it can be delete.'));
-        }
-
-        _this6.$request = _this6.constructor.request('delete', config.uri || _this6.uri(), config);
-
-        _this6.$request.send().then(function (response) {
-          resolve(response);
-        }, reject);
-      });
-    }
-    /**
-     * Cancel the current HTTP request if one exists.
-     *
-     * @return {self}
-     */
-
-  }, {
-    key: "cancel",
-    value: function cancel() {
-      if (this.$request) {
-        this.$request.cancel();
-      }
-
-      return this;
-    }
-    /**
-     * Convert the Model instance to a FormData instance
-     *
-     * @return Object
-     */
-
-  }, {
-    key: "toFormData",
-    value: function toFormData() {
-      var form = new FormData();
-      each(this.toJSON(), function (value, key$$1) {
+  hasFiles() {
+    function count(files, total = 0) {
+      return files.reduce((carry, value) => {
         if (isArray(value)) {
-          each(value, function (item) {
-            if (!(item instanceof File) && (isObject(item) || isArray(item))) {
-              item = JSON.stringify(item);
-            }
-
-            form.append(key$$1.replace(/(.+)(\[.+\]?)$/, '$1') + '[]', item);
-          });
-        } else if (!(value instanceof File) && isObject(value)) {
-          form.append(key$$1, JSON.stringify(value));
-        } else if (!isNull(value)) {
-          form.append(key$$1, value);
+          return carry + count(value, total);
+        } else if (value instanceof File || value instanceof FileList) {
+          return carry + 1;
+        } else {
+          return carry;
         }
-      });
-      return form;
+      }, total);
     }
-    /**
-     * Convert the instance to JSON payload
-     *
-     * @return Object
-     */
 
-  }, {
-    key: "toJSON",
-    value: function toJSON() {
-      var _this7 = this;
+    return count(this.toJSON()) !== 0;
+  }
+  /**
+   * Handle settings the $changed attributes when an attribute value is set.
+   *
+   * @param key string
+   * @param value mixed
+   * @return void
+   */
 
-      return pickBy(this.$attributes, function (value, key$$1) {
-        return !_this7.$properties.length || key$$1 === _this7.key() || _this7.$properties.indexOf(key$$1) !== -1;
-      });
+
+  handleAttributeChange(key$$1, value) {
+    if (this.$initialized) {
+      if (this.$changed[key$$1] === value) {
+        delete this.$changed[key$$1];
+      } else if (!(key$$1 in this.$changed)) {
+        this.$changed[key$$1] = this.getAttribute(key$$1);
+      }
     }
-    /**
-     * Convert the model to a string
-     *
-     * @return String
-     */
 
-  }, {
-    key: "toString",
-    value: function toString() {
-      return JSON.stringify(this.toJSON());
+    this.handlePrimaryKeyChange(key$$1, value);
+  }
+  /**
+   * Set an array or object of data as attributes.
+   *
+   * @param key string
+   * @param value mixed
+   * @return void
+   */
+
+
+  handlePrimaryKeyChange(key$$1, value) {
+    if (this.$key === key$$1) {
+      this.$exists = !isUndefined(value) && !isNull(value);
     }
-    /**
-     * Alias for toJSON
-     *
-     * @return Object
-     */
+  }
+  /**
+   * Save the model to the database
+   *
+   * @param data object
+   * @return bool
+   */
 
-  }, {
-    key: "toJson",
-    value: function toJson() {
-      return this.toJSON();
+
+  save(data = {}, config = {}) {
+    this.fill(data);
+    return new Promise((resolve, reject) => {
+      const data = !this.hasFiles() ? this.toJSON() : this.toFormData();
+      const method = !this.exists() || this.hasFiles() ? 'post' : 'put';
+      this.$request = this.constructor.request(method, config.uri || this.uri(), config);
+      this.$request.send({
+        data: data
+      }).then(response => resolve(this.fill(response)), reject);
+    });
+  }
+  /**
+   * Delete an existing model
+   *
+   * @param  {object} config
+   * @return {bool}
+   */
+
+
+  delete(config = {}) {
+    return new Promise((resolve, reject) => {
+      if (!this.exists()) {
+        reject(new Error('The model must have a primary key before it can be delete.'));
+      }
+
+      this.$request = this.constructor.request('delete', config.uri || this.uri(), config);
+      this.$request.send().then(response => {
+        resolve(response);
+      }, reject);
+    });
+  }
+  /**
+   * Cancel the current HTTP request if one exists.
+   *
+   * @return {self}
+   */
+
+
+  cancel() {
+    if (this.$request) {
+      this.$request.cancel();
     }
-    /**
-     * Search for a collection of models
-     *
-     * @param data object
-     * @return bool
-     */
 
-  }], [{
-    key: "search",
-    value: function search() {
-      var _this8 = this;
-      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      var model = new this();
-      return new Promise(function (resolve, reject) {
-        model.$request = _this8.request('get', config.uri || model.uri(), config);
-        model.$request.send().then(function (response) {
-          resolve(response);
-        }, function (errors) {
-          reject(errors);
+    return this;
+  }
+  /**
+   * Convert the Model instance to a FormData instance
+   *
+   * @return Object
+   */
+
+
+  toFormData() {
+    const form = new FormData();
+    each(this.toJSON(), (value, key$$1) => {
+      if (isArray(value)) {
+        each(value, item => {
+          if (!(item instanceof File) && (isObject(item) || isArray(item))) {
+            item = JSON.stringify(item);
+          }
+
+          form.append(key$$1.replace(/(.+)(\[.+\]?)$/, '$1') + '[]', item);
         });
+      } else if (!(value instanceof File) && isObject(value)) {
+        form.append(key$$1, JSON.stringify(value));
+      } else if (!isNull(value)) {
+        form.append(key$$1, value);
+      }
+    });
+    return form;
+  }
+  /**
+   * Convert the instance to JSON payload
+   *
+   * @return Object
+   */
+
+
+  toJSON() {
+    return pickBy(this.$attributes, (value, key$$1) => {
+      return !this.$properties.length || key$$1 === this.key() || this.$properties.indexOf(key$$1) !== -1;
+    });
+  }
+  /**
+   * Convert the model to a string
+   *
+   * @return String
+   */
+
+
+  toString() {
+    return JSON.stringify(this.toJSON());
+  }
+  /**
+   * Alias for toJSON
+   *
+   * @return Object
+   */
+
+
+  toJson() {
+    return this.toJSON();
+  }
+  /**
+   * Search for a collection of models
+   *
+   * @param data object
+   * @return bool
+   */
+
+
+  static search(params = {}, config = {}) {
+    const model = new this();
+    return new Promise((resolve, reject) => {
+      model.$request = this.request('get', config.uri || model.uri(), config);
+      model.$request.send().then(response => {
+        resolve(response);
+      }, errors => {
+        reject(errors);
       });
-    }
-    /**
-     * Find an existing model by id
-     *
-     * @param data object
-     * @return bool
-     */
+    });
+  }
+  /**
+   * Find an existing model by id
+   *
+   * @param data object
+   * @return bool
+   */
 
-  }, {
-    key: "find",
-    value: function find$$1(id) {
-      var _this9 = this;
 
-      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      return new Promise(function (resolve, reject) {
-        var model = new _this9();
-        model.$request = _this9.request('get', config.uri || model.uri(id), config);
-        model.$request.send().then(function (response) {
-          resolve(model.initialize(response));
-        }, function (error) {
-          reject(error);
-        });
+  static find(id, config = {}) {
+    return new Promise((resolve, reject) => {
+      const model = new this();
+      model.$request = this.request('get', config.uri || model.uri(id), config);
+      model.$request.send().then(response => {
+        resolve(model.initialize(response));
+      }, error => {
+        reject(error);
       });
-    }
-    /**
-     * Create a request from the model data
-     *
-     * @param data object
-     * @return bool
-     */
+    });
+  }
+  /**
+   * Create a request from the model data
+   *
+   * @param data object
+   * @return bool
+   */
 
-  }, {
-    key: "request",
-    value: function request(method, url) {
-      var config = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      return Request.make(method, url, config);
-    }
-  }]);
 
-  return Model;
-}();
+  static request(method, url, config = {}) {
+    return Request.make(method, url, config);
+  }
+
+}
 
 //
 var script$s = {
@@ -5269,9 +4499,11 @@ var script$s = {
     method: {
       type: String,
       default: 'save',
-      validate: function validate(value) {
+
+      validate(value) {
         return this.model && isFunction(this.model[value]);
       }
+
     },
 
     /**
@@ -5281,7 +4513,7 @@ var script$s = {
      */
     data: {
       type: Object,
-      default: function _default() {
+      default: () => {
         return {};
       }
     },
@@ -5300,9 +4532,11 @@ var script$s = {
      */
     model: {
       type: Object,
-      validate: function validate(value) {
+
+      validate(value) {
         return value instanceof Model;
       }
+
     },
 
     /**
@@ -5343,9 +4577,11 @@ var script$s = {
      */
     onSubmit: {
       type: Function,
-      default: function _default(event) {
+
+      default(event) {
         this.model && this.submit(event);
       }
+
     },
 
     /**
@@ -5355,7 +4591,8 @@ var script$s = {
      */
     onSubmitSuccess: {
       type: Function,
-      default: function _default(event, data) {
+
+      default(event, data) {
         this.$emit('submit:success', event, data);
         this.$emit('submit:complete', event, true, data);
 
@@ -5365,6 +4602,7 @@ var script$s = {
           this.$router.push(this.redirect);
         }
       }
+
     },
 
     /**
@@ -5374,35 +4612,38 @@ var script$s = {
      */
     onSubmitFailed: {
       type: Function,
-      default: function _default(event, errors) {
+
+      default(event, errors) {
         this.$emit('submit:failed', event, errors);
         this.$emit('submit:complete', event, false, errors);
       }
+
     }
   },
   methods: {
-    submit: function submit(event) {
-      var _this = this;
-
+    submit(event) {
       this.$emit('submit', event);
       return this.model[this.method](this.data, {
         query: this.query,
         headers: this.headers,
-        onUploadProgress: function onUploadProgress(event) {
-          _this.$emit('submit:progress', event);
+        onUploadProgress: event => {
+          this.$emit('submit:progress', event);
         }
-      }).then(function (data) {
-        _this.onSubmitSuccess(event, data);
-      }, function (errors) {
-        _this.onSubmitFailed(event, errors);
+      }).then(data => {
+        this.onSubmitSuccess(event, data);
+      }, errors => {
+        this.onSubmitFailed(event, errors);
       });
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       errors: {}
     };
   }
+
 };
 
 /* script */
@@ -5440,36 +4681,13 @@ __vue_render__$p._withStripped = true;
   const __vue_module_identifier__$r = undefined;
   /* functional template */
   const __vue_is_functional_template__$r = false;
-  /* component normalizer */
-  function __vue_normalize__$r(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BaseForm/BaseForm.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var BaseForm = __vue_normalize__$r(
+  var BaseForm = normalizeComponent(
     { render: __vue_render__$p, staticRenderFns: __vue_staticRenderFns__$p },
     __vue_inject_styles__$r,
     __vue_script__$r,
@@ -5481,11 +4699,12 @@ __vue_render__$p._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      BaseForm: BaseForm
+      BaseForm
     });
   }
+
 });
 
 //
@@ -5581,36 +4800,13 @@ __vue_render__$q._withStripped = true;
   const __vue_module_identifier__$s = undefined;
   /* functional template */
   const __vue_is_functional_template__$s = false;
-  /* component normalizer */
-  function __vue_normalize__$s(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Breadcrumb/BreadcrumbItem.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var BreadcrumbItem = __vue_normalize__$s(
+  var BreadcrumbItem = normalizeComponent(
     { render: __vue_render__$q, staticRenderFns: __vue_staticRenderFns__$q },
     __vue_inject_styles__$s,
     __vue_script__$s,
@@ -5625,7 +4821,7 @@ __vue_render__$q._withStripped = true;
 var script$u = {
   name: 'breadcrumb',
   components: {
-    BreadcrumbItem: BreadcrumbItem
+    BreadcrumbItem
   },
   props: {
     /**
@@ -5681,36 +4877,13 @@ __vue_render__$r._withStripped = true;
   const __vue_module_identifier__$t = undefined;
   /* functional template */
   const __vue_is_functional_template__$t = false;
-  /* component normalizer */
-  function __vue_normalize__$t(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Breadcrumb/Breadcrumb.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Breadcrumb = __vue_normalize__$t(
+  var Breadcrumb = normalizeComponent(
     { render: __vue_render__$r, staticRenderFns: __vue_staticRenderFns__$r },
     __vue_inject_styles__$t,
     __vue_script__$t,
@@ -5722,12 +4895,13 @@ __vue_render__$r._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Breadcrumb: Breadcrumb,
-      BreadcrumbItem: BreadcrumbItem
+      Breadcrumb,
+      BreadcrumbItem
     });
   }
+
 });
 
 var Screenreaders = {
@@ -5747,12 +4921,13 @@ var Screenreaders = {
     srOnlyFocusable: Boolean
   },
   computed: {
-    screenreaderClasses: function screenreaderClasses() {
+    screenreaderClasses() {
       return {
         'sr-only': this.srOnly,
         'sr-only-focusable': this.srOnlyFocusable
       };
     }
+
   }
 };
 
@@ -5761,9 +4936,10 @@ var script$v = {
   name: 'help-text',
   mixins: [Colorable, Screenreaders],
   computed: {
-    classes: function classes() {
+    classes() {
       return extend({}, this.screenreaderClasses, this.colorableClasses);
     }
+
   }
 };
 
@@ -5793,36 +4969,13 @@ __vue_render__$s._withStripped = true;
   const __vue_module_identifier__$u = undefined;
   /* functional template */
   const __vue_is_functional_template__$u = false;
-  /* component normalizer */
-  function __vue_normalize__$u(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/HelpText/HelpText.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var HelpText = __vue_normalize__$u(
+  var HelpText = normalizeComponent(
     { render: __vue_render__$s, staticRenderFns: __vue_staticRenderFns__$s },
     __vue_inject_styles__$u,
     __vue_script__$u,
@@ -5834,11 +4987,12 @@ __vue_render__$s._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      HelpText: HelpText
+      HelpText
     });
   }
+
 });
 
 //
@@ -5872,36 +5026,13 @@ __vue_render__$t._withStripped = true;
   const __vue_module_identifier__$v = undefined;
   /* functional template */
   const __vue_is_functional_template__$v = false;
-  /* component normalizer */
-  function __vue_normalize__$v(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FormGroup/FormGroup.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var FormGroup = __vue_normalize__$v(
+  var FormGroup = normalizeComponent(
     { render: __vue_render__$t, staticRenderFns: __vue_staticRenderFns__$t },
     __vue_inject_styles__$v,
     __vue_script__$v,
@@ -5913,11 +5044,12 @@ __vue_render__$t._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      FormGroup: FormGroup
+      FormGroup
     });
   }
+
 });
 
 //
@@ -5925,9 +5057,10 @@ var script$x = {
   name: 'form-label',
   mixins: [Colorable, Screenreaders],
   computed: {
-    classes: function classes() {
+    classes() {
       return extend({}, this.screenreaderClasses, this.colorableClasses);
     }
+
   }
 };
 
@@ -5952,36 +5085,13 @@ __vue_render__$u._withStripped = true;
   const __vue_module_identifier__$w = undefined;
   /* functional template */
   const __vue_is_functional_template__$w = false;
-  /* component normalizer */
-  function __vue_normalize__$w(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FormLabel/FormLabel.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var FormLabel = __vue_normalize__$w(
+  var FormLabel = normalizeComponent(
     { render: __vue_render__$u, staticRenderFns: __vue_staticRenderFns__$u },
     __vue_inject_styles__$w,
     __vue_script__$w,
@@ -5993,11 +5103,12 @@ __vue_render__$u._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      FormLabel: FormLabel
+      FormLabel
     });
   }
+
 });
 
 //
@@ -6059,36 +5170,13 @@ __vue_render__$v._withStripped = true;
   const __vue_module_identifier__$x = undefined;
   /* functional template */
   const __vue_is_functional_template__$x = false;
-  /* component normalizer */
-  function __vue_normalize__$x(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FormFeedback/FormFeedback.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var FormFeedback = __vue_normalize__$x(
+  var FormFeedback = normalizeComponent(
     { render: __vue_render__$v, staticRenderFns: __vue_staticRenderFns__$v },
     __vue_inject_styles__$x,
     __vue_script__$x,
@@ -6100,11 +5188,12 @@ __vue_render__$v._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      FormFeedback: FormFeedback
+      FormFeedback
     });
   }
+
 });
 
 var FormControl = {
@@ -6193,9 +5282,11 @@ var FormControl = {
      */
     errors: {
       type: Object,
-      default: function _default() {
+
+      default() {
         return {};
       }
+
     },
 
     /**
@@ -6213,9 +5304,11 @@ var FormControl = {
      */
     bindEvents: {
       type: Array,
-      default: function _default() {
+
+      default() {
         return ['focus', 'blur', 'change', 'click', 'keyup', 'keydown', 'progress', 'paste'];
       }
+
     },
 
     /**
@@ -6250,9 +5343,7 @@ var FormControl = {
     size: {
       type: String,
       default: 'md',
-      validate: function validate(value) {
-        return ['sm', 'md', 'lg'].indexOf(value) !== -1;
-      }
+      validate: value => ['sm', 'md', 'lg'].indexOf(value) !== -1
     },
 
     /**
@@ -6299,32 +5390,36 @@ var FormControl = {
   },
   directives: {
     bindEvents: {
-      bind: function bind(el, binding, vnode) {
-        var events = binding.value || vnode.context.bindEvents;
-        each(events, function (name) {
-          el.addEventListener(name, function (event) {
+      bind(el, binding, vnode) {
+        const events = binding.value || vnode.context.bindEvents;
+        each(events, name => {
+          el.addEventListener(name, event => {
             vnode.context.$emit(name, event);
           });
         });
       }
+
     }
   },
   methods: {
-    blur: function blur() {
+    blur() {
       if (this.getInputField()) {
         this.getInputField().blur();
       }
     },
-    focus: function focus() {
+
+    focus() {
       if (this.getInputField()) {
         this.getInputField().focus();
       }
     },
-    getInputField: function getInputField() {
+
+    getInputField() {
       return this.$el.querySelector('.form-control, input, select, textarea');
     },
-    getFieldErrors: function getFieldErrors() {
-      var errors = this.error || this.errors;
+
+    getFieldErrors() {
+      let errors = this.error || this.errors;
 
       if (isObject(this.errors)) {
         errors = this.errors[this.name || this.id];
@@ -6332,43 +5427,47 @@ var FormControl = {
 
       return !errors || isArray(errors) || isObject(errors) ? errors : [errors];
     }
+
   },
   computed: {
-    callbacks: function callbacks() {
-      var _this = this;
-
-      return this.bindEvents.map(function (event) {
+    callbacks() {
+      return this.bindEvents.map(event => {
         return {
           name: event,
-          callback: _this[camelCase(['on', event].join(' '))]
+          callback: this[camelCase(['on', event].join(' '))]
         };
-      }).filter(function (event) {
-        return !isUndefined(event.callback);
-      });
+      }).filter(event => !isUndefined(event.callback));
     },
-    invalidFeedback: function invalidFeedback() {
+
+    invalidFeedback() {
       if (this.error) {
         return this.error;
       }
 
-      var errors = this.getFieldErrors();
+      const errors = this.getFieldErrors();
       return isArray(errors) ? errors.join('<br>') : errors;
     },
-    validFeedback: function validFeedback() {
+
+    validFeedback() {
       return isArray(this.feedback) ? this.feedback.join('<br>') : this.feedback;
     },
-    controlClass: function controlClass() {
+
+    controlClass() {
       return this.defaultControlClass + (this.plaintext ? '-plaintext' : '');
     },
-    controlSizeClass: function controlSizeClass() {
+
+    controlSizeClass() {
       return prefix(this.size, this.controlClass);
     },
-    controlClasses: function controlClasses() {
+
+    controlClasses() {
       return [this.controlClass, this.controlSizeClass, this.spacing || '', this.invalidFeedback ? 'is-invalid' : ''].join(' ');
     },
-    hasDefaultSlot: function hasDefaultSlot() {
+
+    hasDefaultSlot() {
       return !!this.$slots.default;
     }
+
   }
 };
 
@@ -6377,11 +5476,11 @@ var script$z = {
   name: 'input-field',
   mixins: [Colorable, FormControl, MergeClasses],
   components: {
-    HelpText: HelpText,
-    FormGroup: FormGroup,
-    FormLabel: FormLabel,
-    FormFeedback: FormFeedback,
-    ActivityIndicator: ActivityIndicator
+    HelpText,
+    FormGroup,
+    FormLabel,
+    FormFeedback,
+    ActivityIndicator
   },
   props: {
     /**
@@ -6525,36 +5624,13 @@ __vue_render__$w._withStripped = true;
   const __vue_module_identifier__$y = undefined;
   /* functional template */
   const __vue_is_functional_template__$y = false;
-  /* component normalizer */
-  function __vue_normalize__$y(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InputField/InputField.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var InputField = __vue_normalize__$y(
+  var InputField = normalizeComponent(
     { render: __vue_render__$w, staticRenderFns: __vue_staticRenderFns__$w },
     __vue_inject_styles__$y,
     __vue_script__$y,
@@ -6566,11 +5642,12 @@ __vue_render__$w._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      InputField: InputField
+      InputField
     });
   }
+
 });
 
 //
@@ -6578,11 +5655,11 @@ var script$A = {
   name: 'file-field',
   extends: InputField,
   components: {
-    HelpText: HelpText,
-    FormGroup: FormGroup,
-    FormLabel: FormLabel,
-    FormFeedback: FormFeedback,
-    MergeClasses: MergeClasses
+    HelpText,
+    FormGroup,
+    FormLabel,
+    FormFeedback,
+    MergeClasses
   },
   model: {
     event: 'change'
@@ -6595,9 +5672,11 @@ var script$A = {
      */
     bindEvents: {
       type: Array,
-      default: function _default() {
+
+      default() {
         return ['focus', 'blur', 'input', 'click', 'keyup', 'keydown', 'progress'];
       }
+
     },
 
     /**
@@ -6737,36 +5816,13 @@ __vue_render__$x._withStripped = true;
   const __vue_module_identifier__$z = undefined;
   /* functional template */
   const __vue_is_functional_template__$z = false;
-  /* component normalizer */
-  function __vue_normalize__$z(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FileField/FileField.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var FileField = __vue_normalize__$z(
+  var FileField = normalizeComponent(
     { render: __vue_render__$x, staticRenderFns: __vue_staticRenderFns__$x },
     __vue_inject_styles__$z,
     __vue_script__$z,
@@ -6778,11 +5834,12 @@ __vue_render__$x._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      FileField: FileField
+      FileField
     });
   }
+
 });
 
 //
@@ -6790,8 +5847,8 @@ var script$B = {
   name: 'btn-file',
   mixins: [FileField],
   components: {
-    Btn: Btn,
-    FileField: FileField
+    Btn,
+    FileField
   },
   model: {
     event: 'change'
@@ -6868,36 +5925,13 @@ __vue_render__$y._withStripped = true;
   const __vue_module_identifier__$A = undefined;
   /* functional template */
   const __vue_is_functional_template__$A = false;
-  /* component normalizer */
-  function __vue_normalize__$A(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnFile/BtnFile.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var BtnFile = __vue_normalize__$A(
+  var BtnFile = normalizeComponent(
     { render: __vue_render__$y, staticRenderFns: __vue_staticRenderFns__$y },
     __vue_inject_styles__$A,
     __vue_script__$A,
@@ -6909,18 +5943,19 @@ __vue_render__$y._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      BtnFile: BtnFile
+      BtnFile
     });
   }
+
 });
 
 //
 var script$C = {
   name: 'btn-group',
   components: {
-    Btn: Btn
+    Btn
   },
   mixins: [Colorable, MergeClasses],
   props: {
@@ -6946,13 +5981,14 @@ var script$C = {
     vertical: Boolean
   },
   computed: {
-    classes: function classes() {
+    classes() {
       return this.mergeClasses(this.colorableClasses, {
         'btn-group': !this.vertical,
         'btn-group-toggle': this.toggle,
         'btn-group-vertical': this.vertical
       });
     }
+
   }
 };
 
@@ -6993,36 +6029,13 @@ __vue_render__$z._withStripped = true;
   const __vue_module_identifier__$B = undefined;
   /* functional template */
   const __vue_is_functional_template__$B = false;
-  /* component normalizer */
-  function __vue_normalize__$B(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnGroup/BtnGroup.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var BtnGroup = __vue_normalize__$B(
+  var BtnGroup = normalizeComponent(
     { render: __vue_render__$z, staticRenderFns: __vue_staticRenderFns__$z },
     __vue_inject_styles__$B,
     __vue_script__$B,
@@ -7069,36 +6082,13 @@ __vue_render__$A._withStripped = true;
   const __vue_module_identifier__$C = undefined;
   /* functional template */
   const __vue_is_functional_template__$C = false;
-  /* component normalizer */
-  function __vue_normalize__$C(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnGroup/BtnGroupToggle.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var BtnGroupToggle = __vue_normalize__$C(
+  var BtnGroupToggle = normalizeComponent(
     { render: __vue_render__$A, staticRenderFns: __vue_staticRenderFns__$A },
     __vue_inject_styles__$C,
     __vue_script__$C,
@@ -7145,36 +6135,13 @@ __vue_render__$B._withStripped = true;
   const __vue_module_identifier__$D = undefined;
   /* functional template */
   const __vue_is_functional_template__$D = false;
-  /* component normalizer */
-  function __vue_normalize__$D(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnGroup/BtnToolbar.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var BtnToolbar = __vue_normalize__$D(
+  var BtnToolbar = normalizeComponent(
     { render: __vue_render__$B, staticRenderFns: __vue_staticRenderFns__$B },
     __vue_inject_styles__$D,
     __vue_script__$D,
@@ -7186,37 +6153,39 @@ __vue_render__$B._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      BtnGroup: BtnGroup,
-      BtnGroupToggle: BtnGroupToggle,
-      BtnToolbar: BtnToolbar
+      BtnGroup,
+      BtnGroupToggle,
+      BtnToolbar
     });
   }
+
 });
 
 function uuid() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = Math.random() * 16 | 0;
-    var v = c === 'x' ? r : r & 0x3 | 0x8;
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : r & 0x3 | 0x8;
     return v.toString(16);
   });
 }
 
-var Proxy$1 = {
+var Proxy = {
   methods: {
-    proxy: function proxy(callback, event) {
+    proxy(callback, event) {
       if (isFunction(callback)) {
         callback.apply(this, [].slice.call(arguments).splice(1));
         event.preventDefault();
       }
     }
+
   }
 };
 
 //
 var script$F = {
-  mixins: [Proxy$1],
+  mixins: [Proxy],
   props: {
     /**
      * Is the menu item active.
@@ -7261,9 +6230,10 @@ var script$F = {
     label: String
   },
   computed: {
-    component: function component() {
+    component() {
       return this.element || (this.button ? 'button' : 'a');
     }
+
   },
   methods: {
     /**
@@ -7271,9 +6241,10 @@ var script$F = {
      *
      * @property Object
      */
-    onClick: function onClick(event) {
+    onClick(event) {
       this.$emit('click', event);
     }
+
   }
 };
 
@@ -7316,36 +6287,13 @@ __vue_render__$C._withStripped = true;
   const __vue_module_identifier__$E = undefined;
   /* functional template */
   const __vue_is_functional_template__$E = false;
-  /* component normalizer */
-  function __vue_normalize__$E(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/DropdownMenu/DropdownMenuItem.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var DropdownMenuItem = __vue_normalize__$E(
+  var DropdownMenuItem = normalizeComponent(
     { render: __vue_render__$C, staticRenderFns: __vue_staticRenderFns__$C },
     __vue_inject_styles__$E,
     __vue_script__$E,
@@ -7400,36 +6348,13 @@ __vue_render__$D._withStripped = true;
   const __vue_module_identifier__$F = undefined;
   /* functional template */
   const __vue_is_functional_template__$F = false;
-  /* component normalizer */
-  function __vue_normalize__$F(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/DropdownMenu/DropdownMenuHeader.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var DropdownMenuHeader = __vue_normalize__$F(
+  var DropdownMenuHeader = normalizeComponent(
     { render: __vue_render__$D, staticRenderFns: __vue_staticRenderFns__$D },
     __vue_inject_styles__$F,
     __vue_script__$F,
@@ -7469,36 +6394,13 @@ __vue_render__$E._withStripped = true;
   const __vue_module_identifier__$G = undefined;
   /* functional template */
   const __vue_is_functional_template__$G = false;
-  /* component normalizer */
-  function __vue_normalize__$G(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/DropdownMenu/DropdownMenuDivider.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var DropdownMenuDivider = __vue_normalize__$G(
+  var DropdownMenuDivider = normalizeComponent(
     { render: __vue_render__$E, staticRenderFns: __vue_staticRenderFns__$E },
     __vue_inject_styles__$G,
     __vue_script__$G,
@@ -7512,9 +6414,9 @@ __vue_render__$E._withStripped = true;
 //
 var script$I = {
   components: {
-    DropdownMenuItem: DropdownMenuItem,
-    DropdownMenuHeader: DropdownMenuHeader,
-    DropdownMenuDivider: DropdownMenuDivider
+    DropdownMenuItem,
+    DropdownMenuHeader,
+    DropdownMenuDivider
   },
   props: {
     /**
@@ -7536,9 +6438,11 @@ var script$I = {
     align: {
       type: String,
       default: 'left',
-      validate: function validate(value) {
+
+      validate(value) {
         return ['left', 'right'].indexOf(value.toLowerCase()) !== -1;
       }
+
     },
 
     /**
@@ -7574,7 +6478,7 @@ var script$I = {
      * @param Object item
      * @return void
      */
-    onClick: function onClick(event) {
+    onClick(event) {
       this.$emit('click', event);
     },
 
@@ -7585,19 +6489,20 @@ var script$I = {
      * @param Object item
      * @return void
      */
-    onItemClick: function onItemClick(event, item) {
+    onItemClick(event, item) {
       this.$emit('item:click', event, item);
     }
-  },
-  mounted: function mounted() {
-    var _this = this;
 
-    each(this.$children, function (child) {
-      child.$on('click', function (event) {
-        _this.onItemClick(event, child);
+  },
+
+  mounted() {
+    each(this.$children, child => {
+      child.$on('click', event => {
+        this.onItemClick(event, child);
       });
     });
   }
+
 };
 
 /* script */
@@ -7642,36 +6547,13 @@ __vue_render__$F._withStripped = true;
   const __vue_module_identifier__$H = undefined;
   /* functional template */
   const __vue_is_functional_template__$H = false;
-  /* component normalizer */
-  function __vue_normalize__$H(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/DropdownMenu/DropdownMenu.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var DropdownMenu = __vue_normalize__$H(
+  var DropdownMenu = normalizeComponent(
     { render: __vue_render__$F, staticRenderFns: __vue_staticRenderFns__$F },
     __vue_inject_styles__$H,
     __vue_script__$H,
@@ -7683,29 +6565,30 @@ __vue_render__$F._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      DropdownMenu: DropdownMenu,
-      DropdownMenuDivider: DropdownMenuDivider,
-      DropdownMenuHeader: DropdownMenuHeader,
-      DropdownMenuItem: DropdownMenuItem
+      DropdownMenu,
+      DropdownMenuDivider,
+      DropdownMenuHeader,
+      DropdownMenuItem
     });
   }
+
 });
 
 //
-var TAB_KEYCODE = 9;
-var LEFT_ARROW_KEYCODE = 37;
-var RIGHT_ARROW_KEYCODE = 39;
-var UP_ARROW_KEYCODE = 38;
-var DOWN_ARROW_KEYCODE = 40;
-var ignoreBlurEvent = false;
+const TAB_KEYCODE = 9;
+const LEFT_ARROW_KEYCODE = 37;
+const RIGHT_ARROW_KEYCODE = 39;
+const UP_ARROW_KEYCODE = 38;
+const DOWN_ARROW_KEYCODE = 40;
+let ignoreBlurEvent = false;
 var script$J = {
   name: 'btn-dropdown',
   extends: Btn,
   components: {
-    BtnGroup: BtnGroup,
-    DropdownMenu: DropdownMenu
+    BtnGroup,
+    DropdownMenu
   },
   props: {
     /**
@@ -7759,9 +6642,11 @@ var script$J = {
     align: {
       type: String,
       default: 'left',
-      validate: function validate(value) {
+
+      validate(value) {
         return ['left', 'right'].indexOf(value.toLowerCase()) !== -1;
       }
+
     },
 
     /**
@@ -7810,7 +6695,7 @@ var script$J = {
      *
      * @return void
      */
-    focus: function focus() {
+    focus() {
       this.$el.querySelector('.dropdown-toggle').focus();
     },
 
@@ -7819,7 +6704,7 @@ var script$J = {
      *
      * @return void
      */
-    queryFocusable: function queryFocusable() {
+    queryFocusable() {
       return this.$el.querySelector('.dropdown-menu').querySelectorAll('label, input, select, textarea, [tabindex]:not([tabindex="-1"])');
     },
 
@@ -7828,10 +6713,10 @@ var script$J = {
      *
      * @return void
      */
-    isFocusable: function isFocusable(element) {
-      var nodes = this.queryFocusable();
+    isFocusable(element) {
+      const nodes = this.queryFocusable();
 
-      for (var i in nodes) {
+      for (let i in nodes) {
         if (element === nodes[i]) {
           return true;
         }
@@ -7845,7 +6730,7 @@ var script$J = {
      *
      * @return void
      */
-    toggle: function toggle() {
+    toggle() {
       !this.isDropdownShowing ? this.show() : this.hide();
     },
 
@@ -7854,35 +6739,31 @@ var script$J = {
      *
      * @return void
      */
-    show: function show() {
-      var _this = this;
-
+    show() {
       this.isDropdownShowing = true;
-      this.$nextTick(function () {
-        var side = 'bottom';
+      this.$nextTick(() => {
+        let side = 'bottom';
 
-        if (_this.dropup) {
+        if (this.dropup) {
           side = 'top';
-        } else if (_this.dropleft) {
+        } else if (this.dropleft) {
           side = 'left';
-        } else if (_this.dropright) {
+        } else if (this.dropright) {
           side = 'right';
         }
 
-        var menu = _this.$el.querySelector('.dropdown-menu');
-
-        var toggle = _this.$el.querySelector('.dropdown-toggle');
-
-        var position = [side, _this.align === 'left' ? 'start' : 'end'];
-        _this.$popper = new Popper(toggle, menu, {
+        const menu = this.$el.querySelector('.dropdown-menu');
+        const toggle = this.$el.querySelector('.dropdown-toggle');
+        const position = [side, this.align === 'left' ? 'start' : 'end'];
+        this.$popper = new Popper(toggle, menu, {
           placement: position.join('-')
         });
 
-        if (_this.queryFocusable().item(0)) {
-          _this.$el.querySelector('input, select, textarea').focus();
+        if (this.queryFocusable().item(0)) {
+          this.$el.querySelector('input, select, textarea').focus();
         }
 
-        _this.$emit('show');
+        this.$emit('show');
       });
     },
 
@@ -7891,7 +6772,7 @@ var script$J = {
      *
      * @return void
      */
-    hide: function hide() {
+    hide() {
       this.$emit('toggle', this.isDropdownShowing = false);
       this.$emit('hide');
     },
@@ -7901,7 +6782,7 @@ var script$J = {
      *
      * @return void
      */
-    onClick: function onClick(event) {
+    onClick(event) {
       this.hide();
       this.$emit('click', event);
     },
@@ -7911,7 +6792,7 @@ var script$J = {
      *
      * @return void
      */
-    onBlur: function onBlur(event) {
+    onBlur(event) {
       if (!this.$el.contains(event.relatedTarget)) {
         this.hide();
       }
@@ -7922,7 +6803,7 @@ var script$J = {
      *
      * @return void
      */
-    onMenuClick: function onMenuClick(event, item) {
+    onMenuClick(event, item) {
       if (event.target === this.$el.querySelector('.dropdown-menu')) {
         this.focus();
       }
@@ -7933,58 +6814,63 @@ var script$J = {
      *
      * @return void
      */
-    onItemClick: function onItemClick(event, item) {
+    onItemClick(event, item) {
       if (!this.isFocusable(event.target)) {
         this.hide();
       }
 
       this.$emit('item:click', event, item);
     }
+
   },
   computed: {
-    variantClassPrefix: function variantClassPrefix() {
+    variantClassPrefix() {
       return 'btn' + (this.outline ? '-outline' : '');
     },
-    sizeableClassPrefix: function sizeableClassPrefix() {
+
+    sizeableClassPrefix() {
       return 'btn';
     },
-    actionClasses: function actionClasses() {
+
+    actionClasses() {
       return ['btn', prefix(this.size, 'btn'), prefix(this.variant, 'btn')].join(' ');
     },
-    toggleClasses: function toggleClasses() {
+
+    toggleClasses() {
       return ['btn', 'dropdown-toggle', this.variantClass, this.sizeableClass, this.active ? 'active' : '', this.block ? 'btn-block' : '', this.split ? 'dropdown-toggle-split' : ''].join(' ');
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       isDropdownShowing: false
     };
   },
-  mounted: function mounted() {
-    var _this2 = this;
 
-    each(this.$el.querySelectorAll('[type=submit], input, select, textarea, [tabindex]:not([tabindex="-1"]'), function (el) {
-      var keydown = function keydown(event) {
-        var ignore = [LEFT_ARROW_KEYCODE, RIGHT_ARROW_KEYCODE, UP_ARROW_KEYCODE, DOWN_ARROW_KEYCODE, TAB_KEYCODE];
+  mounted() {
+    each(this.$el.querySelectorAll('[type=submit], input, select, textarea, [tabindex]:not([tabindex="-1"]'), el => {
+      const keydown = event => {
+        const ignore = [LEFT_ARROW_KEYCODE, RIGHT_ARROW_KEYCODE, UP_ARROW_KEYCODE, DOWN_ARROW_KEYCODE, TAB_KEYCODE];
 
         if (ignore.indexOf(event.keyCode) !== -1) {
           ignoreBlurEvent = true;
         }
       };
 
-      var blur = function blur(event) {
+      const blur = event => {
         if (!ignoreBlurEvent) {
-          _this2.focus();
+          this.focus();
         }
 
         ignoreBlurEvent = false;
       };
 
-      var focus = function focus(event) {
+      const focus = event => {
         ignoreBlurEvent = false;
       };
 
-      var mousedown = function mousedown(event) {
+      const mousedown = event => {
         ignoreBlurEvent = true;
       };
 
@@ -7994,6 +6880,7 @@ var script$J = {
       el.addEventListener('mousedown', mousedown);
     });
   }
+
 };
 
 /* script */
@@ -8206,36 +7093,13 @@ __vue_render__$G._withStripped = true;
   const __vue_module_identifier__$I = undefined;
   /* functional template */
   const __vue_is_functional_template__$I = false;
-  /* component normalizer */
-  function __vue_normalize__$I(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnDropdown/BtnDropdown.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var BtnDropdown = __vue_normalize__$I(
+  var BtnDropdown = normalizeComponent(
     { render: __vue_render__$G, staticRenderFns: __vue_staticRenderFns__$G },
     __vue_inject_styles__$I,
     __vue_script__$I,
@@ -8247,33 +7111,38 @@ __vue_render__$G._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      BtnDropdown: BtnDropdown
+      BtnDropdown
     });
   }
+
 });
 
 var HasSlots = {
   methods: {
-    getSlot: function getSlot(slot) {
+    getSlot(slot) {
       return this.$slots[slot];
     },
-    hasSlot: function hasSlot(slot) {
+
+    hasSlot(slot) {
       return !!this.$slots[slot];
     },
-    hasSlots: function hasSlots(slots) {
-      for (var i in slots) {
+
+    hasSlots(slots) {
+      for (let i in slots) {
         if (!this.hasSlot(slots[i])) {
           return false;
         }
       }
     }
+
   },
   computed: {
-    hasDefaultSlot: function hasDefaultSlot() {
+    hasDefaultSlot() {
       return this.hasSlot('default');
     }
+
   }
 };
 
@@ -8282,9 +7151,10 @@ var script$K = {
   name: 'card',
   mixins: [HasSlots, Colorable, MergeClasses],
   computed: {
-    className: function className() {
+    className() {
       return this.$options.name;
     }
+
   }
 };
 
@@ -8314,36 +7184,13 @@ __vue_render__$H._withStripped = true;
   const __vue_module_identifier__$J = undefined;
   /* functional template */
   const __vue_is_functional_template__$J = false;
-  /* component normalizer */
-  function __vue_normalize__$J(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/Card.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Card = __vue_normalize__$J(
+  var Card = normalizeComponent(
     { render: __vue_render__$H, staticRenderFns: __vue_staticRenderFns__$H },
     __vue_inject_styles__$J,
     __vue_script__$J,
@@ -8372,36 +7219,13 @@ var script$L = {
   const __vue_module_identifier__$K = undefined;
   /* functional template */
   const __vue_is_functional_template__$K = undefined;
-  /* component normalizer */
-  function __vue_normalize__$K(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardBody.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardBody = __vue_normalize__$K(
+  var CardBody = normalizeComponent(
     {},
     __vue_inject_styles__$K,
     __vue_script__$K,
@@ -8443,36 +7267,13 @@ __vue_render__$I._withStripped = true;
   const __vue_module_identifier__$L = undefined;
   /* functional template */
   const __vue_is_functional_template__$L = false;
-  /* component normalizer */
-  function __vue_normalize__$L(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardBtnGroup.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardBtnGroup = __vue_normalize__$L(
+  var CardBtnGroup = normalizeComponent(
     { render: __vue_render__$I, staticRenderFns: __vue_staticRenderFns__$I },
     __vue_inject_styles__$L,
     __vue_script__$L,
@@ -8516,36 +7317,13 @@ __vue_render__$J._withStripped = true;
   const __vue_module_identifier__$M = undefined;
   /* functional template */
   const __vue_is_functional_template__$M = false;
-  /* component normalizer */
-  function __vue_normalize__$M(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardDeck.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardDeck = __vue_normalize__$M(
+  var CardDeck = normalizeComponent(
     { render: __vue_render__$J, staticRenderFns: __vue_staticRenderFns__$J },
     __vue_inject_styles__$M,
     __vue_script__$M,
@@ -8603,36 +7381,13 @@ __vue_render__$K._withStripped = true;
   const __vue_module_identifier__$N = undefined;
   /* functional template */
   const __vue_is_functional_template__$N = false;
-  /* component normalizer */
-  function __vue_normalize__$N(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardHeader.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardHeader = __vue_normalize__$N(
+  var CardHeader = normalizeComponent(
     { render: __vue_render__$K, staticRenderFns: __vue_staticRenderFns__$K },
     __vue_inject_styles__$N,
     __vue_script__$N,
@@ -8672,36 +7427,13 @@ var script$P = {
   const __vue_module_identifier__$O = undefined;
   /* functional template */
   const __vue_is_functional_template__$O = undefined;
-  /* component normalizer */
-  function __vue_normalize__$O(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardFooter.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardFooter = __vue_normalize__$O(
+  var CardFooter = normalizeComponent(
     {},
     __vue_inject_styles__$O,
     __vue_script__$O,
@@ -8761,9 +7493,10 @@ var script$Q = {
     src: String
   },
   methods: {
-    unit: function unit$$1(value) {
+    unit(value) {
       return unit(value);
     }
+
   }
 };
 
@@ -8823,36 +7556,13 @@ __vue_render__$L._withStripped = true;
   const __vue_module_identifier__$P = undefined;
   /* functional template */
   const __vue_is_functional_template__$P = false;
-  /* component normalizer */
-  function __vue_normalize__$P(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardImg.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardImg = __vue_normalize__$P(
+  var CardImg = normalizeComponent(
     { render: __vue_render__$L, staticRenderFns: __vue_staticRenderFns__$L },
     __vue_inject_styles__$P,
     __vue_script__$P,
@@ -8881,36 +7591,13 @@ var script$R = {
   const __vue_module_identifier__$Q = undefined;
   /* functional template */
   const __vue_is_functional_template__$Q = undefined;
-  /* component normalizer */
-  function __vue_normalize__$Q(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardImgTop.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardImgTop = __vue_normalize__$Q(
+  var CardImgTop = normalizeComponent(
     {},
     __vue_inject_styles__$Q,
     __vue_script__$Q,
@@ -8939,36 +7626,13 @@ var script$S = {
   const __vue_module_identifier__$R = undefined;
   /* functional template */
   const __vue_is_functional_template__$R = undefined;
-  /* component normalizer */
-  function __vue_normalize__$R(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardImgBottom.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardImgBottom = __vue_normalize__$R(
+  var CardImgBottom = normalizeComponent(
     {},
     __vue_inject_styles__$R,
     __vue_script__$R,
@@ -8997,36 +7661,13 @@ var script$T = {
   const __vue_module_identifier__$S = undefined;
   /* functional template */
   const __vue_is_functional_template__$S = undefined;
-  /* component normalizer */
-  function __vue_normalize__$S(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardImgOverlay.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardImgOverlay = __vue_normalize__$S(
+  var CardImgOverlay = normalizeComponent(
     {},
     __vue_inject_styles__$S,
     __vue_script__$S,
@@ -9065,9 +7706,10 @@ var script$U = {
     to: [Object, String]
   },
   methods: {
-    onClick: function onClick(event) {
+    onClick(event) {
       this.$emit('click', event);
     }
+
   }
 };
 
@@ -9101,36 +7743,13 @@ __vue_render__$M._withStripped = true;
   const __vue_module_identifier__$T = undefined;
   /* functional template */
   const __vue_is_functional_template__$T = false;
-  /* component normalizer */
-  function __vue_normalize__$T(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardLink.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardLink = __vue_normalize__$T(
+  var CardLink = normalizeComponent(
     { render: __vue_render__$M, staticRenderFns: __vue_staticRenderFns__$M },
     __vue_inject_styles__$T,
     __vue_script__$T,
@@ -9174,36 +7793,13 @@ __vue_render__$N._withStripped = true;
   const __vue_module_identifier__$U = undefined;
   /* functional template */
   const __vue_is_functional_template__$U = false;
-  /* component normalizer */
-  function __vue_normalize__$U(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardSubtitle.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardSubtitle = __vue_normalize__$U(
+  var CardSubtitle = normalizeComponent(
     { render: __vue_render__$N, staticRenderFns: __vue_staticRenderFns__$N },
     __vue_inject_styles__$U,
     __vue_script__$U,
@@ -9246,36 +7842,13 @@ __vue_render__$O._withStripped = true;
   const __vue_module_identifier__$V = undefined;
   /* functional template */
   const __vue_is_functional_template__$V = false;
-  /* component normalizer */
-  function __vue_normalize__$V(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardTitle.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CardTitle = __vue_normalize__$V(
+  var CardTitle = normalizeComponent(
     { render: __vue_render__$O, staticRenderFns: __vue_staticRenderFns__$O },
     __vue_inject_styles__$V,
     __vue_script__$V,
@@ -9287,31 +7860,32 @@ __vue_render__$O._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Card: Card,
-      CardBody: CardBody,
-      CardBtnGroup: CardBtnGroup,
-      CardDeck: CardDeck,
-      CardFooter: CardFooter,
-      CardHeader: CardHeader,
-      CardImg: CardImg,
-      CardImgTop: CardImgTop,
-      CardImgBottom: CardImgBottom,
-      CardImgOverlay: CardImgOverlay,
-      CardLink: CardLink,
-      CardSubtitle: CardSubtitle,
-      CardTitle: CardTitle
+      Card,
+      CardBody,
+      CardBtnGroup,
+      CardDeck,
+      CardFooter,
+      CardHeader,
+      CardImg,
+      CardImgTop,
+      CardImgBottom,
+      CardImgOverlay,
+      CardLink,
+      CardSubtitle,
+      CardTitle
     });
   }
+
 });
 
 //
 var script$X = {
   name: 'radio-field',
   components: {
-    HelpText: HelpText,
-    FormFeedback: FormFeedback
+    HelpText,
+    FormFeedback
   },
   mixins: [Colorable, FormControl, MergeClasses],
   model: {
@@ -9326,9 +7900,11 @@ var script$X = {
      */
     bindEvents: {
       type: Array,
-      default: function _default() {
+
+      default() {
         return ['focus', 'blur', 'input', 'click', 'keyup', 'keydown', 'progress'];
       }
+
     },
 
     /**
@@ -9370,24 +7946,30 @@ var script$X = {
     }
   },
   computed: {
-    labelClass: function labelClass() {
+    labelClass() {
       return prefix('label', this.controlClass);
     },
-    inputClass: function inputClass() {
+
+    inputClass() {
       return prefix('input', this.controlClass);
     },
-    inlineClass: function inlineClass() {
+
+    inlineClass() {
       return prefix('inline', this.controlClass);
     },
-    controlClass: function controlClass() {
+
+    controlClass() {
       return this.custom ? 'custom-control' : this.defaultControlClass;
     },
-    customControlClass: function customControlClass() {
+
+    customControlClass() {
       return this.custom ? prefix(this.$options.name.replace('-field', ''), 'custom') : '';
     },
-    sizeableClass: function sizeableClass() {
+
+    sizeableClass() {
       return prefix(this.size, 'form-control');
     }
+
   }
 };
 
@@ -9544,36 +8126,13 @@ __vue_render__$P._withStripped = true;
   const __vue_module_identifier__$W = undefined;
   /* functional template */
   const __vue_is_functional_template__$W = false;
-  /* component normalizer */
-  function __vue_normalize__$W(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/RadioField/RadioField.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var RadioField = __vue_normalize__$W(
+  var RadioField = normalizeComponent(
     { render: __vue_render__$P, staticRenderFns: __vue_staticRenderFns__$P },
     __vue_inject_styles__$W,
     __vue_script__$W,
@@ -9585,11 +8144,12 @@ __vue_render__$P._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      RadioField: RadioField
+      RadioField
     });
   }
+
 });
 
 //
@@ -9609,15 +8169,17 @@ var script$Y = {
      */
     checkedValues: {
       type: Array,
-      default: function _default() {
+
+      default() {
         return [];
       }
+
     }
   },
   methods: {
-    update: function update(value) {
-      var checked = this.checkedValues.slice(0);
-      var index = this.checkedValues.indexOf(value);
+    update(value) {
+      const checked = this.checkedValues.slice(0);
+      const index = this.checkedValues.indexOf(value);
 
       if (index === -1) {
         checked.push(value);
@@ -9627,6 +8189,7 @@ var script$Y = {
 
       this.$emit('change', checked);
     }
+
   }
 };
 
@@ -9785,36 +8348,13 @@ __vue_render__$Q._withStripped = true;
   const __vue_module_identifier__$X = undefined;
   /* functional template */
   const __vue_is_functional_template__$X = false;
-  /* component normalizer */
-  function __vue_normalize__$X(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/CheckboxField/CheckboxField.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var CheckboxField = __vue_normalize__$X(
+  var CheckboxField = normalizeComponent(
     { render: __vue_render__$Q, staticRenderFns: __vue_staticRenderFns__$Q },
     __vue_inject_styles__$X,
     __vue_script__$X,
@@ -9826,45 +8366,52 @@ __vue_render__$Q._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      CheckboxField: CheckboxField
+      CheckboxField
     });
   }
+
 });
 
 //
 var script$Z = {
   name: 'dropzone',
   components: {
-    Card: Card,
-    CardBody: CardBody
+    Card,
+    CardBody
   },
   methods: {
-    onDrop: function onDrop(event) {
+    onDrop(event) {
       this.isDragging = false;
       this.$emit('drop', event);
     },
-    onDragover: function onDragover(event) {
+
+    onDragover(event) {
       this.isDragging = true;
       this.$emit('dragover', event);
     },
-    onDragenter: function onDragenter(event) {
+
+    onDragenter(event) {
       this.isDragging = true;
       this.$emit('dragenter', event);
       this.onDragover(event);
     },
-    onDragleave: function onDragleave(event) {
+
+    onDragleave(event) {
       this.isDragging = false;
       this.$emit('dragleave', event);
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       files: null,
       isDragging: false
     };
   }
+
 };
 
 /* script */
@@ -9942,36 +8489,13 @@ __vue_render__$R._withStripped = true;
   const __vue_module_identifier__$Y = undefined;
   /* functional template */
   const __vue_is_functional_template__$Y = false;
-  /* component normalizer */
-  function __vue_normalize__$Y(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Dropzone/Dropzone.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Dropzone = __vue_normalize__$Y(
+  var Dropzone = normalizeComponent(
     { render: __vue_render__$R, staticRenderFns: __vue_staticRenderFns__$R },
     __vue_inject_styles__$Y,
     __vue_script__$Y,
@@ -9983,11 +8507,12 @@ __vue_render__$R._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Dropzone: Dropzone
+      Dropzone
     });
   }
+
 });
 
 function readFile(file, progress) {
@@ -9995,26 +8520,18 @@ function readFile(file, progress) {
     throw new Error('The first argument be an instance of File object.');
   }
 
-  return new Promise(function (resolve, reject) {
-    var reader = new FileReader();
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
 
     if (isFunction(progress)) {
-      reader.onprogress = function (e) {
-        return progress(e, reader);
-      };
+      reader.onprogress = e => progress(e, reader);
     }
 
-    reader.onload = function (e) {
-      return resolve(e);
-    };
+    reader.onload = e => resolve(e);
 
-    reader.onerror = function (e) {
-      return reject(e);
-    };
+    reader.onerror = e => reject(e);
 
-    reader.onabort = function (e) {
-      return reject(e);
-    };
+    reader.onabort = e => reject(e);
 
     reader.readAsDataURL(file);
   });
@@ -10024,15 +8541,16 @@ function readFile(file, progress) {
 var script$_ = {
   name: 'file-preview',
   components: {
-    ProgressBar: ProgressBar
+    ProgressBar
   },
   directives: {
     ready: {
-      inserted: function inserted(el, binding, vnode) {
+      inserted(el, binding, vnode) {
         if (isFunction(binding.value)) {
           vnode.context.$nextTick(binding.value);
         }
       }
+
     }
   },
   props: {
@@ -10077,7 +8595,7 @@ var script$_ = {
      *
      * @property String
      */
-    name: function name() {
+    name() {
       return this.file instanceof File ? this.file.name : this.file.orig_filename;
     },
 
@@ -10086,7 +8604,7 @@ var script$_ = {
      *
      * @property String
      */
-    extension: function extension() {
+    extension() {
       return this.file instanceof File ? this.file.name.split('.').pop().toLowerCase() : this.file.extension;
     },
 
@@ -10095,7 +8613,7 @@ var script$_ = {
      *
      * @property String
      */
-    size: function size() {
+    size() {
       return this.bytesToSize(this.file.size);
     },
 
@@ -10104,7 +8622,7 @@ var script$_ = {
      *
      * @property String
      */
-    type: function type() {
+    type() {
       return this.file instanceof File ? this.file.type : this.file.mime;
     },
 
@@ -10113,7 +8631,7 @@ var script$_ = {
      *
      * @property String
      */
-    isImage: function isImage() {
+    isImage() {
       return !!this.type.match(/^image/);
     },
 
@@ -10122,7 +8640,7 @@ var script$_ = {
      *
      * @property String
      */
-    isVideo: function isVideo() {
+    isVideo() {
       return !!this.type.match(/^video/);
     },
 
@@ -10131,7 +8649,7 @@ var script$_ = {
      *
      * @property String
      */
-    lastModified: function lastModified() {
+    lastModified() {
       return this.file instanceof File ? this.file.lastModified : null;
     },
 
@@ -10140,54 +8658,56 @@ var script$_ = {
      *
      * @property String
      */
-    lastModifiedDate: function lastModifiedDate() {
+    lastModifiedDate() {
       return this.file instanceof File ? this.file.lastModifiedDate : null;
     }
+
   },
   methods: {
-    readFile: function readFile$$1() {
-      var _this = this;
-
+    readFile() {
       if (this.file instanceof File) {
-        var start = moment();
+        const start = moment();
         this.loaded = 0;
-        this.$nextTick(function () {
-          readFile(_this.file, function (e) {
+        this.$nextTick(() => {
+          readFile(this.file, e => {
             if (e.lengthComputable) {
-              _this.$emit('progress', _this.loaded = parseInt(e.loaded / e.total * 100, 10));
+              this.$emit('progress', this.loaded = parseInt(e.loaded / e.total * 100, 10));
             }
-          }).then(function (event) {
-            _this.$emit('read', event);
-
-            setTimeout(function () {
-              _this.image = event.target.result;
-
-              _this.$nextTick(function () {
-                _this.loaded = false;
+          }).then(event => {
+            this.$emit('read', event);
+            setTimeout(() => {
+              this.image = event.target.result;
+              this.$nextTick(() => {
+                this.loaded = false;
               });
             }, 500 - moment().diff(start));
-          }, function (error) {
-            _this.$emit('error', error);
+          }, error => {
+            this.$emit('error', error);
           });
         });
       }
     },
-    bytesToSize: function bytesToSize(bytes) {
+
+    bytesToSize(bytes) {
       var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
       if (bytes === 0) return '0 Byte';
       var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
       return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     },
-    onLoad: function onLoad(event) {
+
+    onLoad(event) {
       this.$emit('loaded');
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       image: this.file.url,
       loaded: this.file instanceof File ? 0 : false
     };
   }
+
 };
 
 /* script */
@@ -10299,36 +8819,13 @@ __vue_render__$S._withStripped = true;
   const __vue_module_identifier__$Z = undefined;
   /* functional template */
   const __vue_is_functional_template__$Z = false;
-  /* component normalizer */
-  function __vue_normalize__$Z(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FilePreview/FilePreview.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var FilePreview = __vue_normalize__$Z(
+  var FilePreview = normalizeComponent(
     { render: __vue_render__$S, staticRenderFns: __vue_staticRenderFns__$S },
     __vue_inject_styles__$Z,
     __vue_script__$Z,
@@ -10340,11 +8837,12 @@ __vue_render__$S._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      FilePreview: FilePreview
+      FilePreview
     });
   }
+
 });
 
 //
@@ -10416,36 +8914,13 @@ __vue_render__$T._withStripped = true;
   const __vue_module_identifier__$_ = undefined;
   /* functional template */
   const __vue_is_functional_template__$_ = false;
-  /* component normalizer */
-  function __vue_normalize__$_(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FormControl/FormControl.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var FormControl$1 = __vue_normalize__$_(
+  var FormControl$1 = normalizeComponent(
     { render: __vue_render__$T, staticRenderFns: __vue_staticRenderFns__$T },
     __vue_inject_styles__$_,
     __vue_script__$_,
@@ -10457,18 +8932,19 @@ __vue_render__$T._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
       FormControl: FormControl$1
     });
   }
+
 });
 
 //
 var script$11 = {
   name: 'infinite-scrolling',
   components: {
-    ActivityIndicator: ActivityIndicator
+    ActivityIndicator
   },
   props: {
     /**
@@ -10518,54 +8994,58 @@ var script$11 = {
     threshold: {
       type: Number,
       default: 0.75,
-      validate: function validate(value) {
+
+      validate(value) {
         return value >= 0 && value <= 1;
       }
+
     }
   },
   methods: {
-    scrollIntoViewport: function scrollIntoViewport(entry) {
+    scrollIntoViewport(entry) {
       this.$emit('scroll:in', entry);
 
       if (!this.activity) {
         this.$emit('load', entry);
       }
     },
-    scrollOutViewport: function scrollOutViewport(entry) {
+
+    scrollOutViewport(entry) {
       this.$emit('scroll:out', entry);
     }
+
   },
   computed: {
-    heightUnit: function heightUnit() {
+    heightUnit() {
       return unit(this.height);
     }
+
   },
-  mounted: function mounted() {
-    var _this = this;
 
-    this.$nextTick(function () {
-      new IntersectionObserver(function (entries, observer) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting && !_this.hasScrolledIntoViewport) {
-            _this.scrollIntoViewport(entry, observer);
-
-            _this.hasScrolledIntoViewport = true;
-          } else if (_this.hasScrolledIntoViewport) {
-            _this.scrollOutViewport(entry, observer);
-
-            _this.hasScrolledIntoViewport = false;
+  mounted() {
+    this.$nextTick(() => {
+      new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !this.hasScrolledIntoViewport) {
+            this.scrollIntoViewport(entry, observer);
+            this.hasScrolledIntoViewport = true;
+          } else if (this.hasScrolledIntoViewport) {
+            this.scrollOutViewport(entry, observer);
+            this.hasScrolledIntoViewport = false;
           }
         });
       }, {
-        threshold: _this.threshold
-      }).observe(_this.$el);
+        threshold: this.threshold
+      }).observe(this.$el);
     });
   },
-  data: function data() {
+
+  data() {
     return {
       hasScrolledIntoViewport: false
     };
   }
+
 };
 
 /* script */
@@ -10602,36 +9082,13 @@ __vue_render__$U._withStripped = true;
   const __vue_module_identifier__$10 = undefined;
   /* functional template */
   const __vue_is_functional_template__$10 = false;
-  /* component normalizer */
-  function __vue_normalize__$10(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InfiniteScrolling/InfiniteScrolling.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var InfiniteScrolling = __vue_normalize__$10(
+  var InfiniteScrolling = normalizeComponent(
     { render: __vue_render__$U, staticRenderFns: __vue_staticRenderFns__$U },
     __vue_inject_styles__$10,
     __vue_script__$10,
@@ -10695,36 +9152,13 @@ __vue_render__$V._withStripped = true;
   const __vue_module_identifier__$11 = undefined;
   /* functional template */
   const __vue_is_functional_template__$11 = false;
-  /* component normalizer */
-  function __vue_normalize__$11(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InputGroup/InputGroupText.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var InputGroupText = __vue_normalize__$11(
+  var InputGroupText = normalizeComponent(
     { render: __vue_render__$V, staticRenderFns: __vue_staticRenderFns__$V },
     __vue_inject_styles__$11,
     __vue_script__$11,
@@ -10788,36 +9222,13 @@ __vue_render__$W._withStripped = true;
   const __vue_module_identifier__$12 = undefined;
   /* functional template */
   const __vue_is_functional_template__$12 = false;
-  /* component normalizer */
-  function __vue_normalize__$12(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InputGroup/InputGroupAppend.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var InputGroupAppend = __vue_normalize__$12(
+  var InputGroupAppend = normalizeComponent(
     { render: __vue_render__$W, staticRenderFns: __vue_staticRenderFns__$W },
     __vue_inject_styles__$12,
     __vue_script__$12,
@@ -10881,36 +9292,13 @@ __vue_render__$X._withStripped = true;
   const __vue_module_identifier__$13 = undefined;
   /* functional template */
   const __vue_is_functional_template__$13 = false;
-  /* component normalizer */
-  function __vue_normalize__$13(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InputGroup/InputGroupPrepend.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var InputGroupPrepend = __vue_normalize__$13(
+  var InputGroupPrepend = normalizeComponent(
     { render: __vue_render__$X, staticRenderFns: __vue_staticRenderFns__$X },
     __vue_inject_styles__$13,
     __vue_script__$13,
@@ -10925,9 +9313,9 @@ __vue_render__$X._withStripped = true;
 var script$15 = {
   name: 'input-group',
   components: {
-    InputGroupText: InputGroupText,
-    InputGroupAppend: InputGroupAppend,
-    InputGroupPrepend: InputGroupPrepend
+    InputGroupText,
+    InputGroupAppend,
+    InputGroupPrepend
   },
   mixins: [HasSlots, Sizeable, Colorable, MergeClasses],
   props: {
@@ -11011,36 +9399,13 @@ __vue_render__$Y._withStripped = true;
   const __vue_module_identifier__$14 = undefined;
   /* functional template */
   const __vue_is_functional_template__$14 = false;
-  /* component normalizer */
-  function __vue_normalize__$14(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InputGroup/InputGroup.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var InputGroup = __vue_normalize__$14(
+  var InputGroup = normalizeComponent(
     { render: __vue_render__$Y, staticRenderFns: __vue_staticRenderFns__$Y },
     __vue_inject_styles__$14,
     __vue_script__$14,
@@ -11052,25 +9417,26 @@ __vue_render__$Y._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      InputGroup: InputGroup,
-      InputGroupAppend: InputGroupAppend,
-      InputGroupPrepend: InputGroupPrepend,
-      InputGroupText: InputGroupText
+      InputGroup,
+      InputGroupAppend,
+      InputGroupPrepend,
+      InputGroupText
     });
   }
+
 });
 
 //
 var script$16 = {
   name: 'light-switch-field',
   components: {
-    HelpText: HelpText,
-    FormGroup: FormGroup,
-    FormLabel: FormLabel,
+    HelpText,
+    FormGroup,
+    FormLabel,
     FormControl: FormControl$1,
-    FormFeedback: FormFeedback
+    FormFeedback
   },
   mixins: [FormControl],
   props: {
@@ -11113,18 +9479,20 @@ var script$16 = {
     }
   },
   computed: {
-    isActive: function isActive() {
+    isActive: function () {
       return this.value === this.onValue;
     },
-    controlClasses: function controlClasses() {
+
+    controlClasses() {
       return [this.controlClass, this.controlSizeClass, this.spacing || '', this.invalidFeedback ? 'is-invalid' : '', this.dragging ? 'is-dragging' : '', this.isActive ? 'is-active' : ''].join(' ');
     }
+
   },
   methods: {
-    getTransitionInMilliseconds: function getTransitionInMilliseconds() {
-      var duration = getComputedStyle(this.$el.querySelector('.light-switch-handle')).transitionDuration;
-      var numeric = parseFloat(duration, 10);
-      var unit = duration.match(/m?s/);
+    getTransitionInMilliseconds() {
+      const duration = getComputedStyle(this.$el.querySelector('.light-switch-handle')).transitionDuration;
+      const numeric = parseFloat(duration, 10);
+      const unit = duration.match(/m?s/);
 
       switch (unit[0]) {
         case 's':
@@ -11134,27 +9502,30 @@ var script$16 = {
           return numeric;
       }
 
-      throw new Error("\"".concat(unit[0], "\" is not a valid unit of measure. Unit must be \"s\" (seconds) or \"ms\" (milliseconds)."));
+      throw new Error(`"${unit[0]}" is not a valid unit of measure. Unit must be "s" (seconds) or "ms" (milliseconds).`);
     },
-    toggle: function toggle(value) {
+
+    toggle(value) {
       this.$emit('input', !isUndefined(value) ? value : this.isActive ? this.offValue : this.onValue);
     }
+
   },
   watch: {
-    value: function value() {
-      var _this = this;
-
+    value() {
       this.dragging = true;
-      setTimeout(function () {
-        _this.dragging = false;
+      setTimeout(() => {
+        this.dragging = false;
       }, this.getTransitionInMilliseconds());
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       dragging: false
     };
   }
+
 };
 
 /* script */
@@ -11259,36 +9630,13 @@ __vue_render__$Z._withStripped = true;
   const __vue_module_identifier__$15 = undefined;
   /* functional template */
   const __vue_is_functional_template__$15 = false;
-  /* component normalizer */
-  function __vue_normalize__$15(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/LightSwitchField/LightSwitchField.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var LightSwitchField = __vue_normalize__$15(
+  var LightSwitchField = normalizeComponent(
     { render: __vue_render__$Z, staticRenderFns: __vue_staticRenderFns__$Z },
     __vue_inject_styles__$15,
     __vue_script__$15,
@@ -11300,17 +9648,18 @@ __vue_render__$Z._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      LightSwitchField: LightSwitchField
+      LightSwitchField
     });
   }
+
 });
 
 //
 var script$17 = {
   components: {
-    Badge: Badge
+    Badge
   },
   props: {
     /**
@@ -11390,8 +9739,8 @@ var script$17 = {
     to: [String, Object]
   },
   computed: {
-    classes: function classes() {
-      var classes = prefix({
+    classes() {
+      const classes = prefix({
         'action': this.action
       }, 'list-group-item');
       classes['list-group-item'] = true;
@@ -11404,17 +9753,20 @@ var script$17 = {
 
       return classes;
     },
-    badgeOptions: function badgeOptions() {
+
+    badgeOptions() {
       return isObject(this.badge) ? this.badge : {
         label: this.badge
       };
     }
+
   },
   watch: {
-    active: function active(value, prevValue) {
+    active(value, prevValue) {
       this.$emit('toggle', value);
       this.$emit(value ? 'activate' : 'deactivate');
     }
+
   }
 };
 
@@ -11521,36 +9873,13 @@ __vue_render__$_._withStripped = true;
   const __vue_module_identifier__$16 = undefined;
   /* functional template */
   const __vue_is_functional_template__$16 = false;
-  /* component normalizer */
-  function __vue_normalize__$16(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ListGroup/ListGroupItem.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ListGroupItem = __vue_normalize__$16(
+  var ListGroupItem = normalizeComponent(
     { render: __vue_render__$_, staticRenderFns: __vue_staticRenderFns__$_ },
     __vue_inject_styles__$16,
     __vue_script__$16,
@@ -11564,7 +9893,7 @@ __vue_render__$_._withStripped = true;
 //
 var script$18 = {
   components: {
-    ListGroupItem: ListGroupItem
+    ListGroupItem
   },
   props: {
     /**
@@ -11588,23 +9917,18 @@ var script$18 = {
     }
   },
   computed: {
-    classes: function classes() {
+    classes() {
       return prefix({
         'flush': this.flush
       }, 'list-group');
     }
+
   },
   methods: {
-    bindEventsToChildren: function bindEventsToChildren() {
-      var _this = this;
-
-      each(this.$children, function (child) {
-        child.$off('click', function (event) {
-          return _this.onClickItem(event, child);
-        });
-        child.$on('click', function (event) {
-          return _this.onClickItem(event, child);
-        });
+    bindEventsToChildren() {
+      each(this.$children, child => {
+        child.$off('click', event => this.onClickItem(event, child));
+        child.$on('click', event => this.onClickItem(event, child));
       });
     },
 
@@ -11613,7 +9937,7 @@ var script$18 = {
      *
      * @return void
      */
-    onClick: function onClick(event) {
+    onClick(event) {
       this.$emit('click', event);
     },
 
@@ -11622,16 +9946,20 @@ var script$18 = {
      *
      * @return void
      */
-    onClickItem: function onClickItem(event, child) {
+    onClickItem(event, child) {
       this.$emit('item:click', event, child);
     }
+
   },
-  mounted: function mounted() {
+
+  mounted() {
     this.bindEventsToChildren();
   },
-  updated: function updated() {
+
+  updated() {
     this.bindEventsToChildren();
   }
+
 };
 
 /* script */
@@ -11660,36 +9988,13 @@ __vue_render__$10._withStripped = true;
   const __vue_module_identifier__$17 = undefined;
   /* functional template */
   const __vue_is_functional_template__$17 = false;
-  /* component normalizer */
-  function __vue_normalize__$17(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ListGroup/ListGroup.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ListGroup = __vue_normalize__$17(
+  var ListGroup = normalizeComponent(
     { render: __vue_render__$10, staticRenderFns: __vue_staticRenderFns__$10 },
     __vue_inject_styles__$17,
     __vue_script__$17,
@@ -11701,11 +10006,12 @@ __vue_render__$10._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      ListGroup: ListGroup
+      ListGroup
     });
   }
+
 });
 
 //
@@ -11771,14 +10077,16 @@ var script$19 = {
     src: String
   },
   computed: {
-    component: function component() {
+    component() {
       return this.tag || (this.to ? 'router-link' : this.href ? 'a' : 'span');
     }
+
   },
   methods: {
-    unit: function unit$$1(value) {
+    unit(value) {
       return unit(value);
     }
+
   }
 };
 
@@ -11827,36 +10135,13 @@ __vue_render__$11._withStripped = true;
   const __vue_module_identifier__$18 = undefined;
   /* functional template */
   const __vue_is_functional_template__$18 = false;
-  /* component normalizer */
-  function __vue_normalize__$18(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarBrand.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var NavbarBrand = __vue_normalize__$18(
+  var NavbarBrand = normalizeComponent(
     { render: __vue_render__$11, staticRenderFns: __vue_staticRenderFns__$11 },
     __vue_inject_styles__$18,
     __vue_script__$18,
@@ -11913,36 +10198,13 @@ __vue_render__$12._withStripped = true;
   const __vue_module_identifier__$19 = undefined;
   /* functional template */
   const __vue_is_functional_template__$19 = false;
-  /* component normalizer */
-  function __vue_normalize__$19(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarCollapse.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var NavbarCollapse = __vue_normalize__$19(
+  var NavbarCollapse = normalizeComponent(
     { render: __vue_render__$12, staticRenderFns: __vue_staticRenderFns__$12 },
     __vue_inject_styles__$19,
     __vue_script__$19,
@@ -11984,36 +10246,13 @@ __vue_render__$13._withStripped = true;
   const __vue_module_identifier__$1a = undefined;
   /* functional template */
   const __vue_is_functional_template__$1a = false;
-  /* component normalizer */
-  function __vue_normalize__$1a(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarText.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var NavbarText = __vue_normalize__$1a(
+  var NavbarText = normalizeComponent(
     { render: __vue_render__$13, staticRenderFns: __vue_staticRenderFns__$13 },
     __vue_inject_styles__$1a,
     __vue_script__$1a,
@@ -12060,36 +10299,13 @@ __vue_render__$14._withStripped = true;
   const __vue_module_identifier__$1b = undefined;
   /* functional template */
   const __vue_is_functional_template__$1b = false;
-  /* component normalizer */
-  function __vue_normalize__$1b(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarTogglerIcon.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var NavbarTogglerIcon = __vue_normalize__$1b(
+  var NavbarTogglerIcon = normalizeComponent(
     { render: __vue_render__$14, staticRenderFns: __vue_staticRenderFns__$14 },
     __vue_inject_styles__$1b,
     __vue_script__$1b,
@@ -12104,7 +10320,7 @@ __vue_render__$14._withStripped = true;
 var script$1d = {
   name: 'navbar-toggler',
   components: {
-    NavbarTogglerIcon: NavbarTogglerIcon
+    NavbarTogglerIcon
   },
   props: {
     expanded: Boolean,
@@ -12118,9 +10334,10 @@ var script$1d = {
     }
   },
   methods: {
-    onClick: function onClick(event) {
+    onClick(event) {
       this.$emit('click', event);
     }
+
   }
 };
 
@@ -12161,36 +10378,13 @@ __vue_render__$15._withStripped = true;
   const __vue_module_identifier__$1c = undefined;
   /* functional template */
   const __vue_is_functional_template__$1c = false;
-  /* component normalizer */
-  function __vue_normalize__$1c(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarToggler.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var NavbarToggler = __vue_normalize__$1c(
+  var NavbarToggler = normalizeComponent(
     { render: __vue_render__$15, staticRenderFns: __vue_staticRenderFns__$15 },
     __vue_inject_styles__$1c,
     __vue_script__$1c,
@@ -12205,11 +10399,11 @@ __vue_render__$15._withStripped = true;
 var script$1e = {
   name: 'navbar',
   components: {
-    NavbarBrand: NavbarBrand,
-    NavbarCollapse: NavbarCollapse,
-    NavbarText: NavbarText,
-    NavbarToggler: NavbarToggler,
-    NavbarTogglerIcon: NavbarTogglerIcon
+    NavbarBrand,
+    NavbarCollapse,
+    NavbarText,
+    NavbarToggler,
+    NavbarTogglerIcon
   },
   mixins: [Variant, Colorable, MergeClasses],
   props: {
@@ -12221,8 +10415,10 @@ var script$1e = {
     expand: {
       type: [Boolean, String],
       default: 'lg',
-      validate: function validate(value) {
+
+      validate(value) {
       }
+
     },
 
     /**
@@ -12232,8 +10428,10 @@ var script$1e = {
      */
     fixed: {
       type: [String, Boolean],
-      validate: function validate(value) {
+
+      validate(value) {
       }
+
     },
 
     /**
@@ -12243,8 +10441,10 @@ var script$1e = {
      */
     sticky: {
       type: [String, Boolean],
-      validate: function validate(value) {
+
+      validate(value) {
       }
+
     },
 
     /**
@@ -12255,26 +10455,32 @@ var script$1e = {
     variant: {
       type: String,
       default: 'light',
-      validate: function validate(value) {
+
+      validate(value) {
         return ['light', 'dark'].indexOf(value) !== -1;
       }
+
     }
   },
   computed: {
-    expandedClass: function expandedClass() {
+    expandedClass() {
       if (isBoolean(this.expand)) {
         return this.expand;
       }
 
       return prefix(prefix(this.expand, 'expand'), 'navbar');
     },
-    classes: function classes() {
+
+    classes() {
       return this.mergeClasses('navbar', prefix(this.sticky === true ? 'top' : this.sticky, 'sticky'), prefix(this.fixed === true ? 'top' : this.fixed, 'fixed'), this.expandedClass, this.variantClass, this.colorableClasses);
     }
+
   },
-  data: function data() {
+
+  data() {
     return {};
   }
+
 };
 
 /* script */
@@ -12298,36 +10504,13 @@ __vue_render__$16._withStripped = true;
   const __vue_module_identifier__$1d = undefined;
   /* functional template */
   const __vue_is_functional_template__$1d = false;
-  /* component normalizer */
-  function __vue_normalize__$1d(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/Navbar.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Navbar = __vue_normalize__$1d(
+  var Navbar = normalizeComponent(
     { render: __vue_render__$16, staticRenderFns: __vue_staticRenderFns__$16 },
     __vue_inject_styles__$1d,
     __vue_script__$1d,
@@ -12386,36 +10569,13 @@ __vue_render__$17._withStripped = true;
   const __vue_module_identifier__$1e = undefined;
   /* functional template */
   const __vue_is_functional_template__$1e = false;
-  /* component normalizer */
-  function __vue_normalize__$1e(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navigation/NavigationError.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var NavigationError = __vue_normalize__$1e(
+  var NavigationError = normalizeComponent(
     { render: __vue_render__$17, staticRenderFns: __vue_staticRenderFns__$17 },
     __vue_inject_styles__$1e,
     __vue_script__$1e,
@@ -12430,7 +10590,7 @@ __vue_render__$17._withStripped = true;
 var script$1g = {
   name: 'navigation-link',
   components: {
-    NavigationError: NavigationError
+    NavigationError
   },
   props: {
     /**
@@ -12486,15 +10646,14 @@ var script$1g = {
     }
   },
   computed: {
-    component: function component() {
+    component() {
       return this.tag || (this.to ? 'router-link' : 'a');
     },
-    classes: function classes() {
-      var _this = this;
 
-      this.$nextTick(function () {
-        if (!_this.isItem) {
-          _this.isItem = !_this.$parent.$el.classList.contains('nav-item');
+    classes() {
+      this.$nextTick(() => {
+        if (!this.isItem) {
+          this.isItem = !this.$parent.$el.classList.contains('nav-item');
         }
       });
       return {
@@ -12504,6 +10663,7 @@ var script$1g = {
         'disabled': this.disabled
       };
     }
+
   }
 };
 
@@ -12548,36 +10708,13 @@ __vue_render__$18._withStripped = true;
   const __vue_module_identifier__$1f = undefined;
   /* functional template */
   const __vue_is_functional_template__$1f = false;
-  /* component normalizer */
-  function __vue_normalize__$1f(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navigation/NavigationLink.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var NavigationLink = __vue_normalize__$1f(
+  var NavigationLink = normalizeComponent(
     { render: __vue_render__$18, staticRenderFns: __vue_staticRenderFns__$18 },
     __vue_inject_styles__$1f,
     __vue_script__$1f,
@@ -12618,7 +10755,7 @@ var script$1h = {
     }
   },
   computed: {
-    component: function component() {
+    component() {
       if (this.element) {
         return this.element;
       } else if (this.href) {
@@ -12629,6 +10766,7 @@ var script$1h = {
 
       return 'div';
     }
+
   }
 };
 
@@ -12666,36 +10804,13 @@ __vue_render__$19._withStripped = true;
   const __vue_module_identifier__$1g = undefined;
   /* functional template */
   const __vue_is_functional_template__$1g = false;
-  /* component normalizer */
-  function __vue_normalize__$1g(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navigation/NavigationItem.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var NavigationItem = __vue_normalize__$1g(
+  var NavigationItem = normalizeComponent(
     { render: __vue_render__$19, staticRenderFns: __vue_staticRenderFns__$19 },
     __vue_inject_styles__$1g,
     __vue_script__$1g,
@@ -12710,7 +10825,7 @@ __vue_render__$19._withStripped = true;
 var script$1i = {
   name: 'navigation',
   components: {
-    NavigationItem: NavigationItem
+    NavigationItem
   },
   mixins: [Colorable, MergeClasses],
   props: {
@@ -12778,12 +10893,10 @@ var script$1i = {
     role: String
   },
   computed: {
-    classes: function classes() {
-      var _this = this;
-
-      this.$nextTick(function () {
-        if (!_this.isCard) {
-          _this.isCard = _this.$parent.$el.classList.contains('card-header');
+    classes() {
+      this.$nextTick(() => {
+        if (!this.isCard) {
+          this.isCard = this.$parent.$el.classList.contains('card-header');
         }
       });
       return this.mergeClasses(prefix(this.align, 'justify-content'), this.colorableClasses, {
@@ -12796,12 +10909,15 @@ var script$1i = {
         'flex-column': this.vertical
       });
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       isCard: this.card
     };
   }
+
 };
 
 /* script */
@@ -12830,36 +10946,13 @@ __vue_render__$1a._withStripped = true;
   const __vue_module_identifier__$1h = undefined;
   /* functional template */
   const __vue_is_functional_template__$1h = false;
-  /* component normalizer */
-  function __vue_normalize__$1h(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navigation/Navigation.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Navigation = __vue_normalize__$1h(
+  var Navigation = normalizeComponent(
     { render: __vue_render__$1a, staticRenderFns: __vue_staticRenderFns__$1a },
     __vue_inject_styles__$1h,
     __vue_script__$1h,
@@ -12875,10 +10968,10 @@ var script$1j = {
   name: 'navigation-dropdown',
   extends: BtnDropdown,
   components: {
-    BtnDropdown: BtnDropdown,
-    DropdownMenu: DropdownMenu,
-    NavigationItem: NavigationItem,
-    NavigationLink: NavigationLink
+    BtnDropdown,
+    DropdownMenu,
+    NavigationItem,
+    NavigationLink
   }
 };
 
@@ -12954,36 +11047,13 @@ __vue_render__$1b._withStripped = true;
   const __vue_module_identifier__$1i = undefined;
   /* functional template */
   const __vue_is_functional_template__$1i = false;
-  /* component normalizer */
-  function __vue_normalize__$1i(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navigation/NavigationDropdown.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var NavigationDropdown = __vue_normalize__$1i(
+  var NavigationDropdown = normalizeComponent(
     { render: __vue_render__$1b, staticRenderFns: __vue_staticRenderFns__$1b },
     __vue_inject_styles__$1i,
     __vue_script__$1i,
@@ -12995,22 +11065,23 @@ __vue_render__$1b._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Navigation: Navigation,
-      NavigationError: NavigationError,
-      NavigationItem: NavigationItem,
-      NavigationLink: NavigationLink,
-      NavigationDropdown: NavigationDropdown
+      Navigation,
+      NavigationError,
+      NavigationItem,
+      NavigationLink,
+      NavigationDropdown
     });
   }
+
 });
 
 //
 var script$1k = {
   name: 'navbar-nav',
   components: {
-    Navigation: Navigation
+    Navigation
   }
 };
 
@@ -13044,36 +11115,13 @@ __vue_render__$1c._withStripped = true;
   const __vue_module_identifier__$1j = undefined;
   /* functional template */
   const __vue_is_functional_template__$1j = false;
-  /* component normalizer */
-  function __vue_normalize__$1j(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarNav.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var NavbarNav = __vue_normalize__$1j(
+  var NavbarNav = normalizeComponent(
     { render: __vue_render__$1c, staticRenderFns: __vue_staticRenderFns__$1c },
     __vue_inject_styles__$1j,
     __vue_script__$1j,
@@ -13085,17 +11133,18 @@ __vue_render__$1c._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Navbar: Navbar,
-      NavbarBrand: NavbarBrand,
-      NavbarCollapse: NavbarCollapse,
-      NavbarNav: NavbarNav,
-      NavbarText: NavbarText,
-      NavbarToggler: NavbarToggler,
-      NavbarTogglerIcon: NavbarTogglerIcon
+      Navbar,
+      NavbarBrand,
+      NavbarCollapse,
+      NavbarNav,
+      NavbarText,
+      NavbarToggler,
+      NavbarTogglerIcon
     });
   }
+
 });
 
 //
@@ -13135,7 +11184,7 @@ var script$1l = {
      */
     align: {
       type: String,
-      validate: function validate(value) {
+      validate: value => {
         return ['start', 'end', 'center'].indexOf(value) !== -1;
       }
     },
@@ -13172,13 +11221,15 @@ var script$1l = {
     }
   },
   methods: {
-    next: function next(event) {
+    next(event) {
       this.paginate(this.currentPage >= this.totalPages ? this.currentPage : this.currentPage + 1, event);
     },
-    prev: function prev(event) {
+
+    prev(event) {
       this.paginate(this.currentPage <= 1 ? this.currentPage : this.currentPage - 1, event);
     },
-    paginate: function paginate(page, event) {
+
+    paginate(page, event) {
       if (event.currentTarget.parentNode.classList.contains('disabled')) {
         return;
       }
@@ -13186,18 +11237,20 @@ var script$1l = {
       this.setActivePage(page);
       this.$emit('paginate', page, event);
     },
-    setActivePage: function setActivePage(page) {
+
+    setActivePage(page) {
       if (this.currentPage !== page) {
         this.currentPage = page;
       }
     },
-    generate: function generate() {
-      var pages = [];
-      var showPages = this.showPages % 2 ? this.showPages + 1 : this.showPages;
-      var startPage = this.currentPage >= showPages ? this.currentPage - showPages / 2 : 1;
-      var startOffset = showPages + startPage;
-      var endPage = this.totalPages < startOffset ? this.totalPages : startOffset;
-      var diff = startPage - endPage + showPages;
+
+    generate() {
+      const pages = [];
+      const showPages = this.showPages % 2 ? this.showPages + 1 : this.showPages;
+      let startPage = this.currentPage >= showPages ? this.currentPage - showPages / 2 : 1;
+      const startOffset = showPages + startPage;
+      const endPage = this.totalPages < startOffset ? this.totalPages : startOffset;
+      const diff = startPage - endPage + showPages;
       startPage -= startPage - diff > 0 ? diff : 0;
 
       if (startPage > 1) {
@@ -13212,7 +11265,7 @@ var script$1l = {
         });
       }
 
-      for (var i = startPage; i < endPage; i++) {
+      for (let i = startPage; i < endPage; i++) {
         pages.push({
           page: i
         });
@@ -13232,22 +11285,27 @@ var script$1l = {
 
       return pages;
     }
+
   },
   computed: {
-    pages: function pages() {
+    pages() {
       return this.generate();
     },
-    classes: function classes() {
-      var classes = {};
+
+    classes() {
+      const classes = {};
       classes['justify-content-' + this.align] = true;
       return classes;
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       currentPage: this.page
     };
   }
+
 };
 
 /* script */
@@ -13380,36 +11438,13 @@ __vue_render__$1d._withStripped = true;
   const __vue_module_identifier__$1k = undefined;
   /* functional template */
   const __vue_is_functional_template__$1k = false;
-  /* component normalizer */
-  function __vue_normalize__$1k(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Pagination/Pagination.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Pagination = __vue_normalize__$1k(
+  var Pagination = normalizeComponent(
     { render: __vue_render__$1d, staticRenderFns: __vue_staticRenderFns__$1d },
     __vue_inject_styles__$1k,
     __vue_script__$1k,
@@ -13421,22 +11456,23 @@ __vue_render__$1d._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Pagination: Pagination
+      Pagination
     });
   }
+
 });
 
 //
-var CUSTOM_SELECT_PREFIX = 'custom-select-';
+const CUSTOM_SELECT_PREFIX = 'custom-select-';
 var script$1m = {
   name: 'select-field',
   components: {
-    HelpText: HelpText,
-    FormGroup: FormGroup,
-    FormLabel: FormLabel,
-    FormFeedback: FormFeedback
+    HelpText,
+    FormGroup,
+    FormLabel,
+    FormFeedback
   },
   extends: FormControl,
   mixins: [Colorable, FormControl, MergeClasses],
@@ -13449,13 +11485,15 @@ var script$1m = {
     custom: Boolean
   },
   computed: {
-    controlClass: function controlClass() {
-      var controlClass = this.custom ? 'custom-select' : this.defaultControlClass;
-      return this.plaintext ? "".concat(controlClass, "-plaintext") : controlClass;
+    controlClass() {
+      const controlClass = this.custom ? 'custom-select' : this.defaultControlClass;
+      return this.plaintext ? `${controlClass}-plaintext` : controlClass;
     },
-    customSelectClasses: function customSelectClasses() {
+
+    customSelectClasses() {
       return [CUSTOM_SELECT_PREFIX.replace(/-$/, '') + (this.plaintext ? '-plaintext' : ''), this.customSelectSizeClass, this.spacing || ''].join(' ');
     }
+
   }
 };
 
@@ -13540,36 +11578,13 @@ __vue_render__$1e._withStripped = true;
   const __vue_module_identifier__$1l = undefined;
   /* functional template */
   const __vue_is_functional_template__$1l = false;
-  /* component normalizer */
-  function __vue_normalize__$1l(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/SelectField/SelectField.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var SelectField = __vue_normalize__$1l(
+  var SelectField = normalizeComponent(
     { render: __vue_render__$1e, staticRenderFns: __vue_staticRenderFns__$1e },
     __vue_inject_styles__$1l,
     __vue_script__$1l,
@@ -13581,11 +11596,12 @@ __vue_render__$1e._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      SelectField: SelectField
+      SelectField
     });
   }
+
 });
 
 var script$1n = {
@@ -13602,10 +11618,11 @@ var script$1n = {
     }
   },
   watch: {
-    active: function active(value, oldValue) {
+    active(value, oldValue) {
       this.lastSlide = oldValue;
       this.currentSlide = value;
     }
+
   },
   methods: {
     /**
@@ -13613,10 +11630,10 @@ var script$1n = {
      *
      * @return {Array}
      */
-    slides: function slides() {
-      return this.$slots.default.filter(function (vnode, i) {
+    slides() {
+      return this.$slots.default.filter((vnode, i) => {
         return !!vnode.tag;
-      }).map(function (vnode, i) {
+      }).map((vnode, i) => {
         if (!vnode.key || !vnode.data && !vnode.data.key) {
           vnode.data = extend(vnode.data, {
             key: vnode.key = i
@@ -13632,7 +11649,7 @@ var script$1n = {
      *
      * @return {Array}
      */
-    slide: function slide(index) {
+    slide(index) {
       return this.findSlideByKey(index) || this.findSlideByIndex(index) || this.findSlideByIndex(0);
     },
 
@@ -13642,8 +11659,8 @@ var script$1n = {
      * @param  {Number|String} key
      * @return {VNode|null}
      */
-    findSlideByKey: function findSlideByKey(key$$1) {
-      return first(this.slides().filter(function (vnode, i) {
+    findSlideByKey(key$$1) {
+      return first(this.slides().filter((vnode, i) => {
         if (vnode.key === key$$1) {
           return vnode;
         } else if (vnode.data && vnode.data.key === key$$1) {
@@ -13660,7 +11677,7 @@ var script$1n = {
      * @param  {Number|String} key
      * @return {VNode|null}
      */
-    findSlideByIndex: function findSlideByIndex(index) {
+    findSlideByIndex(index) {
       return this.slides()[index] || null;
     },
 
@@ -13670,9 +11687,9 @@ var script$1n = {
      * @param  {Number|String} slide
      * @return {VNode|null}
      */
-    getSlideIndex: function getSlideIndex(slide) {
-      var key$$1 = !isUndefined(slide.data) ? slide.data.key : slide.key || slide;
-      return findIndex(this.slides(), function (vnode, i) {
+    getSlideIndex(slide) {
+      const key$$1 = !isUndefined(slide.data) ? slide.data.key : slide.key || slide;
+      return findIndex(this.slides(), (vnode, i) => {
         if (slide === vnode) {
           return true;
         } else if (vnode.data && vnode.data.key === key$$1) {
@@ -13686,16 +11703,20 @@ var script$1n = {
         return false;
       });
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       lastSlide: null,
       currentSlide: this.active
     };
   },
-  render: function render(h) {
+
+  render(h) {
     return this.slide(this.currentSlide);
   }
+
 };
 
 /* script */
@@ -13711,36 +11732,13 @@ var script$1n = {
   const __vue_module_identifier__$1m = undefined;
   /* functional template */
   const __vue_is_functional_template__$1m = undefined;
-  /* component normalizer */
-  function __vue_normalize__$1m(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/SlideDeck/Slides.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Slides = __vue_normalize__$1m(
+  var Slides = normalizeComponent(
     {},
     __vue_inject_styles__$1m,
     __vue_script__$1m,
@@ -13784,14 +11782,17 @@ var script$1o = {
     }
   },
   methods: {
-    onClick: function onClick(event, slide) {
+    onClick(event, slide) {
       this.$emit('click', event, slide);
     }
+
   },
   computed: {},
-  data: function data() {
+
+  data() {
     return {};
   }
+
 };
 
 /* script */
@@ -13837,36 +11838,13 @@ __vue_render__$1f._withStripped = true;
   const __vue_module_identifier__$1n = undefined;
   /* functional template */
   const __vue_is_functional_template__$1n = false;
-  /* component normalizer */
-  function __vue_normalize__$1n(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/SlideDeck/SlideDeckControls.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var SlideDeckControls = __vue_normalize__$1n(
+  var SlideDeckControls = normalizeComponent(
     { render: __vue_render__$1f, staticRenderFns: __vue_staticRenderFns__$1f },
     __vue_inject_styles__$1n,
     __vue_script__$1n,
@@ -13881,8 +11859,8 @@ __vue_render__$1f._withStripped = true;
 var script$1p = {
   name: 'slide-deck',
   components: {
-    Slides: Slides,
-    SlideDeckControls: SlideDeckControls
+    Slides,
+    SlideDeckControls
   },
   props: {
     /**
@@ -13942,46 +11920,54 @@ var script$1p = {
     resizeMode: {
       type: [Function, Boolean, String],
       default: 'auto',
-      validate: function validate(value) {
+
+      validate(value) {
         return ['auto', 'initial', 'inherit'].indexOf(value) !== 1;
       }
+
     }
   },
   watch: {
-    active: function active(value, oldValue) {
+    active(value, oldValue) {
       this.lastSlide = oldValue;
       this.currentSlide = value;
     },
-    currentSlide: function currentSlide(value, oldValue) {
+
+    currentSlide(value, oldValue) {
       this.direction = this.$refs.slides.getSlideIndex(oldValue) > this.$refs.slides.getSlideIndex(value) ? 'backward' : 'forward';
     }
+
   },
   methods: {
-    resize: function resize(el) {
+    resize(el) {
       if (isFunction(this.resizeMode)) {
         this.resizeMode(el || this.$el);
       } else {
-        var style = getComputedStyle(el);
+        const style = getComputedStyle(el);
 
         if (!el.style.width) {
-          el.width = el.style.width = "calc(".concat(style.width, " + ").concat(style.marginLeft, " + ").concat(style.marginRight, ")");
+          el.width = el.style.width = `calc(${style.width} + ${style.marginLeft} + ${style.marginRight})`;
         }
 
         if (!el.style.height) {
-          el.height = el.style.height = "calc(".concat(style.height, " + ").concat(style.marginTop, " + ").concat(style.marginBottom, ")");
+          el.height = el.style.height = `calc(${style.height} + ${style.marginTop} + ${style.marginBottom})`;
         }
       }
     },
-    slide: function slide(index) {
+
+    slide(index) {
       return this.$refs.slides ? this.$refs.slides.slide(index || this.active) : null;
     },
-    slides: function slides() {
+
+    slides() {
       return this.$refs.slides ? this.$refs.slides.slides() : [];
     },
-    onClickControl: function onClickControl(event, vnode) {
+
+    onClickControl(event, vnode) {
       this.currentSlide = vnode.data ? vnode.data.key : vnode.key;
     },
-    onSlideAfterEnter: function onSlideAfterEnter(el) {
+
+    onSlideAfterEnter(el) {
       if (el.width) {
         el.width = el.style.width = null;
       }
@@ -13994,23 +11980,22 @@ var script$1p = {
       this.height = null;
       this.$emit('after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
     },
-    onSlideBeforeEnter: function onSlideBeforeEnter(el) {
+
+    onSlideBeforeEnter(el) {
       this.$emit('before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
     },
-    onSlideEnter: function onSlideEnter(el, done) {
-      var _this = this;
 
+    onSlideEnter(el, done) {
       this.resize(el);
       this.width = el.style.width;
       this.height = el.style.height;
-      transition(el).then(function (delay) {
-        _this.$nextTick(done);
+      transition(el).then(delay => {
+        this.$nextTick(done);
       });
       this.$emit('enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide));
     },
-    onSlideAfterLeave: function onSlideAfterLeave(el) {
-      var _this2 = this;
 
+    onSlideAfterLeave(el) {
       if (el.width) {
         el.width = el.style.width = null;
       }
@@ -14019,25 +12004,26 @@ var script$1p = {
         el.height = el.style.height = null;
       }
 
-      this.$nextTick(function () {
-        _this2.$emit('after-leave', _this2.$refs.slides.slide(_this2.lastSlide), _this2.$refs.slides.slide(_this2.currentSlide));
+      this.$nextTick(() => {
+        this.$emit('after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
       });
     },
-    onSlideBeforeLeave: function onSlideBeforeLeave(el) {
+
+    onSlideBeforeLeave(el) {
       this.resize(el);
       this.$emit('before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
     },
-    onSlideLeave: function onSlideLeave(el, done) {
-      var _this3 = this;
 
-      transition(el).then(function (delay) {
-        _this3.$nextTick(done);
+    onSlideLeave(el, done) {
+      transition(el).then(delay => {
+        this.$nextTick(done);
       });
       this.$emit('leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide));
     }
+
   },
   computed: {
-    overflowElement: function overflowElement() {
+    overflowElement() {
       if (this.overflow === true) {
         return this.$el;
       } else if (this.overflow instanceof Element) {
@@ -14050,16 +12036,20 @@ var script$1p = {
 
       return null;
     },
-    nodes: function nodes() {
+
+    nodes() {
       return this.$slots.default;
     }
+
   },
-  mounted: function mounted() {
+
+  mounted() {
     if (this.overflowElement) {
       this.overflowElement.style.overflow = 'hidden';
     }
   },
-  data: function data() {
+
+  data() {
     return {
       height: null,
       width: null,
@@ -14068,6 +12058,7 @@ var script$1p = {
       direction: 'forward'
     };
   }
+
 };
 
 /* script */
@@ -14150,36 +12141,13 @@ __vue_render__$1g._withStripped = true;
   const __vue_module_identifier__$1o = undefined;
   /* functional template */
   const __vue_is_functional_template__$1o = false;
-  /* component normalizer */
-  function __vue_normalize__$1o(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/SlideDeck/SlideDeck.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var SlideDeck = __vue_normalize__$1o(
+  var SlideDeck = normalizeComponent(
     { render: __vue_render__$1g, staticRenderFns: __vue_staticRenderFns__$1g },
     __vue_inject_styles__$1o,
     __vue_script__$1o,
@@ -14191,12 +12159,13 @@ __vue_render__$1g._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Slides: Slides,
-      SlideDeck: SlideDeck
+      Slides,
+      SlideDeck
     });
   }
+
 });
 
 //
@@ -14315,36 +12284,13 @@ __vue_render__$1h._withStripped = true;
   const __vue_module_identifier__$1p = undefined;
   /* functional template */
   const __vue_is_functional_template__$1p = false;
-  /* component normalizer */
-  function __vue_normalize__$1p(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/TableView/TableViewHeader.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var TableViewHeader = __vue_normalize__$1p(
+  var TableViewHeader = normalizeComponent(
     { render: __vue_render__$1h, staticRenderFns: __vue_staticRenderFns__$1h },
     __vue_inject_styles__$1p,
     __vue_script__$1p,
@@ -14358,17 +12304,17 @@ __vue_render__$1h._withStripped = true;
 //
 var script$1r = {
   components: {
-    Alert: Alert,
-    Pagination: Pagination,
-    TableViewHeader: TableViewHeader,
-    ActivityIndicator: ActivityIndicator
+    Alert,
+    Pagination,
+    TableViewHeader,
+    ActivityIndicator
   },
   props: {
     // (array) An array of table column
     // [{id: 'database_id', name: 'Database id', width: '20%'}]
     columns: {
       type: Array,
-      default: function _default() {
+      default: () => {
         return [];
       }
     },
@@ -14394,30 +12340,32 @@ var script$1r = {
     }
   },
   methods: {
-    height: function height(min) {
-      var elements = [// this.$el.querySelector('thead'),
+    height(min) {
+      const elements = [// this.$el.querySelector('thead'),
       this.$el.querySelector('tbody')];
-      var height = 0;
-      each(elements, function (el) {
+      let height = 0;
+      each(elements, el => {
         height += el.getBoundingClientRect().height;
       });
       return unit(Math.max(min, height));
     }
+
   },
   computed: {
-    tableColumns: function tableColumns() {
-      var columns = this.columns;
+    tableColumns() {
+      let columns = this.columns;
 
       if (!columns || !columns.length) {
         columns = Object.keys(this.data[0]);
       }
 
-      return columns.map(function (column) {
+      return columns.map(column => {
         return isObject(column) ? column : {
           name: column
         };
       });
     }
+
   }
 };
 
@@ -14573,36 +12521,13 @@ __vue_render__$1i._withStripped = true;
   const __vue_module_identifier__$1q = undefined;
   /* functional template */
   const __vue_is_functional_template__$1q = false;
-  /* component normalizer */
-  function __vue_normalize__$1q(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/TableView/Table.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var DataTable = __vue_normalize__$1q(
+  var DataTable = normalizeComponent(
     { render: __vue_render__$1i, staticRenderFns: __vue_staticRenderFns__$1i },
     __vue_inject_styles__$1q,
     __vue_script__$1q,
@@ -14613,18 +12538,14 @@ __vue_render__$1i._withStripped = true;
     undefined
   );
 
-var Transformer =
-/*#__PURE__*/
-function () {
+class Transformer {
   /**
    * Initialize the transformer instance using an HTTP response object.
    *
    * @param data object
    * @return void
    */
-  function Transformer(response) {
-    _classCallCheck(this, Transformer);
-
+  constructor(response) {
     if (!isObject(this.$originalResponse = response)) {
       throw new Error('The transformer must be instantiated with a response object.');
     }
@@ -14644,116 +12565,90 @@ function () {
    */
 
 
-  _createClass(Transformer, [{
-    key: "initialize",
-    value: function initialize() {} //
+  initialize() {} //
 
-    /**
-     * Define an array of required properties with at least one value.
-     *
-     * @return void
-     */
+  /**
+   * Define an array of required properties with at least one value.
+   *
+   * @return void
+   */
 
-  }, {
-    key: "required",
-    value: function required() {} //
 
-    /**
-     * Tranform the Response object
-     *
-     * @property String
-     */
+  required() {} //
 
-  }, {
-    key: "transform",
-    value: function transform(response) {
-      return response.data;
+  /**
+   * Tranform the Response object
+   *
+   * @property String
+   */
+
+
+  transform(response) {
+    return response.data;
+  }
+  /**
+   * Get the tranformed response
+   *
+   * @property String
+   */
+
+
+  response() {
+    return this.$transformedResponse;
+  }
+  /**
+   * Validate the tranformed response.
+   *
+   * @return void
+   */
+
+
+  validate() {
+    if (!isObject(this.$transformedResponse)) {
+      throw new Error('The transformed response must be an object.');
     }
-    /**
-     * Get the tranformed response
-     *
-     * @property String
-     */
 
-  }, {
-    key: "response",
-    value: function response() {
-      return this.$transformedResponse;
-    }
-    /**
-     * Validate the tranformed response.
-     *
-     * @return void
-     */
-
-  }, {
-    key: "validate",
-    value: function validate() {
-      var _this = this;
-
-      if (!isObject(this.$transformedResponse)) {
-        throw new Error('The transformed response must be an object.');
+    each(this.$required, key$$1 => {
+      if (!(key$$1 in this.$transformedResponse)) {
+        throw new Error(`"${key$$1}" is a required property and does not exist in the tranformed response.`);
       }
-
-      each(this.$required, function (key$$1) {
-        if (!(key$$1 in _this.$transformedResponse)) {
-          throw new Error("\"".concat(key$$1, "\" is a required property and does not exist in the tranformed response."));
-        }
-      });
-    }
-  }]);
-
-  return Transformer;
-}();
-
-var TableViewTransformer =
-/*#__PURE__*/
-function (_Transformer) {
-  _inherits(TableViewTransformer, _Transformer);
-
-  function TableViewTransformer() {
-    _classCallCheck(this, TableViewTransformer);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(TableViewTransformer).apply(this, arguments));
+    });
   }
 
-  _createClass(TableViewTransformer, [{
-    key: "required",
-    value: function required() {
-      return [// The end of the count of the paginated list.
-      'to', // The start of the count of the paginated list.
-      'from', // The total number of items (not just included in the pagination)
-      'total', // The number of items per page
-      'per_page', // The last page number (or total pages)
-      'last_page', // The current page number
-      'current_page', // The actual response data to appear in the table
-      'data'];
-    }
-  }, {
-    key: "data",
-    value: function data() {
-      return this.$transformedResponse.data;
-    }
-  }, {
-    key: "initialize",
-    value: function initialize() {
-      if (!isArray(this.data())) {
-        throw new Error('The data property must be an array.');
-      }
-    }
-  }]);
+}
 
-  return TableViewTransformer;
-}(Transformer);
+class TableViewTransformer extends Transformer {
+  required() {
+    return [// The end of the count of the paginated list.
+    'to', // The start of the count of the paginated list.
+    'from', // The total number of items (not just included in the pagination)
+    'total', // The number of items per page
+    'per_page', // The last page number (or total pages)
+    'last_page', // The current page number
+    'current_page', // The actual response data to appear in the table
+    'data'];
+  }
+
+  data() {
+    return this.$transformedResponse.data;
+  }
+
+  initialize() {
+    if (!isArray(this.data())) {
+      throw new Error('The data property must be an array.');
+    }
+  }
+
+}
 
 //
 var script$1s = {
   name: 'table-view',
-  mixins: [Proxy$1],
+  mixins: [Proxy],
   components: {
-    Card: Card,
-    DataTable: DataTable,
-    TableViewHeader: TableViewHeader
+    Card,
+    DataTable,
+    TableViewHeader
   },
   props: {
     // (boolean) Show the table in a card.
@@ -14778,7 +12673,7 @@ var script$1s = {
     // (string) The sort direction (asc|desc)
     sort: {
       type: String,
-      validate: function validate(value) {
+      validate: value => {
         return ['asc', 'desc'].indexOf(value) !== -1;
       }
     },
@@ -14791,7 +12686,7 @@ var script$1s = {
     // [{href: 'test-123', label: 'Test 123'}]
     buttons: {
       type: Array,
-      default: function _default() {
+      default: () => {
         return [];
       }
     },
@@ -14799,7 +12694,7 @@ var script$1s = {
     // [{id: 'database_id', name: 'Database id', width: '20%'}]
     columns: {
       type: Array,
-      default: function _default() {
+      default: () => {
         return [];
       }
     },
@@ -14820,54 +12715,58 @@ var script$1s = {
     // (object) The HTTP response transformer instance
     transformer: {
       type: Object,
-      validate: function validate(value) {
+      validate: value => {
         return value instanceof TableViewTransformer;
       }
     }
   },
   methods: {
-    orderBy: function orderBy(order) {
-      var defaultSort = 'desc';
-      var currentSort = this.getRequestParam('sort');
-      var currentOrder = this.getRequestParam('order');
+    orderBy(order) {
+      const defaultSort = 'desc';
+      const currentSort = this.getRequestParam('sort');
+      const currentOrder = this.getRequestParam('order');
       this.addRequestParam('order', order);
       this.addRequestParam('sort', currentOrder !== order || !currentSort ? defaultSort : currentSort === defaultSort ? 'asc' : null);
       this.fetch();
     },
-    getRequestHeader: function getRequestHeader(key$$1, value) {
+
+    getRequestHeader(key$$1, value) {
       return this.request.headers[key$$1] || value;
     },
-    addRequestHeader: function addRequestHeader(key$$1, value) {
+
+    addRequestHeader(key$$1, value) {
       if (!this.request.headers) {
         this.request.headers = {};
       }
 
       this.request.headers[key$$1] = value;
     },
-    getRequestParam: function getRequestParam(key$$1, value) {
+
+    getRequestParam(key$$1, value) {
       return this.request.params[key$$1] || value;
     },
-    addRequestParam: function addRequestParam(key$$1, value) {
+
+    addRequestParam(key$$1, value) {
       if (!this.request.params) {
         this.request.params = {};
       }
 
       this.request.params[key$$1] = value;
     },
-    fetch: function fetch() {
-      var _this = this;
 
+    fetch() {
       this.loading = true;
-      return Request.get(this.url, this.request).then(function (response) {
-        var transformer = _this.transformer || new TableViewTransformer(response);
-        _this.response = transformer.response();
-        _this.data = transformer.data();
-        _this.loading = false;
-      }, function (errors) {
-        _this.loading = false;
+      return Request.get(this.url, this.request).then(response => {
+        const transformer = this.transformer || new TableViewTransformer(response);
+        this.response = transformer.response();
+        this.data = transformer.data();
+        this.loading = false;
+      }, errors => {
+        this.loading = false;
       });
     },
-    onPaginate: function onPaginate(page, event) {
+
+    onPaginate(page, event) {
       if (!this.request.params) {
         this.request.params = {};
       }
@@ -14875,8 +12774,10 @@ var script$1s = {
       this.request.params.page = page;
       this.fetch();
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       // (array) The dataset for the table
       data: this.$attrs.data || [],
@@ -14896,12 +12797,15 @@ var script$1s = {
       }, this.$attrs.request)
     };
   },
-  mounted: function mounted() {
+
+  mounted() {
     this.fetch();
   },
-  beforeDestroy: function beforeDestroy() {
+
+  beforeDestroy() {
     this.$off();
   }
+
 };
 
 /* script */
@@ -15018,36 +12922,13 @@ __vue_render__$1j._withStripped = true;
   const __vue_module_identifier__$1r = undefined;
   /* functional template */
   const __vue_is_functional_template__$1r = false;
-  /* component normalizer */
-  function __vue_normalize__$1r(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/TableView/TableView.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var TableView = __vue_normalize__$1r(
+  var TableView = normalizeComponent(
     { render: __vue_render__$1j, staticRenderFns: __vue_staticRenderFns__$1j },
     __vue_inject_styles__$1r,
     __vue_script__$1r,
@@ -15059,21 +12940,22 @@ __vue_render__$1j._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      TableView: TableView
+      TableView
     });
   }
+
 });
 
 //
 var script$1t = {
   name: 'textarea-field',
   components: {
-    HelpText: HelpText,
-    FormGroup: FormGroup,
-    FormLabel: FormLabel,
-    FormFeedback: FormFeedback
+    HelpText,
+    FormGroup,
+    FormLabel,
+    FormFeedback
   },
   mixins: [Colorable, FormControl, MergeClasses],
   props: {
@@ -15192,36 +13074,13 @@ __vue_render__$1k._withStripped = true;
   const __vue_module_identifier__$1s = undefined;
   /* functional template */
   const __vue_is_functional_template__$1s = false;
-  /* component normalizer */
-  function __vue_normalize__$1s(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/TextareaField/TextareaField.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var TextareaField = __vue_normalize__$1s(
+  var TextareaField = normalizeComponent(
     { render: __vue_render__$1k, staticRenderFns: __vue_staticRenderFns__$1k },
     __vue_inject_styles__$1s,
     __vue_script__$1s,
@@ -15233,11 +13092,12 @@ __vue_render__$1k._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      TextareaField: TextareaField
+      TextareaField
     });
   }
+
 });
 
 //
@@ -15305,36 +13165,13 @@ __vue_render__$1l._withStripped = true;
   const __vue_module_identifier__$1t = undefined;
   /* functional template */
   const __vue_is_functional_template__$1t = false;
-  /* component normalizer */
-  function __vue_normalize__$1t(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ThumbnailList/ThumbnailListItem.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ThumbnailListItem = __vue_normalize__$1t(
+  var ThumbnailListItem = normalizeComponent(
     { render: __vue_render__$1l, staticRenderFns: __vue_staticRenderFns__$1l },
     __vue_inject_styles__$1t,
     __vue_script__$1t,
@@ -15348,7 +13185,7 @@ __vue_render__$1l._withStripped = true;
 //
 var script$1v = {
   components: {
-    ThumbnailListItem: ThumbnailListItem
+    ThumbnailListItem
   },
   props: {
     fill: Boolean,
@@ -15363,7 +13200,7 @@ var script$1v = {
     }
   },
   computed: {
-    classes: function classes() {
+    classes() {
       return {
         'thumbnail-list-fill': this.fill,
         'thumbnail-list-flex': this.flex,
@@ -15372,6 +13209,7 @@ var script$1v = {
         'thumbnail-list-wrap': this.wrap
       };
     }
+
   }
 };
 
@@ -15411,36 +13249,13 @@ __vue_render__$1m._withStripped = true;
   const __vue_module_identifier__$1u = undefined;
   /* functional template */
   const __vue_is_functional_template__$1u = false;
-  /* component normalizer */
-  function __vue_normalize__$1u(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ThumbnailList/ThumbnailList.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var ThumbnailList = __vue_normalize__$1u(
+  var ThumbnailList = normalizeComponent(
     { render: __vue_render__$1m, staticRenderFns: __vue_staticRenderFns__$1m },
     __vue_inject_styles__$1u,
     __vue_script__$1u,
@@ -15452,11 +13267,12 @@ __vue_render__$1m._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      ThumbnailList: ThumbnailList
+      ThumbnailList
     });
   }
+
 });
 
 //
@@ -15464,12 +13280,12 @@ var script$1w = {
   name: 'upload-field',
   mixins: [FormControl],
   components: {
-    Dropzone: Dropzone,
-    FormGroup: FormGroup,
-    FileField: FileField,
-    FilePreview: FilePreview,
-    ThumbnailList: ThumbnailList,
-    ThumbnailListItem: ThumbnailListItem
+    Dropzone,
+    FormGroup,
+    FileField,
+    FilePreview,
+    ThumbnailList,
+    ThumbnailListItem
   },
   model: {
     prop: 'value',
@@ -15546,9 +13362,11 @@ var script$1w = {
      */
     dragging: {
       type: [String, Boolean],
-      default: function _default() {
+
+      default() {
         return undefined;
       }
+
     },
 
     /**
@@ -15568,9 +13386,11 @@ var script$1w = {
      */
     value: {
       type: [Object, File, FileList, Array],
-      default: function _default() {
+
+      default() {
         return !this.multiple ? null : [];
       }
+
     },
 
     /**
@@ -15582,9 +13402,9 @@ var script$1w = {
     request: Object
   },
   methods: {
-    removeFile: function removeFile(data) {
+    removeFile(data) {
       if (this.multiple) {
-        var files = isArray(this.value) ? this.value.slice(0) : [];
+        const files = isArray(this.value) ? this.value.slice(0) : [];
 
         if (data instanceof File) {
           if (data.request && data.request.cancel) {
@@ -15609,8 +13429,9 @@ var script$1w = {
         this.$emit('change', null);
       }
     },
-    addFile: function addFile(file, subject) {
-      var data = {
+
+    addFile(file, subject) {
+      const data = {
         name: file.name,
         lastModified: file.lastModified,
         lastModifiedDate: file.lastModifiedDate,
@@ -15619,7 +13440,7 @@ var script$1w = {
       };
 
       if (this.multiple) {
-        var files = subject || (isArray(this.value) ? this.value.slice(0) : []);
+        const files = subject || (isArray(this.value) ? this.value.slice(0) : []);
 
         if ((!this.maxUploads || this.maxUploads > files.length) && files.indexOf(data) === -1) {
           files.push(file);
@@ -15631,12 +13452,11 @@ var script$1w = {
         this.upload(file);
       }
     },
-    addFiles: function addFiles(files) {
-      var _this = this;
 
-      var subject = isArray(this.value) ? this.value.slice(0) : [];
-      each(files, function (file) {
-        _this.addFile(file, subject);
+    addFiles(files) {
+      const subject = isArray(this.value) ? this.value.slice(0) : [];
+      each(files, file => {
+        this.addFile(file, subject);
       });
       event.target.value = null;
     },
@@ -15648,45 +13468,40 @@ var script$1w = {
      *
      * @type Object
      */
-    upload: function upload(file) {
-      var _this2 = this;
-
+    upload(file) {
       // Stop upload silently if no model is defined.
       if (!this.model) {
         return Promise.resolve();
       }
 
-      var model = this.model;
+      let model = this.model;
 
       if (!(this.model instanceof Model)) {
-        var _Model = this.model;
-        model = new _Model();
+        const Model$$1 = this.model;
+        model = new Model$$1();
       }
 
       model.set(this.name, file);
       this.$emit('uploading', model);
       this.$set(this.progressBars, this.multiple ? this.value ? this.value.length : 0 : 0, 0);
       return model.save(null, extend({
-        onUploadProgress: function onUploadProgress(e) {
+        onUploadProgress: e => {
           if (!file.index) {
-            file.index = _this2.files.indexOf(file);
+            file.index = this.files.indexOf(file);
           }
 
           if (!file.request) {
             file.request = model.getRequest();
           }
 
-          _this2.$set(_this2.progressBars, file.index, parseInt(e.loaded / e.total * 100, 10));
-
-          _this2.$emit('progress', model, _this2.progressBars[file.index]);
+          this.$set(this.progressBars, file.index, parseInt(e.loaded / e.total * 100, 10));
+          this.$emit('progress', model, this.progressBars[file.index]);
         }
-      }, this.request)).then(function (response) {
-        _this2.$nextTick(function () {
-          _this2.$emit('upload', model);
-
-          _this2.progressBars[file.index] = false;
+      }, this.request)).then(response => {
+        this.$nextTick(() => {
+          this.$emit('upload', model);
+          this.progressBars[file.index] = false;
         });
-
         return response;
       });
     },
@@ -15696,7 +13511,7 @@ var script$1w = {
      *
      * @type Object
      */
-    onChange: function onChange(files) {
+    onChange(files) {
       if (files instanceof FileList) {
         this.addFiles(files);
       } else {
@@ -15709,7 +13524,7 @@ var script$1w = {
      *
      * @type Object
      */
-    onDragOver: function onDragOver(event) {
+    onDragOver(event) {
       this.isDraggingInside = true;
       this.$emit('update:dragging', true);
       this.$emit('drag:over', event);
@@ -15720,7 +13535,7 @@ var script$1w = {
      *
      * @type Object
      */
-    onDragEnter: function onDragEnter(event) {
+    onDragEnter(event) {
       this.isDraggingInside = true;
       this.$emit('update:dragging', true);
       this.$emit('drag:enter', event);
@@ -15731,7 +13546,7 @@ var script$1w = {
      *
      * @type Object
      */
-    onDragLeave: function onDragLeave(event) {
+    onDragLeave(event) {
       this.isDraggingInside = false;
       this.$emit('update:dragging', false);
       this.$emit('drag:leave', event);
@@ -15742,7 +13557,7 @@ var script$1w = {
      *
      * @property String
      */
-    onDrop: function onDrop(event) {
+    onDrop(event) {
       this.isDraggingInside = false;
       this.addFiles(event.dataTransfer.files);
       this.$emit('update:dragging', false);
@@ -15754,24 +13569,29 @@ var script$1w = {
      *
      * @type Object
      */
-    onLoadedPreview: function onLoadedPreview(event) {
+    onLoadedPreview(event) {
       this.$emit('loaded', event);
     }
+
   },
   computed: {
-    files: function files() {
+    files() {
       return this.multiple ? this.value : this.value ? [this.value] : [];
     },
-    showDropElement: function showDropElement() {
+
+    showDropElement() {
       return !isUndefined(this.dragging) ? this.dragging : this.isDraggingInside;
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       progressBars: {},
       isDraggingInside: false
     };
   }
+
 };
 
 /* script */
@@ -15899,36 +13719,13 @@ __vue_render__$1n._withStripped = true;
   const __vue_module_identifier__$1v = undefined;
   /* functional template */
   const __vue_is_functional_template__$1v = false;
-  /* component normalizer */
-  function __vue_normalize__$1v(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/UploadField/UploadField.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var UploadField = __vue_normalize__$1v(
+  var UploadField = normalizeComponent(
     { render: __vue_render__$1n, staticRenderFns: __vue_staticRenderFns__$1n },
     __vue_inject_styles__$1v,
     __vue_script__$1v,
@@ -15940,11 +13737,12 @@ __vue_render__$1n._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      UploadField: UploadField
+      UploadField
     });
   }
+
 });
 
 //
@@ -15952,9 +13750,9 @@ var script$1x = {
   name: 'wizard-buttons',
   mixins: [Sizeable],
   components: {
-    Btn: Btn,
-    BtnGroup: BtnGroup,
-    BtnActivity: BtnActivity
+    Btn,
+    BtnGroup,
+    BtnActivity
   },
   props: {
     /**
@@ -16010,26 +13808,30 @@ var script$1x = {
      * Override the class prefix with an empty string...
      * @return {String}
      */
-    sizeableClassPrefix: function sizeableClassPrefix() {
+    sizeableClassPrefix() {
       return '';
     }
+
   },
   methods: {
-    onClickBack: function onClickBack(event) {
+    onClickBack(event) {
       if (this.backButton !== false) {
         this.$emit('click:back', event);
       }
     },
-    onClickFinish: function onClickFinish(event) {
+
+    onClickFinish(event) {
       if (this.finishButton !== false) {
         this.$emit('click:finish', event);
       }
     },
-    onClickNext: function onClickNext(event) {
+
+    onClickNext(event) {
       if (this.nextButton !== false) {
         this.$emit('click:next', event);
       }
     }
+
   }
 };
 
@@ -16135,36 +13937,13 @@ __vue_render__$1o._withStripped = true;
   const __vue_module_identifier__$1w = undefined;
   /* functional template */
   const __vue_is_functional_template__$1w = false;
-  /* component normalizer */
-  function __vue_normalize__$1w(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardButtons.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var WizardButtons = __vue_normalize__$1w(
+  var WizardButtons = normalizeComponent(
     { render: __vue_render__$1o, staticRenderFns: __vue_staticRenderFns__$1o },
     __vue_inject_styles__$1w,
     __vue_script__$1w,
@@ -16203,9 +13982,11 @@ var script$1y = {
      */
     backButton: {
       type: [Function, Boolean],
-      default: function _default() {
+
+      default() {
         return null;
       }
+
     },
 
     /**
@@ -16216,13 +13997,15 @@ var script$1y = {
      */
     validate: {
       type: [Function, Boolean],
-      default: function _default() {
+
+      default() {
         return true;
       }
+
     }
   },
   methods: {
-    checkValidity: function checkValidity(prop) {
+    checkValidity(prop) {
       // Validate the property for the step first.
       if (isFunction(this[prop]) ? this[prop](this) === false : this[prop] === false) {
         return false;
@@ -16237,38 +14020,46 @@ var script$1y = {
 
       return true;
     },
-    performValidityChecks: function performValidityChecks() {
+
+    performValidityChecks() {
       if (this.$refs.wizard) {
         this.checkValidity('validate') ? this.enable() : this.disable();
         this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
       }
     },
-    disable: function disable() {
+
+    disable() {
       if (this.$refs.wizard) {
         this.$refs.wizard.disableNextButton();
         this.$refs.wizard.disableFinishButton();
       }
     },
-    enable: function enable() {
+
+    enable() {
       if (this.$refs.wizard) {
         this.$refs.wizard.enableNextButton();
         this.$refs.wizard.enableFinishButton();
       }
     }
+
   },
-  updated: function updated() {
+
+  updated() {
     this.performValidityChecks();
   },
-  mounted: function mounted() {
+
+  mounted() {
     this.$nextTick(this.performValidityChecks);
   },
-  render: function render(h) {
+
+  render(h) {
     if (this.$slots.default.length !== 1) {
       throw new Error('The <wizard-slot> must contain a single parent DOM node.');
     }
 
     return this.$slots.default[0];
   }
+
 };
 
 /* script */
@@ -16284,36 +14075,13 @@ var script$1y = {
   const __vue_module_identifier__$1x = undefined;
   /* functional template */
   const __vue_is_functional_template__$1x = undefined;
-  /* component normalizer */
-  function __vue_normalize__$1x(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardStep.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var WizardStep = __vue_normalize__$1x(
+  var WizardStep = normalizeComponent(
     {},
     __vue_inject_styles__$1x,
     __vue_script__$1x,
@@ -16329,7 +14097,7 @@ var script$1z = {
   name: 'wizard-error',
   extends: WizardStep,
   components: {
-    Btn: Btn
+    Btn
   },
   props: {
     icon: {
@@ -16427,36 +14195,13 @@ __vue_render__$1p._withStripped = true;
   const __vue_module_identifier__$1y = undefined;
   /* functional template */
   const __vue_is_functional_template__$1y = false;
-  /* component normalizer */
-  function __vue_normalize__$1y(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardError.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var WizardError = __vue_normalize__$1y(
+  var WizardError = normalizeComponent(
     { render: __vue_render__$1p, staticRenderFns: __vue_staticRenderFns__$1p },
     __vue_inject_styles__$1y,
     __vue_script__$1y,
@@ -16522,36 +14267,13 @@ __vue_render__$1q._withStripped = true;
   const __vue_module_identifier__$1z = undefined;
   /* functional template */
   const __vue_is_functional_template__$1z = false;
-  /* component normalizer */
-  function __vue_normalize__$1z(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardHeader.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var WizardHeader = __vue_normalize__$1z(
+  var WizardHeader = normalizeComponent(
     { render: __vue_render__$1q, staticRenderFns: __vue_staticRenderFns__$1q },
     __vue_inject_styles__$1z,
     __vue_script__$1z,
@@ -16613,17 +14335,20 @@ var script$1B = {
     }
   },
   methods: {
-    onClick: function onClick(event, step) {
+    onClick(event, step) {
       if (!event.target.classList.contains('disabled')) {
         this.$emit('click', event, step);
       }
     }
+
   },
-  data: function data() {
+
+  data() {
     return {
       isActive: false
     };
   }
+
 };
 
 /* script */
@@ -16687,36 +14412,13 @@ __vue_render__$1r._withStripped = true;
   const __vue_module_identifier__$1A = undefined;
   /* functional template */
   const __vue_is_functional_template__$1A = false;
-  /* component normalizer */
-  function __vue_normalize__$1A(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardProgress.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var WizardProgress = __vue_normalize__$1A(
+  var WizardProgress = normalizeComponent(
     { render: __vue_render__$1r, staticRenderFns: __vue_staticRenderFns__$1r },
     __vue_inject_styles__$1A,
     __vue_script__$1A,
@@ -16783,36 +14485,13 @@ __vue_render__$1s._withStripped = true;
   const __vue_module_identifier__$1B = undefined;
   /* functional template */
   const __vue_is_functional_template__$1B = false;
-  /* component normalizer */
-  function __vue_normalize__$1B(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardSuccess.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var WizardSuccess = __vue_normalize__$1B(
+  var WizardSuccess = normalizeComponent(
     { render: __vue_render__$1s, staticRenderFns: __vue_staticRenderFns__$1s },
     __vue_inject_styles__$1B,
     __vue_script__$1B,
@@ -16827,12 +14506,12 @@ __vue_render__$1s._withStripped = true;
 var script$1D = {
   name: 'wizard',
   components: {
-    SlideDeck: SlideDeck,
-    WizardButtons: WizardButtons,
-    WizardError: WizardError,
-    WizardHeader: WizardHeader,
-    WizardProgress: WizardProgress,
-    WizardSuccess: WizardSuccess
+    SlideDeck,
+    WizardButtons,
+    WizardError,
+    WizardHeader,
+    WizardProgress,
+    WizardSuccess
   },
   props: {
     /**
@@ -16866,9 +14545,11 @@ var script$1D = {
      */
     backButton: {
       type: [Function, Boolean],
-      default: function _default() {
+
+      default() {
         return this.currentStep > 0;
       }
+
     },
 
     /**
@@ -16907,9 +14588,11 @@ var script$1D = {
     resizeMode: {
       type: [Function, Boolean, String],
       default: 'auto',
-      validate: function validate(value) {
+
+      validate(value) {
         return ['auto', 'initial', 'inherit'].indexOf(value) !== 1;
       }
+
     },
 
     /**
@@ -16920,108 +14603,125 @@ var script$1D = {
      */
     validate: {
       type: [Function, Boolean],
-      default: function _default() {
+
+      default() {
         return true;
       }
+
     }
   },
   watch: {
-    active: function active() {
+    active() {
       this.currentStep = this.index();
     }
+
   },
   methods: {
-    back: function back() {
+    back() {
       this.$emit('update:step', this.currentStep = Math.max(this.currentStep - 1, 0));
     },
-    disableButtons: function disableButtons() {
-      this.isBackButtonDisabled = true;
-      this.isFinishButtonDisabled = true;
-      this.isNextButtonDisabled = true;
-    },
-    disableBackButton: function disableBackButton() {
-      this.isBackButtonDisabled = true;
-    },
-    disableFinishButton: function disableFinishButton() {
-      this.isFinishButtonDisabled = true;
-    },
-    disableNextButton: function disableNextButton() {
-      this.isNextButtonDisabled = true;
-    },
-    emitBubbleEvent: function emitBubbleEvent(key$$1) {
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
 
+    disableButtons() {
+      this.isBackButtonDisabled = true;
+      this.isFinishButtonDisabled = true;
+      this.isNextButtonDisabled = true;
+    },
+
+    disableBackButton() {
+      this.isBackButtonDisabled = true;
+    },
+
+    disableFinishButton() {
+      this.isFinishButtonDisabled = true;
+    },
+
+    disableNextButton() {
+      this.isNextButtonDisabled = true;
+    },
+
+    emitBubbleEvent(key$$1, ...args) {
       this.$refs.slideDeck.slide(this.currentStep).componentInstance.$emit.apply(this.$refs.slideDeck.slide(this.currentStep).componentInstance, args = [key$$1].concat(args));
       this.$emit.apply(this, args);
     },
-    enableButtons: function enableButtons() {
+
+    enableButtons() {
       this.isBackButtonDisabled = false;
       this.isFinishButtonDisabled = false;
       this.isNextButtonDisabled = false;
     },
-    enableBackButton: function enableBackButton() {
+
+    enableBackButton() {
       this.isBackButtonDisabled = false;
     },
-    enableFinishButton: function enableFinishButton() {
+
+    enableFinishButton() {
       this.isFinishButtonDisabled = false;
     },
-    enableNextButton: function enableNextButton() {
+
+    enableNextButton() {
       this.isNextButtonDisabled = false;
     },
-    finish: function finish(status) {
-      var errors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    finish(status, errors = null) {
       this.errors = errors;
       this.hasFailed = status === false;
       this.isFinished = true;
     },
-    index: function index() {
-      var key$$1 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    index(key$$1 = null) {
       return Math.max(0, this.$slots.default.indexOf(find(this.$slots.default, ['key', key$$1 || this.active]) || this.$slots.default[key$$1 || this.active]));
     },
-    next: function next() {
+
+    next() {
       this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
     },
-    onBeforeEnter: function onBeforeEnter(slide, prev) {
+
+    onBeforeEnter(slide, prev) {
       slide.context.$emit('before-enter', slide, prev);
       this.$emit('before-enter', slide, prev);
     },
-    onClickTest: function onClickTest(event) {
+
+    onClickTest(event) {
       this.isFinished = false;
     },
-    onClickBack: function onClickBack(event) {
+
+    onClickBack(event) {
       this.emitBubbleEvent('back', event);
 
       if (event.defaultPrevented !== true) {
         this.back();
       }
     },
-    onClickFinish: function onClickFinish(event) {
+
+    onClickFinish(event) {
       this.emitBubbleEvent('finish', event);
 
       if (event.defaultPrevented !== true) {
         this.finish(true);
       }
     },
-    onClickNext: function onClickNext(event) {
+
+    onClickNext(event) {
       this.emitBubbleEvent('next', event);
 
       if (event.defaultPrevented !== true) {
         this.next();
       }
     },
-    onEnter: function onEnter(slide, prev) {
+
+    onEnter(slide, prev) {
       this.highestStep = Math.max(this.highestStep, this.$refs.slideDeck.$refs.slides.getSlideIndex(slide));
       slide.componentInstance.$refs.wizard = this;
       slide.context.$emit('enter', slide, prev);
       this.$emit('enter', slide, prev);
     },
-    onLeave: function onLeave(slide, prev) {
+
+    onLeave(slide, prev) {
       slide.context.$emit('leave', slide, prev);
       this.$emit('leave', slide, prev);
     },
-    onProgressClick: function onProgressClick(event, slide) {
+
+    onProgressClick(event, slide) {
       if (this.$refs.slideDeck) {
         this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
       } else {
@@ -17029,9 +14729,11 @@ var script$1D = {
         this.currentStep = this.index(slide.key);
       }
     }
+
   },
-  mounted: function mounted() {
-    var slide = this.$refs.slideDeck.slide(this.currentStep);
+
+  mounted() {
+    const slide = this.$refs.slideDeck.slide(this.currentStep);
 
     if (slide) {
       (slide.componentInstance || slide.context).$refs.wizard = this;
@@ -17041,7 +14743,8 @@ var script$1D = {
 
     this.steps = this.$refs.slideDeck.slides();
   },
-  data: function data() {
+
+  data() {
     return {
       steps: [],
       errors: null,
@@ -17054,6 +14757,7 @@ var script$1D = {
       isFinishButtonDisabled: this.finishButton === false
     };
   }
+
 };
 
 /* script */
@@ -17163,36 +14867,13 @@ __vue_render__$1t._withStripped = true;
   const __vue_module_identifier__$1C = undefined;
   /* functional template */
   const __vue_is_functional_template__$1C = false;
-  /* component normalizer */
-  function __vue_normalize__$1C(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/Wizard.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var Wizard = __vue_normalize__$1C(
+  var Wizard = normalizeComponent(
     { render: __vue_render__$1t, staticRenderFns: __vue_staticRenderFns__$1t },
     __vue_inject_styles__$1C,
     __vue_script__$1C,
@@ -17204,17 +14885,18 @@ __vue_render__$1t._withStripped = true;
   );
 
 VueInstaller.use({
-  install: function install(Vue, options) {
+  install(Vue, options) {
     VueInstaller.components({
-      Wizard: Wizard,
-      WizardButtons: WizardButtons,
-      WizardHeader: WizardHeader,
-      WizardProgress: WizardProgress,
-      WizardStep: WizardStep,
-      WizardSuccess: WizardSuccess,
-      WizardError: WizardError
+      Wizard,
+      WizardButtons,
+      WizardHeader,
+      WizardProgress,
+      WizardStep,
+      WizardSuccess,
+      WizardError
     });
   }
+
 });
 
 
@@ -17315,7 +14997,7 @@ var components$1 = /*#__PURE__*/Object.freeze({
     WizardSuccess: WizardSuccess
 });
 
-var STYLE_ATTRIBUTES = ['font', 'fontFamily', 'fontKerning', 'fontSize', 'fontStretch', 'fontStyle', 'fontVariant', 'fontVariantLigatures', 'fontVariantCaps', 'fontVariantNumeric', 'fontVariantEastAsian', 'fontWeight', 'lineHeight', 'letterSpacing', 'padding', 'margin', 'textAlign', 'textAlignLast', 'textDecoration', 'textDecorationLine', 'textDecorationStyle', 'textDecorationColor', 'textDecorationSkipInk', 'textDecorationPosition', 'textIndent', 'textRendering', 'textShadow', 'textSizeAdjust', 'textOverflow', 'textTransform', 'width', 'wordBreak', 'wordSpacing', 'wordWrap'];
+const STYLE_ATTRIBUTES = ['font', 'fontFamily', 'fontKerning', 'fontSize', 'fontStretch', 'fontStyle', 'fontVariant', 'fontVariantLigatures', 'fontVariantCaps', 'fontVariantNumeric', 'fontVariantEastAsian', 'fontWeight', 'lineHeight', 'letterSpacing', 'padding', 'margin', 'textAlign', 'textAlignLast', 'textDecoration', 'textDecorationLine', 'textDecorationStyle', 'textDecorationColor', 'textDecorationSkipInk', 'textDecorationPosition', 'textIndent', 'textRendering', 'textShadow', 'textSizeAdjust', 'textOverflow', 'textTransform', 'width', 'wordBreak', 'wordSpacing', 'wordWrap'];
 
 function int(str) {
   if (typeof str === 'number') {
@@ -17340,7 +15022,7 @@ function style(el, attr) {
 }
 
 function resize(target, div, minHeight, maxHeight) {
-  var dynamicHeight = Math.max(height(div) + int(style(div, 'lineHeight')), minHeight);
+  const dynamicHeight = Math.max(height(div) + int(style(div, 'lineHeight')), minHeight);
   target.style.height = (!maxHeight || dynamicHeight < maxHeight ? dynamicHeight : maxHeight) + 'px';
 }
 /*
@@ -17351,11 +15033,11 @@ function setMinHeight(div, el) {
 
 
 function mimic(el) {
-  var div = document.createElement('div');
-  var styles = window.getComputedStyle(el);
+  const div = document.createElement('div');
+  const styles = window.getComputedStyle(el);
 
-  for (var i in STYLE_ATTRIBUTES) {
-    var key = STYLE_ATTRIBUTES[i];
+  for (let i in STYLE_ATTRIBUTES) {
+    const key = STYLE_ATTRIBUTES[i];
     div.style[key] = styles[key];
   }
 
@@ -17367,9 +15049,9 @@ function mimic(el) {
 }
 
 function init(el, maxHeight) {
-  var div = mimic(el);
-  var minHeight = height(el);
-  el.addEventListener('input', function (event) {
+  const div = mimic(el);
+  const minHeight = height(el);
+  el.addEventListener('input', event => {
     input(div, event.target);
     resize(el, div, minHeight, maxHeight);
   });
@@ -17379,7 +15061,7 @@ function init(el, maxHeight) {
 }
 
 var Autogrow = {
-  inserted: function inserted(el, binding, vnode) {
+  inserted(el, binding, vnode) {
     if (el.tagName.toLowerCase() !== 'textarea') {
       el = el.querySelector('textarea');
     }
@@ -17390,6 +15072,7 @@ var Autogrow = {
 
     init(el, binding.value);
   }
+
 };
 
 function show(el, target, vnode) {
@@ -17397,10 +15080,10 @@ function show(el, target, vnode) {
   target.classList.add('show');
   target.$collapsedHeight = getComputedStyle(target).height;
   target.classList.add('collapsing');
-  vnode.context.$nextTick(function () {
+  vnode.context.$nextTick(() => {
     target.style.height = target.$collapsedHeight;
   });
-  transition(target).then(function (delay) {
+  transition(target).then(delay => {
     target.style.height = null;
     target.classList.add('collapse');
     target.classList.remove('collapsing');
@@ -17412,10 +15095,10 @@ function hide(el, target, vnode) {
   target.style.height = target.$collapsedHeight;
   target.classList.add('collapsing');
   target.classList.remove('collapse');
-  vnode.context.$nextTick(function () {
+  vnode.context.$nextTick(() => {
     target.style.height = 0;
   });
-  transition(target).then(function (delay) {
+  transition(target).then(delay => {
     target.style.height = null;
     target.classList.add('collapse');
     target.classList.remove('show', 'collapsing');
@@ -17424,14 +15107,14 @@ function hide(el, target, vnode) {
 }
 
 var Collapse = {
-  inserted: function inserted(el, binding, vnode) {
+  inserted(el, binding, vnode) {
     if (isUndefined(binding.value) || binding.value === true) {
       el.classList.add('collapsed');
       el.setAttribute('data-toggle', 'collapse');
-      var target = el.getAttribute('data-target') || el.getAttribute('href');
-      var elements = document.querySelectorAll(target);
-      el.addEventListener('click', function (event) {
-        elements.forEach(function (element) {
+      const target = el.getAttribute('data-target') || el.getAttribute('href');
+      const elements = document.querySelectorAll(target);
+      el.addEventListener('click', event => {
+        elements.forEach(element => {
           if (!element.classList.contains('show')) {
             show(el, element, vnode);
           } else {
@@ -17440,7 +15123,7 @@ var Collapse = {
         });
         event.preventDefault();
       });
-      elements.forEach(function (element) {
+      elements.forEach(element => {
         /*
         if(!element.$collapsedHeight) {
             element.$collapsedHeight = getComputedStyle(element).height;
@@ -17452,15 +15135,16 @@ var Collapse = {
       });
     }
   }
+
 };
 
 var Slug = {
-  inserted: function inserted(el, binding, vnode) {
-    var input = el.querySelector('input, textarea') || el;
-    var value = get(vnode.context, binding.expression);
-    var editable = !input.value;
+  inserted(el, binding, vnode) {
+    const input = el.querySelector('input, textarea') || el;
+    const value = get(vnode.context, binding.expression);
+    let editable = !input.value;
 
-    var update = function update(value) {
+    const update = value => {
       if (editable) {
         input.value = kebabCase(value);
         input.dispatchEvent(new Event('input'));
@@ -17468,22 +15152,21 @@ var Slug = {
     };
 
     vnode.context.$watch(binding.expression, update);
-    input.addEventListener('keyup', function (event) {
+    input.addEventListener('keyup', event => {
       input.value = kebabCase(event.target.value) + (event.target.value.match(/\s$/) ? ' ' : '');
     });
-    input.addEventListener('input', function (event) {
+    input.addEventListener('input', event => {
       if (event instanceof InputEvent) {
         editable = !event.target.value;
       }
     });
-    input.addEventListener('blur', function (event) {
-      input.value = kebabCase(event.target.value || binding.expression.split('.').reduce(function (o, i) {
-        return o[i];
-      }, vnode.context));
+    input.addEventListener('blur', event => {
+      input.value = kebabCase(event.target.value || binding.expression.split('.').reduce((o, i) => o[i], vnode.context));
       input.dispatchEvent(new Event('input'));
     });
     !input.value && update(value);
   }
+
 };
 
 
@@ -17495,24 +15178,18 @@ var directives$1 = /*#__PURE__*/Object.freeze({
 });
 
 function blob(url, progress) {
-  return new Promise(function (resolve, reject) {
-    var xhr = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'blob';
 
     if (isFunction(progress)) {
-      xhr.onprogress = function (e) {
-        return progress(e, xhr);
-      };
+      xhr.onprogress = e => progress(e, xhr);
     }
 
-    xhr.onerror = function (e) {
-      return reject(e);
-    };
+    xhr.onerror = e => reject(e);
 
-    xhr.onabort = function (e) {
-      return reject(e);
-    };
+    xhr.onabort = e => reject(e);
 
     xhr.onload = function (e) {
       if (this.status === 200) {
@@ -17527,10 +15204,10 @@ function blob(url, progress) {
 }
 
 function elapsed(milliseconds, callback, elapsedCallback) {
-  var hasElapsed = false;
+  let hasElapsed = false;
 
   function start() {
-    return setTimeout(function () {
+    return setTimeout(() => {
       hasElapsed = true;
 
       if (isFunction(elapsedCallback)) {
@@ -17543,8 +15220,8 @@ function elapsed(milliseconds, callback, elapsedCallback) {
     clearTimeout(interval);
   }
 
-  var interval = start();
-  var promise = new Promise(function (resolve, reject) {
+  const interval = start();
+  const promise = new Promise((resolve, reject) => {
     function resolver(resolver, response) {
       return resolver(response || hasElapsed);
     }
@@ -17553,72 +15230,81 @@ function elapsed(milliseconds, callback, elapsedCallback) {
   return promise.finally(stop, stop);
 }
 
-var easings = {
-  linear: function linear(t) {
+const easings = {
+  linear(t) {
     return t;
   },
-  easeInQuad: function easeInQuad(t) {
+
+  easeInQuad(t) {
     return t * t;
   },
-  easeOutQuad: function easeOutQuad(t) {
+
+  easeOutQuad(t) {
     return t * (2 - t);
   },
-  easeInOutQuad: function easeInOutQuad(t) {
+
+  easeInOutQuad(t) {
     return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
   },
-  easeInCubic: function easeInCubic(t) {
+
+  easeInCubic(t) {
     return t * t * t;
   },
-  easeOutCubic: function easeOutCubic(t) {
+
+  easeOutCubic(t) {
     return --t * t * t + 1;
   },
-  easeInOutCubic: function easeInOutCubic(t) {
+
+  easeInOutCubic(t) {
     return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
   },
-  easeInQuart: function easeInQuart(t) {
+
+  easeInQuart(t) {
     return t * t * t * t;
   },
-  easeOutQuart: function easeOutQuart(t) {
+
+  easeOutQuart(t) {
     return 1 - --t * t * t * t;
   },
-  easeInOutQuart: function easeInOutQuart(t) {
+
+  easeInOutQuart(t) {
     return t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
   },
-  easeInQuint: function easeInQuint(t) {
+
+  easeInQuint(t) {
     return t * t * t * t * t;
   },
-  easeOutQuint: function easeOutQuint(t) {
+
+  easeOutQuint(t) {
     return 1 + --t * t * t * t * t;
   },
-  easeInOutQuint: function easeInOutQuint(t) {
+
+  easeInOutQuint(t) {
     return t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t;
   }
-};
-function scrollTo(destination) {
-  var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1000;
-  var easing = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'easeInQuad';
-  var viewport = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
+};
+function scrollTo(destination, duration = 1000, easing = 'easeInQuad', viewport = false) {
   if (!viewport) {
     viewport = document.querySelector('body');
   }
 
-  var viewportBounds = viewport.getBoundingClientRect();
-  var destinationBounds = destination.getBoundingClientRect();
-  var destinationOffsetToScroll = Math.ceil(destinationBounds.top + document.documentElement.scrollTop);
+  const viewportBounds = viewport.getBoundingClientRect();
+  const destinationBounds = destination.getBoundingClientRect();
+  const destinationOffsetToScroll = Math.ceil(destinationBounds.top + document.documentElement.scrollTop);
 
   function isScrollBottom() {
     return document.documentElement.scrollTop >= Math.floor(viewportBounds.height) - window.innerHeight;
   }
 
-  return new Promise(function (resolve, reject) {
-    var startTime = performance.now();
-    var isStartingBottom = isScrollBottom();
+  return new Promise((resolve, reject) => {
+    const startTime = performance.now();
+    const isStartingBottom = isScrollBottom();
 
     function scroll() {
-      var start = document.documentElement.scrollTop;
-      var time = Math.min(1, (performance.now() - startTime) / duration);
-      var timeFunction = easings[easing](time);
+      const start = document.documentElement.scrollTop;
+      const time = Math.min(1, (performance.now() - startTime) / duration);
+      const timeFunction = easings[easing](time);
       window.scroll(0, Math.ceil(timeFunction * (destinationOffsetToScroll - start) + start));
 
       if (document.documentElement.scrollTop === destinationOffsetToScroll || isScrollBottom() && !isStartingBottom) {
@@ -17633,16 +15319,16 @@ function scrollTo(destination) {
   });
 }
 
-var CALLBACKS = {};
+const CALLBACKS = {};
 
-function id$1(callback) {
-  return findIndex$1(CALLBACKS, function (compare) {
+function id(callback) {
+  return findIndex$1(CALLBACKS, compare => {
     return callback.toString() === compare.toString();
   });
 }
 
 function restart(callback, milliseconds) {
-  stop(id$1(callback));
+  stop(id(callback));
   start(callback, milliseconds);
 }
 
@@ -17656,25 +15342,26 @@ function start(callback, milliseconds) {
 }
 
 function wait(milliseconds, callback) {
-  return new Promise(function (resolve, reject) {
+  return new Promise((resolve, reject) => {
     function resolver(resolver, response) {
       return resolver(response);
     }
-    restart(wrap(callback, function (callback) {
+    restart(wrap(callback, callback => {
       return callback(wrap(resolve, resolver), wrap(reject, resolver));
     }), milliseconds);
   });
 }
 
 var main = VueInstaller.use({
-  install: function install(Vue) {
+  install(Vue) {
     VueInstaller.plugins(Vue, plugins$1);
     VueInstaller.filters(Vue, filters);
     VueInstaller.directives(Vue, directives$1);
     VueInstaller.components(Vue, components$1);
   }
+
 });
 
 export default main;
-export { Model, Request, Response, Colorable, FormControl as FormControlMixin, HasSlots, MergeClasses, Proxy$1 as Proxy, Screenreaders, Sizeable, Triggerable, Variant, blob, elapsed, instantiate, prefix, readFile, script$1 as script, scrollTo, transition, unit, uuid, wait, modal, overlay, popover, ActivityIndicator, Alert, AlertClose, AlertHeading, AlertLink, Badge, BaseForm, Breadcrumb, BreadcrumbItem, Btn, BtnActivity, BtnFile, BtnGroup, BtnGroupToggle, BtnToolbar, BtnDropdown, Card, CardBody, CardBtnGroup, CardDeck, CardFooter, CardHeader, CardImg, CardImgTop, CardImgBottom, CardImgOverlay, CardLink, CardSubtitle, CardTitle, CheckboxField, Container, DropdownMenu, DropdownMenuItem, DropdownMenuHeader, DropdownMenuDivider, Dropzone, FileField, FilePreview, FormControl$1 as FormControl, FormFeedback, FormGroup, FormLabel, HelpText, InfiniteScrolling, InputField, InputGroup, InputGroupAppend, InputGroupPrepend, InputGroupText, LightSwitchField, ListGroup, ListGroupItem, Navbar, NavbarBrand, NavbarCollapse, NavbarNav, NavbarText, NavbarToggler, NavbarTogglerIcon, Modal, ModalBackdrop, ModalBody, ModalContent, ModalDialog, ModalFooter, ModalHeader, ModalTitle, Navigation, NavigationError, NavigationItem, NavigationLink, NavigationDropdown, Overlay, Pagination, Popover, PopoverBody, PopoverHeader, ProgressBar, RadioField, SelectField, SlideDeck, Slides, TableView, TextareaField, ThumbnailList, ThumbnailListItem, UploadField, Wizard, WizardButtons, WizardHeader, WizardProgress, WizardStep, WizardSuccess, Autogrow, Collapse, Slug, DateFilter, MomentFilter };
+export { Model, Request, Response, Colorable, FormControl as FormControlMixin, HasSlots, MergeClasses, Proxy, Screenreaders, Sizeable, Triggerable, Variant, blob, elapsed, instantiate, prefix, readFile, script$1 as script, scrollTo, transition, unit, uuid, wait, modal, overlay, popover, ActivityIndicator, Alert, AlertClose, AlertHeading, AlertLink, Badge, BaseForm, Breadcrumb, BreadcrumbItem, Btn, BtnActivity, BtnFile, BtnGroup, BtnGroupToggle, BtnToolbar, BtnDropdown, Card, CardBody, CardBtnGroup, CardDeck, CardFooter, CardHeader, CardImg, CardImgTop, CardImgBottom, CardImgOverlay, CardLink, CardSubtitle, CardTitle, CheckboxField, Container, DropdownMenu, DropdownMenuItem, DropdownMenuHeader, DropdownMenuDivider, Dropzone, FileField, FilePreview, FormControl$1 as FormControl, FormFeedback, FormGroup, FormLabel, HelpText, InfiniteScrolling, InputField, InputGroup, InputGroupAppend, InputGroupPrepend, InputGroupText, LightSwitchField, ListGroup, ListGroupItem, Navbar, NavbarBrand, NavbarCollapse, NavbarNav, NavbarText, NavbarToggler, NavbarTogglerIcon, Modal, ModalBackdrop, ModalBody, ModalContent, ModalDialog, ModalFooter, ModalHeader, ModalTitle, Navigation, NavigationError, NavigationItem, NavigationLink, NavigationDropdown, Overlay, Pagination, Popover, PopoverBody, PopoverHeader, ProgressBar, RadioField, SelectField, SlideDeck, Slides, TableView, TextareaField, ThumbnailList, ThumbnailListItem, UploadField, Wizard, WizardButtons, WizardHeader, WizardProgress, WizardStep, WizardSuccess, Autogrow, Collapse, Slug, DateFilter, MomentFilter };
 //# sourceMappingURL=vue-interface.es.js.map
