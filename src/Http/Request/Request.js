@@ -30,8 +30,8 @@ export default class Request extends BaseClass {
 
         return new Promise((resolve, reject) => {
             axios(this.options).then(
-                data => resolve(this.response = new Response(data)),
-                errors => reject(this.errors = errors)
+                response => resolve(this.response = new Response(response)),
+                error => reject(this.response = new Response(error.response))
             );
         });
     }
@@ -68,20 +68,20 @@ export default class Request extends BaseClass {
         this.$response = value;
     }
 
-    get errors() {
-        return this.$errors;
+    get error() {
+        return this.$error;
     }
 
-    set errors(value) {
-        this.$errors = value;
+    set error(value) {
+        this.$error = value;
     }
 
     get passed() {
-        return !!this.response && !this.errors;
+        return !!this.response && !this.error;
     }
 
     get failed() {
-        return !!this.response && !!this.$error;
+        return !!this.response && !!this.error;
     }
 
     static get transform() {

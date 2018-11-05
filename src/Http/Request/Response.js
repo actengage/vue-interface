@@ -16,6 +16,14 @@ export default class Response extends BaseClass {
         this.$data = value;
     }
 
+    get error() {
+        return this.$error;
+    }
+
+    set error(value) {
+        this.$error = value;
+    }
+
     get request() {
         return this.$request;
     }
@@ -30,5 +38,13 @@ export default class Response extends BaseClass {
 
     set date(value) {
         this.$date = value;
+    }
+
+    get success() {
+        return this.status >= 200 && this.status < 300;
+    }
+
+    get failed() {
+        return !this.success;
     }
 }

@@ -3855,6 +3855,14 @@
         this.$data = value;
       }
 
+      get error() {
+        return this.$error;
+      }
+
+      set error(value) {
+        this.$error = value;
+      }
+
       get request() {
         return this.$request;
       }
@@ -3869,6 +3877,14 @@
 
       set date(value) {
         this.$date = value;
+      }
+
+      get success() {
+        return this.status >= 200 && this.status < 300;
+      }
+
+      get failed() {
+        return !this.success;
       }
 
     }
@@ -3897,7 +3913,7 @@
         this.sentAt = new Date();
         this.setAttributes(attributes);
         return new Promise((resolve, reject) => {
-          axios(this.options).then(data => resolve(this.response = new Response(data)), errors => reject(this.errors = errors));
+          axios(this.options).then(response => resolve(this.response = new Response(response)), error => reject(this.response = new Response(error.response)));
         });
       }
 
@@ -3932,20 +3948,20 @@
         this.$response = value;
       }
 
-      get errors() {
-        return this.$errors;
+      get error() {
+        return this.$error;
       }
 
-      set errors(value) {
-        this.$errors = value;
+      set error(value) {
+        this.$error = value;
       }
 
       get passed() {
-        return !!this.response && !this.errors;
+        return !!this.response && !this.error;
       }
 
       get failed() {
-        return !!this.response && !!this.$error;
+        return !!this.response && !!this.error;
       }
 
       static get transform() {
