@@ -246,7 +246,7 @@ export default {
 
                 el.addEventListener('blur', event => {
                     if(el.classList.contains(emptyClass)) {
-                        addClass(el, vnode, changedClass);
+                        removeClass(el, vnode, changedClass);
                     }
 
                     removeClass(el, vnode, focusClass);
