@@ -3083,6 +3083,8 @@
       );
 
     const emptyClass = 'is-empty';
+    const focusClass = 'has-focus';
+    const changedClass = 'has-changed';
 
     function addClass(el, vnode, css) {
       el.classList.add(css);
@@ -3313,13 +3315,17 @@
           bind(el, binding, vnode) {
             // Add/remove the has-focus class from the form control
             el.addEventListener('focus', event => {
-              addClass(el, vnode, 'has-focus');
+              addClass(el, vnode, focusClass);
             });
             el.addEventListener('blur', event => {
-              removeClass(el, vnode, 'has-focus');
+              if (el.classList.contains(emptyClass)) {
+                addClass(el, vnode, changedClass);
+              }
+
+              removeClass(el, vnode, focusClass);
             });
             el.addEventListener('input', e => {
-              addClass(el, vnode, 'has-changed');
+              addClass(el, vnode, changedClass);
 
               if (el.value === '') {
                 addClass(el, vnode, emptyClass);
