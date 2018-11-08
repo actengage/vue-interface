@@ -62,20 +62,6 @@ export default {
         FormLabel,
         FormFeedback,
         ActivityIndicator
-    },
-
-    props: {
-
-        /**
-         * The type attribute
-         *
-         * @property String
-         */
-        type: {
-            type: String,
-            default: 'text'
-        }
-
     }
 
 };

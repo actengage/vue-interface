@@ -3,6 +3,18 @@ import Colorable from '../../Mixins/Colorable';
 import MergeClasses from '../../Mixins/MergeClasses';
 import { each, isArray, isObject } from '../../Helpers/Functions';
 
+const emptyClass = 'is-empty';
+
+function addClass(el, vnode, css) {
+    el.classList.add(css);
+    vnode.context.$el.classList.add(css);
+}
+
+function removeClass(el, vnode, css) {
+    el.classList.remove(css);
+    vnode.context.$el.classList.remove(css);
+}
+
 export default {
 
     inheritAttrs: false,
@@ -225,18 +237,18 @@ export default {
     directives: {
         bindEvents: {
             bind(el, binding, vnode) {
-                const emptyClass = 'is-empty';
-
                 // Add/remove the has-focus class from the form control
-                el.addEventListener('focus', event => event.target.classList.add('has-focus'));
-                el.addEventListener('blur', event => event.target.classList.remove('has-focus'));
-                el.addEventListener('input', e => {
-                    el.classList[!el.value ? 'add' : 'remove'](emptyClass);
+                el.addEventListener('focus', event => {
+                    addClass(el, vnode, 'has-focus');
                 });
 
-                if(!el.value) {
-                    el.classList.add(emptyClass);
-                }
+                el.addEventListener('blur', event => {
+                    removeClass(el, vnode, 'has-focus');
+                });
+
+                el.addEventListener('input', e => {
+                    !el.value ? removeClass(el, vnode, emptyClass) : addClass(el, vnode, emptyClass);
+                });
 
                 // Bubble the native events up to the vue component.
                 each(vnode.context.bindEvents, name => {
@@ -244,6 +256,11 @@ export default {
                         vnode.context.$emit(name, event);
                     });
                 });
+            },
+            inserted(el, binding, vnode) {
+                if(!el.value) {
+                    addClass(el, vnode, emptyClass);
+                }
             }
         }
     },
