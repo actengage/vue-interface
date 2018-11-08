@@ -1,6 +1,6 @@
 {
     "name": "vue-interface",
-    "version": "0.2.13",
+    "version": "0.2.14",
     "main": "./dist/vue-interface.js",
     "module": "./dist/vue-interface.es.js",
     "dependencies": {
@@ -59,7 +59,7 @@
         "rollup-plugin-sass": "^0.9.2",
         "rollup-plugin-serve": "^0.6.0",
         "rollup-plugin-uglify-es": "0.0.1",
-        "rollup-plugin-vue": "github:objectivehtml/rollup-plugin-vue#patch-1",
+        "rollup-plugin-vue": "^4.3.2",
         "vue-jest": "^3.0.0",
         "vue-jest-utils": "^0.2.0",
         "vue-server-renderer": "^2.5.17",

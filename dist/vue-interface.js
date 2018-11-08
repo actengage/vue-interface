@@ -217,81 +217,6 @@
       }
     };
 
-    function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
-        if (typeof isShadowMode === 'function') {
-            createInjectorSSR = createInjector;
-            createInjector = isShadowMode;
-            isShadowMode = false;
-        }
-        // Vue.extend constructor export interop
-        const options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport;
-        // render functions
-        if (compiledTemplate && compiledTemplate.render) {
-            options.render = compiledTemplate.render;
-            options.staticRenderFns = compiledTemplate.staticRenderFns;
-            options._compiled = true;
-            // functional template
-            if (isFunctionalTemplate) {
-                options.functional = true;
-            }
-        }
-        // scopedId
-        if (scopeId) {
-            options._scopeId = scopeId;
-        }
-        let hook;
-        if (moduleIdentifier) {
-            // server build
-            hook = function (context) {
-                // 2.3 injection
-                context =
-                    context || // cached call
-                        (this.$vnode && this.$vnode.ssrContext) || // stateful
-                        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext); // functional
-                // 2.2 with runInNewContext: true
-                if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-                    context = __VUE_SSR_CONTEXT__;
-                }
-                // inject component styles
-                if (injectStyle) {
-                    injectStyle.call(this, createInjectorSSR(context));
-                }
-                // register component module identifier for async chunk inference
-                if (context && context._registeredComponents) {
-                    context._registeredComponents.add(moduleIdentifier);
-                }
-            };
-            // used by ssr in case component is cached and beforeCreate
-            // never gets called
-            options._ssrRegister = hook;
-        }
-        else if (injectStyle) {
-            hook = isShadowMode
-                ? function () {
-                    injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
-                }
-                : function (context) {
-                    injectStyle.call(this, createInjector(context));
-                };
-        }
-        if (hook) {
-            if (options.functional) {
-                // register for functional component in vue file
-                const originalRender = options.render;
-                options.render = function renderWithStyleInjection(h, context) {
-                    hook.call(context);
-                    return originalRender(h, context);
-                };
-            }
-            else {
-                // inject component registration as beforeCreate hook
-                const existing = options.beforeCreate;
-                options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
-            }
-        }
-        return defaultExport;
-    }
-
     /* script */
                 const __vue_script__ = script;
                 
@@ -319,13 +244,36 @@
       const __vue_module_identifier__ = undefined;
       /* functional template */
       const __vue_is_functional_template__ = false;
+      /* component normalizer */
+      function __vue_normalize__(
+        template, style, script$$1,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ActivityIndicator/Types/BaseType.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var BaseType = normalizeComponent(
+      var BaseType = __vue_normalize__(
         { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
         __vue_inject_styles__,
         __vue_script__,
@@ -353,13 +301,36 @@
       const __vue_module_identifier__$1 = undefined;
       /* functional template */
       const __vue_is_functional_template__$1 = undefined;
+      /* component normalizer */
+      function __vue_normalize__$1(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ActivityIndicator/Types/Dots.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ActivityIndicatorDots = normalizeComponent(
+      var ActivityIndicatorDots = __vue_normalize__$1(
         {},
         __vue_inject_styles__$1,
         __vue_script__$1,
@@ -393,13 +364,36 @@
       const __vue_module_identifier__$2 = undefined;
       /* functional template */
       const __vue_is_functional_template__$2 = undefined;
+      /* component normalizer */
+      function __vue_normalize__$2(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ActivityIndicator/Types/Spinner.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ActivityIndicatorSpinner = normalizeComponent(
+      var ActivityIndicatorSpinner = __vue_normalize__$2(
         {},
         __vue_inject_styles__$2,
         __vue_script__$2,
@@ -530,13 +524,36 @@
       const __vue_module_identifier__$3 = undefined;
       /* functional template */
       const __vue_is_functional_template__$3 = false;
+      /* component normalizer */
+      function __vue_normalize__$3(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ActivityIndicator/ActivityIndicator.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ActivityIndicator = normalizeComponent(
+      var ActivityIndicator = __vue_normalize__$3(
         { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
         __vue_inject_styles__$3,
         __vue_script__$3,
@@ -592,13 +609,36 @@
       const __vue_module_identifier__$4 = undefined;
       /* functional template */
       const __vue_is_functional_template__$4 = false;
+      /* component normalizer */
+      function __vue_normalize__$4(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Alert/AlertClose.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var AlertClose = normalizeComponent(
+      var AlertClose = __vue_normalize__$4(
         { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
         __vue_inject_styles__$4,
         __vue_script__$4,
@@ -638,13 +678,36 @@
       const __vue_module_identifier__$5 = undefined;
       /* functional template */
       const __vue_is_functional_template__$5 = false;
+      /* component normalizer */
+      function __vue_normalize__$5(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Alert/AlertHeading.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var AlertHeading = normalizeComponent(
+      var AlertHeading = __vue_normalize__$5(
         { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
         __vue_inject_styles__$5,
         __vue_script__$5,
@@ -868,13 +931,36 @@
       const __vue_module_identifier__$6 = undefined;
       /* functional template */
       const __vue_is_functional_template__$6 = false;
+      /* component normalizer */
+      function __vue_normalize__$6(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ProgressBar/ProgressBar.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ProgressBar = normalizeComponent(
+      var ProgressBar = __vue_normalize__$6(
         { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
         __vue_inject_styles__$6,
         __vue_script__$6,
@@ -1059,13 +1145,36 @@
       const __vue_module_identifier__$7 = undefined;
       /* functional template */
       const __vue_is_functional_template__$7 = false;
+      /* component normalizer */
+      function __vue_normalize__$7(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Alert/Alert.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Alert = normalizeComponent(
+      var Alert = __vue_normalize__$7(
         { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
         __vue_inject_styles__$7,
         __vue_script__$7,
@@ -1105,13 +1214,36 @@
       const __vue_module_identifier__$8 = undefined;
       /* functional template */
       const __vue_is_functional_template__$8 = false;
+      /* component normalizer */
+      function __vue_normalize__$8(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Alert/AlertLink.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var AlertLink = normalizeComponent(
+      var AlertLink = __vue_normalize__$8(
         { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
         __vue_inject_styles__$8,
         __vue_script__$8,
@@ -1227,13 +1359,36 @@
       const __vue_module_identifier__$9 = undefined;
       /* functional template */
       const __vue_is_functional_template__$9 = false;
+      /* component normalizer */
+      function __vue_normalize__$9(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Badge/Badge.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Badge = normalizeComponent(
+      var Badge = __vue_normalize__$9(
         { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
         __vue_inject_styles__$9,
         __vue_script__$9,
@@ -2152,13 +2307,36 @@
       const __vue_module_identifier__$a = undefined;
       /* functional template */
       const __vue_is_functional_template__$a = false;
+      /* component normalizer */
+      function __vue_normalize__$a(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BaseForm/BaseForm.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var BaseForm = normalizeComponent(
+      var BaseForm = __vue_normalize__$a(
         { render: __vue_render__$8, staticRenderFns: __vue_staticRenderFns__$8 },
         __vue_inject_styles__$a,
         __vue_script__$a,
@@ -2262,13 +2440,36 @@
       const __vue_module_identifier__$b = undefined;
       /* functional template */
       const __vue_is_functional_template__$b = false;
+      /* component normalizer */
+      function __vue_normalize__$b(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Breadcrumb/BreadcrumbItem.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var BreadcrumbItem = normalizeComponent(
+      var BreadcrumbItem = __vue_normalize__$b(
         { render: __vue_render__$9, staticRenderFns: __vue_staticRenderFns__$9 },
         __vue_inject_styles__$b,
         __vue_script__$b,
@@ -2339,13 +2540,36 @@
       const __vue_module_identifier__$c = undefined;
       /* functional template */
       const __vue_is_functional_template__$c = false;
+      /* component normalizer */
+      function __vue_normalize__$c(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Breadcrumb/Breadcrumb.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Breadcrumb = normalizeComponent(
+      var Breadcrumb = __vue_normalize__$c(
         { render: __vue_render__$a, staticRenderFns: __vue_staticRenderFns__$a },
         __vue_inject_styles__$c,
         __vue_script__$c,
@@ -2540,13 +2764,36 @@
       const __vue_module_identifier__$d = undefined;
       /* functional template */
       const __vue_is_functional_template__$d = false;
+      /* component normalizer */
+      function __vue_normalize__$d(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Btn/Btn.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Btn = normalizeComponent(
+      var Btn = __vue_normalize__$d(
         { render: __vue_render__$b, staticRenderFns: __vue_staticRenderFns__$b },
         __vue_inject_styles__$d,
         __vue_script__$d,
@@ -2808,13 +3055,36 @@
       const __vue_module_identifier__$e = undefined;
       /* functional template */
       const __vue_is_functional_template__$e = false;
+      /* component normalizer */
+      function __vue_normalize__$e(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnActivity/BtnActivity.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var BtnActivity = normalizeComponent(
+      var BtnActivity = __vue_normalize__$e(
         { render: __vue_render__$c, staticRenderFns: __vue_staticRenderFns__$c },
         __vue_inject_styles__$e,
         __vue_script__$e,
@@ -2890,13 +3160,36 @@
       const __vue_module_identifier__$f = undefined;
       /* functional template */
       const __vue_is_functional_template__$f = false;
+      /* component normalizer */
+      function __vue_normalize__$f(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/HelpText/HelpText.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var HelpText = normalizeComponent(
+      var HelpText = __vue_normalize__$f(
         { render: __vue_render__$d, staticRenderFns: __vue_staticRenderFns__$d },
         __vue_inject_styles__$f,
         __vue_script__$f,
@@ -2939,13 +3232,36 @@
       const __vue_module_identifier__$g = undefined;
       /* functional template */
       const __vue_is_functional_template__$g = false;
+      /* component normalizer */
+      function __vue_normalize__$g(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FormGroup/FormGroup.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var FormGroup = normalizeComponent(
+      var FormGroup = __vue_normalize__$g(
         { render: __vue_render__$e, staticRenderFns: __vue_staticRenderFns__$e },
         __vue_inject_styles__$g,
         __vue_script__$g,
@@ -2989,13 +3305,36 @@
       const __vue_module_identifier__$h = undefined;
       /* functional template */
       const __vue_is_functional_template__$h = false;
+      /* component normalizer */
+      function __vue_normalize__$h(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FormLabel/FormLabel.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var FormLabel = normalizeComponent(
+      var FormLabel = __vue_normalize__$h(
         { render: __vue_render__$f, staticRenderFns: __vue_staticRenderFns__$f },
         __vue_inject_styles__$h,
         __vue_script__$h,
@@ -3065,13 +3404,36 @@
       const __vue_module_identifier__$i = undefined;
       /* functional template */
       const __vue_is_functional_template__$i = false;
+      /* component normalizer */
+      function __vue_normalize__$i(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FormFeedback/FormFeedback.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var FormFeedback = normalizeComponent(
+      var FormFeedback = __vue_normalize__$i(
         { render: __vue_render__$g, staticRenderFns: __vue_staticRenderFns__$g },
         __vue_inject_styles__$i,
         __vue_script__$i,
@@ -3461,13 +3823,36 @@
       const __vue_module_identifier__$j = undefined;
       /* functional template */
       const __vue_is_functional_template__$j = false;
+      /* component normalizer */
+      function __vue_normalize__$j(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FormControl/FormControl.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var FormControl$1 = normalizeComponent(
+      var FormControl$1 = __vue_normalize__$j(
         { render: __vue_render__$h, staticRenderFns: __vue_staticRenderFns__$h },
         __vue_inject_styles__$j,
         __vue_script__$j,
@@ -3623,13 +4008,36 @@
       const __vue_module_identifier__$k = undefined;
       /* functional template */
       const __vue_is_functional_template__$k = false;
+      /* component normalizer */
+      function __vue_normalize__$k(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InputField/InputField.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var InputField = normalizeComponent(
+      var InputField = __vue_normalize__$k(
         { render: __vue_render__$i, staticRenderFns: __vue_staticRenderFns__$i },
         __vue_inject_styles__$k,
         __vue_script__$k,
@@ -3806,13 +4214,36 @@
       const __vue_module_identifier__$l = undefined;
       /* functional template */
       const __vue_is_functional_template__$l = false;
+      /* component normalizer */
+      function __vue_normalize__$l(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FileField/FileField.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var FileField = normalizeComponent(
+      var FileField = __vue_normalize__$l(
         { render: __vue_render__$j, staticRenderFns: __vue_staticRenderFns__$j },
         __vue_inject_styles__$l,
         __vue_script__$l,
@@ -3906,13 +4337,36 @@
       const __vue_module_identifier__$m = undefined;
       /* functional template */
       const __vue_is_functional_template__$m = false;
+      /* component normalizer */
+      function __vue_normalize__$m(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnFile/BtnFile.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var BtnFile = normalizeComponent(
+      var BtnFile = __vue_normalize__$m(
         { render: __vue_render__$k, staticRenderFns: __vue_staticRenderFns__$k },
         __vue_inject_styles__$m,
         __vue_script__$m,
@@ -4001,13 +4455,36 @@
       const __vue_module_identifier__$n = undefined;
       /* functional template */
       const __vue_is_functional_template__$n = false;
+      /* component normalizer */
+      function __vue_normalize__$n(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnGroup/BtnGroup.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var BtnGroup = normalizeComponent(
+      var BtnGroup = __vue_normalize__$n(
         { render: __vue_render__$l, staticRenderFns: __vue_staticRenderFns__$l },
         __vue_inject_styles__$n,
         __vue_script__$n,
@@ -4054,13 +4531,36 @@
       const __vue_module_identifier__$o = undefined;
       /* functional template */
       const __vue_is_functional_template__$o = false;
+      /* component normalizer */
+      function __vue_normalize__$o(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnGroup/BtnGroupToggle.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var BtnGroupToggle = normalizeComponent(
+      var BtnGroupToggle = __vue_normalize__$o(
         { render: __vue_render__$m, staticRenderFns: __vue_staticRenderFns__$m },
         __vue_inject_styles__$o,
         __vue_script__$o,
@@ -4107,13 +4607,36 @@
       const __vue_module_identifier__$p = undefined;
       /* functional template */
       const __vue_is_functional_template__$p = false;
+      /* component normalizer */
+      function __vue_normalize__$p(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnGroup/BtnToolbar.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var BtnToolbar = normalizeComponent(
+      var BtnToolbar = __vue_normalize__$p(
         { render: __vue_render__$n, staticRenderFns: __vue_staticRenderFns__$n },
         __vue_inject_styles__$p,
         __vue_script__$p,
@@ -4248,13 +4771,36 @@
       const __vue_module_identifier__$q = undefined;
       /* functional template */
       const __vue_is_functional_template__$q = false;
+      /* component normalizer */
+      function __vue_normalize__$q(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/DropdownMenu/DropdownMenuItem.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var DropdownMenuItem = normalizeComponent(
+      var DropdownMenuItem = __vue_normalize__$q(
         { render: __vue_render__$o, staticRenderFns: __vue_staticRenderFns__$o },
         __vue_inject_styles__$q,
         __vue_script__$q,
@@ -4309,13 +4855,36 @@
       const __vue_module_identifier__$r = undefined;
       /* functional template */
       const __vue_is_functional_template__$r = false;
+      /* component normalizer */
+      function __vue_normalize__$r(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/DropdownMenu/DropdownMenuHeader.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var DropdownMenuHeader = normalizeComponent(
+      var DropdownMenuHeader = __vue_normalize__$r(
         { render: __vue_render__$p, staticRenderFns: __vue_staticRenderFns__$p },
         __vue_inject_styles__$r,
         __vue_script__$r,
@@ -4355,13 +4924,36 @@
       const __vue_module_identifier__$s = undefined;
       /* functional template */
       const __vue_is_functional_template__$s = false;
+      /* component normalizer */
+      function __vue_normalize__$s(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/DropdownMenu/DropdownMenuDivider.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var DropdownMenuDivider = normalizeComponent(
+      var DropdownMenuDivider = __vue_normalize__$s(
         { render: __vue_render__$q, staticRenderFns: __vue_staticRenderFns__$q },
         __vue_inject_styles__$s,
         __vue_script__$s,
@@ -4508,13 +5100,36 @@
       const __vue_module_identifier__$t = undefined;
       /* functional template */
       const __vue_is_functional_template__$t = false;
+      /* component normalizer */
+      function __vue_normalize__$t(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/DropdownMenu/DropdownMenu.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var DropdownMenu = normalizeComponent(
+      var DropdownMenu = __vue_normalize__$t(
         { render: __vue_render__$r, staticRenderFns: __vue_staticRenderFns__$r },
         __vue_inject_styles__$t,
         __vue_script__$t,
@@ -5042,13 +5657,36 @@
       const __vue_module_identifier__$u = undefined;
       /* functional template */
       const __vue_is_functional_template__$u = false;
+      /* component normalizer */
+      function __vue_normalize__$u(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/BtnDropdown/BtnDropdown.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var BtnDropdown = normalizeComponent(
+      var BtnDropdown = __vue_normalize__$u(
         { render: __vue_render__$s, staticRenderFns: __vue_staticRenderFns__$s },
         __vue_inject_styles__$u,
         __vue_script__$u,
@@ -5124,13 +5762,36 @@
       const __vue_module_identifier__$v = undefined;
       /* functional template */
       const __vue_is_functional_template__$v = false;
+      /* component normalizer */
+      function __vue_normalize__$v(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/Card.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Card = normalizeComponent(
+      var Card = __vue_normalize__$v(
         { render: __vue_render__$t, staticRenderFns: __vue_staticRenderFns__$t },
         __vue_inject_styles__$v,
         __vue_script__$v,
@@ -5159,13 +5820,36 @@
       const __vue_module_identifier__$w = undefined;
       /* functional template */
       const __vue_is_functional_template__$w = undefined;
+      /* component normalizer */
+      function __vue_normalize__$w(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardBody.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardBody = normalizeComponent(
+      var CardBody = __vue_normalize__$w(
         {},
         __vue_inject_styles__$w,
         __vue_script__$w,
@@ -5207,13 +5891,36 @@
       const __vue_module_identifier__$x = undefined;
       /* functional template */
       const __vue_is_functional_template__$x = false;
+      /* component normalizer */
+      function __vue_normalize__$x(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardBtnGroup.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardBtnGroup = normalizeComponent(
+      var CardBtnGroup = __vue_normalize__$x(
         { render: __vue_render__$u, staticRenderFns: __vue_staticRenderFns__$u },
         __vue_inject_styles__$x,
         __vue_script__$x,
@@ -5257,13 +5964,36 @@
       const __vue_module_identifier__$y = undefined;
       /* functional template */
       const __vue_is_functional_template__$y = false;
+      /* component normalizer */
+      function __vue_normalize__$y(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardDeck.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardDeck = normalizeComponent(
+      var CardDeck = __vue_normalize__$y(
         { render: __vue_render__$v, staticRenderFns: __vue_staticRenderFns__$v },
         __vue_inject_styles__$y,
         __vue_script__$y,
@@ -5321,13 +6051,36 @@
       const __vue_module_identifier__$z = undefined;
       /* functional template */
       const __vue_is_functional_template__$z = false;
+      /* component normalizer */
+      function __vue_normalize__$z(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardHeader.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardHeader = normalizeComponent(
+      var CardHeader = __vue_normalize__$z(
         { render: __vue_render__$w, staticRenderFns: __vue_staticRenderFns__$w },
         __vue_inject_styles__$z,
         __vue_script__$z,
@@ -5367,13 +6120,36 @@
       const __vue_module_identifier__$A = undefined;
       /* functional template */
       const __vue_is_functional_template__$A = undefined;
+      /* component normalizer */
+      function __vue_normalize__$A(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardFooter.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardFooter = normalizeComponent(
+      var CardFooter = __vue_normalize__$A(
         {},
         __vue_inject_styles__$A,
         __vue_script__$A,
@@ -5496,13 +6272,36 @@
       const __vue_module_identifier__$B = undefined;
       /* functional template */
       const __vue_is_functional_template__$B = false;
+      /* component normalizer */
+      function __vue_normalize__$B(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardImg.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardImg = normalizeComponent(
+      var CardImg = __vue_normalize__$B(
         { render: __vue_render__$x, staticRenderFns: __vue_staticRenderFns__$x },
         __vue_inject_styles__$B,
         __vue_script__$B,
@@ -5531,13 +6330,36 @@
       const __vue_module_identifier__$C = undefined;
       /* functional template */
       const __vue_is_functional_template__$C = undefined;
+      /* component normalizer */
+      function __vue_normalize__$C(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardImgTop.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardImgTop = normalizeComponent(
+      var CardImgTop = __vue_normalize__$C(
         {},
         __vue_inject_styles__$C,
         __vue_script__$C,
@@ -5566,13 +6388,36 @@
       const __vue_module_identifier__$D = undefined;
       /* functional template */
       const __vue_is_functional_template__$D = undefined;
+      /* component normalizer */
+      function __vue_normalize__$D(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardImgBottom.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardImgBottom = normalizeComponent(
+      var CardImgBottom = __vue_normalize__$D(
         {},
         __vue_inject_styles__$D,
         __vue_script__$D,
@@ -5601,13 +6446,36 @@
       const __vue_module_identifier__$E = undefined;
       /* functional template */
       const __vue_is_functional_template__$E = undefined;
+      /* component normalizer */
+      function __vue_normalize__$E(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardImgOverlay.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardImgOverlay = normalizeComponent(
+      var CardImgOverlay = __vue_normalize__$E(
         {},
         __vue_inject_styles__$E,
         __vue_script__$E,
@@ -5683,13 +6551,36 @@
       const __vue_module_identifier__$F = undefined;
       /* functional template */
       const __vue_is_functional_template__$F = false;
+      /* component normalizer */
+      function __vue_normalize__$F(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardLink.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardLink = normalizeComponent(
+      var CardLink = __vue_normalize__$F(
         { render: __vue_render__$y, staticRenderFns: __vue_staticRenderFns__$y },
         __vue_inject_styles__$F,
         __vue_script__$F,
@@ -5733,13 +6624,36 @@
       const __vue_module_identifier__$G = undefined;
       /* functional template */
       const __vue_is_functional_template__$G = false;
+      /* component normalizer */
+      function __vue_normalize__$G(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardSubtitle.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardSubtitle = normalizeComponent(
+      var CardSubtitle = __vue_normalize__$G(
         { render: __vue_render__$z, staticRenderFns: __vue_staticRenderFns__$z },
         __vue_inject_styles__$G,
         __vue_script__$G,
@@ -5782,13 +6696,36 @@
       const __vue_module_identifier__$H = undefined;
       /* functional template */
       const __vue_is_functional_template__$H = false;
+      /* component normalizer */
+      function __vue_normalize__$H(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Card/CardTitle.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CardTitle = normalizeComponent(
+      var CardTitle = __vue_normalize__$H(
         { render: __vue_render__$A, staticRenderFns: __vue_staticRenderFns__$A },
         __vue_inject_styles__$H,
         __vue_script__$H,
@@ -6045,13 +6982,36 @@
       const __vue_module_identifier__$I = undefined;
       /* functional template */
       const __vue_is_functional_template__$I = false;
+      /* component normalizer */
+      function __vue_normalize__$I(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/RadioField/RadioField.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var RadioField = normalizeComponent(
+      var RadioField = __vue_normalize__$I(
         { render: __vue_render__$B, staticRenderFns: __vue_staticRenderFns__$B },
         __vue_inject_styles__$I,
         __vue_script__$I,
@@ -6258,13 +7218,36 @@
       const __vue_module_identifier__$J = undefined;
       /* functional template */
       const __vue_is_functional_template__$J = false;
+      /* component normalizer */
+      function __vue_normalize__$J(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/CheckboxField/CheckboxField.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var CheckboxField = normalizeComponent(
+      var CheckboxField = __vue_normalize__$J(
         { render: __vue_render__$C, staticRenderFns: __vue_staticRenderFns__$C },
         __vue_inject_styles__$J,
         __vue_script__$J,
@@ -6306,13 +7289,36 @@
       const __vue_module_identifier__$K = undefined;
       /* functional template */
       const __vue_is_functional_template__$K = false;
+      /* component normalizer */
+      function __vue_normalize__$K(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Container/Container.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Container = normalizeComponent(
+      var Container = __vue_normalize__$K(
         { render: __vue_render__$D, staticRenderFns: __vue_staticRenderFns__$D },
         __vue_inject_styles__$K,
         __vue_script__$K,
@@ -6438,13 +7444,36 @@
       const __vue_module_identifier__$L = undefined;
       /* functional template */
       const __vue_is_functional_template__$L = false;
+      /* component normalizer */
+      function __vue_normalize__$L(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Dropzone/Dropzone.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Dropzone = normalizeComponent(
+      var Dropzone = __vue_normalize__$L(
         { render: __vue_render__$E, staticRenderFns: __vue_staticRenderFns__$E },
         __vue_inject_styles__$L,
         __vue_script__$L,
@@ -6759,13 +7788,36 @@
       const __vue_module_identifier__$M = undefined;
       /* functional template */
       const __vue_is_functional_template__$M = false;
+      /* component normalizer */
+      function __vue_normalize__$M(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/FilePreview/FilePreview.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var FilePreview = normalizeComponent(
+      var FilePreview = __vue_normalize__$M(
         { render: __vue_render__$F, staticRenderFns: __vue_staticRenderFns__$F },
         __vue_inject_styles__$M,
         __vue_script__$M,
@@ -6918,13 +7970,36 @@
       const __vue_module_identifier__$N = undefined;
       /* functional template */
       const __vue_is_functional_template__$N = false;
+      /* component normalizer */
+      function __vue_normalize__$N(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InfiniteScrolling/InfiniteScrolling.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var InfiniteScrolling = normalizeComponent(
+      var InfiniteScrolling = __vue_normalize__$N(
         { render: __vue_render__$G, staticRenderFns: __vue_staticRenderFns__$G },
         __vue_inject_styles__$N,
         __vue_script__$N,
@@ -6988,13 +8063,36 @@
       const __vue_module_identifier__$O = undefined;
       /* functional template */
       const __vue_is_functional_template__$O = false;
+      /* component normalizer */
+      function __vue_normalize__$O(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InputGroup/InputGroupText.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var InputGroupText = normalizeComponent(
+      var InputGroupText = __vue_normalize__$O(
         { render: __vue_render__$H, staticRenderFns: __vue_staticRenderFns__$H },
         __vue_inject_styles__$O,
         __vue_script__$O,
@@ -7058,13 +8156,36 @@
       const __vue_module_identifier__$P = undefined;
       /* functional template */
       const __vue_is_functional_template__$P = false;
+      /* component normalizer */
+      function __vue_normalize__$P(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InputGroup/InputGroupAppend.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var InputGroupAppend = normalizeComponent(
+      var InputGroupAppend = __vue_normalize__$P(
         { render: __vue_render__$I, staticRenderFns: __vue_staticRenderFns__$I },
         __vue_inject_styles__$P,
         __vue_script__$P,
@@ -7128,13 +8249,36 @@
       const __vue_module_identifier__$Q = undefined;
       /* functional template */
       const __vue_is_functional_template__$Q = false;
+      /* component normalizer */
+      function __vue_normalize__$Q(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InputGroup/InputGroupPrepend.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var InputGroupPrepend = normalizeComponent(
+      var InputGroupPrepend = __vue_normalize__$Q(
         { render: __vue_render__$J, staticRenderFns: __vue_staticRenderFns__$J },
         __vue_inject_styles__$Q,
         __vue_script__$Q,
@@ -7235,13 +8379,36 @@
       const __vue_module_identifier__$R = undefined;
       /* functional template */
       const __vue_is_functional_template__$R = false;
+      /* component normalizer */
+      function __vue_normalize__$R(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/InputGroup/InputGroup.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var InputGroup = normalizeComponent(
+      var InputGroup = __vue_normalize__$R(
         { render: __vue_render__$K, staticRenderFns: __vue_staticRenderFns__$K },
         __vue_inject_styles__$R,
         __vue_script__$R,
@@ -7454,13 +8621,36 @@
       const __vue_module_identifier__$S = undefined;
       /* functional template */
       const __vue_is_functional_template__$S = false;
+      /* component normalizer */
+      function __vue_normalize__$S(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/LightSwitchField/LightSwitchField.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var LightSwitchField = normalizeComponent(
+      var LightSwitchField = __vue_normalize__$S(
         { render: __vue_render__$L, staticRenderFns: __vue_staticRenderFns__$L },
         __vue_inject_styles__$S,
         __vue_script__$S,
@@ -7688,13 +8878,36 @@
       const __vue_module_identifier__$T = undefined;
       /* functional template */
       const __vue_is_functional_template__$T = false;
+      /* component normalizer */
+      function __vue_normalize__$T(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ListGroup/ListGroupItem.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ListGroupItem = normalizeComponent(
+      var ListGroupItem = __vue_normalize__$T(
         { render: __vue_render__$M, staticRenderFns: __vue_staticRenderFns__$M },
         __vue_inject_styles__$T,
         __vue_script__$T,
@@ -7803,13 +9016,36 @@
       const __vue_module_identifier__$U = undefined;
       /* functional template */
       const __vue_is_functional_template__$U = false;
+      /* component normalizer */
+      function __vue_normalize__$U(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ListGroup/ListGroup.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ListGroup = normalizeComponent(
+      var ListGroup = __vue_normalize__$U(
         { render: __vue_render__$N, staticRenderFns: __vue_staticRenderFns__$N },
         __vue_inject_styles__$U,
         __vue_script__$U,
@@ -7849,13 +9085,36 @@
       const __vue_module_identifier__$V = undefined;
       /* functional template */
       const __vue_is_functional_template__$V = false;
+      /* component normalizer */
+      function __vue_normalize__$V(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalBody.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ModalBody = normalizeComponent(
+      var ModalBody = __vue_normalize__$V(
         { render: __vue_render__$O, staticRenderFns: __vue_staticRenderFns__$O },
         __vue_inject_styles__$V,
         __vue_script__$V,
@@ -7900,13 +9159,36 @@
       const __vue_module_identifier__$W = undefined;
       /* functional template */
       const __vue_is_functional_template__$W = false;
+      /* component normalizer */
+      function __vue_normalize__$W(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalDialog.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ModalDialog = normalizeComponent(
+      var ModalDialog = __vue_normalize__$W(
         { render: __vue_render__$P, staticRenderFns: __vue_staticRenderFns__$P },
         __vue_inject_styles__$W,
         __vue_script__$W,
@@ -7946,13 +9228,36 @@
       const __vue_module_identifier__$X = undefined;
       /* functional template */
       const __vue_is_functional_template__$X = false;
+      /* component normalizer */
+      function __vue_normalize__$X(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalTitle.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ModalTitle = normalizeComponent(
+      var ModalTitle = __vue_normalize__$X(
         { render: __vue_render__$Q, staticRenderFns: __vue_staticRenderFns__$Q },
         __vue_inject_styles__$X,
         __vue_script__$X,
@@ -8027,13 +9332,36 @@
       const __vue_module_identifier__$Y = undefined;
       /* functional template */
       const __vue_is_functional_template__$Y = false;
+      /* component normalizer */
+      function __vue_normalize__$Y(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalHeader.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ModalHeader = normalizeComponent(
+      var ModalHeader = __vue_normalize__$Y(
         { render: __vue_render__$R, staticRenderFns: __vue_staticRenderFns__$R },
         __vue_inject_styles__$Y,
         __vue_script__$Y,
@@ -8073,13 +9401,36 @@
       const __vue_module_identifier__$Z = undefined;
       /* functional template */
       const __vue_is_functional_template__$Z = false;
+      /* component normalizer */
+      function __vue_normalize__$Z(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalFooter.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ModalFooter = normalizeComponent(
+      var ModalFooter = __vue_normalize__$Z(
         { render: __vue_render__$S, staticRenderFns: __vue_staticRenderFns__$S },
         __vue_inject_styles__$Z,
         __vue_script__$Z,
@@ -8119,13 +9470,36 @@
       const __vue_module_identifier__$_ = undefined;
       /* functional template */
       const __vue_is_functional_template__$_ = false;
+      /* component normalizer */
+      function __vue_normalize__$_(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalContent.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ModalContent = normalizeComponent(
+      var ModalContent = __vue_normalize__$_(
         { render: __vue_render__$T, staticRenderFns: __vue_staticRenderFns__$T },
         __vue_inject_styles__$_,
         __vue_script__$_,
@@ -8196,13 +9570,36 @@
       const __vue_module_identifier__$10 = undefined;
       /* functional template */
       const __vue_is_functional_template__$10 = false;
+      /* component normalizer */
+      function __vue_normalize__$10(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/ModalBackdrop.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ModalBackdrop = normalizeComponent(
+      var ModalBackdrop = __vue_normalize__$10(
         { render: __vue_render__$U, staticRenderFns: __vue_staticRenderFns__$U },
         __vue_inject_styles__$10,
         __vue_script__$10,
@@ -8699,13 +10096,36 @@
       const __vue_module_identifier__$11 = undefined;
       /* functional template */
       const __vue_is_functional_template__$11 = false;
+      /* component normalizer */
+      function __vue_normalize__$11(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Modal/Modal.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Modal = normalizeComponent(
+      var Modal = __vue_normalize__$11(
         { render: __vue_render__$V, staticRenderFns: __vue_staticRenderFns__$V },
         __vue_inject_styles__$11,
         __vue_script__$11,
@@ -8837,13 +10257,36 @@
       const __vue_module_identifier__$12 = undefined;
       /* functional template */
       const __vue_is_functional_template__$12 = false;
+      /* component normalizer */
+      function __vue_normalize__$12(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarBrand.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var NavbarBrand = normalizeComponent(
+      var NavbarBrand = __vue_normalize__$12(
         { render: __vue_render__$W, staticRenderFns: __vue_staticRenderFns__$W },
         __vue_inject_styles__$12,
         __vue_script__$12,
@@ -8900,13 +10343,36 @@
       const __vue_module_identifier__$13 = undefined;
       /* functional template */
       const __vue_is_functional_template__$13 = false;
+      /* component normalizer */
+      function __vue_normalize__$13(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarCollapse.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var NavbarCollapse = normalizeComponent(
+      var NavbarCollapse = __vue_normalize__$13(
         { render: __vue_render__$X, staticRenderFns: __vue_staticRenderFns__$X },
         __vue_inject_styles__$13,
         __vue_script__$13,
@@ -8948,13 +10414,36 @@
       const __vue_module_identifier__$14 = undefined;
       /* functional template */
       const __vue_is_functional_template__$14 = false;
+      /* component normalizer */
+      function __vue_normalize__$14(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarText.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var NavbarText = normalizeComponent(
+      var NavbarText = __vue_normalize__$14(
         { render: __vue_render__$Y, staticRenderFns: __vue_staticRenderFns__$Y },
         __vue_inject_styles__$14,
         __vue_script__$14,
@@ -9001,13 +10490,36 @@
       const __vue_module_identifier__$15 = undefined;
       /* functional template */
       const __vue_is_functional_template__$15 = false;
+      /* component normalizer */
+      function __vue_normalize__$15(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarTogglerIcon.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var NavbarTogglerIcon = normalizeComponent(
+      var NavbarTogglerIcon = __vue_normalize__$15(
         { render: __vue_render__$Z, staticRenderFns: __vue_staticRenderFns__$Z },
         __vue_inject_styles__$15,
         __vue_script__$15,
@@ -9080,13 +10592,36 @@
       const __vue_module_identifier__$16 = undefined;
       /* functional template */
       const __vue_is_functional_template__$16 = false;
+      /* component normalizer */
+      function __vue_normalize__$16(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarToggler.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var NavbarToggler = normalizeComponent(
+      var NavbarToggler = __vue_normalize__$16(
         { render: __vue_render__$_, staticRenderFns: __vue_staticRenderFns__$_ },
         __vue_inject_styles__$16,
         __vue_script__$16,
@@ -9206,13 +10741,36 @@
       const __vue_module_identifier__$17 = undefined;
       /* functional template */
       const __vue_is_functional_template__$17 = false;
+      /* component normalizer */
+      function __vue_normalize__$17(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/Navbar.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Navbar = normalizeComponent(
+      var Navbar = __vue_normalize__$17(
         { render: __vue_render__$10, staticRenderFns: __vue_staticRenderFns__$10 },
         __vue_inject_styles__$17,
         __vue_script__$17,
@@ -9271,13 +10829,36 @@
       const __vue_module_identifier__$18 = undefined;
       /* functional template */
       const __vue_is_functional_template__$18 = false;
+      /* component normalizer */
+      function __vue_normalize__$18(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navigation/NavigationError.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var NavigationError = normalizeComponent(
+      var NavigationError = __vue_normalize__$18(
         { render: __vue_render__$11, staticRenderFns: __vue_staticRenderFns__$11 },
         __vue_inject_styles__$18,
         __vue_script__$18,
@@ -9410,13 +10991,36 @@
       const __vue_module_identifier__$19 = undefined;
       /* functional template */
       const __vue_is_functional_template__$19 = false;
+      /* component normalizer */
+      function __vue_normalize__$19(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navigation/NavigationLink.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var NavigationLink = normalizeComponent(
+      var NavigationLink = __vue_normalize__$19(
         { render: __vue_render__$12, staticRenderFns: __vue_staticRenderFns__$12 },
         __vue_inject_styles__$19,
         __vue_script__$19,
@@ -9506,13 +11110,36 @@
       const __vue_module_identifier__$1a = undefined;
       /* functional template */
       const __vue_is_functional_template__$1a = false;
+      /* component normalizer */
+      function __vue_normalize__$1a(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navigation/NavigationItem.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var NavigationItem = normalizeComponent(
+      var NavigationItem = __vue_normalize__$1a(
         { render: __vue_render__$13, staticRenderFns: __vue_staticRenderFns__$13 },
         __vue_inject_styles__$1a,
         __vue_script__$1a,
@@ -9648,13 +11275,36 @@
       const __vue_module_identifier__$1b = undefined;
       /* functional template */
       const __vue_is_functional_template__$1b = false;
+      /* component normalizer */
+      function __vue_normalize__$1b(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navigation/Navigation.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Navigation = normalizeComponent(
+      var Navigation = __vue_normalize__$1b(
         { render: __vue_render__$14, staticRenderFns: __vue_staticRenderFns__$14 },
         __vue_inject_styles__$1b,
         __vue_script__$1b,
@@ -9749,13 +11399,36 @@
       const __vue_module_identifier__$1c = undefined;
       /* functional template */
       const __vue_is_functional_template__$1c = false;
+      /* component normalizer */
+      function __vue_normalize__$1c(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navigation/NavigationDropdown.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var NavigationDropdown = normalizeComponent(
+      var NavigationDropdown = __vue_normalize__$1c(
         { render: __vue_render__$15, staticRenderFns: __vue_staticRenderFns__$15 },
         __vue_inject_styles__$1c,
         __vue_script__$1c,
@@ -9804,13 +11477,36 @@
       const __vue_module_identifier__$1d = undefined;
       /* functional template */
       const __vue_is_functional_template__$1d = false;
+      /* component normalizer */
+      function __vue_normalize__$1d(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Navbar/NavbarNav.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var NavbarNav = normalizeComponent(
+      var NavbarNav = __vue_normalize__$1d(
         { render: __vue_render__$16, staticRenderFns: __vue_staticRenderFns__$16 },
         __vue_inject_styles__$1d,
         __vue_script__$1d,
@@ -9850,13 +11546,36 @@
       const __vue_module_identifier__$1e = undefined;
       /* functional template */
       const __vue_is_functional_template__$1e = false;
+      /* component normalizer */
+      function __vue_normalize__$1e(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Overlay/OverlayBody.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var OverlayBody = normalizeComponent(
+      var OverlayBody = __vue_normalize__$1e(
         { render: __vue_render__$17, staticRenderFns: __vue_staticRenderFns__$17 },
         __vue_inject_styles__$1e,
         __vue_script__$1e,
@@ -9900,13 +11619,36 @@
       const __vue_module_identifier__$1f = undefined;
       /* functional template */
       const __vue_is_functional_template__$1f = false;
+      /* component normalizer */
+      function __vue_normalize__$1f(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Overlay/OverlayContent.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var OverlayContent = normalizeComponent(
+      var OverlayContent = __vue_normalize__$1f(
         { render: __vue_render__$18, staticRenderFns: __vue_staticRenderFns__$18 },
         __vue_inject_styles__$1f,
         __vue_script__$1f,
@@ -10068,13 +11810,36 @@
       const __vue_module_identifier__$1g = undefined;
       /* functional template */
       const __vue_is_functional_template__$1g = false;
+      /* component normalizer */
+      function __vue_normalize__$1g(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Overlay/Overlay.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Overlay = normalizeComponent(
+      var Overlay = __vue_normalize__$1g(
         { render: __vue_render__$19, staticRenderFns: __vue_staticRenderFns__$19 },
         __vue_inject_styles__$1g,
         __vue_script__$1g,
@@ -10376,13 +12141,36 @@
       const __vue_module_identifier__$1h = undefined;
       /* functional template */
       const __vue_is_functional_template__$1h = false;
+      /* component normalizer */
+      function __vue_normalize__$1h(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Pagination/Pagination.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Pagination = normalizeComponent(
+      var Pagination = __vue_normalize__$1h(
         { render: __vue_render__$1a, staticRenderFns: __vue_staticRenderFns__$1a },
         __vue_inject_styles__$1h,
         __vue_script__$1h,
@@ -10681,13 +12469,36 @@
       const __vue_module_identifier__$1i = undefined;
       /* functional template */
       const __vue_is_functional_template__$1i = false;
+      /* component normalizer */
+      function __vue_normalize__$1i(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Popover/Popover.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Popover = normalizeComponent(
+      var Popover = __vue_normalize__$1i(
         { render: __vue_render__$1b, staticRenderFns: __vue_staticRenderFns__$1b },
         __vue_inject_styles__$1i,
         __vue_script__$1i,
@@ -10729,13 +12540,36 @@
       const __vue_module_identifier__$1j = undefined;
       /* functional template */
       const __vue_is_functional_template__$1j = false;
+      /* component normalizer */
+      function __vue_normalize__$1j(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Popover/PopoverBody.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var PopoverBody = normalizeComponent(
+      var PopoverBody = __vue_normalize__$1j(
         { render: __vue_render__$1c, staticRenderFns: __vue_staticRenderFns__$1c },
         __vue_inject_styles__$1j,
         __vue_script__$1j,
@@ -10793,13 +12627,36 @@
       const __vue_module_identifier__$1k = undefined;
       /* functional template */
       const __vue_is_functional_template__$1k = false;
+      /* component normalizer */
+      function __vue_normalize__$1k(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Popover/PopoverHeader.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var PopoverHeader = normalizeComponent(
+      var PopoverHeader = __vue_normalize__$1k(
         { render: __vue_render__$1d, staticRenderFns: __vue_staticRenderFns__$1d },
         __vue_inject_styles__$1k,
         __vue_script__$1k,
@@ -10958,13 +12815,36 @@
       const __vue_module_identifier__$1l = undefined;
       /* functional template */
       const __vue_is_functional_template__$1l = false;
+      /* component normalizer */
+      function __vue_normalize__$1l(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/SelectField/SelectField.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var SelectField = normalizeComponent(
+      var SelectField = __vue_normalize__$1l(
         { render: __vue_render__$1e, staticRenderFns: __vue_staticRenderFns__$1e },
         __vue_inject_styles__$1l,
         __vue_script__$1l,
@@ -11103,13 +12983,36 @@
       const __vue_module_identifier__$1m = undefined;
       /* functional template */
       const __vue_is_functional_template__$1m = undefined;
+      /* component normalizer */
+      function __vue_normalize__$1m(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/SlideDeck/Slides.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Slides = normalizeComponent(
+      var Slides = __vue_normalize__$1m(
         {},
         __vue_inject_styles__$1m,
         __vue_script__$1m,
@@ -11209,13 +13112,36 @@
       const __vue_module_identifier__$1n = undefined;
       /* functional template */
       const __vue_is_functional_template__$1n = false;
+      /* component normalizer */
+      function __vue_normalize__$1n(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/SlideDeck/SlideDeckControls.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var SlideDeckControls = normalizeComponent(
+      var SlideDeckControls = __vue_normalize__$1n(
         { render: __vue_render__$1f, staticRenderFns: __vue_staticRenderFns__$1f },
         __vue_inject_styles__$1n,
         __vue_script__$1n,
@@ -11512,13 +13438,36 @@
       const __vue_module_identifier__$1o = undefined;
       /* functional template */
       const __vue_is_functional_template__$1o = false;
+      /* component normalizer */
+      function __vue_normalize__$1o(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/SlideDeck/SlideDeck.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var SlideDeck = normalizeComponent(
+      var SlideDeck = __vue_normalize__$1o(
         { render: __vue_render__$1g, staticRenderFns: __vue_staticRenderFns__$1g },
         __vue_inject_styles__$1o,
         __vue_script__$1o,
@@ -11645,13 +13594,36 @@
       const __vue_module_identifier__$1p = undefined;
       /* functional template */
       const __vue_is_functional_template__$1p = false;
+      /* component normalizer */
+      function __vue_normalize__$1p(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/TableView/TableViewHeader.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var TableViewHeader = normalizeComponent(
+      var TableViewHeader = __vue_normalize__$1p(
         { render: __vue_render__$1h, staticRenderFns: __vue_staticRenderFns__$1h },
         __vue_inject_styles__$1p,
         __vue_script__$1p,
@@ -11882,13 +13854,36 @@
       const __vue_module_identifier__$1q = undefined;
       /* functional template */
       const __vue_is_functional_template__$1q = false;
+      /* component normalizer */
+      function __vue_normalize__$1q(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/TableView/Table.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var BaseTable = normalizeComponent(
+      var BaseTable = __vue_normalize__$1q(
         { render: __vue_render__$1i, staticRenderFns: __vue_staticRenderFns__$1i },
         __vue_inject_styles__$1q,
         __vue_script__$1q,
@@ -12283,13 +14278,36 @@
       const __vue_module_identifier__$1r = undefined;
       /* functional template */
       const __vue_is_functional_template__$1r = false;
+      /* component normalizer */
+      function __vue_normalize__$1r(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/TableView/TableView.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var TableView = normalizeComponent(
+      var TableView = __vue_normalize__$1r(
         { render: __vue_render__$1j, staticRenderFns: __vue_staticRenderFns__$1j },
         __vue_inject_styles__$1r,
         __vue_script__$1r,
@@ -12426,13 +14444,36 @@
       const __vue_module_identifier__$1s = undefined;
       /* functional template */
       const __vue_is_functional_template__$1s = false;
+      /* component normalizer */
+      function __vue_normalize__$1s(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/TextareaField/TextareaField.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var TextareaField = normalizeComponent(
+      var TextareaField = __vue_normalize__$1s(
         { render: __vue_render__$1k, staticRenderFns: __vue_staticRenderFns__$1k },
         __vue_inject_styles__$1s,
         __vue_script__$1s,
@@ -12508,13 +14549,36 @@
       const __vue_module_identifier__$1t = undefined;
       /* functional template */
       const __vue_is_functional_template__$1t = false;
+      /* component normalizer */
+      function __vue_normalize__$1t(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ThumbnailList/ThumbnailListItem.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ThumbnailListItem = normalizeComponent(
+      var ThumbnailListItem = __vue_normalize__$1t(
         { render: __vue_render__$1l, staticRenderFns: __vue_staticRenderFns__$1l },
         __vue_inject_styles__$1t,
         __vue_script__$1t,
@@ -12592,13 +14656,36 @@
       const __vue_module_identifier__$1u = undefined;
       /* functional template */
       const __vue_is_functional_template__$1u = false;
+      /* component normalizer */
+      function __vue_normalize__$1u(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/ThumbnailList/ThumbnailList.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var ThumbnailList = normalizeComponent(
+      var ThumbnailList = __vue_normalize__$1u(
         { render: __vue_render__$1m, staticRenderFns: __vue_staticRenderFns__$1m },
         __vue_inject_styles__$1u,
         __vue_script__$1u,
@@ -13053,13 +15140,36 @@
       const __vue_module_identifier__$1v = undefined;
       /* functional template */
       const __vue_is_functional_template__$1v = false;
+      /* component normalizer */
+      function __vue_normalize__$1v(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/UploadField/UploadField.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var UploadField = normalizeComponent(
+      var UploadField = __vue_normalize__$1v(
         { render: __vue_render__$1n, staticRenderFns: __vue_staticRenderFns__$1n },
         __vue_inject_styles__$1v,
         __vue_script__$1v,
@@ -13262,13 +15372,36 @@
       const __vue_module_identifier__$1w = undefined;
       /* functional template */
       const __vue_is_functional_template__$1w = false;
+      /* component normalizer */
+      function __vue_normalize__$1w(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardButtons.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var WizardButtons = normalizeComponent(
+      var WizardButtons = __vue_normalize__$1w(
         { render: __vue_render__$1o, staticRenderFns: __vue_staticRenderFns__$1o },
         __vue_inject_styles__$1w,
         __vue_script__$1w,
@@ -13400,13 +15533,36 @@
       const __vue_module_identifier__$1x = undefined;
       /* functional template */
       const __vue_is_functional_template__$1x = undefined;
+      /* component normalizer */
+      function __vue_normalize__$1x(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardStep.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var WizardStep = normalizeComponent(
+      var WizardStep = __vue_normalize__$1x(
         {},
         __vue_inject_styles__$1x,
         __vue_script__$1x,
@@ -13520,13 +15676,36 @@
       const __vue_module_identifier__$1y = undefined;
       /* functional template */
       const __vue_is_functional_template__$1y = false;
+      /* component normalizer */
+      function __vue_normalize__$1y(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardError.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var WizardError = normalizeComponent(
+      var WizardError = __vue_normalize__$1y(
         { render: __vue_render__$1p, staticRenderFns: __vue_staticRenderFns__$1p },
         __vue_inject_styles__$1y,
         __vue_script__$1y,
@@ -13592,13 +15771,36 @@
       const __vue_module_identifier__$1z = undefined;
       /* functional template */
       const __vue_is_functional_template__$1z = false;
+      /* component normalizer */
+      function __vue_normalize__$1z(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardHeader.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var WizardHeader = normalizeComponent(
+      var WizardHeader = __vue_normalize__$1z(
         { render: __vue_render__$1q, staticRenderFns: __vue_staticRenderFns__$1q },
         __vue_inject_styles__$1z,
         __vue_script__$1z,
@@ -13737,13 +15939,36 @@
       const __vue_module_identifier__$1A = undefined;
       /* functional template */
       const __vue_is_functional_template__$1A = false;
+      /* component normalizer */
+      function __vue_normalize__$1A(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardProgress.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var WizardProgress = normalizeComponent(
+      var WizardProgress = __vue_normalize__$1A(
         { render: __vue_render__$1r, staticRenderFns: __vue_staticRenderFns__$1r },
         __vue_inject_styles__$1A,
         __vue_script__$1A,
@@ -13810,13 +16035,36 @@
       const __vue_module_identifier__$1B = undefined;
       /* functional template */
       const __vue_is_functional_template__$1B = false;
+      /* component normalizer */
+      function __vue_normalize__$1B(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/WizardSuccess.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var WizardSuccess = normalizeComponent(
+      var WizardSuccess = __vue_normalize__$1B(
         { render: __vue_render__$1s, staticRenderFns: __vue_staticRenderFns__$1s },
         __vue_inject_styles__$1B,
         __vue_script__$1B,
@@ -14192,13 +16440,36 @@
       const __vue_module_identifier__$1C = undefined;
       /* functional template */
       const __vue_is_functional_template__$1C = false;
+      /* component normalizer */
+      function __vue_normalize__$1C(
+        template, style, script,
+        scope, functional, moduleIdentifier,
+        createInjector, createInjectorSSR
+      ) {
+        const component = (typeof script === 'function' ? script.options : script) || {};
+
+        // For security concerns, we use only base name in production mode.
+        component.__file = "/Users/justinkimbrell/Github/vue-interface/src/Components/Wizard/Wizard.vue";
+
+        if (!component.render) {
+          component.render = template.render;
+          component.staticRenderFns = template.staticRenderFns;
+          component._compiled = true;
+
+          if (functional) component.functional = true;
+        }
+
+        component._scopeId = scope;
+
+        return component
+      }
       /* style inject */
       
       /* style inject SSR */
       
 
       
-      var Wizard = normalizeComponent(
+      var Wizard = __vue_normalize__$1C(
         { render: __vue_render__$1t, staticRenderFns: __vue_staticRenderFns__$1t },
         __vue_inject_styles__$1C,
         __vue_script__$1C,

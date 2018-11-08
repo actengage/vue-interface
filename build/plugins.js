@@ -69,9 +69,14 @@ export default (config = {}) => {
             include: NODE_MODULES
         }, config.commonjs)),
 
+        css(),
+
         // rollup-plugin-vue
         vue(Object.assign({
-            css: false
+            css: false,
+            defaultLang: {
+                style: 'postcss'
+            }
         }, config.vue || config.vuePlugin)),
 
         // rollup-plugin-postcss
