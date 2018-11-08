@@ -97,11 +97,6 @@
 }
 
 /*# sourceMappingURL=WizardButtons.vue.map */
-.card > .wizard .wizard-header {
-  margin-top: 1rem;
-}
-
-/*# sourceMappingURL=WizardHeader.vue.map */
 .wizard-progress {
   justify-content: space-between;
   align-items: center;
@@ -214,6 +209,11 @@
 }
 
 /*# sourceMappingURL=WizardProgress.vue.map */
+.card > .wizard .wizard-header {
+  margin-top: 1rem;
+}
+
+/*# sourceMappingURL=WizardHeader.vue.map */
 .wizard-success {
   text-align: center;
   font-size: 1.25rem;
@@ -449,21 +449,6 @@
 }
 
 /*# sourceMappingURL=Btn.vue.map */
-.btn-file {
-  cursor: pointer;
-  position: relative;
-}
-.btn-file input {
-    z-index: 1;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-/*# sourceMappingURL=BtnFile.vue.map */
 @keyframes btn-activity-in {
 0%, 100% {
     transform: scale(1);
@@ -861,6 +846,21 @@
 }
 
 /*# sourceMappingURL=BtnActivity.vue.map */
+.btn-file {
+  cursor: pointer;
+  position: relative;
+}
+.btn-file input {
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/*# sourceMappingURL=BtnFile.vue.map */
 .dropzone {
   position: relative;
 }
@@ -943,6 +943,11 @@
 }
 
 /*# sourceMappingURL=FormGroup.vue.map */
+.infinite-scrolling {
+  position: relative;
+}
+
+/*# sourceMappingURL=InfiniteScrolling.vue.map */
 .input-field .slide-fade-enter,
 .input-field .slide-fade-leave-to {
   opacity: 1;
@@ -950,11 +955,6 @@
 }
 
 /*# sourceMappingURL=InputField.vue.map */
-.infinite-scrolling {
-  position: relative;
-}
-
-/*# sourceMappingURL=InfiniteScrolling.vue.map */
 .light-switch {
   padding: 0;
   position: relative;

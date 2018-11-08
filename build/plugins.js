@@ -68,7 +68,8 @@ export default (config = {}) => {
         commonjs(Object.assign({
             include: NODE_MODULES
         }, config.commonjs)),
-
+        
+        // rollup-plugin-css-only
         css(),
 
         // rollup-plugin-vue

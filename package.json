@@ -1,8 +1,9 @@
 {
     "name": "vue-interface",
-    "version": "0.2.14",
+    "version": "0.2.15",
     "main": "./dist/vue-interface.js",
     "module": "./dist/vue-interface.es.js",
+    "styles": "./dist/vue-interface.css",
     "dependencies": {
         "bootstrap": "^4.1.0"
     },

@@ -69,6 +69,12 @@
 }
 
 /*# sourceMappingURL=NavigationError.vue.map */
+.wizard-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+/*# sourceMappingURL=WizardButtons.vue.map */
 .thumbnail-list-item {
   max-width: 100%;
   max-height: 100%;
@@ -91,46 +97,11 @@
 }
 
 /*# sourceMappingURL=ThumbnailListItem.vue.map */
-.wizard-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-/*# sourceMappingURL=WizardButtons.vue.map */
 .card > .wizard .wizard-header {
   margin-top: 1rem;
 }
 
 /*# sourceMappingURL=WizardHeader.vue.map */
-.wizard-success {
-  text-align: center;
-  font-size: 1.25rem;
-  padding: 5rem 1.25rem;
-}
-.wizard-success .wizard-success-title {
-    font-size: 1.875rem;
-    color: #55b776;
-}
-.wizard-success .wizard-success-icon {
-    color: #55b776;
-    font-size: 3.125rem;
-    border: 5px solid #55b776;
-    border-radius: 100%;
-    text-align: center;
-    width: 7.5rem;
-    height: 7.5rem;
-    margin: 1.25rem auto;
-    position: relative;
-}
-.wizard-success .wizard-success-icon i {
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      left: 0;
-      line-height: 0;
-}
-
-/*# sourceMappingURL=WizardSuccess.vue.map */
 .wizard-progress {
   justify-content: space-between;
   align-items: center;
@@ -243,6 +214,35 @@
 }
 
 /*# sourceMappingURL=WizardProgress.vue.map */
+.wizard-success {
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 5rem 1.25rem;
+}
+.wizard-success .wizard-success-title {
+    font-size: 1.875rem;
+    color: #55b776;
+}
+.wizard-success .wizard-success-icon {
+    color: #55b776;
+    font-size: 3.125rem;
+    border: 5px solid #55b776;
+    border-radius: 100%;
+    text-align: center;
+    width: 7.5rem;
+    height: 7.5rem;
+    margin: 1.25rem auto;
+    position: relative;
+}
+.wizard-success .wizard-success-icon i {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      line-height: 0;
+}
+
+/*# sourceMappingURL=WizardSuccess.vue.map */
 .modal .modal-backdrop + .modal-dialog {
   z-index: 1050;
 }
@@ -394,76 +394,6 @@
 }
 
 /*# sourceMappingURL=WizardError.vue.map */
-@media (max-width: 575.98px) {
-.btn-xs-block {
-    width: 100%;
-    display: block;
-}
-.btn-xs-block + .btn-xs-block {
-      margin-top: 0.5rem;
-}
-}
-@media (max-width: 767.98px) {
-.btn-sm-block {
-    width: 100%;
-    display: block;
-}
-.btn-sm-block + .btn-xs-block,
-    .btn-sm-block + .btn-sm-block {
-      margin-top: 0.5rem;
-}
-}
-@media (max-width: 991.98px) {
-.btn-md-block {
-    width: 100%;
-    display: block;
-}
-.btn-md-block + .btn-xs-block,
-    .btn-md-block + .btn-sm-block,
-    .btn-md-block + .btn-md-block {
-      margin-top: 0.5rem;
-}
-}
-@media (max-width: 1199.98px) {
-.btn-lg-block {
-    width: 100%;
-    display: block;
-}
-.btn-lg-block + .btn-xs-block,
-    .btn-lg-block + .btn-sm-block,
-    .btn-lg-block + .btn-md-block,
-    .btn-lg-block + .btn-lg-block {
-      margin-top: 0.5rem;
-}
-}
-.btn-xl-block {
-  width: 100%;
-  display: block;
-}
-.btn-xl-block + .btn-xs-block,
-  .btn-xl-block + .btn-sm-block,
-  .btn-xl-block + .btn-md-block,
-  .btn-xl-block + .btn-lg-block,
-  .btn-xl-block + .btn-xl-block {
-    margin-top: 0.5rem;
-}
-
-/*# sourceMappingURL=Btn.vue.map */
-.btn-file {
-  cursor: pointer;
-  position: relative;
-}
-.btn-file input {
-    z-index: 1;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-/*# sourceMappingURL=BtnFile.vue.map */
 @keyframes btn-activity-in {
 0%, 100% {
     transform: scale(1);
@@ -861,6 +791,76 @@
 }
 
 /*# sourceMappingURL=BtnActivity.vue.map */
+@media (max-width: 575.98px) {
+.btn-xs-block {
+    width: 100%;
+    display: block;
+}
+.btn-xs-block + .btn-xs-block {
+      margin-top: 0.5rem;
+}
+}
+@media (max-width: 767.98px) {
+.btn-sm-block {
+    width: 100%;
+    display: block;
+}
+.btn-sm-block + .btn-xs-block,
+    .btn-sm-block + .btn-sm-block {
+      margin-top: 0.5rem;
+}
+}
+@media (max-width: 991.98px) {
+.btn-md-block {
+    width: 100%;
+    display: block;
+}
+.btn-md-block + .btn-xs-block,
+    .btn-md-block + .btn-sm-block,
+    .btn-md-block + .btn-md-block {
+      margin-top: 0.5rem;
+}
+}
+@media (max-width: 1199.98px) {
+.btn-lg-block {
+    width: 100%;
+    display: block;
+}
+.btn-lg-block + .btn-xs-block,
+    .btn-lg-block + .btn-sm-block,
+    .btn-lg-block + .btn-md-block,
+    .btn-lg-block + .btn-lg-block {
+      margin-top: 0.5rem;
+}
+}
+.btn-xl-block {
+  width: 100%;
+  display: block;
+}
+.btn-xl-block + .btn-xs-block,
+  .btn-xl-block + .btn-sm-block,
+  .btn-xl-block + .btn-md-block,
+  .btn-xl-block + .btn-lg-block,
+  .btn-xl-block + .btn-xl-block {
+    margin-top: 0.5rem;
+}
+
+/*# sourceMappingURL=Btn.vue.map */
+.btn-file {
+  cursor: pointer;
+  position: relative;
+}
+.btn-file input {
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/*# sourceMappingURL=BtnFile.vue.map */
 .dropzone {
   position: relative;
 }
@@ -943,11 +943,6 @@
 }
 
 /*# sourceMappingURL=FormGroup.vue.map */
-.infinite-scrolling {
-  position: relative;
-}
-
-/*# sourceMappingURL=InfiniteScrolling.vue.map */
 .input-field .slide-fade-enter,
 .input-field .slide-fade-leave-to {
   opacity: 1;
@@ -955,6 +950,11 @@
 }
 
 /*# sourceMappingURL=InputField.vue.map */
+.infinite-scrolling {
+  position: relative;
+}
+
+/*# sourceMappingURL=InfiniteScrolling.vue.map */
 .light-switch {
   padding: 0;
   position: relative;
