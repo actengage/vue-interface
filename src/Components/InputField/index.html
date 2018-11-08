@@ -15,7 +15,7 @@
             <h2>Basic Usage</h2>
 
             <input-field type="text" placeholder="test" label="Text Field" placeholder="Some placeholder"></input-field>
-            <!--<input-field type="password" label="Password Field"></input-field>
+            <input-field type="password" label="Password Field"></input-field>
             <input-field type="text" label="Descriptive Text Field" help-text="Some helpful text goes here."></input-field>
             <input-field type="email" label="Email Field" placeholder="you@example.com"></input-field>
             <input-field type="text" label="Plain Text" placeholder="Type something here..." plaintext></input-field>
@@ -51,7 +51,7 @@
             <input-field type="text" size="md" placeholder="Medium" :activity="showActivity"></input-field>
             <input-field type="text" size="lg" placeholder="Large" :activity="showActivity"></input-field>
 
-            <btn @click="onToggleActivity">
+            <btn @click="showActivity = !showActivity">
                 <span v-if="!showActivity">Show</span><span v-else>Hide</span> Activity
             </btn>
 
@@ -62,7 +62,6 @@
             <input-field type="text" label="Single Inline Error" error="This is an inline error."></input-field>
 
             <input-field type="text" name="test" label="Multiple Errors From Object" :errors="{'test': ['This is an inline error #1.', 'This is an inline error #2.']}"></input-field>
-        -->
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
@@ -70,14 +69,8 @@
         <script type="text/javascript">
             const vue = new Vue({
                 el: '#app',
-                methods: {
-                    onToggleActivity() {
-                        this.showActivity = !this.showActivity;
-                    }
-                },
                 data() {
                     return {
-                        form: {},
                         showActivity: false,
                         value: null
                     };

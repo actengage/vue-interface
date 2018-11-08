@@ -2,5 +2,5 @@ import { DIST } from './paths';
 
 export default {
     watch: DIST,
-    port: 35730
+    port: 35731
 };

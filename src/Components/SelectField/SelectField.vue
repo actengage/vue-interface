@@ -1,6 +1,6 @@
 <template>
 
-    <form-group :class="{'has-activity': activity}">
+    <form-group :class="formGroupClasses">
 
         <slot name="label">
             <form-label v-if="label" :for="id" v-html="label"/>
@@ -68,20 +68,6 @@ export default {
         MergeClasses,
         FormControlMixin
     ],
-
-    props: {
-
-        /**
-         * Show type activity indicator.
-         *
-         * @property Boolean
-         */
-        activity: {
-            type: Boolean,
-            default: false
-        }
-
-    },
 
     computed: {
 

@@ -15,6 +15,16 @@ export default {
     props: {
 
         /**
+         * Show type activity indicator.
+         *
+         * @property Boolean
+         */
+        activity: {
+            type: Boolean,
+            default: false
+        },
+
+        /**
          * The autocomplete attribute value.
          *
          * @property String
@@ -297,6 +307,13 @@ export default {
 
         controlSizeClass() {
             return prefix(this.size, this.controlClass);
+        },
+
+        formGroupClasses() {
+            return {
+                'form-group-custom': this.custom,
+                'has-activity': this.activity
+            };
         },
 
         controlClasses() {

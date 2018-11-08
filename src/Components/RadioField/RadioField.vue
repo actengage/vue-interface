@@ -5,18 +5,11 @@
         <template v-if="custom && id">
             <input
                 v-bind-events
+                v-bind="controlAttributes"
                 type="radio"
-                :name="name"
-                :id="id"
                 :value="value"
-                :required="required"
-                :disabled="disabled || readonly"
-                :readonly="readonly"
-                :pattern="pattern"
-                :checked="checkedValue === value || checked"
-                :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
-                @change="$emit('change', $event.target.value)">
-
+                @change="$emit('input', $event.target.value)"
+            />
             <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
                 <slot>{{label}}</slot>
                 <slot name="feedback">
@@ -24,26 +17,17 @@
                     <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
                 </slot>
             </label>
-
         </template>
         <template v-else>
             <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
                 <input
                     v-bind-events
+                    v-bind="controlAttributes"
                     type="radio"
-                    :name="name"
-                    :id="id"
                     :value="value"
-                    :required="required"
-                    :disabled="disabled || readonly"
-                    :readonly="readonly"
-                    :pattern="pattern"
-                    :checked="checkedValue === value || checked"
-                    :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
-                    @change="$emit('change', $event.target.value)">
-
+                    @change="$emit('input', $event.target.value)"
+                />
                 <slot>{{label}}</slot>
-
                 <slot name="feedback">
                     <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
                     <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />

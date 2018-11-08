@@ -69,9 +69,6 @@ export default (config = {}) => {
             include: NODE_MODULES
         }, config.commonjs)),
         
-        // rollup-plugin-css-only
-        css(),
-
         // rollup-plugin-vue
         vue(Object.assign({
             css: false,

@@ -1,13 +1,13 @@
 <template>
 
-    <form-group :class="{'has-activity': activity}">
+    <form-group :class="formGroupClasses">
 
         <slot name="label">
             <form-label ref="label" v-if="label || hasDefaultSlot" :for="id" v-html="label"/>
         </slot>
 
         <div class="form-group-inner">
-            <slot name="control" data-test="test">
+            <slot name="control">
                 <input
                     v-bind-events
                     v-bind="controlAttributes"
@@ -65,16 +65,6 @@ export default {
     },
 
     props: {
-
-        /**
-         * Show type activity indicator.
-         *
-         * @property Boolean
-         */
-        activity: {
-            type: Boolean,
-            default: false
-        },
 
         /**
          * The type attribute

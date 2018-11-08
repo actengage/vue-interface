@@ -3087,6 +3087,16 @@
       mixins: [Colorable, MergeClasses],
       props: {
         /**
+         * Show type activity indicator.
+         *
+         * @property Boolean
+         */
+        activity: {
+          type: Boolean,
+          default: false
+        },
+
+        /**
          * The autocomplete attribute value.
          *
          * @property String
@@ -3359,6 +3369,13 @@
           return prefix(this.size, this.controlClass);
         },
 
+        formGroupClasses() {
+          return {
+            'form-group-custom': this.custom,
+            'has-activity': this.activity
+          };
+        },
+
         controlClasses() {
           return [this.spacing || '', this.controlClass, this.controlSizeClass, this.invalidFeedback ? 'is-invalid' : ''].join(' ');
         },
@@ -3472,16 +3489,6 @@
       },
       props: {
         /**
-         * Show type activity indicator.
-         *
-         * @property Boolean
-         */
-        activity: {
-          type: Boolean,
-          default: false
-        },
-
-        /**
          * The type attribute
          *
          * @property String
@@ -3502,7 +3509,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "form-group",
-        { class: { "has-activity": _vm.activity } },
+        { class: _vm.formGroupClasses },
         [
           _vm._t("label", [
             _vm.label || _vm.hasDefaultSlot
@@ -3518,31 +3525,27 @@
             "div",
             { staticClass: "form-group-inner" },
             [
-              _vm._t(
-                "control",
-                [
-                  _c(
-                    "input",
-                    _vm._b(
-                      {
-                        directives: [
-                          { name: "bind-events", rawName: "v-bind-events" }
-                        ],
-                        domProps: { value: _vm.value },
-                        on: {
-                          input: function($event) {
-                            _vm.$emit("input", $event.target.value);
-                          }
+              _vm._t("control", [
+                _c(
+                  "input",
+                  _vm._b(
+                    {
+                      directives: [
+                        { name: "bind-events", rawName: "v-bind-events" }
+                      ],
+                      domProps: { value: _vm.value },
+                      on: {
+                        input: function($event) {
+                          _vm.$emit("input", $event.target.value);
                         }
-                      },
-                      "input",
-                      _vm.controlAttributes,
-                      false
-                    )
+                      }
+                    },
+                    "input",
+                    _vm.controlAttributes,
+                    false
                   )
-                ],
-                { dataTest: "test" }
-              ),
+                )
+              ]),
               _vm._v(" "),
               _vm._t("activity", [
                 _c(
@@ -5882,31 +5885,26 @@
         [
           _vm.custom && _vm.id
             ? [
-                _c("input", {
-                  directives: [{ name: "bind-events", rawName: "v-bind-events" }],
-                  class: _vm.mergeClasses(
-                    _vm.inputClass,
-                    _vm.invalidFeedback ? "is-invalid" : ""
-                  ),
-                  attrs: {
-                    type: "radio",
-                    name: _vm.name,
-                    id: _vm.id,
-                    required: _vm.required,
-                    disabled: _vm.disabled || _vm.readonly,
-                    readonly: _vm.readonly,
-                    pattern: _vm.pattern
-                  },
-                  domProps: {
-                    value: _vm.value,
-                    checked: _vm.checkedValue === _vm.value || _vm.checked
-                  },
-                  on: {
-                    change: function($event) {
-                      _vm.$emit("change", $event.target.value);
-                    }
-                  }
-                }),
+                _c(
+                  "input",
+                  _vm._b(
+                    {
+                      directives: [
+                        { name: "bind-events", rawName: "v-bind-events" }
+                      ],
+                      attrs: { type: "radio" },
+                      domProps: { value: _vm.value },
+                      on: {
+                        change: function($event) {
+                          _vm.$emit("input", $event.target.value);
+                        }
+                      }
+                    },
+                    "input",
+                    _vm.controlAttributes,
+                    false
+                  )
+                ),
                 _vm._v(" "),
                 _c(
                   "label",
@@ -5944,33 +5942,26 @@
                     attrs: { for: _vm.id }
                   },
                   [
-                    _c("input", {
-                      directives: [
-                        { name: "bind-events", rawName: "v-bind-events" }
-                      ],
-                      class: _vm.mergeClasses(
-                        _vm.inputClass,
-                        _vm.invalidFeedback ? "is-invalid" : ""
-                      ),
-                      attrs: {
-                        type: "radio",
-                        name: _vm.name,
-                        id: _vm.id,
-                        required: _vm.required,
-                        disabled: _vm.disabled || _vm.readonly,
-                        readonly: _vm.readonly,
-                        pattern: _vm.pattern
-                      },
-                      domProps: {
-                        value: _vm.value,
-                        checked: _vm.checkedValue === _vm.value || _vm.checked
-                      },
-                      on: {
-                        change: function($event) {
-                          _vm.$emit("change", $event.target.value);
-                        }
-                      }
-                    }),
+                    _c(
+                      "input",
+                      _vm._b(
+                        {
+                          directives: [
+                            { name: "bind-events", rawName: "v-bind-events" }
+                          ],
+                          attrs: { type: "radio" },
+                          domProps: { value: _vm.value },
+                          on: {
+                            change: function($event) {
+                              _vm.$emit("input", $event.target.value);
+                            }
+                          }
+                        },
+                        "input",
+                        _vm.controlAttributes,
+                        false
+                      )
+                    ),
                     _vm._v(" "),
                     _vm._t("default", [_vm._v(_vm._s(_vm.label))]),
                     _vm._v(" "),
@@ -10792,17 +10783,6 @@
         FormFeedback
       },
       mixins: [Colorable, MergeClasses, FormControl],
-      props: {
-        /**
-         * Show type activity indicator.
-         *
-         * @property Boolean
-         */
-        activity: {
-          type: Boolean,
-          default: false
-        }
-      },
       computed: {
         controlClass() {
           const controlClass = this.custom ? 'custom-select' : this.defaultControlClass;
@@ -10825,7 +10805,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "form-group",
-        { class: { "has-activity": _vm.activity } },
+        { class: _vm.formGroupClasses },
         [
           _vm._t("label", [
             _vm.label

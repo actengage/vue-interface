@@ -151,6 +151,33 @@
                 <option value="white">White</option>
             </select-field>
 
+            <h2>Activity Indicator</h2>
+
+            <select-field label="Small" size="sm" :activity="showActivity">
+                <option value="">Select an option...</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+
+            <select-field label="Medium" size="md" :activity="showActivity">
+                <option value="">Select an option...</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+
+            <select-field label="Large" size="lg" :activity="showActivity">
+                <option value="">Select an option...</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+
+            <btn @click="showActivity = !showActivity">
+                <span v-if="!showActivity">Show</span><span v-else>Hide</span> Activity
+            </btn>
+
             <hr>
 
             <h3>Validation</h3>
@@ -168,7 +195,8 @@
                 el: '#app',
                 data() {
                     return {
-                        value: null
+                        value: null,
+                        showActivity: false
                     };
                 }
             });
