@@ -205,9 +205,15 @@ export default {
     directives: {
         bindEvents: {
             bind(el, binding, vnode) {
-                const events = binding.value || vnode.context.bindEvents;
+                // Add/remove the has-focus class from the form control
+                el.addEventListener('focus', event => event.target.classList.add('has-focus'));
+                el.addEventListener('blur', event => event.target.classList.remove('has-focus'));
+                el.addEventListener('input', e => {
+                    el.classList[!el.value ? 'add' : 'remove']('is-empty');
+                });
 
-                each(events, name => {
+                // Bubble the native events up to the vue component.
+                each((binding.value || vnode.context.bindEvents), name => {
                     el.addEventListener(name, event => {
                         vnode.context.$emit(name, event);
                     });
@@ -217,10 +223,6 @@ export default {
     },
 
     methods: {
-
-        isEmpty() {
-            return !this.$el || !this.getInputField().value;
-        },
 
         blur() {
             if(this.getInputField()) {
@@ -263,9 +265,9 @@ export default {
         },
 
         controlAttributes() {
-            const classes = this.mergeClasses({
-                'is-empty': this.isEmpty()
-            }, this.controlClasses, this.colorableClasses);
+            const classes = this.mergeClasses(
+                this.controlClasses, this.colorableClasses
+            );
 
             return Object.keys(Object.keys(this.$attrs))
                 .concat([['class', classes]])
