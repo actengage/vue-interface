@@ -25,6 +25,16 @@ export default {
         },
 
         /**
+         * Is the form control a custom styled component.
+         *
+         * @property Boolean
+         */
+        custom: {
+            type: Boolean,
+            default: false
+        },
+
+        /**
          * The autocomplete attribute value.
          *
          * @property String
@@ -311,8 +321,8 @@ export default {
 
         formGroupClasses() {
             return {
-                'form-group-custom': this.custom,
-                'has-activity': this.activity
+                'has-activity': this.activity,
+                'form-group-custom': this.custom
             };
         },
 

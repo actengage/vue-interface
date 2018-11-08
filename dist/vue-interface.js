@@ -3097,6 +3097,16 @@
         },
 
         /**
+         * Is the form control a custom styled component.
+         *
+         * @property Boolean
+         */
+        custom: {
+          type: Boolean,
+          default: false
+        },
+
+        /**
          * The autocomplete attribute value.
          *
          * @property String
@@ -3371,8 +3381,8 @@
 
         formGroupClasses() {
           return {
-            'form-group-custom': this.custom,
-            'has-activity': this.activity
+            'has-activity': this.activity,
+            'form-group-custom': this.custom
           };
         },
 
