@@ -247,7 +247,9 @@ export default {
                 });
 
                 el.addEventListener('input', e => {
-                    !el.value ? removeClass(el, vnode, emptyClass) : addClass(el, vnode, emptyClass);
+                    el.value === ''
+                        ? addClass(el, vnode, emptyClass)
+                        : removeClass(el, vnode, emptyClass);
                 });
 
                 // Bubble the native events up to the vue component.
@@ -258,7 +260,7 @@ export default {
                 });
             },
             inserted(el, binding, vnode) {
-                if(!el.value) {
+                if(el.value === '') {
                     addClass(el, vnode, emptyClass);
                 }
             }

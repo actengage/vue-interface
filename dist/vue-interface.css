@@ -24,6 +24,11 @@
       border-right: 1px solid rgba(0, 0, 0, 0.125);
 }
 
+.wizard-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
 .card-img,
 .card-img-top,
 .card-img-bottom {
@@ -62,6 +67,10 @@
     position: relative;
 }
 
+.navigation-error {
+  color: #dc3545;
+}
+
 .thumbnail-list-item {
   max-width: 100%;
   max-height: 100%;
@@ -81,15 +90,6 @@
 }
 .thumbnail-list-item > img.img-fluid {
       width: 100%;
-}
-
-.navigation-error {
-  color: #dc3545;
-}
-
-.wizard-buttons {
-  display: flex;
-  justify-content: space-between;
 }
 
 .wizard-progress {
@@ -300,17 +300,6 @@
     transform: translateX(0);
 }
 
-.slide-deck-controls .slide-deck-control-icon {
-  color: #fff;
-  font-size: 1rem;
-}
-.slide-deck-controls .slide-deck-control-icon:not(:last-child) {
-    margin-right: 0.5rem;
-}
-.slide-deck-controls .slide-deck-control-icon.is-active {
-  color: #007bff;
-}
-
 .thumbnail-list {
   width: 100%;
   display: flex;
@@ -336,6 +325,17 @@
 }
 .thumbnail-list.thumbnail-list-flex > * {
     flex: 1;
+}
+
+.slide-deck-controls .slide-deck-control-icon {
+  color: #fff;
+  font-size: 1rem;
+}
+.slide-deck-controls .slide-deck-control-icon:not(:last-child) {
+    margin-right: 0.5rem;
+}
+.slide-deck-controls .slide-deck-control-icon.is-active {
+  color: #007bff;
 }
 
 .wizard .slide-deck-content {
@@ -912,6 +912,10 @@
     text-align: center;
 }
 
+.infinite-scrolling {
+  position: relative;
+}
+
 .form-group, .form-group .form-group-inner {
   position: relative;
 }
@@ -923,8 +927,10 @@
   transition: all .25s ease-in;
 }
 
-.infinite-scrolling {
-  position: relative;
+.input-field .slide-fade-enter,
+.input-field .slide-fade-leave-to {
+  opacity: 1;
+  transform: translate(25%, -50%);
 }
 
 .light-switch {
@@ -1282,12 +1288,6 @@
       background: #ebedef;
 }
 
-.input-field .slide-fade-enter,
-.input-field .slide-fade-leave-to {
-  opacity: 1;
-  transform: translate(25%, -50%);
-}
-
 .overlay-content {
   margin: 0 auto;
   overflow-y: auto;
@@ -1366,17 +1366,6 @@
     z-index: 1;
 }
 
-.card > .table {
-  margin-bottom: 0;
-}
-.card > .table thead th {
-    border-top: 0;
-    border-bottom: 0;
-}
-.card > .table tfoot .pagination {
-    margin-bottom: 0;
-}
-
 .has-activity {
   /* For IE10 */
 }
@@ -1387,6 +1376,17 @@
 }
 .has-activity select::-ms-expand {
     display: none;
+}
+
+.card > .table {
+  margin-bottom: 0;
+}
+.card > .table thead th {
+    border-top: 0;
+    border-bottom: 0;
+}
+.card > .table tfoot .pagination {
+    margin-bottom: 0;
 }
 
 .upload-field .file-preview {
