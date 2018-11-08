@@ -275,7 +275,7 @@ export default {
                 this.controlClasses, this.colorableClasses
             );
 
-            return Object.keys(Object.keys(this.$attrs))
+            return Object.keys(this.$attrs)
                 .concat([['class', classes]])
                 .reduce((carry, key) => {
                     if(isArray(key)) {

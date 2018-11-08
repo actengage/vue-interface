@@ -3340,7 +3340,7 @@
 
         controlAttributes() {
           const classes = this.mergeClasses(this.controlClasses, this.colorableClasses);
-          return Object.keys(Object.keys(this.$attrs)).concat([['class', classes]]).reduce((carry, key$$1) => {
+          return Object.keys(this.$attrs).concat([['class', classes]]).reduce((carry, key$$1) => {
             if (isArray(key$$1)) {
               carry[key$$1[0]] = key$$1[1];
             } else {
