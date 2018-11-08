@@ -101,13 +101,6 @@ export default {
         },
 
         /**
-         * Is this a custom element
-         *
-         * @property String
-         */
-        custom: Boolean,
-
-        /**
          * Display the form field and label inline
          *
          * @property Function
@@ -152,10 +145,6 @@ export default {
 
         inlineClass() {
             return prefix('inline', this.controlClass);
-        },
-
-        controlClass() {
-            return this.custom ? 'custom-control' : this.defaultControlClass;
         },
 
         customControlClass() {

@@ -79,14 +79,7 @@ export default {
         activity: {
             type: Boolean,
             default: false
-        },
-
-        /**
-         * Add `custom-select` to the form control if true.
-         *
-         * @property String
-         */
-        custom: Boolean
+        }
 
     },
 

@@ -3352,7 +3352,7 @@
         },
 
         controlClass() {
-          return this.defaultControlClass + (this.plaintext ? '-plaintext' : '');
+          return this.custom ? 'custom-control' : this.defaultControlClass + (this.plaintext ? '-plaintext' : '');
         },
 
         controlSizeClass() {
@@ -5807,13 +5807,6 @@
         },
 
         /**
-         * Is this a custom element
-         *
-         * @property String
-         */
-        custom: Boolean,
-
-        /**
          * Display the form field and label inline
          *
          * @property Function
@@ -5855,10 +5848,6 @@
 
         inlineClass() {
           return prefix('inline', this.controlClass);
-        },
-
-        controlClass() {
-          return this.custom ? 'custom-control' : this.defaultControlClass;
         },
 
         customControlClass() {
@@ -10812,14 +10801,7 @@
         activity: {
           type: Boolean,
           default: false
-        },
-
-        /**
-         * Add `custom-select` to the form control if true.
-         *
-         * @property String
-         */
-        custom: Boolean
+        }
       },
       computed: {
         controlClass() {

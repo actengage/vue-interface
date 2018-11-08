@@ -290,7 +290,9 @@ export default {
         },
 
         controlClass() {
-            return this.defaultControlClass + (this.plaintext ? '-plaintext' : '');
+            return this.custom ? 'custom-control' : (
+                this.defaultControlClass + (this.plaintext ? '-plaintext' : '')
+            );
         },
 
         controlSizeClass() {
