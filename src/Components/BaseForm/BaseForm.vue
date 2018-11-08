@@ -110,10 +110,10 @@ export default {
                 this.$emit('submit:success', event, data);
                 this.$emit('submit:complete', event, true, data);
 
-                if (this.redirect && isFunction(this.redirect)) {
+                if(this.redirect && isFunction(this.redirect)) {
                     this.redirect(this);
                 }
-                else if (this.redirect && this.$router) {
+                else if(this.redirect && this.$router) {
                     this.$router.push(this.redirect);
                 }
             }

@@ -57,7 +57,7 @@ export default {
     methods: {
 
         onClick(event, step) {
-            if (!event.target.classList.contains('disabled')) {
+            if(!event.target.classList.contains('disabled')) {
                 this.$emit('click', event, step);
             }
         }

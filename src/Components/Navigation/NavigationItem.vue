@@ -44,13 +44,13 @@ export default {
     computed: {
 
         component() {
-            if (this.element) {
+            if(this.element) {
                 return this.element;
             }
-            else if (this.href) {
+            else if(this.href) {
                 return 'a';
             }
-            else if (this.list) {
+            else if(this.list) {
                 return 'li';
             }
 

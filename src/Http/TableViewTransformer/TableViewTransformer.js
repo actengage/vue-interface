@@ -32,7 +32,7 @@ export default class TableViewTransformer extends Transformer {
     }
 
     initialize() {
-        if (!isArray(this.data())) {
+        if(!isArray(this.data())) {
             throw new Error('The data property must be an array.');
         }
     }

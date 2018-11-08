@@ -91,7 +91,7 @@ export default {
     computed: {
 
         expandedClass() {
-            if (isBoolean(this.expand)) {
+            if(isBoolean(this.expand)) {
                 return this.expand;
             }
 

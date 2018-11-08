@@ -215,7 +215,7 @@ export default {
     watch: {
 
         isShowing(value) {
-            if (value) {
+            if(value) {
                 document.querySelector('body').classList.add('modal-open');
                 // this.mountBackdrop();
             }

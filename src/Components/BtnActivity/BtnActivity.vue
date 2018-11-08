@@ -225,7 +225,7 @@ export default {
     watch: {
 
         activity(value) {
-            if (value) {
+            if(value) {
                 this.showActivity();
             }
             else {

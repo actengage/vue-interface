@@ -87,7 +87,7 @@ export default {
         },
 
         paginate(page, event) {
-            if (event.currentTarget.parentNode.classList.contains('disabled')) {
+            if(event.currentTarget.parentNode.classList.contains('disabled')) {
                 return;
             }
 
@@ -97,7 +97,7 @@ export default {
         },
 
         setActivePage(page) {
-            if (this.currentPage !== page) {
+            if(this.currentPage !== page) {
                 this.currentPage = page;
             }
         },
@@ -113,20 +113,20 @@ export default {
 
             startPage -= (startPage - diff > 0) ? diff : 0;
 
-            if (startPage > 1) {
+            if(startPage > 1) {
                 pages.push({ page: 1 });
             }
 
-            if (startPage > 2) {
+            if(startPage > 2) {
                 pages.push({ divider: true });
             }
 
-            for (let i = startPage; i < endPage; i++) {
+            for(let i = startPage; i < endPage; i++) {
                 pages.push({ page: i });
             }
 
-            if (endPage <= this.totalPages) {
-                if (this.totalPages - 1 > endPage) {
+            if(endPage <= this.totalPages) {
+                if(this.totalPages - 1 > endPage) {
                     pages.push({ divider: true });
                 }
 

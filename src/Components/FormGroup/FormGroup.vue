@@ -1,6 +1,8 @@
 <template>
 
-    <div class="form-group"><slot/></div>
+    <div class="form-group">
+        <slot/>
+    </div>
 
 </template>
 
@@ -11,3 +13,19 @@ export default {
 
 };
 </script>
+
+<style lang="scss">
+.form-group {
+    &, .form-group-inner {
+        position: relative;
+    }
+
+    .activity-indicator {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translate(-1rem, -50%);
+        transition: all .25s ease-in;
+    }
+}
+</style>

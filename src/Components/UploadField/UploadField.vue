@@ -186,11 +186,11 @@ export default {
     methods: {
 
         removeFile(data) {
-            if (this.multiple) {
+            if(this.multiple) {
                 const files = isArray(this.value) ? this.value.slice(0) : [];
 
-                if (data instanceof File) {
-                    if (data.request && data.request.cancel) {
+                if(data instanceof File) {
+                    if(data.request && data.request.cancel) {
                         data.request.cancel();
                     }
 
@@ -207,7 +207,7 @@ export default {
                 this.$emit('change', files);
             }
             else {
-                if (data.request && data.request.cancel) {
+                if(data.request && data.request.cancel) {
                     data.request.cancel();
                 }
 
@@ -224,10 +224,10 @@ export default {
                 type: file.type
             };
 
-            if (this.multiple) {
+            if(this.multiple) {
                 const files = subject || (isArray(this.value) ? this.value.slice(0) : []);
 
-                if ((!this.maxUploads || this.maxUploads > files.length) && files.indexOf(data) === -1) {
+                if((!this.maxUploads || this.maxUploads > files.length) && files.indexOf(data) === -1) {
                     files.push(file);
 
                     this.$emit('change', files);
@@ -259,13 +259,13 @@ export default {
          */
         upload(file) {
             // Stop upload silently if no model is defined.
-            if (!this.model) {
+            if(!this.model) {
                 return Promise.resolve();
             }
 
             let model = this.model;
 
-            if (!(this.model instanceof Model)) {
+            if(!(this.model instanceof Model)) {
                 const Model = this.model;
 
                 model = new Model();
@@ -278,11 +278,11 @@ export default {
 
             return model.save(null, extend({
                 onUploadProgress: e => {
-                    if (!file.index) {
+                    if(!file.index) {
                         file.index = this.files.indexOf(file);
                     }
 
-                    if (!file.request) {
+                    if(!file.request) {
                         file.request = model.getRequest();
                     }
 
@@ -306,7 +306,7 @@ export default {
          * @type Object
          */
         onChange(files) {
-            if (files instanceof FileList) {
+            if(files instanceof FileList) {
                 this.addFiles(files);
             }
             else {

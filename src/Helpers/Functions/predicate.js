@@ -6,13 +6,13 @@ import isFunction from './isFunction';
 import matchesProperty from './matchesProperty';
 
 export default function predicate(value) {
-    if (isObject(value)) {
+    if(isObject(value)) {
         value = matches(value);
     }
-    else if (isArray(value)) {
+    else if(isArray(value)) {
         value = matchesProperty(value[0], value[1]);
     }
-    else if (!isFunction(value)) {
+    else if(!isFunction(value)) {
         value = property(value);
     }
 

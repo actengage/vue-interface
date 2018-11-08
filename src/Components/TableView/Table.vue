@@ -134,7 +134,7 @@ export default {
         tableColumns() {
             let columns = this.columns;
 
-            if (!columns || !columns.length) {
+            if(!columns || !columns.length) {
                 columns = Object.keys(this.data[0]);
             }
 

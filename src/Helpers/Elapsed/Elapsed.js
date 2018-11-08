@@ -7,7 +7,7 @@ export default function elapsed(milliseconds, callback, elapsedCallback) {
         return setTimeout(() => {
             hasElapsed = true;
 
-            if (isFunction(elapsedCallback)) {
+            if(isFunction(elapsedCallback)) {
                 elapsedCallback();
             }
         }, milliseconds);

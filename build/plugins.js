@@ -2,6 +2,7 @@ import vue from 'rollup-plugin-vue';
 import json from 'rollup-plugin-json';
 import babel from 'rollup-plugin-babel';
 import serve from 'rollup-plugin-serve';
+import css from 'rollup-plugin-css-only';
 import postcss from 'rollup-plugin-postcss';
 import replace from 'rollup-plugin-replace';
 import uglify from 'rollup-plugin-uglify-es';

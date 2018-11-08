@@ -5,22 +5,14 @@ import NavbarNav from './NavbarNav';
 import NavbarText from './NavbarText';
 import NavbarToggler from './NavbarToggler';
 import NavbarTogglerIcon from './NavbarTogglerIcon';
-import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
 
-VueInstaller.use({
-
-    install(Vue, options) {
-        VueInstaller.components({
-            Navbar,
-            NavbarBrand,
-            NavbarCollapse,
-            NavbarNav,
-            NavbarText,
-            NavbarToggler,
-            NavbarTogglerIcon
-        });
-    }
-
-});
+export {
+    NavbarBrand,
+    NavbarCollapse,
+    NavbarNav,
+    NavbarText,
+    NavbarToggler,
+    NavbarTogglerIcon
+};
 
 export default Navbar;

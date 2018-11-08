@@ -89,7 +89,7 @@ export default {
     },
 
     mounted() {
-        if (typeof this.show === 'number') {
+        if(typeof this.show === 'number') {
             const el = this.$el.querySelector('.progress-bar');
 
             this.$emit('dismiss-countdown', this.dismissCount = this.show);
@@ -97,7 +97,7 @@ export default {
             const interval = setInterval(() => {
                 this.$emit('dismiss-countdown', this.dismissCount -= 1);
 
-                if (!this.dismissCount) {
+                if(!this.dismissCount) {
                     clearInterval(interval);
                     transition(el).then(delay => this.dismiss());
                 }

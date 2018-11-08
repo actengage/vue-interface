@@ -7,14 +7,14 @@ export default function blob(url, progress) {
         xhr.open('GET', url, true);
         xhr.responseType = 'blob';
 
-        if (isFunction(progress)) {
+        if(isFunction(progress)) {
             xhr.onprogress = e => progress(e, xhr);
         }
 
         xhr.onerror = e => reject(e);
         xhr.onabort = e => reject(e);
         xhr.onload = function(e) {
-            if (this.status === 200) {
+            if(this.status === 200) {
                 resolve(this.response);
             }
             else {

@@ -8,13 +8,13 @@ export default {
             let classes = {};
 
             each([].slice.call(arguments), arg => {
-                if (isObject(arg)) {
+                if(isObject(arg)) {
                     extend(classes, arg);
                 }
-                else if (isArray(arg)) {
+                else if(isArray(arg)) {
                     classes = classes.concat(arg);
                 }
-                else if (arg) {
+                else if(arg) {
                     classes[arg] = true;
                 }
             });

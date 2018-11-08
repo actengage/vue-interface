@@ -1,16 +1,10 @@
 import Slides from './Slides';
 import SlideDeck from './SlideDeck';
-import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
+import SlideDeckControls from './SlideDeckControls';
 
-VueInstaller.use({
-
-    install(Vue, options) {
-        VueInstaller.components({
-            Slides,
-            SlideDeck
-        });
-    }
-
-});
+export {
+    Slides,
+    SlideDeckControls
+};
 
 export default SlideDeck;

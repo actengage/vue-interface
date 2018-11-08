@@ -237,7 +237,7 @@ export default {
             this.$nextTick(() => {
                 this.align();
 
-                if (value) {
+                if(value) {
                     this.focus();
                 }
             });
@@ -259,7 +259,7 @@ export default {
     },
 
     beforeCreate() {
-        if (!this.$poppers) {
+        if(!this.$poppers) {
             this.$poppers = {};
         }
     }

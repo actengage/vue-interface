@@ -1,6 +1,6 @@
 {
     "name": "vue-interface",
-    "version": "0.2.12",
+    "version": "0.2.13",
     "main": "./dist/vue-interface.js",
     "module": "./dist/vue-interface.es.js",
     "dependencies": {
@@ -9,7 +9,6 @@
     "peerDependencies": {
         "axios": "^0.18.0",
         "font-awesome": "^4.7.0",
-        "intersection-observer": "^0.5.1",
         "moment": "^2.22.0",
         "popper.js": "^1.14.3",
         "vue": "^2.5.0"
@@ -47,6 +46,7 @@
         "rollup": "^0.67.0",
         "rollup-plugin-babel": "^4.0.3",
         "rollup-plugin-commonjs": "^9.2.0",
+        "rollup-plugin-css-only": "^0.4.0",
         "rollup-plugin-eslint": "^5.0.0",
         "rollup-plugin-json": "^3.1.0",
         "rollup-plugin-livereload": "^0.6.0",
@@ -70,13 +70,12 @@
         "build": "./node_modules/.bin/rollup -c",
         "dev": "./node_modules/.bin/rollup -c --watch",
         "commit": "git add -A && git commit -m $npm_package_version;",
-        "lint": "./node_modules/.bin/eslint src/** --ext .js --ext .vue",
-        "fix": "./node_modules/.bin/eslint src/** --ext .js --ext .vue --fix",
+        "lint": "./node_modules/.bin/eslint src --ext .js --ext .vue",
+        "fix": "./node_modules/.bin/eslint src --ext .js --ext .vue --fix",
         "release-patch": "npm version patch --no-git-tag-version; npm run release;",
         "release-minor": "npm version minor --no-git-tag-version; npm run release;",
         "release-major": "npm version major --no-git-tag-version; npm run release;",
         "release": "npm run fix; npm run build; npm run uglify; npm run commit; npm publish; git push;",
-        "build-vendor": "./node_modules/.bin/rollup -c rollup.vendor.js;",
         "uglify": "./node_modules/.bin/rollup -c --config-minify"
     },
     "jest": {

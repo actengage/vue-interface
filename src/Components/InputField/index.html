@@ -13,8 +13,9 @@
             <h1 class="mb-5">input-field</h1>
 
             <h2>Basic Usage</h2>
-
-            <input-field type="text" label="Text Field"></input-field>
+            
+            <input-field v-model="form.test" :value="form.test" type="text" label="Text Field"></input-field>
+            <!--<input-field type="password" label="Password Field"></input-field>
             <input-field type="text" label="Descriptive Text Field" help-text="Some helpful text goes here."></input-field>
             <input-field type="email" label="Email Field" placeholder="you@example.com"></input-field>
             <input-field type="text" label="Plain Text" placeholder="Type something here..." plaintext></input-field>
@@ -61,7 +62,7 @@
             <input-field type="text" label="Single Inline Error" error="This is an inline error."></input-field>
 
             <input-field type="text" name="test" label="Multiple Errors From Object" :errors="{'test': ['This is an inline error #1.', 'This is an inline error #2.']}"></input-field>
-
+        -->
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
@@ -76,6 +77,9 @@
                 },
                 data() {
                     return {
+                        form: {
+                            test: 'test'
+                        },
                         showActivity: false,
                         value: null
                     };

@@ -43,11 +43,11 @@
 
 <script>
 import Card from '../Card';
-import DataTable from './Table';
-import { extend } from '../../Helpers/Functions';
+import BaseTable from './Table';
 import Proxy from '../../Mixins/Proxy';
 import Request from '../../Http/Request';
 import TableViewHeader from './TableViewHeader';
+import { extend } from '../../Helpers/Functions';
 import TableViewTransformer from '../../Http/TableViewTransformer';
 
 export default {
@@ -57,7 +57,7 @@ export default {
 
     components: {
         Card,
-        DataTable,
+        BaseTable,
         TableViewHeader
     },
 
@@ -168,7 +168,7 @@ export default {
         },
 
         addRequestHeader(key, value) {
-            if (!this.request.headers) {
+            if(!this.request.headers) {
                 this.request.headers = {};
             }
 
@@ -180,7 +180,7 @@ export default {
         },
 
         addRequestParam(key, value) {
-            if (!this.request.params) {
+            if(!this.request.params) {
                 this.request.params = {};
             }
 
@@ -201,7 +201,7 @@ export default {
         },
 
         onPaginate(page, event) {
-            if (!this.request.params) {
+            if(!this.request.params) {
                 this.request.params = {};
             }
 

@@ -119,17 +119,17 @@ export default {
     methods: {
 
         resize(el) {
-            if (isFunction(this.resizeMode)) {
+            if(isFunction(this.resizeMode)) {
                 this.resizeMode(el || this.$el);
             }
             else {
                 const style = getComputedStyle(el);
 
-                if (!el.style.width) {
+                if(!el.style.width) {
                     el.width = el.style.width = `calc(${style.width} + ${style.marginLeft} + ${style.marginRight})`;
                 }
 
-                if (!el.style.height) {
+                if(!el.style.height) {
                     el.height = el.style.height = `calc(${style.height} + ${style.marginTop} + ${style.marginBottom})`;
                 }
             }
@@ -148,11 +148,11 @@ export default {
         },
 
         onSlideAfterEnter(el) {
-            if (el.width) {
+            if(el.width) {
                 el.width = el.style.width = null;
             }
 
-            if (el.height) {
+            if(el.height) {
                 el.height = el.style.height = null;
             }
 
@@ -184,11 +184,11 @@ export default {
         },
 
         onSlideAfterLeave(el) {
-            if (el.width) {
+            if(el.width) {
                 el.width = el.style.width = null;
             }
 
-            if (el.height) {
+            if(el.height) {
                 el.height = el.style.height = null;
             }
 
@@ -221,16 +221,16 @@ export default {
     computed: {
 
         overflowElement() {
-            if (this.overflow === true) {
+            if(this.overflow === true) {
                 return this.$el;
             }
-            else if (this.overflow instanceof Element) {
+            else if(this.overflow instanceof Element) {
                 return this.overflow;
             }
-            else if (this.overflow && this.overflow.elm) {
+            else if(this.overflow && this.overflow.elm) {
                 return this.overflow.elm;
             }
-            else if (this.overflow) {
+            else if(this.overflow) {
                 return document.querySelector(this.overflow);
             }
 
@@ -244,7 +244,7 @@ export default {
     },
 
     mounted() {
-        if (this.overflowElement) {
+        if(this.overflowElement) {
             this.overflowElement.style.overflow = 'hidden';
         }
     },

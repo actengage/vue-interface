@@ -257,7 +257,7 @@ export default {
         onClickBack(event) {
             this.emitBubbleEvent('back', event);
 
-            if (event.defaultPrevented !== true) {
+            if(event.defaultPrevented !== true) {
                 this.back();
             }
         },
@@ -265,7 +265,7 @@ export default {
         onClickFinish(event) {
             this.emitBubbleEvent('finish', event);
 
-            if (event.defaultPrevented !== true) {
+            if(event.defaultPrevented !== true) {
                 this.finish(true);
             }
         },
@@ -273,7 +273,7 @@ export default {
         onClickNext(event) {
             this.emitBubbleEvent('next', event);
 
-            if (event.defaultPrevented !== true) {
+            if(event.defaultPrevented !== true) {
                 this.next();
             }
         },
@@ -291,7 +291,7 @@ export default {
         },
 
         onProgressClick(event, slide) {
-            if (this.$refs.slideDeck) {
+            if(this.$refs.slideDeck) {
                 this.currentStep = this.$refs.slideDeck.$refs.slides.getSlideIndex(slide);
             }
             else {
@@ -305,7 +305,7 @@ export default {
     mounted() {
         const slide = this.$refs.slideDeck.slide(this.currentStep);
 
-        if (slide) {
+        if(slide) {
             (slide.componentInstance || slide.context).$refs.wizard = this;
             (slide.componentInstance || slide.context).$emit('enter');
             this.$emit('enter', slide);

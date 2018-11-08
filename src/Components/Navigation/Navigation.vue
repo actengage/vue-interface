@@ -94,7 +94,7 @@ export default {
 
         classes() {
             this.$nextTick(() => {
-                if (!this.isCard) {
+                if(!this.isCard) {
                     this.isCard = this.$parent.$el.classList.contains('card-header');
                 }
             });

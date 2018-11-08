@@ -4,8 +4,8 @@ import predicate from './predicate';
 export default function remove(array, match) {
     const indexes = [];
 
-    for (const i in array) {
-        if (predicate(match)(array[i])) {
+    for(const i in array) {
+        if(predicate(match)(array[i])) {
             indexes.push(key(i));
         }
     }

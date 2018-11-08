@@ -8,11 +8,11 @@ export default class Transformer {
      * @return void
      */
     constructor(response) {
-        if (!isObject(this.$originalResponse = response)) {
+        if(!isObject(this.$originalResponse = response)) {
             throw new Error('The transformer must be instantiated with a response object.');
         }
 
-        if (!isArray(this.$required = this.required()) || !this.$required.length) {
+        if(!isArray(this.$required = this.required()) || !this.$required.length) {
             throw new Error('A transformer must have at least one required property.');
         }
 
@@ -63,12 +63,12 @@ export default class Transformer {
      * @return void
      */
     validate() {
-        if (!isObject(this.$transformedResponse)) {
+        if(!isObject(this.$transformedResponse)) {
             throw new Error('The transformed response must be an object.');
         }
 
         each(this.$required, key => {
-            if (!(key in this.$transformedResponse)) {
+            if(!(key in this.$transformedResponse)) {
                 throw new Error(`"${key}" is a required property and does not exist in the tranformed response.`);
             }
         });

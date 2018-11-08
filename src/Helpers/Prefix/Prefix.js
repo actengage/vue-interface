@@ -12,11 +12,11 @@ export default function prefix(subject, prefix, delimeter = '-') {
         return [prefix, string].filter(value => !!value).join(delimeter);
     };
 
-    if (isBoolean(subject)) {
+    if(isBoolean(subject)) {
         return subject;
     }
 
-    if (isObject(subject)) {
+    if(isObject(subject)) {
         return mapKeys(subject, prefixer);
     }
 

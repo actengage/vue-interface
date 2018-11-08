@@ -1,14 +1,10 @@
+import Table from './Table';
 import TableView from './TableView';
-import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
+import TableViewHeader from './TableViewHeader';
 
-VueInstaller.use({
-
-    install(Vue, options) {
-        VueInstaller.components({
-            TableView
-        });
-    }
-
-});
+export {
+    Table,
+    TableViewHeader
+};
 
 export default TableView;

@@ -9,7 +9,7 @@ export default {
         let editable = !input.value;
 
         const update = value => {
-            if (editable) {
+            if(editable) {
                 input.value = kebabCase(value);
                 input.dispatchEvent(new Event('input'));
             }
@@ -24,7 +24,7 @@ export default {
         });
 
         input.addEventListener('input', event => {
-            if (event instanceof InputEvent) {
+            if(event instanceof InputEvent) {
                 editable = !event.target.value;
             }
         });

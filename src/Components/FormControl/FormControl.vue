@@ -1,27 +1,23 @@
 <template>
-
     <component
-        :name="name"
-        :id="id"
-        :is="!select ? 'input' : 'select'"
-        :type="!select ? type : false"
-        :value="value"
-        :pattern="pattern"
-        :required="required"
-        :readonly="readonly"
-        :placeholder="placeholder"
-        :disabled="disabled || readonly"
-        :class="mergeClasses(controlClasses, colorableClasses)"
-        :aria-label="label"
-        :aria-describedby="id"
-        v-bind-events="bindEvents"/>
+        v-model="testValue"
+        :is="element"
+        :aria-label="label || name || id"
+        :aria-describedby="id || name"
+        @input="$emit('input', $event.target.value)"
+        @blur="$el.classList.remove('has-focus')"
+        @focus="$el.classList.add('has-focus')"
+        v-bind="$attrs">
+        <slot/>
+    </component>
+</div>
 
 </template>
 
 <script>
 import Colorable from '../../Mixins/Colorable';
 import FormControl from '../../Mixins/FormControl';
-import MergeClasses from '../../Mixins/MergeClasses';
+// import { extend, omitBy, isNull, isUndefined } from '../../Helpers/Functions';
 
 export default {
 
@@ -29,27 +25,39 @@ export default {
 
     mixins: [
         Colorable,
-        FormControl,
-        MergeClasses
+        FormControl
     ],
 
     props: {
 
-        /**
-         * Is the element a select?
-         *
-         * @property String
-         */
-        select: Boolean,
-
-        /**
-         * The type attribute
-         *
-         * @property String
-         */
-        type: {
+        element: {
             type: String,
-            default: 'text'
+            required: true
+        }
+
+    },
+
+    watch: {
+
+        value(value) {
+            const field = this.getInputField();
+
+            if(field) {
+                if(value === '' || value === undefined) {
+                    field.classList.add('is-empty');
+                }
+                else {
+                    field.classList.remove('is-empty');
+                }
+            }
+        }
+
+    },
+
+    computed: {
+
+        testValue() {
+            return this.value;
         }
 
     }

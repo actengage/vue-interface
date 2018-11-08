@@ -1,30 +1,17 @@
 <template>
 
-    <form-group class="input-field" :class="{'has-activity': activity}">
+    <form-group :class="{'has-activity': activity}">
 
         <slot name="label">
             <form-label ref="label" v-if="label || hasDefaultSlot" :for="id" v-html="label"/>
         </slot>
 
-        <div class="position-relative">
-            <slot name="control">
+        <div class="form-group-inner">
+            <slot name="control" data-test="test">
                 <input
-                    ref="control"
-                    :id="id"
-                    :type="type"
-                    :name="name"
+                    v-bind-events
+                    v-bind="controlAttributes"
                     :value="value"
-                    :pattern="pattern"
-                    :readonly="readonly"
-                    :required="required"
-                    :maxlength="maxlength"
-                    :placeholder="placeholder"
-                    :disabled="disabled || readonly"
-                    :class="mergeClasses(controlClasses, colorableClasses)"
-                    :aria-label="label"
-                    :aria-describedby="id"
-                    :autocomplete="autocomplete"
-                    v-bind-events="bindEvents"
                     @input="$emit('input', $event.target.value)"
                 />
             </slot>
@@ -53,11 +40,11 @@
 import HelpText from '../HelpText';
 import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';
+import FormControl from '../FormControl';
 import FormFeedback from '../FormFeedback';
 import Colorable from '../../Mixins/Colorable';
-import FormControl from '../../Mixins/FormControl';
-import MergeClasses from '../../Mixins/MergeClasses';
 import ActivityIndicator from '../ActivityIndicator';
+import FormControlMixin from '../../Mixins/FormControl';
 
 export default {
 
@@ -65,12 +52,12 @@ export default {
 
     mixins: [
         Colorable,
-        FormControl,
-        MergeClasses
+        FormControlMixin
     ],
 
     components: {
         HelpText,
+        FormControl,
         FormGroup,
         FormLabel,
         FormFeedback,
@@ -106,32 +93,9 @@ export default {
 
 <style lang="scss">
 .input-field {
-    position: relative;
-
-    .activity-indicator {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translate(-1rem, -50%);
-        transition: all .25s ease-in;
-    }
-
-    .activity-indicator {
-    }
-
-    .slide-fade-enter {
-    }
-
-    .slide-fade-enter-active {
-    }
-
-    .slide-fade-leave-active {
-
-    }
-
     .slide-fade-enter,
     .slide-fade-leave-to {
-        opacity: 0;
+        opacity: 1;
         transform: translate(25%, -50%);
     }
 }

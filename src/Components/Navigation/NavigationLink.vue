@@ -80,7 +80,7 @@ export default {
 
         classes() {
             this.$nextTick(() => {
-                if (!this.isItem) {
+                if(!this.isItem) {
                     this.isItem = !this.$parent.$el.classList.contains('nav-item');
                 }
             });

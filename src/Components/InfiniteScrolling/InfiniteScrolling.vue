@@ -77,7 +77,7 @@ export default {
         scrollIntoViewport(entry) {
             this.$emit('scroll:in', entry);
 
-            if (!this.activity) {
+            if(!this.activity) {
                 this.$emit('load', entry);
             }
         },
@@ -100,11 +100,11 @@ export default {
         this.$nextTick(() => {
             new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting && !this.hasScrolledIntoViewport) {
+                    if(entry.isIntersecting && !this.hasScrolledIntoViewport) {
                         this.scrollIntoViewport(entry, observer);
                         this.hasScrolledIntoViewport = true;
                     }
-                    else if (this.hasScrolledIntoViewport) {
+                    else if(this.hasScrolledIntoViewport) {
                         this.scrollOutViewport(entry, observer);
                         this.hasScrolledIntoViewport = false;
                     }

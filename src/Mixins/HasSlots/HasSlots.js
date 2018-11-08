@@ -11,8 +11,8 @@ export default {
         },
 
         hasSlots(slots) {
-            for (let i in slots) {
-                if (!this.hasSlot(slots[i])) {
+            for(let i in slots) {
+                if(!this.hasSlot(slots[i])) {
                     return false;
                 }
             }

@@ -19,7 +19,7 @@ export default class Request extends BaseClass {
             method: method
         });
 
-        if (isObject(attributes)) {
+        if(isObject(attributes)) {
             this.setAttribute(attributes);
         }
     }

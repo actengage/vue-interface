@@ -1,7 +1,16 @@
 import prefix from '../../Helpers/Prefix';
-import { each, isArray, isObject, camelCase, isUndefined } from '../../Helpers/Functions';
+import Colorable from '../../Mixins/Colorable';
+import MergeClasses from '../../Mixins/MergeClasses';
+import { each, isArray, isObject } from '../../Helpers/Functions';
 
 export default {
+
+    inheritAttrs: false,
+
+    mixins: [
+        Colorable,
+        MergeClasses
+    ],
 
     props: {
 
@@ -10,14 +19,14 @@ export default {
          *
          * @property String
          */
-        autocomplete: String,
+        // autocomplete: String,
 
         /**
          * The field id attribute value.
          *
          * @property String
          */
-        id: [Number, String],
+        // id: [Number, String],
 
         /**
          * The value of label element. If no value, no label will appear.
@@ -31,7 +40,7 @@ export default {
          *
          * @property String
          */
-        name: String,
+        // name: String,
 
         /**
          * The field id attribute value.
@@ -47,14 +56,14 @@ export default {
          *
          * @property String
          */
-        placeholder: String,
+        // placeholder: String,
 
         /**
          * Is the field required.
          *
          * @property String
          */
-        required: Boolean,
+        // required: Boolean,
 
         /**
          * Add form-group wrapper to input
@@ -71,7 +80,7 @@ export default {
          *
          * @property String
          */
-        pattern: String,
+        // pattern: String,
 
         /**
          * An inline field validation error.
@@ -161,21 +170,21 @@ export default {
          *
          * @property String
          */
-        plaintext: Boolean,
+        // plaintext: Boolean,
 
         /**
          * Is the form control readonly?
          *
          * @property String
          */
-        readonly: Boolean,
+        // readonly: Boolean,
 
         /**
          * Is the form control disabled?
          *
          * @property String
          */
-        disabled: Boolean,
+        // disabled: Boolean,
 
         /**
          * Some instructions to appear under the field label
@@ -209,26 +218,32 @@ export default {
 
     methods: {
 
+        isEmpty() {
+            return !this.$el || !this.getInputField().value;
+        },
+
         blur() {
-            if (this.getInputField()) {
+            if(this.getInputField()) {
                 this.getInputField().blur();
             }
         },
 
         focus() {
-            if (this.getInputField()) {
+            if(this.getInputField()) {
                 this.getInputField().focus();
             }
         },
 
         getInputField() {
-            return this.$el.querySelector('.form-control, input, select, textarea');
+            return this.$el.querySelector(
+                '.form-control, input, select, textarea'
+            );
         },
 
         getFieldErrors() {
             let errors = this.error || this.errors;
 
-            if (isObject(this.errors)) {
+            if(isObject(this.errors)) {
                 errors = this.errors[this.name || this.id];
             }
 
@@ -239,27 +254,31 @@ export default {
 
     computed: {
 
-        callbacks() {
-            return this.bindEvents.map(event => {
-                return {
-                    name: event,
-                    callback: this[camelCase(['on', event].join(' '))]
-                };
-            }).filter(event => !isUndefined(event.callback));
+        id() {
+            return this.$attrs.id;
         },
 
-        invalidFeedback() {
-            if (this.error) {
-                return this.error;
-            }
-
-            const errors = this.getFieldErrors();
-
-            return isArray(errors) ? errors.join('<br>') : errors;
+        name() {
+            return this.$attrs.name;
         },
 
-        validFeedback() {
-            return isArray(this.feedback) ? this.feedback.join('<br>') : this.feedback;
+        controlAttributes() {
+            const classes = this.mergeClasses({
+                'is-empty': this.isEmpty()
+            }, this.controlClasses, this.colorableClasses);
+
+            return Object.keys(Object.keys(this.$attrs))
+                .concat([['class', classes]])
+                .reduce((carry, key) => {
+                    if(isArray(key)) {
+                        carry[key[0]] = key[1];
+                    }
+                    else {
+                        carry[key] = this[key] || this.$attrs[key];
+                    }
+
+                    return carry;
+                }, {});
         },
 
         controlClass() {
@@ -272,15 +291,27 @@ export default {
 
         controlClasses() {
             return [
+                (this.spacing || ''),
                 this.controlClass,
                 this.controlSizeClass,
-                (this.spacing || ''),
                 (this.invalidFeedback ? 'is-invalid' : '')
             ].join(' ');
         },
 
         hasDefaultSlot() {
             return !!this.$slots.default;
+        },
+
+        invalidFeedback() {
+            const errors = this.getFieldErrors();
+
+            return this.error || (
+                isArray(errors) ? errors.join('<br>') : errors
+            );
+        },
+
+        validFeedback() {
+            return isArray(this.feedback) ? this.feedback.join('<br>') : this.feedback;
         }
 
     }

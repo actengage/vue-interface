@@ -1,14 +1,10 @@
 import Overlay from './Overlay';
-import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
+import OverlayBody from './OverlayBody';
+import OverlayContent from './OverlayContent';
 
-VueInstaller.use({
-
-    install(Vue, options) {
-        VueInstaller.components({
-            Overlay
-        });
-    }
-
-});
+export {
+    OverlayBody,
+    OverlayContent
+};
 
 export default Overlay;

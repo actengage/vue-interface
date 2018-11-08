@@ -32,7 +32,7 @@ export default class BaseClass {
     }
 
     setAttribute(key, value) {
-        if (isObject(key)) {
+        if(isObject(key)) {
             this.setAttributes(key);
         }
         else {
@@ -41,7 +41,7 @@ export default class BaseClass {
     }
 
     setAttributes(values) {
-        for (const i in values) {
+        for(const i in values) {
             this.setAttribute(i, values[i]);
         }
     }

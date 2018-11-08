@@ -115,7 +115,7 @@ export default {
             classes['active'] = this.active;
             classes['disabled'] = this.disabled;
 
-            if (this.variant) {
+            if(this.variant) {
                 classes[prefix(this.variant, 'list-group-item')] = true;
             }
 

@@ -9,7 +9,7 @@ function element(url) {
 }
 
 function append(script) {
-    if (document.querySelector('head')) {
+    if(document.querySelector('head')) {
         document.querySelector('head').appendChild(script);
     }
     else {
@@ -20,10 +20,10 @@ function append(script) {
 }
 
 export default function script(url) {
-    if (LOADED_SCRIPTS[url] instanceof Promise) {
+    if(LOADED_SCRIPTS[url] instanceof Promise) {
         return LOADED_SCRIPTS[url];
     }
-    else if (LOADED_SCRIPTS[url] || document.querySelector(`script[src="${url}"]`)) {
+    else if(LOADED_SCRIPTS[url] || document.querySelector(`script[src="${url}"]`)) {
         return new Promise((resolve, reject) => {
             resolve(LOADED_SCRIPTS[url]);
         });

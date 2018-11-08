@@ -120,7 +120,7 @@ export default class Model {
      * @return array|mixed
      */
     get(key) {
-        if (isArray(key)) {
+        if(isArray(key)) {
             return this.getAttributes().filter((value, i) => {
                 return key.indexOf(i) !== -1;
             });
@@ -137,7 +137,7 @@ export default class Model {
      * @return this
      */
     set(key, value = undefined) {
-        if (isArray(key) || isObject(key)) {
+        if(isArray(key) || isObject(key)) {
             this.setAttributes(key);
         }
         else {
@@ -210,7 +210,7 @@ export default class Model {
      * @return void
      */
     setAttributes(data) {
-        if (isArray(data) || isObject(data)) {
+        if(isArray(data) || isObject(data)) {
             each(data, (value, key) => {
                 this.setAttribute(key, value);
             });
@@ -227,10 +227,10 @@ export default class Model {
      * @return void
      */
     setAttribute(key, value) {
-        if (this.getAttribute(key) !== value) {
+        if(this.getAttribute(key) !== value) {
             this.handleAttributeChange(key, value);
 
-            if (isUndefined(value)) {
+            if(isUndefined(value)) {
                 delete this.$attributes[key];
             }
             else {
@@ -246,7 +246,7 @@ export default class Model {
      */
     revert() {
         each(this.$changed, (value, key) => {
-            if (!isUndefined(value)) {
+            if(!isUndefined(value)) {
                 this.$attributes[key] = value;
             }
             else {
@@ -285,10 +285,10 @@ export default class Model {
             return Object.keys(files).reduce((carry, key) => {
                 const value = files[key];
 
-                if (isArray(value)) {
+                if(isArray(value)) {
                     return carry + count(value, total);
                 }
-                else if (value instanceof File || value instanceof FileList) {
+                else if(value instanceof File || value instanceof FileList) {
                     return carry + 1;
                 }
                 else {
@@ -308,11 +308,11 @@ export default class Model {
      * @return void
      */
     handleAttributeChange(key, value) {
-        if (this.$initialized) {
-            if (this.$changed[key] === value) {
+        if(this.$initialized) {
+            if(this.$changed[key] === value) {
                 delete this.$changed[key];
             }
-            else if (!(key in this.$changed)) {
+            else if(!(key in this.$changed)) {
                 this.$changed[key] = this.getAttribute(key);
             }
         }
@@ -328,7 +328,7 @@ export default class Model {
      * @return void
      */
     handlePrimaryKeyChange(key, value) {
-        if (this.$key === key) {
+        if(this.$key === key) {
             this.$exists = !isUndefined(value) && !isNull(value);
         }
     }
@@ -364,7 +364,7 @@ export default class Model {
      */
     delete(config = {}) {
         return new Promise((resolve, reject) => {
-            if (!this.exists()) {
+            if(!this.exists()) {
                 reject(new Error('The model must have a primary key before it can be delete.'));
             }
 
@@ -381,7 +381,7 @@ export default class Model {
      * @return {self}
      */
     cancel() {
-        if (this.$request) {
+        if(this.$request) {
             this.$request.cancel();
         }
 
@@ -397,19 +397,19 @@ export default class Model {
         const form = new FormData();
 
         each(this.toJSON(), (value, key) => {
-            if (isArray(value)) {
+            if(isArray(value)) {
                 each(value, item => {
-                    if (!(item instanceof File) && (isObject(item) || isArray(item))) {
+                    if(!(item instanceof File) && (isObject(item) || isArray(item))) {
                         item = JSON.stringify(item);
                     }
 
                     form.append(key.replace(/(.+)(\[.+\]?)$/, '$1') + '[]', item);
                 });
             }
-            else if (!(value instanceof File) && isObject(value)) {
+            else if(!(value instanceof File) && isObject(value)) {
                 form.append(key, JSON.stringify(value));
             }
-            else if (!isNull(value)) {
+            else if(!isNull(value)) {
                 form.append(key, value);
             }
         });

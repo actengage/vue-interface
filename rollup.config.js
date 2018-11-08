@@ -10,6 +10,7 @@ import {
     NAMESPACE,
     OUTPUT_GLOBALS,
     PACKAGE_FORMAT,
+    SRC,
     SOURCEMAP,
     WATCH_OPTIONS,
 } from './build/config';
@@ -22,13 +23,12 @@ export default [{
         format: PACKAGE_FORMAT,
         file: `${DIST}${FILENAME}${EXTENSION_PREFIX}.js`,
         sourcemap: SOURCEMAP,
-        globals: OUTPUT_GLOBALS,
-        exports: 'named',
+        globals: OUTPUT_GLOBALS
     },
     watch: WATCH_OPTIONS,
     external: EXTERNAL,
     plugins: plugins(BUILD_OPTIONS[PACKAGE_FORMAT])
-},{
+}/*,{
     input: MAINJS,
     output: {
         name: NAMESPACE,
@@ -41,4 +41,4 @@ export default [{
     watch: WATCH_OPTIONS,
     external: EXTERNAL,
     plugins: plugins(BUILD_OPTIONS.es)
-}];
+}*/];

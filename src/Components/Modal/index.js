@@ -5,17 +5,6 @@ import ModalContent from './ModalContent';
 import ModalDialog from './ModalDialog';
 import ModalFooter from './ModalFooter';
 import ModalHeader from './ModalHeader';
-import VueInstaller from '../../Helpers/VueInstaller/VueInstaller';
-
-VueInstaller.use({
-
-    install(Vue, options) {
-        VueInstaller.components({
-            Modal
-        });
-    }
-
-});
 
 export {
     ModalBackdrop,

@@ -4,11 +4,11 @@ import Overlay from '../../Components/Overlay';
 
 export default function(Vue, options) {
     Vue.prototype.$overlay = function(target, Component, options) {
-        if (!isObject(options)) {
+        if(!isObject(options)) {
             options = {};
         }
 
-        if (!target.$overlay) {
+        if(!target.$overlay) {
             target.$overlay = instantiate(Vue, Overlay, deepExtend(options.overlay, {
                 propsData: {
                     target: target
