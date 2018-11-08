@@ -247,9 +247,14 @@ export default {
                 });
 
                 el.addEventListener('input', e => {
-                    el.value === ''
-                        ? addClass(el, vnode, emptyClass)
-                        : removeClass(el, vnode, emptyClass);
+                    addClass(el, vnode, 'has-changed');
+
+                    if(el.value === '') {
+                        addClass(el, vnode, emptyClass);
+                    }
+                    else {
+                        removeClass(el, vnode, emptyClass);
+                    }
                 });
 
                 // Bubble the native events up to the vue component.
