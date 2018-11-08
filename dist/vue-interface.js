@@ -3279,14 +3279,20 @@
       directives: {
         bindEvents: {
           bind(el, binding, vnode) {
-            // Add/remove the has-focus class from the form control
+            const emptyClass = 'is-empty'; // Add/remove the has-focus class from the form control
+
             el.addEventListener('focus', event => event.target.classList.add('has-focus'));
             el.addEventListener('blur', event => event.target.classList.remove('has-focus'));
             el.addEventListener('input', e => {
-              el.classList[!el.value ? 'add' : 'remove']('is-empty');
-            }); // Bubble the native events up to the vue component.
+              el.classList[!el.value ? 'add' : 'remove'](emptyClass);
+            });
 
-            each(binding.value || vnode.context.bindEvents, name => {
+            if (!el.value) {
+              el.classList.add(emptyClass);
+            } // Bubble the native events up to the vue component.
+
+
+            each(vnode.context.bindEvents, name => {
               el.addEventListener(name, event => {
                 vnode.context.$emit(name, event);
               });
