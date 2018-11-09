@@ -352,8 +352,13 @@ export default {
         formGroupClasses() {
             return {
                 'has-activity': this.activity,
-                'form-group-custom': this.custom
+                'form-group-custom': this.custom,
+                'form-group'
             };
+        },
+
+        formGroupSizeClass() {
+            return prefix(this.size, 'form-group-custom');
         },
 
         controlClasses() {
@@ -361,6 +366,7 @@ export default {
                 (this.spacing || ''),
                 this.controlClass,
                 this.controlSizeClass,
+                this.formGroupSizeClass,
                 (this.invalidFeedback ? 'is-invalid' : '')
             ].join(' ');
         },
