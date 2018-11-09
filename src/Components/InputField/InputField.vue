@@ -21,12 +21,12 @@
                     <activity-indicator key="test" v-if="activity" ref="activity" type="dots" :size="size"/>
                 </transition>
             </slot>
-
-            <slot name="feedback">
-                <form-feedback v-if="validFeedback" ref="feedback" v-html="validFeedback" valid />
-                <form-feedback v-else-if="invalidFeedback" ref="feedback" v-html="invalidFeedback" invalid />
-            </slot>
         </div>
+
+        <slot name="feedback">
+            <form-feedback v-if="validFeedback" ref="feedback" v-html="validFeedback" valid />
+            <form-feedback v-else-if="invalidFeedback" ref="feedback" v-html="invalidFeedback" invalid />
+        </slot>
 
         <slot name="help">
             <help-text v-if="helpText" ref="help" v-html="helpText" />

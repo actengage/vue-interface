@@ -357,6 +357,7 @@ export default {
             const size = prefix(this.size, name);
 
             return this.mergeClasses(name, size, {
+                'is-invalid': !!this.invalidFeedback,
                 'has-activity': this.activity
             });
         },

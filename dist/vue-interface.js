@@ -3413,6 +3413,7 @@
           const name = prefix(this.$options.name, string);
           const size = prefix(this.size, name);
           return this.mergeClasses(name, size, {
+            'is-invalid': !!this.invalidFeedback,
             'has-activity': this.activity
           });
         },
@@ -3592,26 +3593,26 @@
                   ],
                   1
                 )
-              ]),
-              _vm._v(" "),
-              _vm._t("feedback", [
-                _vm.validFeedback
-                  ? _c("form-feedback", {
-                      ref: "feedback",
-                      attrs: { valid: "" },
-                      domProps: { innerHTML: _vm._s(_vm.validFeedback) }
-                    })
-                  : _vm.invalidFeedback
-                    ? _c("form-feedback", {
-                        ref: "feedback",
-                        attrs: { invalid: "" },
-                        domProps: { innerHTML: _vm._s(_vm.invalidFeedback) }
-                      })
-                    : _vm._e()
               ])
             ],
             2
           ),
+          _vm._v(" "),
+          _vm._t("feedback", [
+            _vm.validFeedback
+              ? _c("form-feedback", {
+                  ref: "feedback",
+                  attrs: { valid: "" },
+                  domProps: { innerHTML: _vm._s(_vm.validFeedback) }
+                })
+              : _vm.invalidFeedback
+                ? _c("form-feedback", {
+                    ref: "feedback",
+                    attrs: { invalid: "" },
+                    domProps: { innerHTML: _vm._s(_vm.invalidFeedback) }
+                  })
+                : _vm._e()
+          ]),
           _vm._v(" "),
           _vm._t("help", [
             _vm.helpText
@@ -10889,26 +10890,26 @@
                   ],
                   1
                 )
-              ]),
-              _vm._v(" "),
-              _vm._t("feedback", [
-                _vm.validFeedback
-                  ? _c("form-feedback", {
-                      attrs: { valid: "" },
-                      domProps: { innerHTML: _vm._s(_vm.validFeedback) }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.invalidFeedback
-                  ? _c("form-feedback", {
-                      attrs: { invalid: "" },
-                      domProps: { innerHTML: _vm._s(_vm.invalidFeedback) }
-                    })
-                  : _vm._e()
               ])
             ],
             2
           ),
+          _vm._v(" "),
+          _vm._t("feedback", [
+            _vm.validFeedback
+              ? _c("form-feedback", {
+                  attrs: { valid: "" },
+                  domProps: { innerHTML: _vm._s(_vm.validFeedback) }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.invalidFeedback
+              ? _c("form-feedback", {
+                  attrs: { invalid: "" },
+                  domProps: { innerHTML: _vm._s(_vm.invalidFeedback) }
+                })
+              : _vm._e()
+          ]),
           _vm._v(" "),
           _vm._t("help", [
             _vm.helpText

@@ -24,6 +24,10 @@
       border-right: 1px solid rgba(0, 0, 0, 0.125);
 }
 
+.navigation-error {
+  color: #dc3545;
+}
+
 .card-img,
 .card-img-top,
 .card-img-bottom {
@@ -62,15 +66,6 @@
     position: relative;
 }
 
-.navigation-error {
-  color: #dc3545;
-}
-
-.wizard-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
 .thumbnail-list-item {
   max-width: 100%;
   max-height: 100%;
@@ -92,32 +87,9 @@
       width: 100%;
 }
 
-.wizard-success {
-  text-align: center;
-  font-size: 1.25rem;
-  padding: 5rem 1.25rem;
-}
-.wizard-success .wizard-success-title {
-    font-size: 1.875rem;
-    color: #55b776;
-}
-.wizard-success .wizard-success-icon {
-    color: #55b776;
-    font-size: 3.125rem;
-    border: 5px solid #55b776;
-    border-radius: 100%;
-    text-align: center;
-    width: 7.5rem;
-    height: 7.5rem;
-    margin: 1.25rem auto;
-    position: relative;
-}
-.wizard-success .wizard-success-icon i {
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      left: 0;
-      line-height: 0;
+.wizard-buttons {
+  display: flex;
+  justify-content: space-between;
 }
 
 .card > .wizard .wizard-header {
@@ -235,6 +207,34 @@
     background-color: #b10805;
 }
 
+.wizard-success {
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 5rem 1.25rem;
+}
+.wizard-success .wizard-success-title {
+    font-size: 1.875rem;
+    color: #55b776;
+}
+.wizard-success .wizard-success-icon {
+    color: #55b776;
+    font-size: 3.125rem;
+    border: 5px solid #55b776;
+    border-radius: 100%;
+    text-align: center;
+    width: 7.5rem;
+    height: 7.5rem;
+    margin: 1.25rem auto;
+    position: relative;
+}
+.wizard-success .wizard-success-icon i {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      line-height: 0;
+}
+
 .modal .modal-backdrop + .modal-dialog {
   z-index: 1050;
 }
@@ -338,6 +338,20 @@
     flex: 1;
 }
 
+.wizard .slide-deck-content {
+  margin: 1rem;
+}
+.wizard .wizard-content {
+  overflow: hidden;
+  padding: .5rem;
+}
+.wizard .wizard-content + hr {
+    margin-bottom: 0;
+}
+.wizard .wizard-buttons {
+  padding: 1rem;
+}
+
 .wizard-error {
   text-align: center;
   font-size: 1.25rem;
@@ -364,20 +378,6 @@
       top: 50%;
       left: 0;
       line-height: 0;
-}
-
-.wizard .slide-deck-content {
-  margin: 1rem;
-}
-.wizard .wizard-content {
-  overflow: hidden;
-  padding: .5rem;
-}
-.wizard .wizard-content + hr {
-    margin-bottom: 0;
-}
-.wizard .wizard-buttons {
-  padding: 1rem;
 }
 
 @keyframes btn-activity-in {
@@ -776,20 +776,6 @@
     width: 7.5%;
 }
 
-.btn-file {
-  cursor: pointer;
-  position: relative;
-}
-.btn-file input {
-    z-index: 1;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
 @media (max-width: 575.98px) {
 .btn-xs-block {
     width: 100%;
@@ -844,6 +830,20 @@
     margin-top: 0.5rem;
 }
 
+.btn-file {
+  cursor: pointer;
+  position: relative;
+}
+.btn-file input {
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .dropzone {
   position: relative;
 }
@@ -865,21 +865,6 @@
 }
 .dropzone.is-dragging .dropzone-placeholder {
     display: block;
-}
-
-.form-group, .form-group .form-group-inner {
-  position: relative;
-}
-.form-group .activity-indicator {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translate(-1rem, -50%);
-  transition: all .25s ease-in;
-}
-
-.infinite-scrolling {
-  position: relative;
 }
 
 .file-preview {
@@ -927,10 +912,19 @@
     text-align: center;
 }
 
-.input-field .slide-fade-enter,
-.input-field .slide-fade-leave-to {
-  opacity: 1;
-  transform: translate(25%, -50%);
+.infinite-scrolling {
+  position: relative;
+}
+
+.form-group, .form-group .form-group-inner {
+  position: relative;
+}
+.form-group .activity-indicator {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(-1rem, -50%);
+  transition: all .25s ease-in;
 }
 
 .light-switch {
@@ -1286,6 +1280,12 @@
 .light-switch .light-switch-label.off-value {
       right: 0;
       background: #ebedef;
+}
+
+.input-field .slide-fade-enter,
+.input-field .slide-fade-leave-to {
+  opacity: 1;
+  transform: translate(25%, -50%);
 }
 
 .overlay {
