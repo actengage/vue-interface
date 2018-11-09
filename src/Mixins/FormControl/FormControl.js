@@ -352,8 +352,7 @@ export default {
         formGroupClasses() {
             return {
                 'has-activity': this.activity,
-                'form-group-custom': this.custom,
-                'form-group'
+                'form-group-custom': this.custom
             };
         },
 

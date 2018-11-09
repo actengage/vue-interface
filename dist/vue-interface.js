@@ -3414,8 +3414,12 @@
           };
         },
 
+        formGroupSizeClass() {
+          return prefix(this.size, 'form-group-custom');
+        },
+
         controlClasses() {
-          return [this.spacing || '', this.controlClass, this.controlSizeClass, this.invalidFeedback ? 'is-invalid' : ''].join(' ');
+          return [this.spacing || '', this.controlClass, this.controlSizeClass, this.formGroupSizeClass, this.invalidFeedback ? 'is-invalid' : ''].join(' ');
         },
 
         hasDefaultSlot() {
