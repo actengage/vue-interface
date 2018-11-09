@@ -3343,7 +3343,7 @@
           },
 
           inserted(el, binding, vnode) {
-            if (el.value === '') {
+            if (el.value === '' || el.tagName === 'SELECT' && el.selectedIndex === -1) {
               addClass(el, vnode, emptyClass);
             }
           }
