@@ -3086,7 +3086,6 @@
     const focusClass = 'has-focus';
     const changedClass = 'has-changed';
     const customPrefix = 'custom';
-    const formGroupClass = 'form-group';
 
     function addClass(el, vnode, css) {
       el.classList.add(css);
@@ -3410,13 +3409,12 @@
         },
 
         formGroupClasses() {
-          return this.mergeClasses(prefix(this.$options.name, this.custom ? customPrefix : ''), prefix(formGroupClass, this.custom ? customPrefix : ''), this.formGroupSizeClass, {
+          const string = this.custom ? customPrefix : '';
+          const name = prefix(this.$options.name, string);
+          const size = prefix(this.size, name);
+          return this.mergeClasses(name, size, {
             'has-activity': this.activity
           });
-        },
-
-        formGroupSizeClass() {
-          return prefix(this.size, prefix(formGroupClass, this.custom ? customPrefix : ''));
         },
 
         controlClasses() {

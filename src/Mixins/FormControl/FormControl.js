@@ -7,7 +7,6 @@ const emptyClass = 'is-empty';
 const focusClass = 'has-focus';
 const changedClass = 'has-changed';
 const customPrefix = 'custom';
-const formGroupClass = 'form-group';
 
 function addClass(el, vnode, css) {
     el.classList.add(css);
@@ -352,17 +351,13 @@ export default {
         },
 
         formGroupClasses() {
-            return this.mergeClasses(
-                prefix(this.$options.name, this.custom ? customPrefix : ''),
-                prefix(formGroupClass, this.custom ? customPrefix : ''),
-                this.formGroupSizeClass, {
-                    'has-activity': this.activity
-                }
-            );
-        },
+            const string = this.custom ? customPrefix : '';
+            const name = prefix(this.$options.name, string);
+            const size = prefix(this.size, name);
 
-        formGroupSizeClass() {
-            return prefix(this.size, prefix(formGroupClass, this.custom ? customPrefix : ''));
+            return this.mergeClasses(name, size, {
+                'has-activity': this.activity
+            });
         },
 
         controlClasses() {
