@@ -256,11 +256,11 @@ export default {
                 el.addEventListener('input', e => {
                     addClass(el, vnode, changedClass);
 
-                    if(el.value === '') {
-                        addClass(el, vnode, emptyClass);
+                    if(el.value || (el.tagName === 'SELECT' && el.selectedIndex > -1)) {
+                        removeClass(el, vnode, emptyClass);
                     }
                     else {
-                        removeClass(el, vnode, emptyClass);
+                        addClass(el, vnode, emptyClass);
                     }
                 });
 
