@@ -272,7 +272,8 @@ export default {
                 });
             },
             inserted(el, binding, vnode) {
-                if(el.value === '' || (el.tagName === 'SELECT' && el.selectedIndex === -1)) {
+                if((el.tagName !== 'SELECT' && el.value === '') ||
+                   (el.tagName === 'SELECT' && el.selectedIndex === -1)) {
                     addClass(el, vnode, emptyClass);
                 }
             }
