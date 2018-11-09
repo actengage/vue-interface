@@ -6,6 +6,8 @@ import { each, isArray, isObject } from '../../Helpers/Functions';
 const emptyClass = 'is-empty';
 const focusClass = 'has-focus';
 const changedClass = 'has-changed';
+const customPrefix = 'custom';
+const formGroupClass = 'form-group';
 
 function addClass(el, vnode, css) {
     el.classList.add(css);
@@ -350,14 +352,17 @@ export default {
         },
 
         formGroupClasses() {
-            return this.mergeClasses({
-                'has-activity': this.activity,
-                'form-group-custom': this.custom
-            }, this.formGroupSizeClass);
+            return this.mergeClasses(
+                prefix(this.$options.name, this.custom ? customPrefix : ''),
+                prefix(formGroupClass, this.custom ? customPrefix : ''),
+                this.formGroupSizeClass, {
+                    'has-activity': this.activity
+                }
+            );
         },
 
         formGroupSizeClass() {
-            return this.custom ? prefix(this.size, 'form-group-custom') : null;
+            return prefix(this.size, prefix(formGroupClass, this.custom ? customPrefix : ''));
         },
 
         controlClasses() {
