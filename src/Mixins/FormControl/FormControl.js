@@ -357,7 +357,7 @@ export default {
         },
 
         formGroupSizeClass() {
-            return prefix(this.size, 'form-group-custom');
+            return this.custom ? prefix(this.size, 'form-group-custom') : null;
         },
 
         controlClasses() {
