@@ -3408,10 +3408,10 @@
         },
 
         formGroupClasses() {
-          return {
+          return this.mergeClasses({
             'has-activity': this.activity,
             'form-group-custom': this.custom
-          };
+          }, this.formGroupSizeClass);
         },
 
         formGroupSizeClass() {
@@ -3419,7 +3419,7 @@
         },
 
         controlClasses() {
-          return [this.spacing || '', this.controlClass, this.controlSizeClass, this.formGroupSizeClass, this.invalidFeedback ? 'is-invalid' : ''].join(' ');
+          return [this.spacing || '', this.controlClass, this.controlSizeClass, this.invalidFeedback ? 'is-invalid' : ''].join(' ');
         },
 
         hasDefaultSlot() {

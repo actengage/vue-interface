@@ -24,10 +24,6 @@
       border-right: 1px solid rgba(0, 0, 0, 0.125);
 }
 
-.navigation-error {
-  color: #dc3545;
-}
-
 .card-img,
 .card-img-top,
 .card-img-bottom {
@@ -66,11 +62,6 @@
     position: relative;
 }
 
-.wizard-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
 .thumbnail-list-item {
   max-width: 100%;
   max-height: 100%;
@@ -92,8 +83,45 @@
       width: 100%;
 }
 
+.navigation-error {
+  color: #dc3545;
+}
+
+.wizard-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
 .card > .wizard .wizard-header {
   margin-top: 1rem;
+}
+
+.wizard-success {
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 5rem 1.25rem;
+}
+.wizard-success .wizard-success-title {
+    font-size: 1.875rem;
+    color: #55b776;
+}
+.wizard-success .wizard-success-icon {
+    color: #55b776;
+    font-size: 3.125rem;
+    border: 5px solid #55b776;
+    border-radius: 100%;
+    text-align: center;
+    width: 7.5rem;
+    height: 7.5rem;
+    margin: 1.25rem auto;
+    position: relative;
+}
+.wizard-success .wizard-success-icon i {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      line-height: 0;
 }
 
 .wizard-progress {
@@ -205,34 +233,6 @@
 }
 .wizard:not(.wizard-finished) .wizard-step.complete:hover + .wizard-step:after {
     background-color: #b10805;
-}
-
-.wizard-success {
-  text-align: center;
-  font-size: 1.25rem;
-  padding: 5rem 1.25rem;
-}
-.wizard-success .wizard-success-title {
-    font-size: 1.875rem;
-    color: #55b776;
-}
-.wizard-success .wizard-success-icon {
-    color: #55b776;
-    font-size: 3.125rem;
-    border: 5px solid #55b776;
-    border-radius: 100%;
-    text-align: center;
-    width: 7.5rem;
-    height: 7.5rem;
-    margin: 1.25rem auto;
-    position: relative;
-}
-.wizard-success .wizard-success-icon i {
-      position: absolute;
-      width: 100%;
-      top: 50%;
-      left: 0;
-      line-height: 0;
 }
 
 .modal .modal-backdrop + .modal-dialog {
@@ -378,97 +378,6 @@
       top: 50%;
       left: 0;
       line-height: 0;
-}
-
-.btn-file {
-  cursor: pointer;
-  position: relative;
-}
-.btn-file input {
-    z-index: 1;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.dropzone {
-  position: relative;
-}
-.dropzone p {
-    font-size: 18px;
-}
-.dropzone .fa-image {
-    font-size: 100px;
-}
-.dropzone .dropzone-placeholder {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    background: white;
-}
-.dropzone.is-dragging .dropzone-placeholder {
-    display: block;
-}
-
-@media (max-width: 575.98px) {
-.btn-xs-block {
-    width: 100%;
-    display: block;
-}
-.btn-xs-block + .btn-xs-block {
-      margin-top: 0.5rem;
-}
-}
-@media (max-width: 767.98px) {
-.btn-sm-block {
-    width: 100%;
-    display: block;
-}
-.btn-sm-block + .btn-xs-block,
-    .btn-sm-block + .btn-sm-block {
-      margin-top: 0.5rem;
-}
-}
-@media (max-width: 991.98px) {
-.btn-md-block {
-    width: 100%;
-    display: block;
-}
-.btn-md-block + .btn-xs-block,
-    .btn-md-block + .btn-sm-block,
-    .btn-md-block + .btn-md-block {
-      margin-top: 0.5rem;
-}
-}
-@media (max-width: 1199.98px) {
-.btn-lg-block {
-    width: 100%;
-    display: block;
-}
-.btn-lg-block + .btn-xs-block,
-    .btn-lg-block + .btn-sm-block,
-    .btn-lg-block + .btn-md-block,
-    .btn-lg-block + .btn-lg-block {
-      margin-top: 0.5rem;
-}
-}
-.btn-xl-block {
-  width: 100%;
-  display: block;
-}
-.btn-xl-block + .btn-xs-block,
-  .btn-xl-block + .btn-sm-block,
-  .btn-xl-block + .btn-md-block,
-  .btn-xl-block + .btn-lg-block,
-  .btn-xl-block + .btn-xl-block {
-    margin-top: 0.5rem;
 }
 
 @keyframes btn-activity-in {
@@ -867,15 +776,95 @@
     width: 7.5%;
 }
 
-.form-group, .form-group .form-group-inner {
+@media (max-width: 575.98px) {
+.btn-xs-block {
+    width: 100%;
+    display: block;
+}
+.btn-xs-block + .btn-xs-block {
+      margin-top: 0.5rem;
+}
+}
+@media (max-width: 767.98px) {
+.btn-sm-block {
+    width: 100%;
+    display: block;
+}
+.btn-sm-block + .btn-xs-block,
+    .btn-sm-block + .btn-sm-block {
+      margin-top: 0.5rem;
+}
+}
+@media (max-width: 991.98px) {
+.btn-md-block {
+    width: 100%;
+    display: block;
+}
+.btn-md-block + .btn-xs-block,
+    .btn-md-block + .btn-sm-block,
+    .btn-md-block + .btn-md-block {
+      margin-top: 0.5rem;
+}
+}
+@media (max-width: 1199.98px) {
+.btn-lg-block {
+    width: 100%;
+    display: block;
+}
+.btn-lg-block + .btn-xs-block,
+    .btn-lg-block + .btn-sm-block,
+    .btn-lg-block + .btn-md-block,
+    .btn-lg-block + .btn-lg-block {
+      margin-top: 0.5rem;
+}
+}
+.btn-xl-block {
+  width: 100%;
+  display: block;
+}
+.btn-xl-block + .btn-xs-block,
+  .btn-xl-block + .btn-sm-block,
+  .btn-xl-block + .btn-md-block,
+  .btn-xl-block + .btn-lg-block,
+  .btn-xl-block + .btn-xl-block {
+    margin-top: 0.5rem;
+}
+
+.dropzone {
   position: relative;
 }
-.form-group .activity-indicator {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translate(-1rem, -50%);
-  transition: all .25s ease-in;
+.dropzone p {
+    font-size: 18px;
+}
+.dropzone .fa-image {
+    font-size: 100px;
+}
+.dropzone .dropzone-placeholder {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+.dropzone.is-dragging .dropzone-placeholder {
+    display: block;
+}
+
+.btn-file {
+  cursor: pointer;
+  position: relative;
+}
+.btn-file input {
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .file-preview {
@@ -921,6 +910,17 @@
 .file-preview .file-preview-filename,
   .file-preview .file-preview-filesize {
     text-align: center;
+}
+
+.form-group, .form-group .form-group-inner {
+  position: relative;
+}
+.form-group .activity-indicator {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(-1rem, -50%);
+  transition: all .25s ease-in;
 }
 
 .infinite-scrolling {
@@ -1395,88 +1395,6 @@
 }
 .upload-field .file-preview .uploading .file-preview {
     opacity: .5;
-}
-
-.activity-indicator-dots > div {
-  border-radius: 100%;
-  display: inline-block;
-  background-color: #212529;
-  width: 0.6rem;
-  height: 0.6rem;
-  animation: activity-indicator-dots 1.4s infinite ease-in-out both;
-}
-.activity-indicator-dots > div:not(:last-child) {
-  margin-right: 0.198rem;
-}
-.activity-indicator-dots.activity-indicator-xs > div {
-  width: 0.3rem;
-  height: 0.3rem;
-}
-.activity-indicator-dots.activity-indicator-sm > div {
-  width: 0.45rem;
-  height: 0.45rem;
-}
-.activity-indicator-dots.activity-indicator-md > div {
-  width: 0.6rem;
-  height: 0.6rem;
-}
-.activity-indicator-dots.activity-indicator-lg > div {
-  width: 0.9rem;
-  height: 0.9rem;
-}
-.activity-indicator-dots.activity-indicator-xl > div {
-  width: 1.2rem;
-  height: 1.2rem;
-}
-.activity-indicator-dots > div:nth-child(1) {
-  animation-delay: 0s;
-}
-.activity-indicator-dots > div:nth-child(2) {
-  animation-delay: 0.16s;
-}
-.activity-indicator-dots > div:nth-child(3) {
-  animation-delay: 0.32s;
-}
-.activity-indicator-dots > div:nth-child(4) {
-  animation-delay: 0.48s;
-}
-.activity-indicator-dots > div:nth-child(5) {
-  animation-delay: 0.64s;
-}
-.activity-indicator-dots > div:nth-child(6) {
-  animation-delay: 0.8s;
-}
-.activity-indicator-dots > div:nth-child(7) {
-  animation-delay: 0.96s;
-}
-.activity-indicator-dots > div:nth-child(8) {
-  animation-delay: 1.12s;
-}
-.activity-indicator-dots > div:nth-child(9) {
-  animation-delay: 1.28s;
-}
-.activity-indicator-dots > div:nth-child(10) {
-  animation-delay: 1.44s;
-}
-.activity-indicator-dots > div:nth-child(11) {
-  animation-delay: 1.6s;
-}
-.activity-indicator-dots > div:nth-child(12) {
-  animation-delay: 1.76s;
-}
-.activity-indicator-dots > div:nth-child(13) {
-  animation-delay: 1.92s;
-}
-@keyframes activity-indicator-dots {
-0%, 80%, 100% {
-    transform: scale(0);
-}
-40% {
-    transform: scale(1);
-}
-}
-.btn-activity-indicator-dots:not(.btn-warning) .activity-indicator-dots > div {
-  background: white;
 }
 
 .activity-indicator-spinner {
@@ -2155,4 +2073,86 @@
 }
 .btn-activity-indicator-spinner:not(.btn-warning) .activity-indicator-spinner > div:before {
   background-color: white;
+}
+
+.activity-indicator-dots > div {
+  border-radius: 100%;
+  display: inline-block;
+  background-color: #212529;
+  width: 0.6rem;
+  height: 0.6rem;
+  animation: activity-indicator-dots 1.4s infinite ease-in-out both;
+}
+.activity-indicator-dots > div:not(:last-child) {
+  margin-right: 0.198rem;
+}
+.activity-indicator-dots.activity-indicator-xs > div {
+  width: 0.3rem;
+  height: 0.3rem;
+}
+.activity-indicator-dots.activity-indicator-sm > div {
+  width: 0.45rem;
+  height: 0.45rem;
+}
+.activity-indicator-dots.activity-indicator-md > div {
+  width: 0.6rem;
+  height: 0.6rem;
+}
+.activity-indicator-dots.activity-indicator-lg > div {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.activity-indicator-dots.activity-indicator-xl > div {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+.activity-indicator-dots > div:nth-child(1) {
+  animation-delay: 0s;
+}
+.activity-indicator-dots > div:nth-child(2) {
+  animation-delay: 0.16s;
+}
+.activity-indicator-dots > div:nth-child(3) {
+  animation-delay: 0.32s;
+}
+.activity-indicator-dots > div:nth-child(4) {
+  animation-delay: 0.48s;
+}
+.activity-indicator-dots > div:nth-child(5) {
+  animation-delay: 0.64s;
+}
+.activity-indicator-dots > div:nth-child(6) {
+  animation-delay: 0.8s;
+}
+.activity-indicator-dots > div:nth-child(7) {
+  animation-delay: 0.96s;
+}
+.activity-indicator-dots > div:nth-child(8) {
+  animation-delay: 1.12s;
+}
+.activity-indicator-dots > div:nth-child(9) {
+  animation-delay: 1.28s;
+}
+.activity-indicator-dots > div:nth-child(10) {
+  animation-delay: 1.44s;
+}
+.activity-indicator-dots > div:nth-child(11) {
+  animation-delay: 1.6s;
+}
+.activity-indicator-dots > div:nth-child(12) {
+  animation-delay: 1.76s;
+}
+.activity-indicator-dots > div:nth-child(13) {
+  animation-delay: 1.92s;
+}
+@keyframes activity-indicator-dots {
+0%, 80%, 100% {
+    transform: scale(0);
+}
+40% {
+    transform: scale(1);
+}
+}
+.btn-activity-indicator-dots:not(.btn-warning) .activity-indicator-dots > div {
+  background: white;
 }
