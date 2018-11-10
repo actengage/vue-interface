@@ -1,21 +1,15 @@
 <template>
 
-    <div :class="mergeClasses(controlClass, customControlClass, sizeableClass, inline ? inlineClass : '')">
+    <div :class="mergeClasses(this.custom ? 'custom-checkbox' : '', controlClass, inline ? inlineClass : '')">
 
         <template v-if="custom && id">
             <input
                 v-bind-events
+                v-bind="controlAttributes"
                 type="checkbox"
-                :name="name"
-                :id="id"
                 :value="value"
-                :required="required"
-                :disabled="disabled || readonly"
-                :readonly="readonly"
-                :pattern="pattern"
-                :checked="checkedValues.indexOf(value) !== -1 || checked"
-                :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
-                @change="update($event.target.value)">
+                :checked="checkedValues.indexOf(value) !== -1"
+                @input="update"/>
 
             <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
                 <slot>{{label}}</slot>
@@ -31,17 +25,11 @@
             <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
                 <input
                     v-bind-events
+                    v-bind="controlAttributes"
                     type="checkbox"
-                    :name="name"
-                    :id="id"
                     :value="value"
-                    :required="required"
-                    :disabled="disabled || readonly"
-                    :readonly="readonly"
-                    :pattern="pattern"
-                    :checked="checkedValues.indexOf(value) !== -1 || checked"
-                    :class="mergeClasses(inputClass, (invalidFeedback ? 'is-invalid' : ''))"
-                    @change="update($event.target.value)">
+                    :checked="checkedValues.indexOf(value) !== -1"
+                    @input="update"/>
 
                 <slot>{{label}}</slot>
 
@@ -73,8 +61,8 @@ export default {
     ],
 
     model: {
-        event: 'change',
-        prop: 'checkedValues'
+        prop: 'checkedValues',
+        event: 'change'
     },
 
     props: {
@@ -95,7 +83,8 @@ export default {
 
     methods: {
 
-        update(value) {
+        update(event) {
+            const value = event.target.value;
             const checked = this.checkedValues.slice(0);
             const index = this.checkedValues.indexOf(value);
 
@@ -107,6 +96,7 @@ export default {
             }
 
             this.$emit('change', checked);
+            this.$emit('input', event);
         }
 
     }

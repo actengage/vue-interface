@@ -3388,8 +3388,7 @@
         },
 
         controlAttributes() {
-          const classes = this.mergeClasses(this.controlClasses, this.colorableClasses);
-          return Object.keys(this.$attrs).concat([['class', classes]]).reduce((carry, key$$1) => {
+          return Object.keys(this.$attrs).concat([['class', this.controlClasses]]).reduce((carry, key$$1) => {
             if (isArray(key$$1)) {
               carry[key$$1[0]] = key$$1[1];
             } else {
@@ -3401,11 +3400,15 @@
         },
 
         controlClass() {
-          return this.custom ? 'custom-control' : this.defaultControlClass + (this.plaintext ? '-plaintext' : '');
+          return this.custom ? this.customControlClass : this.defaultControlClass + (this.plaintext ? '-plaintext' : '');
         },
 
         controlSizeClass() {
           return prefix(this.size, this.controlClass);
+        },
+
+        customControlClass() {
+          return 'custom-control';
         },
 
         formGroupClasses() {
@@ -3419,7 +3422,7 @@
         },
 
         controlClasses() {
-          return [this.spacing || '', this.controlClass, this.controlSizeClass, this.invalidFeedback ? 'is-invalid' : ''].join(' ');
+          return this.mergeClasses(this.spacing || '', this.controlClass, this.colorableClasses, this.controlSizeClass, this.validFeedback ? 'is-valid' : '', this.invalidFeedback ? 'is-invalid' : '');
         },
 
         hasDefaultSlot() {
@@ -5822,8 +5825,8 @@
       },
       mixins: [Colorable, FormControl, MergeClasses],
       model: {
-        event: 'change',
-        prop: 'checkedValue'
+        prop: 'checkedValue',
+        event: 'change'
       },
       props: {
         /**
@@ -5872,6 +5875,10 @@
         }
       },
       computed: {
+        controlClasses() {
+          return this.mergeClasses(this.spacing || '', this.inputClass, this.colorableClasses, this.validFeedback ? 'is-valid' : '', this.invalidFeedback ? 'is-invalid' : '');
+        },
+
         labelClass() {
           return prefix('label', this.controlClass);
         },
@@ -5881,15 +5888,7 @@
         },
 
         inlineClass() {
-          return prefix('inline', this.controlClass);
-        },
-
-        customControlClass() {
-          return this.custom ? prefix(this.$options.name.replace('-field', ''), 'custom') : '';
-        },
-
-        sizeableClass() {
-          return prefix(this.size, 'form-control');
+          return this.inline ? prefix('inline', this.controlClass) : '';
         }
 
       }
@@ -5907,9 +5906,8 @@
         "div",
         {
           class: _vm.mergeClasses(
+            this.custom ? "custom-radio" : "",
             _vm.controlClass,
-            _vm.customControlClass,
-            _vm.sizeableClass,
             _vm.inline ? _vm.inlineClass : ""
           )
         },
@@ -5924,10 +5922,14 @@
                         { name: "bind-events", rawName: "v-bind-events" }
                       ],
                       attrs: { type: "radio" },
-                      domProps: { value: _vm.value },
+                      domProps: {
+                        value: _vm.value,
+                        checked: _vm.checkedValue === _vm.value
+                      },
                       on: {
                         change: function($event) {
-                          _vm.$emit("input", $event.target.value);
+                          _vm.$emit("change", $event.target.value);
+                          _vm.$emit("input", $event);
                         }
                       }
                     },
@@ -5940,7 +5942,7 @@
                 _c(
                   "label",
                   {
-                    class: _vm.mergeClasses(_vm.labelClass, _vm.colorableClasses),
+                    class: _vm.mergeClasses(_vm.labelClass),
                     attrs: { for: _vm.id }
                   },
                   [
@@ -5969,7 +5971,7 @@
                 _c(
                   "label",
                   {
-                    class: _vm.mergeClasses(_vm.labelClass, _vm.colorableClasses),
+                    class: _vm.mergeClasses(_vm.labelClass),
                     attrs: { for: _vm.id }
                   },
                   [
@@ -5981,10 +5983,14 @@
                             { name: "bind-events", rawName: "v-bind-events" }
                           ],
                           attrs: { type: "radio" },
-                          domProps: { value: _vm.value },
+                          domProps: {
+                            value: _vm.value,
+                            checked: _vm.checkedValue === _vm.value
+                          },
                           on: {
                             change: function($event) {
-                              _vm.$emit("input", $event.target.value);
+                              _vm.$emit("change", $event.target.value);
+                              _vm.$emit("input", $event);
                             }
                           }
                         },
@@ -6059,8 +6065,8 @@
       extends: RadioField,
       mixins: [MergeClasses],
       model: {
-        event: 'change',
-        prop: 'checkedValues'
+        prop: 'checkedValues',
+        event: 'change'
       },
       props: {
         /**
@@ -6078,7 +6084,8 @@
         }
       },
       methods: {
-        update(value) {
+        update(event) {
+          const value = event.target.value;
           const checked = this.checkedValues.slice(0);
           const index = this.checkedValues.indexOf(value);
 
@@ -6089,6 +6096,7 @@
           }
 
           this.$emit('change', checked);
+          this.$emit('input', event);
         }
 
       }
@@ -6106,41 +6114,33 @@
         "div",
         {
           class: _vm.mergeClasses(
+            this.custom ? "custom-checkbox" : "",
             _vm.controlClass,
-            _vm.customControlClass,
-            _vm.sizeableClass,
             _vm.inline ? _vm.inlineClass : ""
           )
         },
         [
           _vm.custom && _vm.id
             ? [
-                _c("input", {
-                  directives: [{ name: "bind-events", rawName: "v-bind-events" }],
-                  class: _vm.mergeClasses(
-                    _vm.inputClass,
-                    _vm.invalidFeedback ? "is-invalid" : ""
-                  ),
-                  attrs: {
-                    type: "checkbox",
-                    name: _vm.name,
-                    id: _vm.id,
-                    required: _vm.required,
-                    disabled: _vm.disabled || _vm.readonly,
-                    readonly: _vm.readonly,
-                    pattern: _vm.pattern
-                  },
-                  domProps: {
-                    value: _vm.value,
-                    checked:
-                      _vm.checkedValues.indexOf(_vm.value) !== -1 || _vm.checked
-                  },
-                  on: {
-                    change: function($event) {
-                      _vm.update($event.target.value);
-                    }
-                  }
-                }),
+                _c(
+                  "input",
+                  _vm._b(
+                    {
+                      directives: [
+                        { name: "bind-events", rawName: "v-bind-events" }
+                      ],
+                      attrs: { type: "checkbox" },
+                      domProps: {
+                        value: _vm.value,
+                        checked: _vm.checkedValues.indexOf(_vm.value) !== -1
+                      },
+                      on: { input: _vm.update }
+                    },
+                    "input",
+                    _vm.controlAttributes,
+                    false
+                  )
+                ),
                 _vm._v(" "),
                 _c(
                   "label",
@@ -6178,34 +6178,25 @@
                     attrs: { for: _vm.id }
                   },
                   [
-                    _c("input", {
-                      directives: [
-                        { name: "bind-events", rawName: "v-bind-events" }
-                      ],
-                      class: _vm.mergeClasses(
-                        _vm.inputClass,
-                        _vm.invalidFeedback ? "is-invalid" : ""
-                      ),
-                      attrs: {
-                        type: "checkbox",
-                        name: _vm.name,
-                        id: _vm.id,
-                        required: _vm.required,
-                        disabled: _vm.disabled || _vm.readonly,
-                        readonly: _vm.readonly,
-                        pattern: _vm.pattern
-                      },
-                      domProps: {
-                        value: _vm.value,
-                        checked:
-                          _vm.checkedValues.indexOf(_vm.value) !== -1 || _vm.checked
-                      },
-                      on: {
-                        change: function($event) {
-                          _vm.update($event.target.value);
-                        }
-                      }
-                    }),
+                    _c(
+                      "input",
+                      _vm._b(
+                        {
+                          directives: [
+                            { name: "bind-events", rawName: "v-bind-events" }
+                          ],
+                          attrs: { type: "checkbox" },
+                          domProps: {
+                            value: _vm.value,
+                            checked: _vm.checkedValues.indexOf(_vm.value) !== -1
+                          },
+                          on: { input: _vm.update }
+                        },
+                        "input",
+                        _vm.controlAttributes,
+                        false
+                      )
+                    ),
                     _vm._v(" "),
                     _vm._t("default", [_vm._v(_vm._s(_vm.label))]),
                     _vm._v(" "),

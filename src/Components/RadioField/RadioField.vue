@@ -1,6 +1,6 @@
 <template>
 
-    <div :class="mergeClasses(controlClass, customControlClass, sizeableClass, inline ? inlineClass : '')">
+    <div :class="mergeClasses(this.custom ? 'custom-radio' : '', controlClass, inline ? inlineClass : '')">
 
         <template v-if="custom && id">
             <input
@@ -8,9 +8,10 @@
                 v-bind="controlAttributes"
                 type="radio"
                 :value="value"
-                @change="$emit('input', $event.target.value)"
+                :checked="checkedValue === value"
+                @change="$emit('change', $event.target.value); $emit('input', $event)"
             />
-            <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
+            <label :for="id" :class="mergeClasses(labelClass)">
                 <slot>{{label}}</slot>
                 <slot name="feedback">
                     <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
@@ -19,13 +20,14 @@
             </label>
         </template>
         <template v-else>
-            <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
+            <label :for="id" :class="mergeClasses(labelClass)">
                 <input
                     v-bind-events
                     v-bind="controlAttributes"
                     type="radio"
                     :value="value"
-                    @change="$emit('input', $event.target.value)"
+                    :checked="checkedValue === value"
+                    @change="$emit('change', $event.target.value); $emit('input', $event)"
                 />
                 <slot>{{label}}</slot>
                 <slot name="feedback">
@@ -66,8 +68,8 @@ export default {
     ],
 
     model: {
-        event: 'change',
-        prop: 'checkedValue'
+        prop: 'checkedValue',
+        event: 'change'
     },
 
     props: {
@@ -119,6 +121,16 @@ export default {
 
     computed: {
 
+        controlClasses() {
+            return this.mergeClasses(
+                (this.spacing || ''),
+                this.inputClass,
+                this.colorableClasses,
+                (this.validFeedback ? 'is-valid' : ''),
+                (this.invalidFeedback ? 'is-invalid' : '')
+            );
+        },
+
         labelClass() {
             return prefix('label', this.controlClass);
         },
@@ -128,15 +140,7 @@ export default {
         },
 
         inlineClass() {
-            return prefix('inline', this.controlClass);
-        },
-
-        customControlClass() {
-            return this.custom ? prefix(this.$options.name.replace('-field', ''), 'custom') : '';
-        },
-
-        sizeableClass() {
-            return prefix(this.size, 'form-control');
+            return this.inline ? prefix('inline', this.controlClass) : '';
         }
 
     }

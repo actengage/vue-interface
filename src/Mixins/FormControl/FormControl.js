@@ -323,12 +323,8 @@ export default {
         },
 
         controlAttributes() {
-            const classes = this.mergeClasses(
-                this.controlClasses, this.colorableClasses
-            );
-
             return Object.keys(this.$attrs)
-                .concat([['class', classes]])
+                .concat([['class', this.controlClasses]])
                 .reduce((carry, key) => {
                     if(isArray(key)) {
                         carry[key[0]] = key[1];
@@ -342,13 +338,17 @@ export default {
         },
 
         controlClass() {
-            return this.custom ? 'custom-control' : (
+            return this.custom ? this.customControlClass : (
                 this.defaultControlClass + (this.plaintext ? '-plaintext' : '')
             );
         },
 
         controlSizeClass() {
             return prefix(this.size, this.controlClass);
+        },
+
+        customControlClass() {
+            return 'custom-control';
         },
 
         formGroupClasses() {
@@ -363,12 +363,14 @@ export default {
         },
 
         controlClasses() {
-            return [
+            return this.mergeClasses(
                 (this.spacing || ''),
                 this.controlClass,
+                this.colorableClasses,
                 this.controlSizeClass,
+                (this.validFeedback ? 'is-valid' : ''),
                 (this.invalidFeedback ? 'is-invalid' : '')
-            ].join(' ');
+            );
         },
 
         hasDefaultSlot() {
