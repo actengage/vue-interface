@@ -2,40 +2,21 @@
 
     <div :class="mergeClasses(this.custom ? 'custom-radio' : '', controlClass, inline ? inlineClass : '')">
 
-        <template v-if="custom && id">
+        <label :for="$attrs.id" :class="mergeClasses(labelClass)">
             <input
                 v-bind-events
                 v-bind="controlAttributes"
                 type="radio"
                 :value="value"
                 :checked="checkedValue === value"
-                @change="$emit('change', $event.target.value); $emit('input', $event)"
+                @change="update"
             />
-            <label :for="id" :class="mergeClasses(labelClass)">
-                <slot>{{label}}</slot>
-                <slot name="feedback">
-                    <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-                    <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
-                </slot>
-            </label>
-        </template>
-        <template v-else>
-            <label :for="id" :class="mergeClasses(labelClass)">
-                <input
-                    v-bind-events
-                    v-bind="controlAttributes"
-                    type="radio"
-                    :value="value"
-                    :checked="checkedValue === value"
-                    @change="$emit('change', $event.target.value); $emit('input', $event)"
-                />
-                <slot>{{label}}</slot>
-                <slot name="feedback">
-                    <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-                    <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
-                </slot>
-            </label>
-        </template>
+            <slot>{{label}}</slot>
+            <slot name="feedback">
+                <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
+                <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+            </slot>
+        </label>
 
         <slot name="help">
             <help-text v-if="helpText" v-html="helpText" />
@@ -125,7 +106,6 @@ export default {
             return this.mergeClasses(
                 (this.spacing || ''),
                 this.inputClass,
-                this.colorableClasses,
                 (this.validFeedback ? 'is-valid' : ''),
                 (this.invalidFeedback ? 'is-invalid' : '')
             );
@@ -141,6 +121,15 @@ export default {
 
         inlineClass() {
             return this.inline ? prefix('inline', this.controlClass) : '';
+        }
+
+    },
+
+    methods: {
+
+        update(event) {
+            this.$emit('change', event.target.value);
+            this.$emit('input', event);
         }
 
     }
