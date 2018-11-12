@@ -1,6 +1,6 @@
 {
     "name": "vue-interface",
-    "version": "0.2.57",
+    "version": "0.2.58",
     "main": "./dist/vue-interface.js",
     "module": "./dist/vue-interface.es.js",
     "styles": "./dist/vue-interface.css",

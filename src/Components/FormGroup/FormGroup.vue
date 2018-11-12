@@ -1,6 +1,6 @@
 <template>
 
-    <div :class="{'form-group': group}">
+    <div :class="{'form-group': !!group}">
         <slot/>
     </div>
 

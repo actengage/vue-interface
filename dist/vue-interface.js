@@ -2944,7 +2944,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "div",
-        { class: { "form-group": _vm.group } },
+        { class: { "form-group": !!_vm.group } },
         [_vm._t("default")],
         2
       )
@@ -3171,7 +3171,7 @@
          */
         group: {
           type: Boolean,
-          value: true
+          default: true
         },
 
         /**

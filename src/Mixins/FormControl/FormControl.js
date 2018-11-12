@@ -78,7 +78,7 @@ export default {
          */
         group: {
             type: Boolean,
-            value: true
+            default: true
         },
 
         /**
