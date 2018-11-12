@@ -50,32 +50,11 @@ export default {
         },
 
         /**
-         * The autocomplete attribute value.
-         *
-         * @property String
-         */
-        // autocomplete: String,
-
-        /**
-         * The field id attribute value.
-         *
-         * @property String
-         */
-        // id: [Number, String],
-
-        /**
          * The value of label element. If no value, no label will appear.
          *
          * @property String
          */
         label: [Number, String],
-
-        /**
-         * The field name attribute value.
-         *
-         * @property String
-         */
-        // name: String,
 
         /**
          * The field id attribute value.
@@ -87,20 +66,6 @@ export default {
         },
 
         /**
-         * The placeholder attribute value.
-         *
-         * @property String
-         */
-        // placeholder: String,
-
-        /**
-         * Is the field required.
-         *
-         * @property String
-         */
-        // required: Boolean,
-
-        /**
          * Add form-group wrapper to input
          *
          * @property String
@@ -109,13 +74,6 @@ export default {
             type: Boolean,
             value: true
         },
-
-        /**
-         * The regex pattern for validation.
-         *
-         * @property String
-         */
-        // pattern: String,
 
         /**
          * An inline field validation error.
@@ -215,27 +173,6 @@ export default {
         inline: Boolean,
 
         /**
-         * If the form control is readonly, display only as text?
-         *
-         * @property String
-         */
-        // plaintext: Boolean,
-
-        /**
-         * Is the form control readonly?
-         *
-         * @property String
-         */
-        // readonly: Boolean,
-
-        /**
-         * Is the form control disabled?
-         *
-         * @property String
-         */
-        // disabled: Boolean,
-
-        /**
          * Some instructions to appear under the field label
          *
          * @property String
@@ -318,7 +255,7 @@ export default {
             let errors = this.error || this.errors;
 
             if(isObject(this.errors)) {
-                errors = this.errors[this.name || this.id];
+                errors = this.errors[this.$attrs.name || this.$attrs.id];
             }
 
             return !errors || isArray(errors) || isObject(errors) ? errors : [errors];
@@ -363,8 +300,8 @@ export default {
                 prefix(this.size, name),
                 {
                     'has-activity': this.activity,
-                    'is-valid': (this.valid || this.validFeedback),
-                    'is-invalid': (this.invalid || this.invalidFeedback)
+                    'is-valid': !!(this.valid || this.validFeedback),
+                    'is-invalid': !!(this.invalid || this.invalidFeedback)
                 }
             );
         },

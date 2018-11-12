@@ -271,7 +271,9 @@ export default {
                 model = new Model();
             }
 
-            model.set(this.name, file);
+            if(this.$attrs.name) {
+                model.set(this.$attrs.name, file);
+            }
 
             this.$emit('uploading', model);
             this.$set(this.progressBars, this.multiple ? (this.value ? this.value.length : 0) : 0, 0);
