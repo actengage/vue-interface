@@ -5847,13 +5847,6 @@
         },
 
         /**
-         * Display the form field and label inline
-         *
-         * @property Function
-         */
-        inline: Boolean,
-
-        /**
          * The checked values
          *
          * @property String
@@ -5875,11 +5868,32 @@
         defaultControlClass: {
           type: String,
           default: 'form-check'
-        }
+        },
+
+        /**
+         * Display the form field and label inline
+         *
+         * @property Function
+         */
+        inline: Boolean,
+
+        /**
+         * The invalid property
+         *
+         * @property String
+         */
+        invalid: Boolean,
+
+        /**
+         * The valid property
+         *
+         * @property String
+         */
+        valid: Boolean
       },
       computed: {
         controlClasses() {
-          return this.mergeClasses(this.spacing || '', this.inputClass, this.validFeedback ? 'is-valid' : '', this.invalidFeedback ? 'is-invalid' : '');
+          return this.mergeClasses(this.spacing || '', this.inputClass, this.valid || this.validFeedback ? 'is-valid' : '', this.invalid || this.invalidFeedback ? 'is-invalid' : '');
         },
 
         hash() {
