@@ -67,11 +67,15 @@ export default {
 </script>
 
 <style lang="scss">
-.input-group > div:not(:first-child) .form-control {
+.input-group > div:not(:first-child) .form-control,
+.input-group > div:not(:first-child) .custom-control,
+.input-group > div:not(:first-child) .custom-select {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
-.input-group > div:not(:last-child) .form-control {
+.input-group > div:not(:last-child) .form-control,
+.input-group > div:not(:last-child) .custom-control,
+.input-group > div:not(:last-child) .custom-select, {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
