@@ -364,10 +364,10 @@ export default {
 
         controlClasses() {
             return this.mergeClasses(
-                (this.spacing || ''),
                 this.controlClass,
                 this.colorableClasses,
                 this.controlSizeClass,
+                (this.spacing || ''),
                 (this.validFeedback ? 'is-valid' : ''),
                 (this.invalidFeedback ? 'is-invalid' : '')
             );
