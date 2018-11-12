@@ -203,10 +203,6 @@ export default {
                 });
 
                 el.addEventListener('blur', event => {
-                    if(isEmpty(el.value)) {
-                        addClass(el, vnode, emptyClass);
-                    }
-
                     if(el.classList.contains(emptyClass)) {
                         removeClass(el, vnode, changedClass);
                     }

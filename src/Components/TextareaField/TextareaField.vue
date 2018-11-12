@@ -1,6 +1,6 @@
 <template>
 
-    <form-group>
+    <form-group :class="formGroupClasses">
 
         <slot name="label">
             <form-label v-if="label || hasDefaultSlot" :for="$attrs.id">
@@ -11,21 +11,11 @@
         <slot name="control">
             <div class="position-relative">
                 <textarea
-                    :id="$attrs.id"
-                    :rows="rows"
+                    v-bind-events
+                    v-bind="controlAttributes"
                     :value="value"
-                    :errors="errors"
-                    :pattern="pattern"
-                    :readonly="readonly"
-                    :required="required"
-                    :maxlength="maxlength"
-                    :placeholder="placeholder"
-                    :disabled="disabled || readonly"
-                    :class="mergeClasses(controlClasses, colorableClasses)"
-                    v-bind-events="bindEvents"
-                    @input="$emit('input', $event.target.value)">
-                </textarea>
-
+                    @input="$emit('input', $event.target.value)"
+                />
                 <slot name="feedback">
                     <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
                     <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />

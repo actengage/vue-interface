@@ -3286,10 +3286,6 @@
               addClass(el, vnode, focusClass);
             });
             el.addEventListener('blur', event => {
-              if (isEmpty(el.value)) {
-                addClass(el, vnode, emptyClass);
-              }
-
               if (el.classList.contains(emptyClass)) {
                 removeClass(el, vnode, changedClass);
               }
@@ -12172,6 +12168,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "form-group",
+        { class: _vm.formGroupClasses },
         [
           _vm._t("label", [
             _vm.label || _vm.hasDefaultSlot
@@ -12189,34 +12186,25 @@
               "div",
               { staticClass: "position-relative" },
               [
-                _c("textarea", {
-                  directives: [
+                _c(
+                  "textarea",
+                  _vm._b(
                     {
-                      name: "bind-events",
-                      rawName: "v-bind-events",
-                      value: _vm.bindEvents,
-                      expression: "bindEvents"
-                    }
-                  ],
-                  class: _vm.mergeClasses(_vm.controlClasses, _vm.colorableClasses),
-                  attrs: {
-                    id: _vm.$attrs.id,
-                    rows: _vm.rows,
-                    errors: _vm.errors,
-                    pattern: _vm.pattern,
-                    readonly: _vm.readonly,
-                    required: _vm.required,
-                    maxlength: _vm.maxlength,
-                    placeholder: _vm.placeholder,
-                    disabled: _vm.disabled || _vm.readonly
-                  },
-                  domProps: { value: _vm.value },
-                  on: {
-                    input: function($event) {
-                      _vm.$emit("input", $event.target.value);
-                    }
-                  }
-                }),
+                      directives: [
+                        { name: "bind-events", rawName: "v-bind-events" }
+                      ],
+                      domProps: { value: _vm.value },
+                      on: {
+                        input: function($event) {
+                          _vm.$emit("input", $event.target.value);
+                        }
+                      }
+                    },
+                    "textarea",
+                    _vm.controlAttributes,
+                    false
+                  )
+                ),
                 _vm._v(" "),
                 _vm._t("feedback", [
                   _vm.validFeedback
