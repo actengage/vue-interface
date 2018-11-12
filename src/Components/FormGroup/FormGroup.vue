@@ -1,6 +1,6 @@
 <template>
 
-    <div class="form-group">
+    <div :class="{'form-group': group}">
         <slot/>
     </div>
 
@@ -9,7 +9,16 @@
 <script>
 export default {
 
-    name: 'form-group'
+    name: 'form-group',
+
+    props: {
+
+        group: {
+            type: Boolean,
+            default: true
+        }
+
+    }
 
 };
 </script>

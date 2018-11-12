@@ -1,6 +1,6 @@
 <template>
 
-    <form-group class="upload-field" :class="{'enable-dropzone': dropzone, 'enable-multiple': multiple}">
+    <form-group :group="group" class="upload-field" :class="{'enable-dropzone': dropzone, 'enable-multiple': multiple}">
 
         <dropzone @drop="onDrop">
 

@@ -1,6 +1,6 @@
 <template>
 
-    <form-group :class="formGroupClasses">
+    <form-group :group="group" :class="formGroupClasses">
 
         <slot name="label">
             <form-label ref="label" v-if="label || hasDefaultSlot" :for="$attrs.id" v-html="label"/>

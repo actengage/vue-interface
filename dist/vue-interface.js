@@ -2926,7 +2926,13 @@
     //
     //
     var script$g = {
-      name: 'form-group'
+      name: 'form-group',
+      props: {
+        group: {
+          type: Boolean,
+          default: true
+        }
+      }
     };
 
     /* script */
@@ -2936,7 +2942,12 @@
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
-      return _c("div", { staticClass: "form-group" }, [_vm._t("default")], 2)
+      return _c(
+        "div",
+        { class: { "form-group": _vm.group } },
+        [_vm._t("default")],
+        2
+      )
     };
     var __vue_staticRenderFns__$e = [];
     __vue_render__$e._withStripped = true;
@@ -3502,7 +3513,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "form-group",
-        { class: _vm.formGroupClasses },
+        { class: _vm.formGroupClasses, attrs: { group: _vm.group } },
         [
           _vm._t("label", [
             _vm.label || _vm.hasDefaultSlot
@@ -3695,6 +3706,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "form-group",
+        { class: _vm.formGroupClasses, attrs: { group: _vm.group } },
         [
           _vm._t("label", [
             _vm.label || _vm.hasDefaultSlot
@@ -7172,6 +7184,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "form-group",
+        { class: _vm.formGroupClasses, attrs: { group: _vm.group } },
         [
           _vm._t("label", [
             _vm.label
@@ -10656,7 +10669,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "form-group",
-        { class: _vm.formGroupClasses },
+        { class: _vm.formGroupClasses, attrs: { group: _vm.group } },
         [
           _vm._t("label", [
             _vm.label
@@ -12133,7 +12146,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "form-group",
-        { class: _vm.formGroupClasses },
+        { class: _vm.formGroupClasses, attrs: { group: _vm.group } },
         [
           _vm._t("label", [
             _vm.label || _vm.hasDefaultSlot
@@ -12736,7 +12749,8 @@
           class: {
             "enable-dropzone": _vm.dropzone,
             "enable-multiple": _vm.multiple
-          }
+          },
+          attrs: { group: _vm.group }
         },
         [
           _c(
