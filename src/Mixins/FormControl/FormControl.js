@@ -1,7 +1,7 @@
 import prefix from '../../Helpers/Prefix';
 import Colorable from '../../Mixins/Colorable';
 import MergeClasses from '../../Mixins/MergeClasses';
-import { each, isArray, isObject } from '../../Helpers/Functions';
+import { each, isArray, isEmpty, isObject } from '../../Helpers/Functions';
 
 const emptyClass = 'is-empty';
 const focusClass = 'has-focus';
@@ -207,7 +207,7 @@ export default {
                 el.addEventListener('input', e => {
                     addClass(el, vnode, changedClass);
 
-                    if(el.value || (el.tagName === 'SELECT' && el.selectedIndex > -1)) {
+                    if(!isEmpty(el.value) || (el.tagName === 'SELECT' && el.selectedIndex > -1)) {
                         removeClass(el, vnode, emptyClass);
                     }
                     else {
@@ -223,7 +223,7 @@ export default {
                 });
             },
             inserted(el, binding, vnode) {
-                if((el.tagName !== 'SELECT' && el.value === '') ||
+                if((el.tagName !== 'SELECT' && isEmpty(el.value)) ||
                    (el.tagName === 'SELECT' && el.selectedIndex === -1)) {
                     addClass(el, vnode, emptyClass);
                 }

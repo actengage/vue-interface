@@ -146,6 +146,16 @@
       return typeof value === 'undefined';
     }
 
+    function isEmpty(value) {
+      if (isArray(value)) {
+        return value.length === 0;
+      } else if (isObject(value)) {
+        return Object.keys(value).length === 0;
+      }
+
+      return value === '' || isNull(value) || isUndefined(value);
+    }
+
     function kebabCase(str) {
       return str.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/\s+/g, '-').replace(/_/g, '-').toLowerCase();
     }
@@ -3279,7 +3289,7 @@
             el.addEventListener('input', e => {
               addClass(el, vnode, changedClass);
 
-              if (el.value || el.tagName === 'SELECT' && el.selectedIndex > -1) {
+              if (!isEmpty(el.value) || el.tagName === 'SELECT' && el.selectedIndex > -1) {
                 removeClass(el, vnode, emptyClass);
               } else {
                 addClass(el, vnode, emptyClass);
@@ -3294,7 +3304,7 @@
           },
 
           inserted(el, binding, vnode) {
-            if (el.tagName !== 'SELECT' && el.value === '' || el.tagName === 'SELECT' && el.selectedIndex === -1) {
+            if (el.tagName !== 'SELECT' && isEmpty(el.value) || el.tagName === 'SELECT' && el.selectedIndex === -1) {
               addClass(el, vnode, emptyClass);
             }
           }

@@ -15,6 +15,7 @@ import get from './get';
 import key from './key';
 import isArray from './isArray';
 import isBoolean from './isBoolean';
+import isEmpty from './isEmpty';
 import isFunction from './isFunction';
 import isNull from './isNull';
 import isNumber from './isNumber';
@@ -52,6 +53,7 @@ export {
     get,
     isArray,
     isBoolean,
+    isEmpty,
     isFunction,
     isNull,
     isNumber,
