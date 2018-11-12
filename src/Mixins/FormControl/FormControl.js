@@ -176,6 +176,20 @@ export default {
         hideLabel: Boolean,
 
         /**
+         * The invalid property
+         *
+         * @property String
+         */
+        invalid: Boolean,
+
+        /**
+         * The valid property
+         *
+         * @property String
+         */
+        valid: Boolean,
+
+        /**
          * Additional margin/padding classes for fine control of spacing
          *
          * @property String
@@ -360,8 +374,8 @@ export default {
                 this.colorableClasses,
                 this.controlSizeClass,
                 (this.spacing || ''),
-                (this.validFeedback ? 'is-valid' : ''),
-                (this.invalidFeedback ? 'is-invalid' : '')
+                ((this.valid || this.validFeedback) ? 'is-valid' : ''),
+                ((this.invalid || this.invalidFeedback) ? 'is-invalid' : '')
             );
         },
 

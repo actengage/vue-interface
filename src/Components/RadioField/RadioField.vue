@@ -99,21 +99,7 @@ export default {
          *
          * @property Function
          */
-        inline: Boolean,
-
-        /**
-         * The invalid property
-         *
-         * @property String
-         */
-        invalid: Boolean,
-
-        /**
-         * The valid property
-         *
-         * @property String
-         */
-        valid: Boolean
+        inline: Boolean
 
     },
 

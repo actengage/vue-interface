@@ -3252,6 +3252,20 @@
         hideLabel: Boolean,
 
         /**
+         * The invalid property
+         *
+         * @property String
+         */
+        invalid: Boolean,
+
+        /**
+         * The valid property
+         *
+         * @property String
+         */
+        valid: Boolean,
+
+        /**
          * Additional margin/padding classes for fine control of spacing
          *
          * @property String
@@ -3414,7 +3428,7 @@
         },
 
         controlClasses() {
-          return this.mergeClasses(this.controlClass, this.colorableClasses, this.controlSizeClass, this.spacing || '', this.validFeedback ? 'is-valid' : '', this.invalidFeedback ? 'is-invalid' : '');
+          return this.mergeClasses(this.controlClass, this.colorableClasses, this.controlSizeClass, this.spacing || '', this.valid || this.validFeedback ? 'is-valid' : '', this.invalid || this.invalidFeedback ? 'is-invalid' : '');
         },
 
         hasDefaultSlot() {
@@ -5875,21 +5889,7 @@
          *
          * @property Function
          */
-        inline: Boolean,
-
-        /**
-         * The invalid property
-         *
-         * @property String
-         */
-        invalid: Boolean,
-
-        /**
-         * The valid property
-         *
-         * @property String
-         */
-        valid: Boolean
+        inline: Boolean
       },
       computed: {
         controlClasses() {
