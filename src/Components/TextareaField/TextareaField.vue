@@ -13,6 +13,7 @@
                 <textarea
                     v-bind-events
                     v-bind="controlAttributes"
+                    v-autogrow="autogrow"
                     :value="value"
                     @input="$emit('input', $event.target.value)"
                 />

@@ -15,7 +15,6 @@
 <script>
 import Colorable from '../../Mixins/Colorable';
 import FormControl from '../../Mixins/FormControl';
-// import { extend, omitBy, isNull, isUndefined } from '../../Helpers/Functions';
 
 export default {
 

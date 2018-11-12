@@ -5,7 +5,7 @@
         <slot name="prepend">
             <template v-if="prepend instanceof Array">
                 <input-group-prepend>
-                    <input-group-text v-for="value in prepend" :key="value" :text="value"/>
+                    <input-group-text v-for="value in prepend" :key="value" v-html="value"/>
                 </input-group-prepend>
             </template>
             <template v-else-if="prepend">
@@ -18,7 +18,7 @@
         <slot name="append">
             <template v-if="append instanceof Array">
                 <input-group-append>
-                    <input-group-text v-for="value in append" :key="value" :text="value"/>
+                    <input-group-text v-for="value in append" :key="value" v-html="value"/>
                 </input-group-append>
             </template>
             <template v-else-if="append">

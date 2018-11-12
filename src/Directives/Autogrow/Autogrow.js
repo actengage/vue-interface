@@ -105,7 +105,7 @@ function init(el, maxHeight) {
 export default {
 
     inserted(el, binding, vnode) {
-        if(el.tagName.toLowerCase() !== 'textarea') {
+        if(el.tagName !== 'TEXTAREA') {
             el = el.querySelector('textarea');
         }
 

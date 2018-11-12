@@ -3402,7 +3402,6 @@
     };
 
     //
-
     var script$j = {
       name: 'form-control',
       mixins: [Colorable, FormControl],
@@ -6790,22 +6789,7 @@
     //
     //
     var script$O = {
-      name: 'input-group-text',
-      props: {
-        /**
-         * The id attribute
-         *
-         * @property String
-         */
-        id: String,
-
-        /**
-         * The type attribute
-         *
-         * @property String
-         */
-        text: [Array, Number, String]
-      }
+      name: 'input-group-text'
     };
 
     /* script */
@@ -6816,12 +6800,7 @@
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
-      return _c(
-        "span",
-        { staticClass: "input-group-text", attrs: { id: _vm.$attrs.id } },
-        [_vm._t("default", [_vm._v(_vm._s(_vm.text))])],
-        2
-      )
+      return _c("span", { staticClass: "input-group-text" }, [_vm._t("default")], 2)
     };
     var __vue_staticRenderFns__$H = [];
     __vue_render__$H._withStripped = true;
@@ -7029,7 +7008,7 @@
                     _vm._l(_vm.prepend, function(value) {
                       return _c("input-group-text", {
                         key: value,
-                        attrs: { text: value }
+                        domProps: { innerHTML: _vm._s(value) }
                       })
                     })
                   )
@@ -7053,7 +7032,7 @@
                     _vm._l(_vm.append, function(value) {
                       return _c("input-group-text", {
                         key: value,
-                        attrs: { text: value }
+                        domProps: { innerHTML: _vm._s(value) }
                       })
                     })
                   )
@@ -12191,7 +12170,13 @@
                   _vm._b(
                     {
                       directives: [
-                        { name: "bind-events", rawName: "v-bind-events" }
+                        { name: "bind-events", rawName: "v-bind-events" },
+                        {
+                          name: "autogrow",
+                          rawName: "v-autogrow",
+                          value: _vm.autogrow,
+                          expression: "autogrow"
+                        }
                       ],
                       domProps: { value: _vm.value },
                       on: {
@@ -14195,7 +14180,7 @@
 
     var Autogrow = {
       inserted(el, binding, vnode) {
-        if (el.tagName.toLowerCase() !== 'textarea') {
+        if (el.tagName !== 'TEXTAREA') {
           el = el.querySelector('textarea');
         }
 
