@@ -358,14 +358,15 @@ export default {
         },
 
         formGroupClasses() {
-            const string = this.custom ? customPrefix : '';
-            const name = prefix(this.$options.name, string);
-            const size = prefix(this.size, name);
-
-            return this.mergeClasses(name, size, {
-                'is-invalid': !!this.invalidFeedback,
-                'has-activity': this.activity
-            });
+            return this.mergeClasses(
+                prefix(this.$options.name, this.custom ? customPrefix : ''),
+                prefix(this.size, name),
+                {
+                    'has-activity': this.activity,
+                    'is-valid': (this.valid || this.validFeedback),
+                    'is-invalid': (this.invalid || this.invalidFeedback)
+                }
+            );
         },
 
         controlClasses() {
