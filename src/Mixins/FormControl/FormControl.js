@@ -9,13 +9,19 @@ const changedClass = 'has-changed';
 const customPrefix = 'custom';
 
 function addClass(el, vnode, css) {
-    el.classList.add(css);
+    // el.classList.add(css);
     vnode.context.$el.classList.add(css);
 }
 
 function removeClass(el, vnode, css) {
-    el.classList.remove(css);
+    // el.classList.remove(css);
     vnode.context.$el.classList.remove(css);
+}
+
+function addEmptyClass(el, vnode) {
+    if(isEmpty(el.value) || (el.tagName === 'SELECT' && el.selectedIndex === -1)) {
+        addClass(el, vnode, emptyClass);
+    }
 }
 
 export default {
@@ -223,10 +229,10 @@ export default {
                 });
             },
             inserted(el, binding, vnode) {
-                if((el.tagName !== 'SELECT' && isEmpty(el.value)) ||
-                   (el.tagName === 'SELECT' && el.selectedIndex === -1)) {
-                    addClass(el, vnode, emptyClass);
-                }
+                addEmptyClass(el, vnode);
+            },
+            update(el, binding, vnode) {
+                addEmptyClass(el, vnode);
             }
         }
     },
@@ -295,15 +301,13 @@ export default {
         },
 
         formGroupClasses() {
-            return this.mergeClasses(
-                prefix(this.$options.name, this.custom ? customPrefix : ''),
-                prefix(this.size, name),
-                {
-                    'has-activity': this.activity,
-                    'is-valid': !!(this.valid || this.validFeedback),
-                    'is-invalid': !!(this.invalid || this.invalidFeedback)
-                }
-            );
+            const name = prefix(this.$options.name, this.custom ? customPrefix : '');
+
+            return this.mergeClasses(name, prefix(this.size, name), {
+                'has-activity': this.activity,
+                'is-valid': !!(this.valid || this.validFeedback),
+                'is-invalid': !!(this.invalid || this.invalidFeedback)
+            });
         },
 
         controlClasses() {
