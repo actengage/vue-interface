@@ -3,7 +3,7 @@
     <form-group>
 
         <slot name="label">
-            <form-label v-if="label" :for="id" v-html="label" />
+            <form-label v-if="label" :for="$attrs.id" v-html="label" />
         </slot>
 
         <div :class="controlClasses" tabindex="0" @click="toggle()" @keyup.32="toggle()" @keyup.37="toggle(offValue)" @keyup.39="toggle(onValue)">
@@ -14,7 +14,7 @@
         	</div>
         </div>
 
-        <form-control :name="name" :value="value" :id="id" class="d-none"/>
+        <form-control :name="name" :value="value" :id="$attrs.id" class="d-none"/>
 
         <slot name="feedback">
             <form-feedback v-if="validFeedback" v-html="validFeedback" valid />

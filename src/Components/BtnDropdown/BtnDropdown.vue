@@ -10,9 +10,9 @@
             </button>
         </template>
         <btn-group :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}">
-            <button type="button" aria-haspopup="true" :aria-expanded="isDropdownShowing" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur"></button>
+            <button type="button" aria-haspopup="true" :aria-expanded="isDropdownShowing" :id="$attrs.id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur"></button>
             <dropdown-menu
-                :id="id"
+                :id="$attrs.id"
                 :align="align"
                 :show.sync="isDropdownShowing"
                 @click="onMenuClick"
@@ -31,12 +31,12 @@
     </btn-group>
 
     <btn-group v-else :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}" @click="onClick">
-        <button aria-haspopup="true" :aria-expanded="isDropdownShowing" :type="type" :id="id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur">
+        <button aria-haspopup="true" :aria-expanded="isDropdownShowing" :type="type" :id="$attrs.id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur">
             <slot name="label"><i v-if="icon" :class="icon"/> {{label}}</slot>
         </button>
 
         <dropdown-menu
-            :id="id"
+            :id="$attrs.id"
             :align="align"
             :show.sync="isDropdownShowing"
             @click="onMenuClick"

@@ -3,7 +3,7 @@
     <form-group>
 
         <slot name="label">
-            <form-label v-if="label || hasDefaultSlot" :for="id">
+            <form-label v-if="label || hasDefaultSlot" :for="$attrs.id">
                 <slot>{{label}}</slot>
             </form-label>
         </slot>
@@ -11,14 +11,14 @@
         <div class="custom-file">
 
             <slot name="placeholder">
-                <form-label :class="mergeClasses(colorableClasses, 'custom-file-label')" :for="id" v-html="placeholder || 'Choose file'" />
+                <form-label :class="mergeClasses(colorableClasses, 'custom-file-label')" :for="$attrs.id" v-html="placeholder || 'Choose file'" />
             </slot>
 
             <input
                 v-bind-events
                 type="file"
                 :class="controlClasses"
-                :id="id"
+                :id="$attrs.id"
                 :width="width"
                 :height="height"
                 :required="required"

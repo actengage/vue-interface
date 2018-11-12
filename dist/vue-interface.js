@@ -3541,7 +3541,7 @@
             _vm.label || _vm.hasDefaultSlot
               ? _c("form-label", {
                   ref: "label",
-                  attrs: { for: _vm.id },
+                  attrs: { for: _vm.$attrs.id },
                   domProps: { innerHTML: _vm._s(_vm.label) }
                 })
               : _vm._e()
@@ -3733,7 +3733,7 @@
             _vm.label || _vm.hasDefaultSlot
               ? _c(
                   "form-label",
-                  { attrs: { for: _vm.id } },
+                  { attrs: { for: _vm.$attrs.id } },
                   [_vm._t("default", [_vm._v(_vm._s(_vm.label))])],
                   2
                 )
@@ -3750,7 +3750,7 @@
                     _vm.colorableClasses,
                     "custom-file-label"
                   ),
-                  attrs: { for: _vm.id },
+                  attrs: { for: _vm.$attrs.id },
                   domProps: { innerHTML: _vm._s(_vm.placeholder || "Choose file") }
                 })
               ]),
@@ -3760,7 +3760,7 @@
                 class: _vm.controlClasses,
                 attrs: {
                   type: "file",
-                  id: _vm.id,
+                  id: _vm.$attrs.id,
                   width: _vm.width,
                   height: _vm.height,
                   required: _vm.required,
@@ -3884,7 +3884,7 @@
             class: _vm.controlClasses,
             attrs: {
               type: "file",
-              id: _vm.id,
+              id: _vm.$attrs.id,
               width: _vm.width,
               height: _vm.height,
               required: _vm.required,
@@ -4906,7 +4906,7 @@
                       type: "button",
                       "aria-haspopup": "true",
                       "aria-expanded": _vm.isDropdownShowing,
-                      id: _vm.id
+                      id: _vm.$attrs.id
                     },
                     on: {
                       click: function($event) {
@@ -4921,7 +4921,7 @@
                     "dropdown-menu",
                     {
                       attrs: {
-                        id: _vm.id,
+                        id: _vm.$attrs.id,
                         align: _vm.align,
                         show: _vm.isDropdownShowing
                       },
@@ -4998,7 +4998,7 @@
                     "aria-haspopup": "true",
                     "aria-expanded": _vm.isDropdownShowing,
                     type: _vm.type,
-                    id: _vm.id
+                    id: _vm.$attrs.id
                   },
                   on: {
                     click: function($event) {
@@ -5021,7 +5021,7 @@
                 "dropdown-menu",
                 {
                   attrs: {
-                    id: _vm.id,
+                    id: _vm.$attrs.id,
                     align: _vm.align,
                     show: _vm.isDropdownShowing
                   },
@@ -6850,7 +6850,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "span",
-        { staticClass: "input-group-text", attrs: { id: _vm.id } },
+        { staticClass: "input-group-text", attrs: { id: _vm.$attrs.id } },
         [_vm._t("default", [_vm._v(_vm._s(_vm.text))])],
         2
       )
@@ -7243,7 +7243,7 @@
           _vm._t("label", [
             _vm.label
               ? _c("form-label", {
-                  attrs: { for: _vm.id },
+                  attrs: { for: _vm.$attrs.id },
                   domProps: { innerHTML: _vm._s(_vm.label) }
                 })
               : _vm._e()
@@ -7293,7 +7293,7 @@
           _vm._v(" "),
           _c("form-control", {
             staticClass: "d-none",
-            attrs: { name: _vm.name, value: _vm.value, id: _vm.id }
+            attrs: { name: _vm.name, value: _vm.value, id: _vm.$attrs.id }
           }),
           _vm._v(" "),
           _vm._t("feedback", [
@@ -9596,7 +9596,7 @@
               "dropdown-menu",
               {
                 attrs: {
-                  id: _vm.id,
+                  id: _vm.$attrs.id,
                   items: _vm.items,
                   align: _vm.align,
                   show: _vm.isDropdownShowing
@@ -10728,7 +10728,7 @@
           _vm._t("label", [
             _vm.label
               ? _c("form-label", {
-                  attrs: { for: _vm.id },
+                  attrs: { for: _vm.$attrs.id },
                   domProps: { innerHTML: _vm._s(_vm.label) }
                 })
               : _vm._e()
@@ -12205,7 +12205,7 @@
             _vm.label || _vm.hasDefaultSlot
               ? _c(
                   "form-label",
-                  { attrs: { for: _vm.id } },
+                  { attrs: { for: _vm.$attrs.id } },
                   [_vm._t("default", [_vm._v(_vm._s(_vm.label))])],
                   2
                 )
@@ -12228,7 +12228,7 @@
                   ],
                   class: _vm.mergeClasses(_vm.controlClasses, _vm.colorableClasses),
                   attrs: {
-                    id: _vm.id,
+                    id: _vm.$attrs.id,
                     rows: _vm.rows,
                     errors: _vm.errors,
                     pattern: _vm.pattern,

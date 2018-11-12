@@ -3,7 +3,7 @@
     <form-group>
 
         <slot name="label">
-            <form-label v-if="label || hasDefaultSlot" :for="id">
+            <form-label v-if="label || hasDefaultSlot" :for="$attrs.id">
                 <slot>{{label}}</slot>
             </form-label>
         </slot>
@@ -11,7 +11,7 @@
         <slot name="control">
             <div class="position-relative">
                 <textarea
-                    :id="id"
+                    :id="$attrs.id"
                     :rows="rows"
                     :value="value"
                     :errors="errors"

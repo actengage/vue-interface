@@ -7,7 +7,7 @@
             v-bind-events
             type="file"
             :class="controlClasses"
-            :id="id"
+            :id="$attrs.id"
             :width="width"
             :height="height"
             :required="required"

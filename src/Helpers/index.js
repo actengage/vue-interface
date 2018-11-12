@@ -14,6 +14,7 @@ import wait from './Wait';
 export {
     blob,
     elapsed,
+    hash,
     instantiate,
     prefix,
     readFile,

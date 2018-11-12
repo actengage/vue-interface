@@ -1,6 +1,6 @@
 <template>
 
-    <span class="input-group-text" :id="id">
+    <span class="input-group-text" :id="$attrs.id">
         <slot>{{ text }}</slot>
     </span>
 

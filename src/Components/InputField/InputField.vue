@@ -3,7 +3,7 @@
     <form-group :class="formGroupClasses">
 
         <slot name="label">
-            <form-label ref="label" v-if="label || hasDefaultSlot" :for="id" v-html="label"/>
+            <form-label ref="label" v-if="label || hasDefaultSlot" :for="$attrs.id" v-html="label"/>
         </slot>
 
         <div class="form-group-inner">

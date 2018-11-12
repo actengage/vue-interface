@@ -18,7 +18,7 @@
 
         <slot name="dropdown-menu">
             <dropdown-menu
-                :id="id"
+                :id="$attrs.id"
                 :items="items"
                 :align="align"
                 :show.sync="isDropdownShowing"
