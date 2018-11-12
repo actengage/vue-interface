@@ -1,5 +1,6 @@
 import blob from './Blob';
 import elapsed from './Elapsed';
+import hash from './Hash';
 import instantiate from './Instantiate';
 import prefix from './Prefix';
 import readFile from './ReadFile';

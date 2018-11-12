@@ -3379,14 +3379,6 @@
 
       },
       computed: {
-        id() {
-          return this.$attrs.id;
-        },
-
-        name() {
-          return this.$attrs.name;
-        },
-
         controlAttributes() {
           return Object.keys(this.$attrs).concat([['class', this.controlClasses]]).reduce((carry, key$$1) => {
             if (isArray(key$$1)) {
@@ -5816,6 +5808,17 @@
         undefined
       );
 
+    function hash(str) {
+      let hash = 0;
+
+      for (let i = 0; i < str.length; i++) {
+        hash += Math.pow(str.charCodeAt(i) * 31, str.length - i);
+        hash = hash & hash; // Convert to 32bit integer
+      }
+
+      return hash;
+    }
+
     //
     var script$I = {
       name: 'radio-field',
@@ -5879,6 +5882,10 @@
           return this.mergeClasses(this.spacing || '', this.inputClass, this.validFeedback ? 'is-valid' : '', this.invalidFeedback ? 'is-invalid' : '');
         },
 
+        hash() {
+          return hash(this._uid.toString());
+        },
+
         labelClass() {
           return prefix('label', this.controlClass);
         },
@@ -5920,30 +5927,30 @@
         },
         [
           _c(
+            "input",
+            _vm._b(
+              {
+                directives: [{ name: "bind-events", rawName: "v-bind-events" }],
+                attrs: { type: "radio", id: _vm.$attrs.id || _vm.hash },
+                domProps: {
+                  value: _vm.value,
+                  checked: _vm.checkedValue === _vm.value
+                },
+                on: { change: _vm.update }
+              },
+              "input",
+              _vm.controlAttributes,
+              false
+            )
+          ),
+          _vm._v(" "),
+          _c(
             "label",
             {
               class: _vm.mergeClasses(_vm.labelClass),
-              attrs: { for: _vm.$attrs.id }
+              attrs: { for: _vm.$attrs.id || _vm.hash }
             },
             [
-              _c(
-                "input",
-                _vm._b(
-                  {
-                    directives: [{ name: "bind-events", rawName: "v-bind-events" }],
-                    attrs: { type: "radio" },
-                    domProps: {
-                      value: _vm.value,
-                      checked: _vm.checkedValue === _vm.value
-                    },
-                    on: { change: _vm.update }
-                  },
-                  "input",
-                  _vm.controlAttributes,
-                  false
-                )
-              ),
-              _vm._v(" "),
               _vm._t("default", [_vm._v(_vm._s(_vm.label))]),
               _vm._v(" "),
               _vm._t("feedback", [
@@ -6063,105 +6070,51 @@
           )
         },
         [
-          _vm.custom && _vm.id
-            ? [
-                _c(
-                  "input",
-                  _vm._b(
-                    {
-                      directives: [
-                        { name: "bind-events", rawName: "v-bind-events" }
-                      ],
-                      attrs: { type: "checkbox" },
-                      domProps: {
-                        value: _vm.value,
-                        checked: _vm.checkedValues.indexOf(_vm.value) !== -1
-                      },
-                      on: { input: _vm.update }
-                    },
-                    "input",
-                    _vm.controlAttributes,
-                    false
-                  )
-                ),
+          _c(
+            "input",
+            _vm._b(
+              {
+                directives: [{ name: "bind-events", rawName: "v-bind-events" }],
+                attrs: { type: "checkbox", id: _vm.$attrs.id || _vm.hash },
+                domProps: {
+                  value: _vm.value,
+                  checked: _vm.checkedValues.indexOf(_vm.value) !== -1
+                },
+                on: { input: _vm.update }
+              },
+              "input",
+              _vm.controlAttributes,
+              false
+            )
+          ),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              class: _vm.mergeClasses(_vm.labelClass),
+              attrs: { for: _vm.$attrs.id || _vm.hash }
+            },
+            [
+              _vm._t("default", [_vm._v(_vm._s(_vm.label))]),
+              _vm._v(" "),
+              _vm._t("feedback", [
+                _vm.validFeedback
+                  ? _c("form-feedback", {
+                      attrs: { valid: "" },
+                      domProps: { innerHTML: _vm._s(_vm.validFeedback) }
+                    })
+                  : _vm._e(),
                 _vm._v(" "),
-                _c(
-                  "label",
-                  {
-                    class: _vm.mergeClasses(_vm.labelClass, _vm.colorableClasses),
-                    attrs: { for: _vm.id }
-                  },
-                  [
-                    _vm._t("default", [_vm._v(_vm._s(_vm.label))]),
-                    _vm._v(" "),
-                    _vm._t("feedback", [
-                      _vm.validFeedback
-                        ? _c("form-feedback", {
-                            attrs: { valid: "" },
-                            domProps: { innerHTML: _vm._s(_vm.validFeedback) }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.invalidFeedback
-                        ? _c("form-feedback", {
-                            attrs: { invalid: "" },
-                            domProps: { innerHTML: _vm._s(_vm.invalidFeedback) }
-                          })
-                        : _vm._e()
-                    ])
-                  ],
-                  2
-                )
-              ]
-            : [
-                _c(
-                  "label",
-                  {
-                    class: _vm.mergeClasses(_vm.labelClass, _vm.colorableClasses),
-                    attrs: { for: _vm.id }
-                  },
-                  [
-                    _c(
-                      "input",
-                      _vm._b(
-                        {
-                          directives: [
-                            { name: "bind-events", rawName: "v-bind-events" }
-                          ],
-                          attrs: { type: "checkbox" },
-                          domProps: {
-                            value: _vm.value,
-                            checked: _vm.checkedValues.indexOf(_vm.value) !== -1
-                          },
-                          on: { input: _vm.update }
-                        },
-                        "input",
-                        _vm.controlAttributes,
-                        false
-                      )
-                    ),
-                    _vm._v(" "),
-                    _vm._t("default", [_vm._v(_vm._s(_vm.label))]),
-                    _vm._v(" "),
-                    _vm._t("feedback", [
-                      _vm.validFeedback
-                        ? _c("form-feedback", {
-                            attrs: { valid: "" },
-                            domProps: { innerHTML: _vm._s(_vm.validFeedback) }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.invalidFeedback
-                        ? _c("form-feedback", {
-                            attrs: { invalid: "" },
-                            domProps: { innerHTML: _vm._s(_vm.invalidFeedback) }
-                          })
-                        : _vm._e()
-                    ])
-                  ],
-                  2
-                )
-              ],
+                _vm.invalidFeedback
+                  ? _c("form-feedback", {
+                      attrs: { invalid: "" },
+                      domProps: { innerHTML: _vm._s(_vm.invalidFeedback) }
+                    })
+                  : _vm._e()
+              ])
+            ],
+            2
+          ),
           _vm._v(" "),
           _vm._t("help", [
             _vm.helpText

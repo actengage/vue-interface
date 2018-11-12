@@ -16,8 +16,6 @@
 
             <h5 class="mt-4">Block Layout</h5>
 
-            {{colors}}
-
             <checkbox-field v-model="colors" name="colors[]" value="red">Red</checkbox-field>
 
             <checkbox-field v-model="colors" name="colors[]" value="green">Green</checkbox-field>
@@ -59,10 +57,10 @@
 
             <h5 class="mt-4">Block Layout</h5>
 
-            <checkbox-field name="custom1" value="red" id="red" custom >Red</checkbox-field>
-            <checkbox-field name="custom1" value="green" id="green" custom checked>Green</checkbox-field>
-            <checkbox-field name="custom1" value="blue" id="blue" custom>Blue</checkbox-field>
-            <checkbox-field name="custom1" value="yellow" id="yellow" custom readonly>Yellow (Readonly)</checkbox-field>
+            <checkbox-field v-model="colors" name="custom1" value="red" custom >Red</checkbox-field>
+            <checkbox-field v-model="colors" name="custom1" value="green" custom checked>Green</checkbox-field>
+            <checkbox-field v-model="colors" name="custom1" value="blue" custom>Blue</checkbox-field>
+            <checkbox-field v-model="colors" name="custom1" value="yellow" custom readonly>Yellow (Readonly)</checkbox-field>
 
             <h5 class="mt-4">Inline Layout</h5>
 

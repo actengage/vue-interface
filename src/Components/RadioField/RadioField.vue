@@ -2,15 +2,17 @@
 
     <div :class="mergeClasses(this.custom ? 'custom-radio' : '', controlClass, inline ? inlineClass : '')">
 
-        <label :for="$attrs.id" :class="mergeClasses(labelClass)">
-            <input
-                v-bind-events
-                v-bind="controlAttributes"
-                type="radio"
-                :value="value"
-                :checked="checkedValue === value"
-                @change="update"
-            />
+        <input
+            v-bind-events
+            v-bind="controlAttributes"
+            type="radio"
+            :id="$attrs.id || hash"
+            :value="value"
+            :checked="checkedValue === value"
+            @change="update"
+        />
+
+        <label :for="$attrs.id || hash" :class="mergeClasses(labelClass)">
             <slot>{{label}}</slot>
             <slot name="feedback">
                 <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
@@ -27,6 +29,7 @@
 
 <script>
 import HelpText from '../HelpText';
+import hash from '../../Helpers/Hash';
 import FormFeedback from '../FormFeedback';
 import prefix from '../../Helpers/Prefix';
 import Colorable from '../../Mixins/Colorable';
@@ -109,6 +112,10 @@ export default {
                 (this.validFeedback ? 'is-valid' : ''),
                 (this.invalidFeedback ? 'is-invalid' : '')
             );
+        },
+
+        hash() {
+            return hash(this._uid.toString());
         },
 
         labelClass() {

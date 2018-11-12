@@ -314,14 +314,6 @@ export default {
 
     computed: {
 
-        id() {
-            return this.$attrs.id;
-        },
-
-        name() {
-            return this.$attrs.name;
-        },
-
         controlAttributes() {
             return Object.keys(this.$attrs)
                 .concat([['class', this.controlClasses]])

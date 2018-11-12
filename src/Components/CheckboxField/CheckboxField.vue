@@ -2,43 +2,22 @@
 
     <div :class="mergeClasses(this.custom ? 'custom-checkbox' : '', controlClass, inline ? inlineClass : '')">
 
-        <template v-if="custom && id">
-            <input
-                v-bind-events
-                v-bind="controlAttributes"
-                type="checkbox"
-                :value="value"
-                :checked="checkedValues.indexOf(value) !== -1"
-                @input="update"/>
+        <input
+            v-bind-events
+            v-bind="controlAttributes"
+            type="checkbox"
+            :id="$attrs.id || hash"
+            :value="value"
+            :checked="checkedValues.indexOf(value) !== -1"
+            @input="update"/>
 
-            <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
-                <slot>{{label}}</slot>
-                <slot name="feedback">
-                    <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-                    <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
-                </slot>
-            </label>
-
-        </template>
-
-        <template v-else>
-            <label :for="id" :class="mergeClasses(labelClass, colorableClasses)">
-                <input
-                    v-bind-events
-                    v-bind="controlAttributes"
-                    type="checkbox"
-                    :value="value"
-                    :checked="checkedValues.indexOf(value) !== -1"
-                    @input="update"/>
-
-                <slot>{{label}}</slot>
-
-                <slot name="feedback">
-                    <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-                    <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
-                </slot>
-            </label>
-        </template>
+        <label :for="$attrs.id || hash" :class="mergeClasses(labelClass)">
+            <slot>{{label}}</slot>
+            <slot name="feedback">
+                <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
+                <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+            </slot>
+        </label>
 
         <slot name="help">
             <help-text v-if="helpText" v-html="helpText" />
