@@ -65,3 +65,14 @@ export default {
 
 };
 </script>
+
+<style lang="scss">
+.input-group > div:not(:first-child) .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.input-group > div:not(:last-child) .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+</style>
