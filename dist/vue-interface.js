@@ -6831,18 +6831,11 @@
       );
 
     //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
     var script$P = {
       name: 'input-group-append',
+      components: {
+        InputGroupText
+      },
       props: {
         /**
          * The type attribute
@@ -6901,18 +6894,11 @@
       );
 
     //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
     var script$Q = {
       name: 'input-group-prepend',
+      components: {
+        InputGroupText
+      },
       props: {
         /**
          * The type attribute

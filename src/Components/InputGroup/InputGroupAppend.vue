@@ -10,9 +10,15 @@
 </template>
 
 <script>
+import InputGroupText from './InputGroupText';
+
 export default {
 
     name: 'input-group-append',
+
+    components: {
+        InputGroupText
+    },
 
     props: {
 
