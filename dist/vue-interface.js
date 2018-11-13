@@ -3917,7 +3917,7 @@
       components: {
         Btn
       },
-      mixins: [Colorable, MergeClasses],
+      mixins: [Sizeable, Colorable, MergeClasses],
       props: {
         /**
          * An array of buttons

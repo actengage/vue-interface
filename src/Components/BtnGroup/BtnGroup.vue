@@ -7,6 +7,7 @@
 
 <script>
 import Btn from '../Btn';
+import Sizeable from '../../Mixins/Sizeable';
 import Colorable from '../../Mixins/Colorable';
 import MergeClasses from '../../Mixins/MergeClasses';
 
@@ -19,6 +20,7 @@ export default {
     },
 
     mixins: [
+        Sizeable,
         Colorable,
         MergeClasses
     ],
