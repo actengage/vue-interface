@@ -78,3 +78,17 @@ export default {
 
 };
 </script>
+
+<style lang="scss">
+.center-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    .center-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
