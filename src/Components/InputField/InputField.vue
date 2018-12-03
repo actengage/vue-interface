@@ -75,9 +75,9 @@ export default {
         transform: translate(25%, -50%);
     }
 
-    .is-valid + .valid-feedback,
-    .is-invalid + .invalid-feedback {
-        display: block;
+    &.is-valid .valid-feedback,
+    &.is-invalid .invalid-feedback {
+        display: flex;
     }
 }
 </style>
