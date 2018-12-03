@@ -24,6 +24,10 @@
       border-right: 1px solid rgba(0, 0, 0, 0.125);
 }
 
+.navigation-error {
+  color: #dc3545;
+}
+
 .card-img,
 .card-img-top,
 .card-img-bottom {
@@ -62,13 +66,13 @@
     position: relative;
 }
 
-.navigation-error {
-  color: #dc3545;
-}
-
 .wizard-buttons {
   display: flex;
   justify-content: space-between;
+}
+
+.card > .wizard .wizard-header {
+  margin-top: 1rem;
 }
 
 .thumbnail-list-item {
@@ -203,10 +207,6 @@
     background-color: #b10805;
 }
 
-.card > .wizard .wizard-header {
-  margin-top: 1rem;
-}
-
 .wizard-success {
   text-align: center;
   font-size: 1.25rem;
@@ -250,6 +250,17 @@
 
 .modal .modal-backdrop + .modal-dialog {
   z-index: 1050;
+}
+
+.slide-deck-controls .slide-deck-control-icon {
+  color: #fff;
+  font-size: 1rem;
+}
+.slide-deck-controls .slide-deck-control-icon:not(:last-child) {
+    margin-right: 0.5rem;
+}
+.slide-deck-controls .slide-deck-control-icon.is-active {
+  color: #007bff;
 }
 
 .slide-deck {
@@ -313,17 +324,6 @@
     transform: translateX(0);
 }
 
-.slide-deck-controls .slide-deck-control-icon {
-  color: #fff;
-  font-size: 1rem;
-}
-.slide-deck-controls .slide-deck-control-icon:not(:last-child) {
-    margin-right: 0.5rem;
-}
-.slide-deck-controls .slide-deck-control-icon.is-active {
-  color: #007bff;
-}
-
 .thumbnail-list {
   width: 100%;
   display: flex;
@@ -349,20 +349,6 @@
 }
 .thumbnail-list.thumbnail-list-flex > * {
     flex: 1;
-}
-
-.wizard .slide-deck-content {
-  margin: 1rem;
-}
-.wizard .wizard-content {
-  overflow: hidden;
-  padding: .5rem;
-}
-.wizard .wizard-content + hr {
-    margin-bottom: 0;
-}
-.wizard .wizard-buttons {
-  padding: 1rem;
 }
 
 .wizard-error {
@@ -391,6 +377,20 @@
       top: 50%;
       left: 0;
       line-height: 0;
+}
+
+.wizard .slide-deck-content {
+  margin: 1rem;
+}
+.wizard .wizard-content {
+  overflow: hidden;
+  padding: .5rem;
+}
+.wizard .wizard-content + hr {
+    margin-bottom: 0;
+}
+.wizard .wizard-buttons {
+  padding: 1rem;
 }
 
 
@@ -941,6 +941,10 @@
 .input-field .slide-fade-leave-to {
   opacity: 1;
   transform: translate(25%, -50%);
+}
+.input-field .is-valid + .valid-feedback,
+.input-field .is-invalid + .invalid-feedback {
+  display: block;
 }
 
 .infinite-scrolling {

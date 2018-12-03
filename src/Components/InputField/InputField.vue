@@ -74,5 +74,10 @@ export default {
         opacity: 1;
         transform: translate(25%, -50%);
     }
+
+    .is-valid + .valid-feedback,
+    .is-invalid + .invalid-feedback {
+        display: block;
+    }
 }
 </style>
