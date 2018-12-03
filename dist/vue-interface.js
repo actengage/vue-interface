@@ -4779,7 +4779,7 @@
 
       mounted() {
         each(this.$el.querySelectorAll('[type=submit], input, select, textarea, [tabindex]:not([tabindex="-1"]'), el => {
-          if (el) {
+          if (el && el.addEventListener) {
             el.addEventListener('blur', event => {
               if (!ignoreBlurEvent) {
                 this.focus();
