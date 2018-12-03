@@ -355,7 +355,7 @@ export default {
     mounted() {
         each(this.$el.querySelectorAll('[type=submit], input, select, textarea, [tabindex]:not([tabindex="-1"]'), el => {
             if(el) {
-                el.addEventListener('blur', {
+                el.addEventListener('blur', event => {
                     if(!ignoreBlurEvent) {
                         this.focus();
                     }
@@ -363,7 +363,7 @@ export default {
                     ignoreBlurEvent = false;
                 });
 
-                el.addEventListener('focus', {
+                el.addEventListener('focus', event => {
                     ignoreBlurEvent = false;
                 });
 

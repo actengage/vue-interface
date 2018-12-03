@@ -4779,34 +4779,28 @@
 
       mounted() {
         each(this.$el.querySelectorAll('[type=submit], input, select, textarea, [tabindex]:not([tabindex="-1"]'), el => {
-          const keydown = event => {
-            const ignore = [LEFT_ARROW_KEYCODE, RIGHT_ARROW_KEYCODE, UP_ARROW_KEYCODE, DOWN_ARROW_KEYCODE, TAB_KEYCODE];
+          if (el) {
+            el.addEventListener('blur', event => {
+              if (!ignoreBlurEvent) {
+                this.focus();
+              }
 
-            if (ignore.indexOf(event.keyCode) !== -1) {
+              ignoreBlurEvent = false;
+            });
+            el.addEventListener('focus', event => {
+              ignoreBlurEvent = false;
+            });
+            el.addEventListener('keydown', event => {
+              const ignore = [LEFT_ARROW_KEYCODE, RIGHT_ARROW_KEYCODE, UP_ARROW_KEYCODE, DOWN_ARROW_KEYCODE, TAB_KEYCODE];
+
+              if (ignore.indexOf(event.keyCode) !== -1) {
+                ignoreBlurEvent = true;
+              }
+            });
+            el.addEventListener('mousedown', event => {
               ignoreBlurEvent = true;
-            }
-          };
-
-          const blur = event => {
-            if (!ignoreBlurEvent) {
-              this.focus();
-            }
-
-            ignoreBlurEvent = false;
-          };
-
-          const focus = event => {
-            ignoreBlurEvent = false;
-          };
-
-          const mousedown = event => {
-            ignoreBlurEvent = true;
-          };
-
-          el.addEventListener('blur', blur);
-          el.addEventListener('focus', focus);
-          el.addEventListener('keydown', keydown);
-          el.addEventListener('mousedown', mousedown);
+            });
+          }
         });
       }
 
