@@ -7228,10 +7228,24 @@
             ]
           ),
           _vm._v(" "),
-          _c("form-control", {
-            staticClass: "d-none",
-            attrs: { name: _vm.name, value: _vm.value, id: _vm.$attrs.id }
-          }),
+          _c(
+            "input",
+            _vm._b(
+              {
+                directives: [{ name: "bind-events", rawName: "v-bind-events" }],
+                staticClass: "d-none",
+                domProps: { value: _vm.value },
+                on: {
+                  input: function($event) {
+                    _vm.$emit("input", $event.target.value);
+                  }
+                }
+              },
+              "input",
+              _vm.controlAttributes,
+              false
+            )
+          ),
           _vm._v(" "),
           _vm._t("feedback", [
             _vm.validFeedback

@@ -14,7 +14,13 @@
         	</div>
         </div>
 
-        <form-control :name="name" :value="value" :id="$attrs.id" class="d-none"/>
+        <input
+            v-bind-events
+            v-bind="controlAttributes"
+            :value="value"
+            @input="$emit('input', $event.target.value)"
+            class="d-none"
+        />
 
         <slot name="feedback">
             <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
