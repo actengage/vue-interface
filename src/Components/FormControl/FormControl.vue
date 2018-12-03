@@ -1,7 +1,6 @@
 <template>
     <component
         v-bind="$attrs"
-        v-model="testValue"
         :is="element"
         :aria-label="label || name || id"
         :aria-describedby="id || name"

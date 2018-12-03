@@ -3444,13 +3444,6 @@
               input: function($event) {
                 _vm.$emit("input", $event.target.value);
               }
-            },
-            model: {
-              value: _vm.testValue,
-              callback: function($$v) {
-                _vm.testValue = $$v;
-              },
-              expression: "testValue"
             }
           },
           "component",
