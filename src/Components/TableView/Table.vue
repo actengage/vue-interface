@@ -107,7 +107,13 @@ export default {
         paginate: {
             type: Boolean,
             default: true
-        }
+        },
+
+        // (bool) The HTTP request
+        request: Object,
+
+        // (bool) The HTTP request
+        response: Object
 
     },
 

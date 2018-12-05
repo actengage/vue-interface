@@ -11,9 +11,9 @@
         <slot name="control">
             <div class="position-relative">
                 <textarea
+                    v-autogrow="autogrow"
                     v-bind-events
                     v-bind="controlAttributes"
-                    v-autogrow="autogrow"
                     :value="value"
                     @input="$emit('input', $event.target.value)"
                 />
@@ -64,6 +64,13 @@ export default {
     ],
 
     props: {
+        /**
+         * The autogrow attribute
+         *
+         * @property Boolean
+         */
+        autogrow: [Number, String, Boolean],
+
         /**
          * The type attribute
          *

@@ -113,7 +113,9 @@ export default {
             throw new Error('A textarea is required for the v-autogrow directive.');
         }
 
-        init(el, binding.value);
+        if(binding.value !== false) {
+            init(el, binding.value);
+        }
     }
 
 };

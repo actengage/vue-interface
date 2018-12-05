@@ -28,10 +28,6 @@
   color: #dc3545;
 }
 
-.card > .wizard .wizard-header {
-  margin-top: 1rem;
-}
-
 .card-img,
 .card-img-top,
 .card-img-bottom {
@@ -75,32 +71,25 @@
   justify-content: space-between;
 }
 
-.wizard-success {
-  text-align: center;
-  font-size: 1.25rem;
-  padding: 5rem 1.25rem;
+.thumbnail-list-item {
+  max-width: 100%;
+  max-height: 100%;
+  /*
+    &:not(:only-child) {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+
+    &:nth-child(2n) {
+        opacity: .25;
+    }
+    */
 }
-.wizard-success .wizard-success-title {
-    font-size: 1.875rem;
-    color: #55b776;
+.thumbnail-list-item > img {
+    max-width: 100%;
 }
-.wizard-success .wizard-success-icon {
-    color: #55b776;
-    font-size: 3.125rem;
-    border: 5px solid #55b776;
-    border-radius: 100%;
-    text-align: center;
-    width: 7.5rem;
-    height: 7.5rem;
-    margin: 1.25rem auto;
-    position: relative;
-}
-.wizard-success .wizard-success-icon i {
-      position: absolute;
+.thumbnail-list-item > img.img-fluid {
       width: 100%;
-      top: 50%;
-      left: 0;
-      line-height: 0;
 }
 
 .wizard-progress {
@@ -214,25 +203,36 @@
     background-color: #b10805;
 }
 
-.thumbnail-list-item {
-  max-width: 100%;
-  max-height: 100%;
-  /*
-    &:not(:only-child) {
-        margin-right: 10px;
-        margin-bottom: 10px;
-    }
+.card > .wizard .wizard-header {
+  margin-top: 1rem;
+}
 
-    &:nth-child(2n) {
-        opacity: .25;
-    }
-    */
+.wizard-success {
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 5rem 1.25rem;
 }
-.thumbnail-list-item > img {
-    max-width: 100%;
+.wizard-success .wizard-success-title {
+    font-size: 1.875rem;
+    color: #55b776;
 }
-.thumbnail-list-item > img.img-fluid {
+.wizard-success .wizard-success-icon {
+    color: #55b776;
+    font-size: 3.125rem;
+    border: 5px solid #55b776;
+    border-radius: 100%;
+    text-align: center;
+    width: 7.5rem;
+    height: 7.5rem;
+    margin: 1.25rem auto;
+    position: relative;
+}
+.wizard-success .wizard-success-icon i {
+      position: absolute;
       width: 100%;
+      top: 50%;
+      left: 0;
+      line-height: 0;
 }
 
 .input-group > div:not(:first-child) .form-control,
@@ -351,6 +351,20 @@
     flex: 1;
 }
 
+.wizard .slide-deck-content {
+  margin: 1rem;
+}
+.wizard .wizard-content {
+  overflow: hidden;
+  padding: .5rem;
+}
+.wizard .wizard-content + hr {
+    margin-bottom: 0;
+}
+.wizard .wizard-buttons {
+  padding: 1rem;
+}
+
 .wizard-error {
   text-align: center;
   font-size: 1.25rem;
@@ -377,20 +391,6 @@
       top: 50%;
       left: 0;
       line-height: 0;
-}
-
-.wizard .slide-deck-content {
-  margin: 1rem;
-}
-.wizard .wizard-content {
-  overflow: hidden;
-  padding: .5rem;
-}
-.wizard .wizard-content + hr {
-    margin-bottom: 0;
-}
-.wizard .wizard-buttons {
-  padding: 1rem;
 }
 
 
@@ -446,6 +446,20 @@
   .btn-xl-block + .btn-lg-block,
   .btn-xl-block + .btn-xl-block {
     margin-top: 0.5rem;
+}
+
+.btn-file {
+  cursor: pointer;
+  position: relative;
+}
+.btn-file input {
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 @keyframes btn-activity-in {
@@ -844,18 +858,27 @@
     width: 7.5%;
 }
 
-.btn-file {
-  cursor: pointer;
+.dropzone {
   position: relative;
 }
-.btn-file input {
-    z-index: 1;
-    opacity: 0;
+.dropzone p {
+    font-size: 18px;
+}
+.dropzone .fa-image {
+    font-size: 100px;
+}
+.dropzone .dropzone-placeholder {
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 2;
     width: 100%;
     height: 100%;
+    background: white;
+}
+.dropzone.is-dragging .dropzone-placeholder {
+    display: block;
 }
 
 .file-preview {
@@ -903,29 +926,6 @@
     text-align: center;
 }
 
-.dropzone {
-  position: relative;
-}
-.dropzone p {
-    font-size: 18px;
-}
-.dropzone .fa-image {
-    font-size: 100px;
-}
-.dropzone .dropzone-placeholder {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    background: white;
-}
-.dropzone.is-dragging .dropzone-placeholder {
-    display: block;
-}
-
 .form-group, .form-group .form-group-inner {
   position: relative;
 }
@@ -937,10 +937,6 @@
   transition: all .25s ease-in;
 }
 
-.infinite-scrolling {
-  position: relative;
-}
-
 .input-field .slide-fade-enter,
 .input-field .slide-fade-leave-to {
   opacity: 1;
@@ -949,6 +945,10 @@
 .input-field.is-valid .valid-feedback,
 .input-field.is-invalid .invalid-feedback {
   display: flex;
+}
+
+.infinite-scrolling {
+  position: relative;
 }
 
 .light-switch {
@@ -1306,6 +1306,47 @@
       background: #ebedef;
 }
 
+.overlay-content {
+  margin: 0 auto;
+  overflow-y: auto;
+  position: relative;
+  /*
+    &.overlay-content-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .overlay-body {
+            flex: 1;
+        }
+    }
+    */
+}
+.overlay-content.overlay-content-fixed {
+    top: 0;
+    left: 0;
+    padding: 0;
+    height: 100%;
+    position: fixed;
+    max-width: none;
+}
+.overlay-content .overlay-controls {
+    float: right;
+    position: relative;
+    top: 4px;
+    padding-right: 0;
+    padding-bottom: 1rem;
+}
+.overlay-content .overlay-controls.left {
+      left: 0;
+}
+.overlay-content .overlay-controls.right {
+      right: 0;
+}
+.overlay-content .overlay-controls + * {
+      clear: both;
+}
+
 .overlay {
   position: fixed;
   display: flex;
@@ -1353,47 +1394,6 @@
 }
 .has-activity select::-ms-expand {
     display: none;
-}
-
-.overlay-content {
-  margin: 0 auto;
-  overflow-y: auto;
-  position: relative;
-  /*
-    &.overlay-content-center {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .overlay-body {
-            flex: 1;
-        }
-    }
-    */
-}
-.overlay-content.overlay-content-fixed {
-    top: 0;
-    left: 0;
-    padding: 0;
-    height: 100%;
-    position: fixed;
-    max-width: none;
-}
-.overlay-content .overlay-controls {
-    float: right;
-    position: relative;
-    top: 4px;
-    padding-right: 0;
-    padding-bottom: 1rem;
-}
-.overlay-content .overlay-controls.left {
-      left: 0;
-}
-.overlay-content .overlay-controls.right {
-      right: 0;
-}
-.overlay-content .overlay-controls + * {
-      clear: both;
 }
 
 .card > .table {

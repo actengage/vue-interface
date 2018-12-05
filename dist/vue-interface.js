@@ -11513,7 +11513,11 @@
         paginate: {
           type: Boolean,
           default: true
-        }
+        },
+        // (bool) The HTTP request
+        request: Object,
+        // (bool) The HTTP request
+        response: Object
       },
       methods: {
         height(min) {
@@ -12037,6 +12041,8 @@
                     "base-table",
                     {
                       attrs: {
+                        request: _vm.request,
+                        response: _vm.response,
                         columns: _vm.columns,
                         data: _vm.data,
                         hover: _vm.hover,
@@ -12066,6 +12072,8 @@
                 "base-table",
                 {
                   attrs: {
+                    request: _vm.request,
+                    response: _vm.response,
                     columns: _vm.columns,
                     data: _vm.data,
                     hover: _vm.hover,
@@ -12188,7 +12196,9 @@
           throw new Error('A textarea is required for the v-autogrow directive.');
         }
 
-        init(el, binding.value);
+        if (binding.value !== false) {
+          init(el, binding.value);
+        }
       }
 
     };
@@ -12207,6 +12217,13 @@
       },
       mixins: [Colorable, FormControl, MergeClasses],
       props: {
+        /**
+         * The autogrow attribute
+         *
+         * @property Boolean
+         */
+        autogrow: [Number, String, Boolean],
+
         /**
          * The type attribute
          *
@@ -12259,13 +12276,13 @@
                   _vm._b(
                     {
                       directives: [
-                        { name: "bind-events", rawName: "v-bind-events" },
                         {
                           name: "autogrow",
                           rawName: "v-autogrow",
                           value: _vm.autogrow,
                           expression: "autogrow"
-                        }
+                        },
+                        { name: "bind-events", rawName: "v-bind-events" }
                       ],
                       domProps: { value: _vm.value },
                       on: {

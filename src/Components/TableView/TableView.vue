@@ -13,6 +13,8 @@
 
         <card v-if="card">
             <base-table
+                :request="request"
+                :response="response"
                 :columns="columns"
                 :data="data"
                 :hover="hover"
@@ -26,6 +28,8 @@
         </card>
         <base-table
             v-else
+            :request="request"
+            :response="response"
             :columns="columns"
             :data="data"
             :hover="hover"
