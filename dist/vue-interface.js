@@ -12024,7 +12024,7 @@
                 "card",
                 [
                   _c(
-                    "data-table",
+                    "base-table",
                     {
                       attrs: {
                         columns: _vm.columns,
@@ -12053,7 +12053,7 @@
                 1
               )
             : _c(
-                "data-table",
+                "base-table",
                 {
                   attrs: {
                     columns: _vm.columns,

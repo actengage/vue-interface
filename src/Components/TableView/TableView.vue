@@ -12,7 +12,7 @@
         </div>
 
         <card v-if="card">
-            <data-table
+            <base-table
                 :columns="columns"
                 :data="data"
                 :hover="hover"
@@ -22,9 +22,9 @@
                 @paginate="onPaginate"
                 @order="id => orderBy(id)">
                 <slot :data="data" :columns="columns"/>
-            </data-table/>
+            </base-table/>
         </card>
-        <data-table
+        <base-table
             v-else
             :columns="columns"
             :data="data"
@@ -35,7 +35,7 @@
             @paginate="onPaginate"
             @order="id => orderBy(id)">
             <slot :data="data" :columns="columns"/>
-        </data-table/>
+        </base-table/>
 
     </div>
 
