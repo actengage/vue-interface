@@ -4168,11 +4168,18 @@
          *
          * @property Object
          */
-        label: String
+        label: String,
+
+        /**
+         * If an to is passed, button is an router-link element
+         *
+         * @property Boolean
+         */
+        to: [Object, String]
       },
       computed: {
         component() {
-          return this.element || (this.button ? 'button' : 'a');
+          return this.element || (this.to ? 'router-link' : this.button ? 'button' : 'a');
         }
 
       },
@@ -4204,6 +4211,7 @@
           staticClass: "dropdown-item",
           class: { active: _vm.active },
           attrs: {
+            to: _vm.to,
             href: _vm.href || (_vm.component === "a" ? "#" : false),
             type: _vm.component === "button" ? "button" : false
           },

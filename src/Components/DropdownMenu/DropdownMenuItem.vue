@@ -1,10 +1,11 @@
 <template>
     <component
         :is="component"
+        :to="to"
         :href="href || (component === 'a' ? '#' : false)"
-        class="dropdown-item"
-        :class="{'active': active}"
         :type="component === 'button' ? 'button' : false"
+        :class="{'active': active}"
+        class="dropdown-item"
         @click="onClick">
         <i v-if="icon" :class="icon"/>
         <slot>{{label}}</slot>
@@ -62,14 +63,21 @@ export default {
          *
          * @property Object
          */
-        label: String
+        label: String,
+
+        /**
+         * If an to is passed, button is an router-link element
+         *
+         * @property Boolean
+         */
+        to: [Object, String]
 
     },
 
     computed: {
 
         component() {
-            return this.element || (this.button ? 'button' : 'a');
+            return this.element || (this.to ? 'router-link' : (this.button ? 'button' : 'a'));
         }
 
     },
