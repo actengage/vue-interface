@@ -4126,6 +4126,7 @@
 
     //
     var script$q = {
+      name: 'dropdown-menu-item',
       mixins: [Proxy],
       props: {
         /**
@@ -4362,6 +4363,7 @@
 
     //
     var script$t = {
+      name: 'dropdown-menu',
       components: {
         DropdownMenuItem,
         DropdownMenuHeader,

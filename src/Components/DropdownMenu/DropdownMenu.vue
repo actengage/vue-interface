@@ -17,6 +17,8 @@ import DropdownMenuDivider from './DropdownMenuDivider';
 
 export default {
 
+    name: 'dropdown-menu',
+
     components: {
         DropdownMenuItem,
         DropdownMenuHeader,

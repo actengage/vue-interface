@@ -17,6 +17,8 @@ import Proxy from '../../Mixins/Proxy/Proxy';
 
 export default {
 
+    name: 'dropdown-menu-item',
+
     mixins: [
         Proxy
     ],
