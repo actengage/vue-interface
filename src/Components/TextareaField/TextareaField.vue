@@ -38,6 +38,7 @@ import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';
 import FormFeedback from '../FormFeedback';
 import Colorable from '../../Mixins/Colorable';
+import autogrow from '../../Directives/Autogrow';
 import FormControl from '../../Mixins/FormControl';
 import MergeClasses from '../../Mixins/MergeClasses';
 
@@ -50,6 +51,10 @@ export default {
         FormGroup,
         FormLabel,
         FormFeedback
+    },
+
+    directives: {
+        autogrow
     },
 
     mixins: [
