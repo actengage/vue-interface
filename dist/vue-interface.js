@@ -2105,6 +2105,7 @@
           this.$emit('submit', event);
           return this.model[this.method](this.data, pickBy({
             query: this.query,
+            headers: this.headers,
             onUploadProgress: event => {
               this.$emit('submit:progress', event);
             }
