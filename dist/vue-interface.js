@@ -2072,13 +2072,8 @@
          *
          * @property Function
          */
-        onSubmit: {
-          type: Function,
-
-          default(event) {
-            this.model && this.submit(event);
-          }
-
+        onSubmit(event) {
+          this.model && this.submit(event);
         },
 
         /**
@@ -2086,22 +2081,17 @@
          *
          * @property Function
          */
-        onSubmitSuccess: {
-          type: Function,
+        onSubmitSuccess(event, data) {
+          this.$emit('submit:success', event, data);
+          this.$emit('submit-success', event, data);
+          this.$emit('submit:complete', event, true, data);
+          this.$emit('submit-complete', event, true, data);
 
-          default(event, data) {
-            this.$emit('submit:success', event, data);
-            this.$emit('submit-success', event, data);
-            this.$emit('submit:complete', event, true, data);
-            this.$emit('submit-complete', event, true, data);
-
-            if (this.redirect && isFunction(this.redirect)) {
-              this.redirect(this);
-            } else if (this.redirect && this.$router) {
-              this.$router.push(this.redirect);
-            }
+          if (this.redirect && isFunction(this.redirect)) {
+            this.redirect(this);
+          } else if (this.redirect && this.$router) {
+            this.$router.push(this.redirect);
           }
-
         },
 
         /**
@@ -2109,17 +2099,13 @@
          *
          * @property Function
          */
-        onSubmitFailed: {
-          type: Function,
-
-          default(event, errors) {
-            this.$emit('submit:failed', event, errors);
-            this.$emit('submit-failed', event, errors);
-            this.$emit('submit:complete', event, false, errors);
-            this.$emit('submit-complete', event, false, errors);
-          }
-
+        onSubmitFailed(event, errors) {
+          this.$emit('submit:failed', event, errors);
+          this.$emit('submit-failed', event, errors);
+          this.$emit('submit:complete', event, false, errors);
+          this.$emit('submit-complete', event, false, errors);
         }
+
       },
 
       data() {
