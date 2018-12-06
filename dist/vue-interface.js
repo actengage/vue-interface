@@ -1821,7 +1821,7 @@
           this.$request = this.constructor.request(method, uri, config);
           this.$request.send({
             data: data
-          }).then(response => resolve(this.fill(response)), reject);
+          }).then(response => resolve(this.fill(response.data)), reject);
         });
       }
       /**
@@ -2048,7 +2048,24 @@
          *
          * @property Function|String
          */
-        redirect: [Object, String, Function],
+        redirect: [Object, String, Function]
+      },
+      methods: {
+        submit(event) {
+          this.$emit('submit', event);
+          return this.model[this.method](this.data, pickBy({
+            query: this.query,
+            headers: this.headers,
+            onUploadProgress: event => {
+              this.$emit('submit:progress', event);
+              this.$emit('submit-progress', event);
+            }
+          }, value => !!value)).then(data => {
+            this.onSubmitSuccess(event, data);
+          }, errors => {
+            this.onSubmitFailed(event, errors);
+          });
+        },
 
         /**
          * A callback function for the `submit` event
@@ -2103,24 +2120,6 @@
           }
 
         }
-      },
-      methods: {
-        submit(event) {
-          this.$emit('submit', event);
-          return this.model[this.method](this.data, pickBy({
-            query: this.query,
-            headers: this.headers,
-            onUploadProgress: event => {
-              this.$emit('submit:progress', event);
-              this.$emit('submit-progress', event);
-            }
-          }, value => !!value)).then(data => {
-            this.onSubmitSuccess(event, data);
-          }, errors => {
-            this.onSubmitFailed(event, errors);
-          });
-        }
-
       },
 
       data() {

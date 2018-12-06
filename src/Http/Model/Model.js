@@ -352,7 +352,7 @@ export default class Model {
             this.$request = this.constructor.request(method, uri, config);
             this.$request.send({
                 data: data
-            }).then(response => resolve(this.fill(response)), reject);
+            }).then(response => resolve(this.fill(response.data)), reject);
         });
     }
 

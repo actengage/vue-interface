@@ -24,6 +24,10 @@
       border-right: 1px solid rgba(0, 0, 0, 0.125);
 }
 
+a.dropdown-menu-item {
+  cursor: pointer;
+}
+
 .card-img,
 .card-img-top,
 .card-img-bottom {
@@ -62,6 +66,10 @@
     position: relative;
 }
 
+.navigation-error {
+  color: #dc3545;
+}
+
 .thumbnail-list-item {
   max-width: 100%;
   max-height: 100%;
@@ -83,12 +91,8 @@
       width: 100%;
 }
 
-a.dropdown-menu-item {
-  cursor: pointer;
-}
-
-.navigation-error {
-  color: #dc3545;
+.card > .wizard .wizard-header {
+  margin-top: 1rem;
 }
 
 .wizard-buttons {
@@ -207,10 +211,6 @@ a.dropdown-menu-item {
     background-color: #b10805;
 }
 
-.card > .wizard .wizard-header {
-  margin-top: 1rem;
-}
-
 .wizard-success {
   text-align: center;
   font-size: 1.25rem;
@@ -254,6 +254,17 @@ a.dropdown-menu-item {
 
 .modal .modal-backdrop + .modal-dialog {
   z-index: 1050;
+}
+
+.slide-deck-controls .slide-deck-control-icon {
+  color: #fff;
+  font-size: 1rem;
+}
+.slide-deck-controls .slide-deck-control-icon:not(:last-child) {
+    margin-right: 0.5rem;
+}
+.slide-deck-controls .slide-deck-control-icon.is-active {
+  color: #007bff;
 }
 
 .slide-deck {
@@ -317,17 +328,6 @@ a.dropdown-menu-item {
     transform: translateX(0);
 }
 
-.slide-deck-controls .slide-deck-control-icon {
-  color: #fff;
-  font-size: 1rem;
-}
-.slide-deck-controls .slide-deck-control-icon:not(:last-child) {
-    margin-right: 0.5rem;
-}
-.slide-deck-controls .slide-deck-control-icon.is-active {
-  color: #007bff;
-}
-
 .thumbnail-list {
   width: 100%;
   display: flex;
@@ -353,20 +353,6 @@ a.dropdown-menu-item {
 }
 .thumbnail-list.thumbnail-list-flex > * {
     flex: 1;
-}
-
-.wizard .slide-deck-content {
-  margin: 1rem;
-}
-.wizard .wizard-content {
-  overflow: hidden;
-  padding: .5rem;
-}
-.wizard .wizard-content + hr {
-    margin-bottom: 0;
-}
-.wizard .wizard-buttons {
-  padding: 1rem;
 }
 
 .wizard-error {
@@ -395,6 +381,20 @@ a.dropdown-menu-item {
       top: 50%;
       left: 0;
       line-height: 0;
+}
+
+.wizard .slide-deck-content {
+  margin: 1rem;
+}
+.wizard .wizard-content {
+  overflow: hidden;
+  padding: .5rem;
+}
+.wizard .wizard-content + hr {
+    margin-bottom: 0;
+}
+.wizard .wizard-buttons {
+  padding: 1rem;
 }
 
 
@@ -794,6 +794,20 @@ a.dropdown-menu-item {
     width: 7.5%;
 }
 
+.btn-file {
+  cursor: pointer;
+  position: relative;
+}
+.btn-file input {
+    z-index: 1;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 @media (max-width: 575.98px) {
 .btn-xs-block {
     width: 100%;
@@ -846,43 +860,6 @@ a.dropdown-menu-item {
   .btn-xl-block + .btn-lg-block,
   .btn-xl-block + .btn-xl-block {
     margin-top: 0.5rem;
-}
-
-.btn-file {
-  cursor: pointer;
-  position: relative;
-}
-.btn-file input {
-    z-index: 1;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.dropzone {
-  position: relative;
-}
-.dropzone p {
-    font-size: 18px;
-}
-.dropzone .fa-image {
-    font-size: 100px;
-}
-.dropzone .dropzone-placeholder {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    background: white;
-}
-.dropzone.is-dragging .dropzone-placeholder {
-    display: block;
 }
 
 .file-preview {
@@ -939,6 +916,39 @@ a.dropdown-menu-item {
   top: 50%;
   transform: translate(-1rem, -50%);
   transition: all .25s ease-in;
+}
+
+.dropzone {
+  position: relative;
+}
+.dropzone p {
+    font-size: 18px;
+}
+.dropzone .fa-image {
+    font-size: 100px;
+}
+.dropzone .dropzone-placeholder {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+.dropzone.is-dragging .dropzone-placeholder {
+    display: block;
+}
+
+.input-field .slide-fade-enter,
+.input-field .slide-fade-leave-to {
+  opacity: 1;
+  transform: translate(25%, -50%);
+}
+.input-field.is-valid .valid-feedback,
+.input-field.is-invalid .invalid-feedback {
+  display: flex;
 }
 
 .infinite-scrolling {
@@ -1300,14 +1310,45 @@ a.dropdown-menu-item {
       background: #ebedef;
 }
 
-.input-field .slide-fade-enter,
-.input-field .slide-fade-leave-to {
-  opacity: 1;
-  transform: translate(25%, -50%);
+.overlay-content {
+  margin: 0 auto;
+  overflow-y: auto;
+  position: relative;
+  /*
+    &.overlay-content-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .overlay-body {
+            flex: 1;
+        }
+    }
+    */
 }
-.input-field.is-valid .valid-feedback,
-.input-field.is-invalid .invalid-feedback {
-  display: flex;
+.overlay-content.overlay-content-fixed {
+    top: 0;
+    left: 0;
+    padding: 0;
+    height: 100%;
+    position: fixed;
+    max-width: none;
+}
+.overlay-content .overlay-controls {
+    float: right;
+    position: relative;
+    top: 4px;
+    padding-right: 0;
+    padding-bottom: 1rem;
+}
+.overlay-content .overlay-controls.left {
+      left: 0;
+}
+.overlay-content .overlay-controls.right {
+      right: 0;
+}
+.overlay-content .overlay-controls + * {
+      clear: both;
 }
 
 .overlay {
@@ -1359,55 +1400,6 @@ a.dropdown-menu-item {
     display: none;
 }
 
-.overlay-content {
-  margin: 0 auto;
-  overflow-y: auto;
-  position: relative;
-  /*
-    &.overlay-content-center {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .overlay-body {
-            flex: 1;
-        }
-    }
-    */
-}
-.overlay-content.overlay-content-fixed {
-    top: 0;
-    left: 0;
-    padding: 0;
-    height: 100%;
-    position: fixed;
-    max-width: none;
-}
-.overlay-content .overlay-controls {
-    float: right;
-    position: relative;
-    top: 4px;
-    padding-right: 0;
-    padding-bottom: 1rem;
-}
-.overlay-content .overlay-controls.left {
-      left: 0;
-}
-.overlay-content .overlay-controls.right {
-      right: 0;
-}
-.overlay-content .overlay-controls + * {
-      clear: both;
-}
-
-.upload-field .file-preview {
-  min-width: 100px;
-  min-height: 100px;
-}
-.upload-field .file-preview .uploading .file-preview {
-    opacity: .5;
-}
-
 .card > .table {
   margin-bottom: 0;
 }
@@ -1417,6 +1409,14 @@ a.dropdown-menu-item {
 }
 .card > .table tfoot .pagination {
     margin-bottom: 0;
+}
+
+.upload-field .file-preview {
+  min-width: 100px;
+  min-height: 100px;
+}
+.upload-field .file-preview .uploading .file-preview {
+    opacity: .5;
 }
 
 .activity-indicator-dots > div {
