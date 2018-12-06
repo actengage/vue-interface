@@ -193,14 +193,19 @@ export default {
 
         fetch() {
             this.loading = true;
+            this.$emit('fetch');
 
             return Request.get(this.url, this.request).then(response => {
                 const transformer = this.transformer || new TableViewTransformer(response);
-                this.response = transformer.response();
-                this.data = transformer.data();
                 this.loading = false;
+                this.data = transformer.data();
+                this.response = transformer.response();
+                this.$emit('fetch-success', response);
+                this.$emit('fetch-complete', true, response);
             }, errors => {
                 this.loading = false;
+                this.$emit('fetch-failed', errors);
+                this.$emit('fetch-complete', false, response);
             });
         },
 

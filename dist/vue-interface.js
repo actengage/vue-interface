@@ -1454,7 +1454,7 @@
         return this.make('put', url, attributes).send();
       }
 
-      static patch(url, data, attributes) {
+      static patch(url, attributes) {
         return this.make('path', url, attributes).send();
       }
 
@@ -2074,7 +2074,9 @@
 
           default(event, data) {
             this.$emit('submit:success', event, data);
+            this.$emit('submit-success', event, data);
             this.$emit('submit:complete', event, true, data);
+            this.$emit('submit-complete', event, true, data);
 
             if (this.redirect && isFunction(this.redirect)) {
               this.redirect(this);
@@ -2095,7 +2097,9 @@
 
           default(event, errors) {
             this.$emit('submit:failed', event, errors);
+            this.$emit('submit-failed', event, errors);
             this.$emit('submit:complete', event, false, errors);
+            this.$emit('submit-complete', event, false, errors);
           }
 
         }
@@ -2108,6 +2112,7 @@
             headers: this.headers,
             onUploadProgress: event => {
               this.$emit('submit:progress', event);
+              this.$emit('submit-progress', event);
             }
           }, value => !!value)).then(data => {
             this.onSubmitSuccess(event, data);
@@ -11935,13 +11940,18 @@
 
         fetch() {
           this.loading = true;
+          this.$emit('fetch');
           return Request.get(this.url, this.request).then(response => {
             const transformer = this.transformer || new TableViewTransformer(response);
-            this.response = transformer.response();
-            this.data = transformer.data();
             this.loading = false;
+            this.data = transformer.data();
+            this.response = transformer.response();
+            this.$emit('fetch-success', response);
+            this.$emit('fetch-complete', true, response);
           }, errors => {
             this.loading = false;
+            this.$emit('fetch-failed', errors);
+            this.$emit('fetch-complete', false, response);
           });
         },
 

@@ -108,7 +108,9 @@ export default {
             type: Function,
             default(event, data) {
                 this.$emit('submit:success', event, data);
+                this.$emit('submit-success', event, data);
                 this.$emit('submit:complete', event, true, data);
+                this.$emit('submit-complete', event, true, data);
 
                 if(this.redirect && isFunction(this.redirect)) {
                     this.redirect(this);
@@ -128,7 +130,9 @@ export default {
             type: Function,
             default(event, errors) {
                 this.$emit('submit:failed', event, errors);
+                this.$emit('submit-failed', event, errors);
                 this.$emit('submit:complete', event, false, errors);
+                this.$emit('submit-complete', event, false, errors);
             }
         }
 
@@ -144,6 +148,7 @@ export default {
                 headers: this.headers,
                 onUploadProgress: event => {
                     this.$emit('submit:progress', event);
+                    this.$emit('submit-progress', event);
                 }
             }, value => !!value)).then((data) => {
                 this.onSubmitSuccess(event, data);

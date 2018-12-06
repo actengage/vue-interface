@@ -119,7 +119,7 @@ export default class Request extends BaseClass {
         return this.make('put', url, attributes).send();
     }
 
-    static patch(url, data, attributes) {
+    static patch(url, attributes) {
         return this.make('path', url, attributes).send();
     }
 
