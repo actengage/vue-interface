@@ -4213,7 +4213,7 @@
         _vm.component,
         {
           tag: "component",
-          staticClass: "dropdown-menu-item",
+          staticClass: "dropdown-item",
           class: { active: _vm.active },
           attrs: {
             to: _vm.to,

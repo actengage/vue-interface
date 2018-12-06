@@ -5,7 +5,7 @@
         :href="href || (component === 'a' ? '#' : false)"
         :type="component === 'button' ? 'button' : false"
         :class="{'active': active}"
-        class="dropdown-menu-item"
+        class="dropdown-item"
         @click="onClick">
         <i v-if="icon" :class="icon"/>
         <slot>{{label}}</slot>
