@@ -2103,13 +2103,12 @@
       methods: {
         submit(event) {
           this.$emit('submit', event);
-          return this.model[this.method](this.data, {
+          return this.model[this.method](this.data, pickBy({
             query: this.query,
-            headers: this.headers,
             onUploadProgress: event => {
               this.$emit('submit:progress', event);
             }
-          }).then(data => {
+          }, value => !!value)).then(data => {
             this.onSubmitSuccess(event, data);
           }, errors => {
             this.onSubmitFailed(event, errors);

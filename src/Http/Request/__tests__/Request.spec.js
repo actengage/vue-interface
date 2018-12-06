@@ -73,8 +73,8 @@ test('cancelling a request', async() => {
 
     request.send().then(response => {
         throw new Error('This should not succeed.');
-    }, error => {
-        expect(error.message).toBe('test');
+    }, response => {
+        expect(response.data.message).toBe('test');
     });
 
     request.cancel('test');
