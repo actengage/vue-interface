@@ -4199,7 +4199,6 @@
 
     /* script */
                 const __vue_script__$q = script$q;
-                
     /* template */
     var __vue_render__$o = function() {
       var _vm = this;
@@ -4209,7 +4208,7 @@
         _vm.component,
         {
           tag: "component",
-          staticClass: "dropdown-item",
+          staticClass: "dropdown-menu-item",
           class: { active: _vm.active },
           attrs: {
             to: _vm.to,

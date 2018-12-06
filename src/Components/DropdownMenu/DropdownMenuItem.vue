@@ -5,7 +5,7 @@
         :href="href || (component === 'a' ? '#' : false)"
         :type="component === 'button' ? 'button' : false"
         :class="{'active': active}"
-        class="dropdown-item"
+        class="dropdown-menu-item"
         @click="onClick">
         <i v-if="icon" :class="icon"/>
         <slot>{{label}}</slot>
@@ -99,3 +99,9 @@ export default {
 
 };
 </script>
+
+<style lang="scss">
+a.dropdown-menu-item {
+    cursor: pointer;
+}
+</style>
