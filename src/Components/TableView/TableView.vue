@@ -200,12 +200,12 @@ export default {
                 this.loading = false;
                 this.data = transformer.data();
                 this.response = transformer.response();
-                this.$emit('fetch-success', response);
-                this.$emit('fetch-complete', true, response);
-            }, errors => {
+                this.$emit('fetch-success', response, this.request);
+                this.$emit('fetch-complete', true, response, this.request);
+            }, error => {
                 this.loading = false;
-                this.$emit('fetch-failed', errors);
-                this.$emit('fetch-complete', false, response);
+                this.$emit('fetch-failed', error, this.request);
+                this.$emit('fetch-complete', false, error, this.request);
             });
         },
 
