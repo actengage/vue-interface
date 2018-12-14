@@ -197,6 +197,21 @@ export default {
     directives: {
         bindEvents: {
             bind(el, binding, vnode) {
+                vnode.context.$watch('value', (value) => {
+                    addClass(el, vnode, changedClass);
+
+                    if(!isEmpty(value) || (el.selectedInd && el.selectedIndex > -1)) {
+                        removeClass(el, vnode, emptyClass);
+                    }
+                    else if(!el.classList.contains(changedClass)) {
+                        addClass(el, vnode, emptyClass);
+                    }
+
+                    if(el.tagName === 'SELECT' && el.querySelector('[value=""]')) {
+                        el.querySelector('[value=""]').selected = !value;
+                    }
+                });
+
                 // Add/remove the has-focus class from the form control
                 el.addEventListener('focus', event => {
                     addClass(el, vnode, focusClass);
@@ -209,18 +224,6 @@ export default {
 
                     removeClass(el, vnode, focusClass);
                 });
-
-                el.addEventListener('input', e => {
-                    addClass(el, vnode, changedClass);
-
-                    if(!isEmpty(el.value) || (el.tagName === 'SELECT' && el.selectedIndex > -1)) {
-                        removeClass(el, vnode, emptyClass);
-                    }
-                    else {
-                        addClass(el, vnode, emptyClass);
-                    }
-                });
-
                 // Bubble the native events up to the vue component.
                 each(vnode.context.bindEvents, name => {
                     el.addEventListener(name, event => {
@@ -230,6 +233,10 @@ export default {
             },
             inserted(el, binding, vnode) {
                 addEmptyClass(el, vnode);
+
+                if(el.selectedIndex > -1) {
+                    addClass(el, vnode, changedClass);
+                }
             },
             update(el, binding, vnode) {
                 addEmptyClass(el, vnode);

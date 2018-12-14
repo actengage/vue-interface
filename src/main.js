@@ -1,4 +1,5 @@
 import './install';
+import '../scss/custom-fields.scss';
 
 /*
 export * from './Http';

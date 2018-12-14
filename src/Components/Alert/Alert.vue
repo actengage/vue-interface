@@ -79,11 +79,11 @@ export default {
     methods: {
 
         dismiss() {
+            this.isVisible = false;
+
             transition(this.$el).then(delay => {
                 this.$emit('dismissed');
             });
-
-            this.$emit('update:visible', this.isVisible = false);
         }
 
     },
