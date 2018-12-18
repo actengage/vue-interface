@@ -3281,10 +3281,10 @@
       directives: {
         bindEvents: {
           bind(el, binding, vnode) {
-            vnode.context.$watch('value', value => {
+            function changedValue(el, value) {
               addClass(el, vnode, changedClass);
 
-              if (!isEmpty(value) || el.selectedInd && el.selectedIndex > -1) {
+              if (!isEmpty(value) || el.selectedIndex && el.selectedIndex > -1) {
                 removeClass(el, vnode, emptyClass);
               } else if (!el.classList.contains(changedClass)) {
                 addClass(el, vnode, emptyClass);
@@ -3293,6 +3293,10 @@
               if (el.tagName === 'SELECT' && el.querySelector('[value=""]')) {
                 el.querySelector('[value=""]').selected = !value;
               }
+            }
+
+            vnode.context.$watch('value', value => {
+              changedValue(vnode.context.$el, value);
             });
             el.addEventListener('blur', event => {
               if (el.classList.contains(emptyClass)) {
@@ -3300,6 +3304,9 @@
               }
 
               removeClass(el, vnode, focusClass);
+            });
+            el.addEventListener('input', event => {
+              changedValue(event.target, event.target.value);
             }); // Add/remove the has-focus class from the form control
 
             el.addEventListener('focus', event => {

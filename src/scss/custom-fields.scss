@@ -14,16 +14,16 @@ $custom-control-box-shadow: $input-box-shadow !default;
 
 $custom-control-disabled-bg: $input-disabled-bg !default;
 
-$custom-control-padding-y: .375em * 1.5 !default;
+$custom-control-padding-y: .5em !default;
 $custom-control-padding-x: .75em !default;
 $custom-control-line-height: $input-line-height !default;
 
-$custom-control-padding-y-sm: .25em * 1.5 !default;
-$custom-control-padding-x-sm: .5em * 1.25 !default;
+$custom-control-padding-y-sm: .5em !default;
+$custom-control-padding-x-sm: .75em !default;
 $custom-control-line-height-sm: $input-line-height-sm !default;
 
-$custom-control-padding-y-lg: .5em + 1.5 !default;
-$custom-control-padding-x-lg: 1em !default;
+$custom-control-padding-y-lg: .5em !default;
+$custom-control-padding-x-lg: .75em !default;
 $custom-control-line-height-lg: $input-line-height-lg !default;
 
 $custom-control-border-width: $input-border-width;
@@ -35,13 +35,13 @@ $custom-control-border-radius-sm: $input-border-radius-sm !default;
 
 $custom-control-height-border: $input-border-width * 2 !default;
 
-$custom-control-height-inner: ($custom-control-font-size-base + $custom-control-line-height * 1.25) + ($custom-control-padding-y * 2) !default;
+$custom-control-height-inner: ($custom-control-font-size-base + ($custom-control-line-height / 2) + ($custom-control-padding-y * 2)) !default;
 $custom-control-height: calc(#{$custom-control-height-inner} + #{$custom-control-height-border})  !default;
 
-$custom-control-height-inner-sm: ($custom-control-font-size-base + $custom-control-line-height-sm * 1.25) + ($custom-control-padding-y-sm * 2) !default;
+$custom-control-height-inner-sm: ($custom-control-font-size-sm + ($custom-control-line-height-sm / 2) + ($custom-control-padding-y-sm * 2)) !default;
 $custom-control-height-sm: calc(#{$custom-control-height-inner-sm} + #{$custom-control-height-border}) !default;
 
-$custom-control-height-inner-lg: ($custom-control-font-size-base + $custom-control-line-height-lg * 1.25) + ($custom-control-padding-y-lg * 2) !default;
+$custom-control-height-inner-lg: ($custom-control-font-size-lg + ($custom-control-line-height-lg / 2) + ($custom-control-padding-y-lg * 2)) !default;
 $custom-control-height-lg: calc(#{$custom-control-height-inner-lg} + #{$custom-control-height-border}) !default;
 
 $custom-control-label-font-size: $custom-control-font-size-base * .75;
@@ -353,7 +353,7 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
         transition: all .15s ease-out;
         font-size: $custom-control-label-font-size;
         transform: translateY($custom-control-label-font-size / 2);
-        padding: $custom-control-padding-y calc((#{$custom-control-padding-x} * 1.25) + #{$custom-control-border-width} * 2) $custom-control-padding-y / 2;
+        padding: $custom-control-padding-y 1em;
     }
 
     &:not(.is-empty), &.is-empty.has-changed {
@@ -380,12 +380,12 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
     &.custom-input-field-sm {
         label {
             font-size: $custom-control-label-font-size-sm;
-            padding: $custom-control-padding-y-sm / 1.25 $custom-control-padding-x-sm * 1.1 $custom-control-padding-y-sm / 2;
+            padding: $custom-control-padding-y-sm 1em;
         }
 
         &:not(.is-empty), &.is-empty.has-changed {
             .form-group-inner .custom-control {
-                padding-top: $custom-control-label-font-size-sm * 1.75;
+                padding-top: $custom-control-label-font-size-sm * 2;
             }
         }
     }
@@ -393,7 +393,7 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
     &.custom-input-field-lg {
         label {
             font-size: $custom-control-label-font-size-lg;
-            padding: $custom-control-padding-y-lg / 1.25 $custom-control-padding-x-lg * 1.05 $custom-control-padding-y-lg / 2;
+            padding: $custom-control-padding-y-lg 1em;
         }
 
         &:not(.is-empty), &.is-empty.has-changed {
