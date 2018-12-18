@@ -35,13 +35,13 @@ $custom-control-border-radius-sm: $input-border-radius-sm !default;
 
 $custom-control-height-border: $input-border-width * 2 !default;
 
-$custom-control-height-inner: ($custom-control-font-size-base * $custom-control-line-height * 1.25) + ($custom-control-padding-y * 2) !default;
+$custom-control-height-inner: ($custom-control-font-size-base + $custom-control-line-height * 1.25) + ($custom-control-padding-y * 2) !default;
 $custom-control-height: calc(#{$custom-control-height-inner} + #{$custom-control-height-border})  !default;
 
-$custom-control-height-inner-sm: ($custom-control-font-size-base * $custom-control-line-height-sm * 1.25) + ($custom-control-padding-y-sm * 2) !default;
+$custom-control-height-inner-sm: ($custom-control-font-size-base + $custom-control-line-height-sm * 1.25) + ($custom-control-padding-y-sm * 2) !default;
 $custom-control-height-sm: calc(#{$custom-control-height-inner-sm} + #{$custom-control-height-border}) !default;
 
-$custom-control-height-inner-lg: ($custom-control-font-size-base * $custom-control-line-height-lg * 1.25) + ($custom-control-padding-y-lg * 2) !default;
+$custom-control-height-inner-lg: ($custom-control-font-size-base + $custom-control-line-height-lg * 1.25) + ($custom-control-padding-y-lg * 2) !default;
 $custom-control-height-lg: calc(#{$custom-control-height-inner-lg} + #{$custom-control-height-border}) !default;
 
 $custom-control-label-font-size: $custom-control-font-size-base * .75;
