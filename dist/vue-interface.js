@@ -3293,10 +3293,6 @@
               if (el.tagName === 'SELECT' && el.querySelector('[value=""]')) {
                 el.querySelector('[value=""]').selected = !value;
               }
-            }); // Add/remove the has-focus class from the form control
-
-            el.addEventListener('focus', event => {
-              addClass(el, vnode, focusClass);
             });
             el.addEventListener('blur', event => {
               if (el.classList.contains(emptyClass)) {
@@ -3304,6 +3300,10 @@
               }
 
               removeClass(el, vnode, focusClass);
+            }); // Add/remove the has-focus class from the form control
+
+            el.addEventListener('focus', event => {
+              addClass(el, vnode, focusClass);
             }); // Bubble the native events up to the vue component.
 
             each(vnode.context.bindEvents, name => {

@@ -212,11 +212,6 @@ export default {
                     }
                 });
 
-                // Add/remove the has-focus class from the form control
-                el.addEventListener('focus', event => {
-                    addClass(el, vnode, focusClass);
-                });
-
                 el.addEventListener('blur', event => {
                     if(el.classList.contains(emptyClass)) {
                         removeClass(el, vnode, changedClass);
@@ -224,6 +219,12 @@ export default {
 
                     removeClass(el, vnode, focusClass);
                 });
+
+                // Add/remove the has-focus class from the form control
+                el.addEventListener('focus', event => {
+                    addClass(el, vnode, focusClass);
+                });
+
                 // Bubble the native events up to the vue component.
                 each(vnode.context.bindEvents, name => {
                     el.addEventListener(name, event => {
