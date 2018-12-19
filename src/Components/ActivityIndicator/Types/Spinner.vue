@@ -101,7 +101,7 @@ $activity-indicator-spinner-delay: 1s;
 }
 
 .btn-activity-indicator-spinner {
-    &:not(.btn-warning) .activity-indicator-spinner > div:before {
+    &:not(.btn-warning):not(.btn-light):not(.btn-white) .activity-indicator-spinner > div:before {
         background-color: white;
     }
 }

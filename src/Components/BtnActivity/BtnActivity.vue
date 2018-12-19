@@ -2,11 +2,12 @@
     <button :type="type" class="btn" :class="classes" @click="onClick">
         <i v-if="icon" :class="icon"/> {{label}}
         <slot/>
-        <activity-indicator :type="indicator" />
+        <activity-indicator v-bind="indicatorProps" />
     </button>
 </template>
 
 <script>
+import { isString } from '../Helpers/Functions';
 import ActivityIndicator from '../ActivityIndicator';
 
 const convertAnimationDelayToInt = function(delay) {
@@ -123,7 +124,7 @@ export default {
          * @property {String}
          */
         indicator: {
-            type: String,
+            type: [Object, String],
             default: 'spinner'
         },
 
@@ -219,7 +220,14 @@ export default {
             classes['btn-activity-indicator-' + this.indicator.replace('btn-activity-indicator-', '')] = !!this.indicator;
 
             return classes;
+        },
+
+        indicatorProps() {
+            return isString(this.indicator) ? {
+                type: this.indicator
+            } : this.indicator;
         }
+
     },
 
     watch: {
