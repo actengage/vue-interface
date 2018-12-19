@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { isString } from '../Helpers/Functions';
+import { isString } from '../../Helpers/Functions';
 import ActivityIndicator from '../ActivityIndicator';
 
 const convertAnimationDelayToInt = function(delay) {

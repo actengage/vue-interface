@@ -2560,8 +2560,8 @@
 
     const convertAnimationDelayToInt = function (delay) {
       const num = parseFloat(delay, 10);
-      const matches = delay.match(/m?s/);
-      const unit = matches ? matches[0] : false;
+      const matches$$1 = delay.match(/m?s/);
+      const unit = matches$$1 ? matches$$1[0] : false;
       let milliseconds;
 
       switch (unit) {
@@ -2668,7 +2668,7 @@
          * @property {String}
          */
         indicator: {
-          type: String,
+          type: [Object, String],
           default: 'spinner'
         },
 
@@ -2756,6 +2756,12 @@
           classes['btn-activity-' + this.orientation.replace('btn-activity-', '')] = !!this.orientation;
           classes['btn-activity-indicator-' + this.indicator.replace('btn-activity-indicator-', '')] = !!this.indicator;
           return classes;
+        },
+
+        indicatorProps() {
+          return isString(this.indicator) ? {
+            type: this.indicator
+          } : this.indicator;
         }
 
       },
@@ -2791,7 +2797,10 @@
           _vm._v(" " + _vm._s(_vm.label) + "\n    "),
           _vm._t("default"),
           _vm._v(" "),
-          _c("activity-indicator", { attrs: { type: _vm.indicator } })
+          _c(
+            "activity-indicator",
+            _vm._b({}, "activity-indicator", _vm.indicatorProps, false)
+          )
         ],
         2
       )
