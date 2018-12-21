@@ -18,7 +18,7 @@ export default function(Vue, options) {
 
         if(options.content && options.content.on) {
             each(options.content.on, (fn, key) => {
-                instance.$on(key, fn);
+                instance.$content.$on(key, fn);
             });
         }
 

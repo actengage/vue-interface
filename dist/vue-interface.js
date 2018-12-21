@@ -14378,7 +14378,7 @@
 
         if (options.content && options.content.on) {
           each(options.content.on, (fn, key$$1) => {
-            instance.$on(key$$1, fn);
+            instance.$content.$on(key$$1, fn);
           });
         }
 
