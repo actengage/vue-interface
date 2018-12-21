@@ -2754,14 +2754,16 @@
           classes['btn-' + this.size.replace('btn-', '')] = !!this.size;
           classes['btn-' + this.variant.replace('btn-', '')] = !!this.variant;
           classes['btn-activity-' + this.orientation.replace('btn-activity-', '')] = !!this.orientation;
-          classes['btn-activity-indicator-' + this.indicator.replace('btn-activity-indicator-', '')] = !!this.indicator;
+          classes['btn-activity-indicator-' + this.indicatorProps.type.replace('btn-activity-indicator-', '')] = !!this.indicatorProps.type;
           return classes;
         },
 
         indicatorProps() {
-          return isString(this.indicator) ? {
+          return Object.assign({
+            type: 'spinner'
+          }, (isString(this.indicator) ? {
             type: this.indicator
-          } : this.indicator;
+          } : this.indicator) || {});
         }
 
       },
@@ -14350,12 +14352,11 @@
       if (isObject(Component)) {
         Component = Vue.extend(Component);
       } else if (isString(Component)) {
-        const text = Component;
         Component = Vue.extend({
           functional: true,
 
           render(h, context) {
-            return this._v(text);
+            return this._v(Component);
           }
 
         });
@@ -14374,6 +14375,13 @@
         instance.$content = instantiate(Vue, Component, options.content);
         instance.$slots.default = [instance.$content.$mount()._vnode];
         instance.$mount(document.body.appendChild(document.createElement('div')));
+
+        if (options.content && options.content.on) {
+          each(options.content.on, (key$$1, fn) => {
+            instance.$on(key$$1, fn);
+          });
+        }
+
         return instance;
       };
 

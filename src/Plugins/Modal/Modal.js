@@ -1,6 +1,6 @@
 import Modal from '../../Components/Modal';
 import instantiate from '../../Helpers/Instantiate';
-import { isObject, isFunction, deepExtend } from '../../Helpers/Functions';
+import { each, isObject, isFunction, deepExtend } from '../../Helpers/Functions';
 
 export default function(Vue, options) {
     Vue.prototype.$modal = function(Component, options) {
@@ -15,6 +15,12 @@ export default function(Vue, options) {
         instance.$mount(
             document.body.appendChild(document.createElement('div'))
         );
+
+        if(options.content && options.content.on) {
+            each(options.content.on, (key, fn) => {
+                instance.$on(key, fn);
+            });
+        }
 
         return instance;
     };
