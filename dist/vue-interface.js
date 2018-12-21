@@ -14377,7 +14377,7 @@
         instance.$mount(document.body.appendChild(document.createElement('div')));
 
         if (options.content && options.content.on) {
-          each(options.content.on, (key$$1, fn) => {
+          each(options.content.on, (fn, key$$1) => {
             instance.$on(key$$1, fn);
           });
         }
