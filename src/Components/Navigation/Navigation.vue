@@ -100,7 +100,7 @@ export default {
             });
 
             return this.mergeClasses(
-                prefix(this.align, 'justify-content'),
+                this.align ? prefix(this.align, 'justify-content') : null,
                 this.colorableClasses, {
                     'card-header-tabs': this.isCard && this.tabs,
                     'card-header-pills': this.isCard && this.pills,

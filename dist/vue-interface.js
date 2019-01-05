@@ -9449,7 +9449,7 @@
               this.isCard = this.$parent.$el.classList.contains('card-header');
             }
           });
-          return this.mergeClasses(prefix(this.align, 'justify-content'), this.colorableClasses, {
+          return this.mergeClasses(this.align ? prefix(this.align, 'justify-content') : null, this.colorableClasses, {
             'card-header-tabs': this.isCard && this.tabs,
             'card-header-pills': this.isCard && this.pills,
             'nav-justified': this.justified,
@@ -9632,11 +9632,7 @@
       var _c = _vm._self._c || _h;
       return _c(
         "ul",
-        {
-          staticClass: "navbar-nav",
-          class: _vm.classes,
-          attrs: { role: _vm.role }
-        },
+        { staticClass: "navbar-nav", attrs: { role: "nav" } },
         [_vm._t("default")],
         2
       )
@@ -12216,7 +12212,9 @@
           throw new Error('A textarea is required for the v-autogrow directive.');
         }
 
-        if (binding.value !== false) {
+        if (binding.value === true) {
+          init(el);
+        } else if (binding.value !== false) {
           init(el, binding.value);
         }
       }

@@ -1,5 +1,5 @@
 <template>
-    <ul class="navbar-nav" :class="classes" :role="role">
+    <ul class="navbar-nav" role="nav">
         <slot/>
     </ul>
 </template>
