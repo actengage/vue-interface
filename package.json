@@ -1,6 +1,6 @@
 {
     "name": "vue-interface",
-    "version": "0.2.94",
+    "version": "0.2.95",
     "main": "./dist/vue-interface.js",
     "module": "./dist/vue-interface.es.js",
     "styles": "./dist/vue-interface.css",
@@ -77,7 +77,8 @@
         "release-minor": "npm version minor --no-git-tag-version; npm run release;",
         "release-major": "npm version major --no-git-tag-version; npm run release;",
         "release": "npm run fix; npm run build; npm run uglify; npm run commit; npm publish; git push;",
-        "uglify": "./node_modules/.bin/rollup -c --config-minify"
+        "uglify": "./node_modules/.bin/rollup -c --config-minify",
+        "kill": "kill -kill `lsof -t -i tcp:35731`"
     },
     "jest": {
         "transform": {

@@ -118,7 +118,7 @@ export default {
         bindEvents: {
             type: Array,
             default() {
-                return ['focus', 'blur', 'change', 'click', 'keyup', 'keydown', 'progress', 'paste'];
+                return ['focus', 'blur', 'change', 'click', 'keypress', 'keyup', 'keydown', 'progress', 'paste'];
             }
         },
 

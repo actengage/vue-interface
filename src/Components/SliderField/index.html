@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>SliderField</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/dist/vue-interface.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>slider-field</h1>
+
+            <h3>Basic Field</h3>
+
+            <slider-field v-model="value" :help-text="`Current Value: ${value}`"></slider-field>
+
+            <hr>
+
+            <h3>Sizes</h3>
+
+            <span>Extra Small (xs)</span>
+            <slider-field v-model="value" size="xs"></slider-field>
+
+            <span>Small (sm)</span>
+            <slider-field v-model="value" size="sm"></slider-field>
+
+            <span>Medium (md)</span>
+            <slider-field v-model="value" size="md"></slider-field>
+
+            <span>Large (lg)</span>
+            <slider-field v-model="value" size="lg"></slider-field>
+
+            <span>Extra Large (xl)</span>
+            <slider-field v-model="value" size="xl"></slider-field>
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript">
+            const vue = new Vue({
+                el: '#app',
+                data() {
+                    return {
+                        value: 1
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

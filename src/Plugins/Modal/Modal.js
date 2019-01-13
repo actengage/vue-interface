@@ -8,6 +8,8 @@ export default function(Vue, options) {
             options = {};
         }
 
+        console.log(options.modal);
+
         const instance = instantiate(Vue, Modal, options.modal);
 
         instance.$content = instantiate(Vue, Component, options.content);
@@ -27,14 +29,14 @@ export default function(Vue, options) {
 
     Vue.prototype.$alert = function(title, Component, options) {
         return new Promise((resolve, reject) => {
-            const modal = this.$modal(Component, deepExtend(options, {
+            const modal = this.$modal(Component, deepExtend({
                 modal: {
                     propsData: {
                         title: title,
                         type: 'alert'
                     }
                 }
-            }));
+            }, options));
 
             modal.$on('confirm', event => {
                 modal.close();
@@ -48,14 +50,14 @@ export default function(Vue, options) {
 
     Vue.prototype.$confirm = function(title, Component, options) {
         return new Promise((resolve, reject) => {
-            const modal = this.$modal(Component || title, deepExtend(options, {
+            const modal = this.$modal(Component || title, deepExtend({
                 modal: {
                     propsData: {
                         title: Component ? title : null,
                         type: 'confirm'
                     }
                 }
-            }));
+            }, options));
 
             modal.$on('cancel', event => {
                 reject(modal);
@@ -80,14 +82,14 @@ export default function(Vue, options) {
                 predicate = () => true;
             }
 
-            const modal = this.$modal(Component, deepExtend(options, {
+            const modal = this.$modal(Component, deepExtend({
                 modal: {
                     propsData: {
                         title: title,
                         type: 'prompt'
                     }
                 }
-            }));
+            }, options));
 
             modal.$on('cancel', event => {
                 reject(modal);

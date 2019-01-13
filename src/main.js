@@ -1,5 +1,6 @@
 import './install';
 import './scss/custom-fields.scss';
+import './scss/slider.scss';
 
 /*
 export * from './Http';

@@ -3214,7 +3214,7 @@
           type: Array,
 
           default() {
-            return ['focus', 'blur', 'change', 'click', 'keyup', 'keydown', 'progress', 'paste'];
+            return ['focus', 'blur', 'change', 'click', 'keypress', 'keyup', 'keydown', 'progress', 'paste'];
           }
 
         },
@@ -11356,32 +11356,203 @@
       );
 
     //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
     var script$1p = {
+      name: 'slider-field',
+      components: {
+        HelpText,
+        FormGroup,
+        FormLabel,
+        FormControl: FormControl$1,
+        FormFeedback
+      },
+      mixins: [FormControl],
+      props: {
+        /**
+         * The class name assigned to the control element
+         *
+         * @property String
+         */
+        defaultControlClass: {
+          type: String,
+          default: 'form-control slider-field'
+        }
+      },
+      directives: {
+        dragHandle: {
+          inserted(el, binding, vnode) {
+            let initialX;
+            let initialY;
+            let currentX;
+            let isDragging = false;
+
+            const isTouch = e => {
+              return e.type.match(/^touch/);
+            };
+
+            const clientX = e => {
+              return isTouch(e) ? e.touches[0].clientX : e.clientX;
+            };
+
+            const clientY = e => {
+              return isTouch(e) ? e.touches[0].clientX : e.clientX;
+            };
+
+            const dragStart = e => {
+              if (e.target === el) {
+                isDragging = true;
+                initialX = clientX(e);
+                initialY = clientY(e);
+              }
+            };
+
+            const dragEnd = e => {
+              isDragging = false;
+            };
+
+            const drag = e => {
+              if (isDragging) {
+                currentX = clientX(e);
+                console.log(currentX);
+                el.style.transform = `translateX(${currentX - initialX}px)`;
+              }
+            };
+
+            window.addEventListener('touchstart', dragStart, false);
+            window.addEventListener('touchend', dragEnd, false);
+            window.addEventListener('touchmove', drag, false);
+            window.addEventListener('mousedown', dragStart, false);
+            window.addEventListener('mouseup', dragEnd, false);
+            window.addEventListener('mousemove', drag, false);
+          }
+
+        }
+      }
+    };
+
+    /* script */
+                const __vue_script__$1p = script$1p;
+    /* template */
+    var __vue_render__$1h = function() {
+      var _vm = this;
+      var _h = _vm.$createElement;
+      var _c = _vm._self._c || _h;
+      return _c(
+        "form-group",
+        { class: _vm.formGroupClasses, attrs: { group: _vm.group } },
+        [
+          _vm._t("label", [
+            _vm.label
+              ? _c("form-label", {
+                  attrs: { for: _vm.$attrs.id },
+                  domProps: { innerHTML: _vm._s(_vm.label) }
+                })
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { class: _vm.controlClasses }, [
+            _c("div", { staticClass: "slider-rail" }, [
+              _c("div", { staticClass: "slider-rail-active" })
+            ]),
+            _vm._v(" "),
+            _c("div", {
+              directives: [{ name: "drag-handle", rawName: "v-drag-handle" }],
+              staticClass: "slider-handle slider-min-value",
+              attrs: { tabindex: "0" }
+            }),
+            _vm._v(" "),
+            _c("div", {
+              directives: [{ name: "drag-handle", rawName: "v-drag-handle" }],
+              staticClass: "slider-handle slider-max-value",
+              attrs: { tabindex: "0" }
+            }),
+            _vm._v(" "),
+            _c("div", {
+              directives: [{ name: "drag-handle", rawName: "v-drag-handle" }],
+              staticClass: "slider-handle slider-value",
+              attrs: { tabindex: "0" }
+            })
+          ]),
+          _vm._v(" "),
+          _vm._t("feedback", [
+            _vm.validFeedback
+              ? _c("form-feedback", {
+                  attrs: { valid: "" },
+                  domProps: { innerHTML: _vm._s(_vm.validFeedback) }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.invalidFeedback
+              ? _c("form-feedback", {
+                  attrs: { invalid: "" },
+                  domProps: { innerHTML: _vm._s(_vm.invalidFeedback) }
+                })
+              : _vm._e()
+          ]),
+          _vm._v(" "),
+          _vm._t("help", [
+            _vm.helpText
+              ? _c("help-text", { domProps: { innerHTML: _vm._s(_vm.helpText) } })
+              : _vm._e()
+          ])
+        ],
+        2
+      )
+    };
+    var __vue_staticRenderFns__$1h = [];
+    __vue_render__$1h._withStripped = true;
+
+      /* style */
+      const __vue_inject_styles__$1p = undefined;
+      /* scoped */
+      const __vue_scope_id__$1p = undefined;
+      /* module identifier */
+      const __vue_module_identifier__$1p = undefined;
+      /* functional template */
+      const __vue_is_functional_template__$1p = false;
+      /* style inject */
+      
+      /* style inject SSR */
+      
+
+      
+      var SliderField = normalizeComponent(
+        { render: __vue_render__$1h, staticRenderFns: __vue_staticRenderFns__$1h },
+        __vue_inject_styles__$1p,
+        __vue_script__$1p,
+        __vue_scope_id__$1p,
+        __vue_is_functional_template__$1p,
+        __vue_module_identifier__$1p,
+        undefined,
+        undefined
+      );
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    var script$1q = {
       name: 'table-view-header',
       props: {
         id: [Number, String],
@@ -11392,10 +11563,10 @@
     };
 
     /* script */
-                const __vue_script__$1p = script$1p;
+                const __vue_script__$1q = script$1q;
                 
     /* template */
-    var __vue_render__$1h = function() {
+    var __vue_render__$1i = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -11460,17 +11631,17 @@
         2
       )
     };
-    var __vue_staticRenderFns__$1h = [];
-    __vue_render__$1h._withStripped = true;
+    var __vue_staticRenderFns__$1i = [];
+    __vue_render__$1i._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1p = undefined;
+      const __vue_inject_styles__$1q = undefined;
       /* scoped */
-      const __vue_scope_id__$1p = undefined;
+      const __vue_scope_id__$1q = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1p = undefined;
+      const __vue_module_identifier__$1q = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1p = false;
+      const __vue_is_functional_template__$1q = false;
       /* style inject */
       
       /* style inject SSR */
@@ -11478,18 +11649,18 @@
 
       
       var TableViewHeader = normalizeComponent(
-        { render: __vue_render__$1h, staticRenderFns: __vue_staticRenderFns__$1h },
-        __vue_inject_styles__$1p,
-        __vue_script__$1p,
-        __vue_scope_id__$1p,
-        __vue_is_functional_template__$1p,
-        __vue_module_identifier__$1p,
+        { render: __vue_render__$1i, staticRenderFns: __vue_staticRenderFns__$1i },
+        __vue_inject_styles__$1q,
+        __vue_script__$1q,
+        __vue_scope_id__$1q,
+        __vue_is_functional_template__$1q,
+        __vue_module_identifier__$1q,
         undefined,
         undefined
       );
 
     //
-    var script$1q = {
+    var script$1r = {
       components: {
         Alert,
         Pagination,
@@ -11561,10 +11732,10 @@
     };
 
     /* script */
-                const __vue_script__$1q = script$1q;
+                const __vue_script__$1r = script$1r;
                 
     /* template */
-    var __vue_render__$1i = function() {
+    var __vue_render__$1j = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -11701,17 +11872,17 @@
         2
       )
     };
-    var __vue_staticRenderFns__$1i = [];
-    __vue_render__$1i._withStripped = true;
+    var __vue_staticRenderFns__$1j = [];
+    __vue_render__$1j._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1q = undefined;
+      const __vue_inject_styles__$1r = undefined;
       /* scoped */
-      const __vue_scope_id__$1q = undefined;
+      const __vue_scope_id__$1r = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1q = undefined;
+      const __vue_module_identifier__$1r = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1q = false;
+      const __vue_is_functional_template__$1r = false;
       /* style inject */
       
       /* style inject SSR */
@@ -11719,12 +11890,12 @@
 
       
       var BaseTable = normalizeComponent(
-        { render: __vue_render__$1i, staticRenderFns: __vue_staticRenderFns__$1i },
-        __vue_inject_styles__$1q,
-        __vue_script__$1q,
-        __vue_scope_id__$1q,
-        __vue_is_functional_template__$1q,
-        __vue_module_identifier__$1q,
+        { render: __vue_render__$1j, staticRenderFns: __vue_staticRenderFns__$1j },
+        __vue_inject_styles__$1r,
+        __vue_script__$1r,
+        __vue_scope_id__$1r,
+        __vue_is_functional_template__$1r,
+        __vue_module_identifier__$1r,
         undefined,
         undefined
       );
@@ -11833,7 +12004,7 @@
     }
 
     //
-    var script$1r = {
+    var script$1s = {
       name: 'table-view',
       mixins: [Proxy],
       components: {
@@ -12005,9 +12176,9 @@
     };
 
     /* script */
-                const __vue_script__$1r = script$1r;
+                const __vue_script__$1s = script$1s;
     /* template */
-    var __vue_render__$1j = function() {
+    var __vue_render__$1k = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -12111,17 +12282,17 @@
         1
       )
     };
-    var __vue_staticRenderFns__$1j = [];
-    __vue_render__$1j._withStripped = true;
+    var __vue_staticRenderFns__$1k = [];
+    __vue_render__$1k._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1r = undefined;
+      const __vue_inject_styles__$1s = undefined;
       /* scoped */
-      const __vue_scope_id__$1r = undefined;
+      const __vue_scope_id__$1s = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1r = undefined;
+      const __vue_module_identifier__$1s = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1r = false;
+      const __vue_is_functional_template__$1s = false;
       /* style inject */
       
       /* style inject SSR */
@@ -12129,12 +12300,12 @@
 
       
       var TableView = normalizeComponent(
-        { render: __vue_render__$1j, staticRenderFns: __vue_staticRenderFns__$1j },
-        __vue_inject_styles__$1r,
-        __vue_script__$1r,
-        __vue_scope_id__$1r,
-        __vue_is_functional_template__$1r,
-        __vue_module_identifier__$1r,
+        { render: __vue_render__$1k, staticRenderFns: __vue_staticRenderFns__$1k },
+        __vue_inject_styles__$1s,
+        __vue_script__$1s,
+        __vue_scope_id__$1s,
+        __vue_is_functional_template__$1s,
+        __vue_module_identifier__$1s,
         undefined,
         undefined
       );
@@ -12222,7 +12393,7 @@
     };
 
     //
-    var script$1s = {
+    var script$1t = {
       name: 'textarea-field',
       components: {
         HelpText,
@@ -12262,10 +12433,10 @@
     };
 
     /* script */
-                const __vue_script__$1s = script$1s;
+                const __vue_script__$1t = script$1t;
                 
     /* template */
-    var __vue_render__$1k = function() {
+    var __vue_render__$1l = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -12344,17 +12515,17 @@
         2
       )
     };
-    var __vue_staticRenderFns__$1k = [];
-    __vue_render__$1k._withStripped = true;
+    var __vue_staticRenderFns__$1l = [];
+    __vue_render__$1l._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1s = undefined;
+      const __vue_inject_styles__$1t = undefined;
       /* scoped */
-      const __vue_scope_id__$1s = undefined;
+      const __vue_scope_id__$1t = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1s = undefined;
+      const __vue_module_identifier__$1t = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1s = false;
+      const __vue_is_functional_template__$1t = false;
       /* style inject */
       
       /* style inject SSR */
@@ -12362,18 +12533,18 @@
 
       
       var TextareaField = normalizeComponent(
-        { render: __vue_render__$1k, staticRenderFns: __vue_staticRenderFns__$1k },
-        __vue_inject_styles__$1s,
-        __vue_script__$1s,
-        __vue_scope_id__$1s,
-        __vue_is_functional_template__$1s,
-        __vue_module_identifier__$1s,
+        { render: __vue_render__$1l, staticRenderFns: __vue_staticRenderFns__$1l },
+        __vue_inject_styles__$1t,
+        __vue_script__$1t,
+        __vue_scope_id__$1t,
+        __vue_is_functional_template__$1t,
+        __vue_module_identifier__$1t,
         undefined,
         undefined
       );
 
     //
-    var script$1t = {
+    var script$1u = {
       props: {
         alt: String,
         src: String,
@@ -12394,9 +12565,9 @@
     };
 
     /* script */
-                const __vue_script__$1t = script$1t;
+                const __vue_script__$1u = script$1u;
     /* template */
-    var __vue_render__$1l = function() {
+    var __vue_render__$1m = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -12426,17 +12597,17 @@
         2
       )
     };
-    var __vue_staticRenderFns__$1l = [];
-    __vue_render__$1l._withStripped = true;
+    var __vue_staticRenderFns__$1m = [];
+    __vue_render__$1m._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1t = undefined;
+      const __vue_inject_styles__$1u = undefined;
       /* scoped */
-      const __vue_scope_id__$1t = undefined;
+      const __vue_scope_id__$1u = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1t = undefined;
+      const __vue_module_identifier__$1u = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1t = false;
+      const __vue_is_functional_template__$1u = false;
       /* style inject */
       
       /* style inject SSR */
@@ -12444,18 +12615,18 @@
 
       
       var ThumbnailListItem = normalizeComponent(
-        { render: __vue_render__$1l, staticRenderFns: __vue_staticRenderFns__$1l },
-        __vue_inject_styles__$1t,
-        __vue_script__$1t,
-        __vue_scope_id__$1t,
-        __vue_is_functional_template__$1t,
-        __vue_module_identifier__$1t,
+        { render: __vue_render__$1m, staticRenderFns: __vue_staticRenderFns__$1m },
+        __vue_inject_styles__$1u,
+        __vue_script__$1u,
+        __vue_scope_id__$1u,
+        __vue_is_functional_template__$1u,
+        __vue_module_identifier__$1u,
         undefined,
         undefined
       );
 
     //
-    var script$1u = {
+    var script$1v = {
       components: {
         ThumbnailListItem
       },
@@ -12486,9 +12657,9 @@
     };
 
     /* script */
-                const __vue_script__$1u = script$1u;
+                const __vue_script__$1v = script$1v;
     /* template */
-    var __vue_render__$1m = function() {
+    var __vue_render__$1n = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -12510,17 +12681,17 @@
         2
       )
     };
-    var __vue_staticRenderFns__$1m = [];
-    __vue_render__$1m._withStripped = true;
+    var __vue_staticRenderFns__$1n = [];
+    __vue_render__$1n._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1u = undefined;
+      const __vue_inject_styles__$1v = undefined;
       /* scoped */
-      const __vue_scope_id__$1u = undefined;
+      const __vue_scope_id__$1v = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1u = undefined;
+      const __vue_module_identifier__$1v = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1u = false;
+      const __vue_is_functional_template__$1v = false;
       /* style inject */
       
       /* style inject SSR */
@@ -12528,18 +12699,18 @@
 
       
       var ThumbnailList = normalizeComponent(
-        { render: __vue_render__$1m, staticRenderFns: __vue_staticRenderFns__$1m },
-        __vue_inject_styles__$1u,
-        __vue_script__$1u,
-        __vue_scope_id__$1u,
-        __vue_is_functional_template__$1u,
-        __vue_module_identifier__$1u,
+        { render: __vue_render__$1n, staticRenderFns: __vue_staticRenderFns__$1n },
+        __vue_inject_styles__$1v,
+        __vue_script__$1v,
+        __vue_scope_id__$1v,
+        __vue_is_functional_template__$1v,
+        __vue_module_identifier__$1v,
         undefined,
         undefined
       );
 
     //
-    var script$1v = {
+    var script$1w = {
       name: 'upload-field',
       mixins: [FormControl],
       components: {
@@ -12861,9 +13032,9 @@
     };
 
     /* script */
-                const __vue_script__$1v = script$1v;
+                const __vue_script__$1w = script$1w;
     /* template */
-    var __vue_render__$1n = function() {
+    var __vue_render__$1o = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -12975,17 +13146,17 @@
         1
       )
     };
-    var __vue_staticRenderFns__$1n = [];
-    __vue_render__$1n._withStripped = true;
+    var __vue_staticRenderFns__$1o = [];
+    __vue_render__$1o._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1v = undefined;
+      const __vue_inject_styles__$1w = undefined;
       /* scoped */
-      const __vue_scope_id__$1v = undefined;
+      const __vue_scope_id__$1w = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1v = undefined;
+      const __vue_module_identifier__$1w = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1v = false;
+      const __vue_is_functional_template__$1w = false;
       /* style inject */
       
       /* style inject SSR */
@@ -12993,18 +13164,18 @@
 
       
       var UploadField = normalizeComponent(
-        { render: __vue_render__$1n, staticRenderFns: __vue_staticRenderFns__$1n },
-        __vue_inject_styles__$1v,
-        __vue_script__$1v,
-        __vue_scope_id__$1v,
-        __vue_is_functional_template__$1v,
-        __vue_module_identifier__$1v,
+        { render: __vue_render__$1o, staticRenderFns: __vue_staticRenderFns__$1o },
+        __vue_inject_styles__$1w,
+        __vue_script__$1w,
+        __vue_scope_id__$1w,
+        __vue_is_functional_template__$1w,
+        __vue_module_identifier__$1w,
         undefined,
         undefined
       );
 
     //
-    var script$1w = {
+    var script$1x = {
       name: 'wizard-buttons',
       mixins: [Sizeable],
       components: {
@@ -13094,9 +13265,9 @@
     };
 
     /* script */
-                const __vue_script__$1w = script$1w;
+                const __vue_script__$1x = script$1x;
     /* template */
-    var __vue_render__$1o = function() {
+    var __vue_render__$1p = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -13184,17 +13355,17 @@
         1
       )
     };
-    var __vue_staticRenderFns__$1o = [];
-    __vue_render__$1o._withStripped = true;
+    var __vue_staticRenderFns__$1p = [];
+    __vue_render__$1p._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1w = undefined;
+      const __vue_inject_styles__$1x = undefined;
       /* scoped */
-      const __vue_scope_id__$1w = undefined;
+      const __vue_scope_id__$1x = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1w = undefined;
+      const __vue_module_identifier__$1x = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1w = false;
+      const __vue_is_functional_template__$1x = false;
       /* style inject */
       
       /* style inject SSR */
@@ -13202,17 +13373,17 @@
 
       
       var WizardButtons = normalizeComponent(
-        { render: __vue_render__$1o, staticRenderFns: __vue_staticRenderFns__$1o },
-        __vue_inject_styles__$1w,
-        __vue_script__$1w,
-        __vue_scope_id__$1w,
-        __vue_is_functional_template__$1w,
-        __vue_module_identifier__$1w,
+        { render: __vue_render__$1p, staticRenderFns: __vue_staticRenderFns__$1p },
+        __vue_inject_styles__$1x,
+        __vue_script__$1x,
+        __vue_scope_id__$1x,
+        __vue_is_functional_template__$1x,
+        __vue_module_identifier__$1x,
         undefined,
         undefined
       );
 
-    var script$1x = {
+    var script$1y = {
       name: 'wizard-step',
       props: {
         /**
@@ -13321,18 +13492,18 @@
     };
 
     /* script */
-                const __vue_script__$1x = script$1x;
+                const __vue_script__$1y = script$1y;
                 
     /* template */
 
       /* style */
-      const __vue_inject_styles__$1x = undefined;
+      const __vue_inject_styles__$1y = undefined;
       /* scoped */
-      const __vue_scope_id__$1x = undefined;
+      const __vue_scope_id__$1y = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1x = undefined;
+      const __vue_module_identifier__$1y = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1x = undefined;
+      const __vue_is_functional_template__$1y = undefined;
       /* style inject */
       
       /* style inject SSR */
@@ -13341,17 +13512,17 @@
       
       var WizardStep = normalizeComponent(
         {},
-        __vue_inject_styles__$1x,
-        __vue_script__$1x,
-        __vue_scope_id__$1x,
-        __vue_is_functional_template__$1x,
-        __vue_module_identifier__$1x,
+        __vue_inject_styles__$1y,
+        __vue_script__$1y,
+        __vue_scope_id__$1y,
+        __vue_is_functional_template__$1y,
+        __vue_module_identifier__$1y,
         undefined,
         undefined
       );
 
     //
-    var script$1y = {
+    var script$1z = {
       name: 'wizard-error',
       extends: WizardStep,
       components: {
@@ -13371,9 +13542,9 @@
     };
 
     /* script */
-                const __vue_script__$1y = script$1y;
+                const __vue_script__$1z = script$1z;
     /* template */
-    var __vue_render__$1p = function() {
+    var __vue_render__$1q = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -13442,17 +13613,17 @@
         2
       )
     };
-    var __vue_staticRenderFns__$1p = [];
-    __vue_render__$1p._withStripped = true;
+    var __vue_staticRenderFns__$1q = [];
+    __vue_render__$1q._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1y = undefined;
+      const __vue_inject_styles__$1z = undefined;
       /* scoped */
-      const __vue_scope_id__$1y = undefined;
+      const __vue_scope_id__$1z = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1y = undefined;
+      const __vue_module_identifier__$1z = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1y = false;
+      const __vue_is_functional_template__$1z = false;
       /* style inject */
       
       /* style inject SSR */
@@ -13460,12 +13631,12 @@
 
       
       var WizardError = normalizeComponent(
-        { render: __vue_render__$1p, staticRenderFns: __vue_staticRenderFns__$1p },
-        __vue_inject_styles__$1y,
-        __vue_script__$1y,
-        __vue_scope_id__$1y,
-        __vue_is_functional_template__$1y,
-        __vue_module_identifier__$1y,
+        { render: __vue_render__$1q, staticRenderFns: __vue_staticRenderFns__$1q },
+        __vue_inject_styles__$1z,
+        __vue_script__$1z,
+        __vue_scope_id__$1z,
+        __vue_is_functional_template__$1z,
+        __vue_module_identifier__$1z,
         undefined,
         undefined
       );
@@ -13476,7 +13647,7 @@
     //
     //
     //
-    var script$1z = {
+    var script$1A = {
       name: 'wizard-header',
       props: {
         center: {
@@ -13497,9 +13668,9 @@
     };
 
     /* script */
-                const __vue_script__$1z = script$1z;
+                const __vue_script__$1A = script$1A;
     /* template */
-    var __vue_render__$1q = function() {
+    var __vue_render__$1r = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -13514,17 +13685,17 @@
         2
       )
     };
-    var __vue_staticRenderFns__$1q = [];
-    __vue_render__$1q._withStripped = true;
+    var __vue_staticRenderFns__$1r = [];
+    __vue_render__$1r._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1z = undefined;
+      const __vue_inject_styles__$1A = undefined;
       /* scoped */
-      const __vue_scope_id__$1z = undefined;
+      const __vue_scope_id__$1A = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1z = undefined;
+      const __vue_module_identifier__$1A = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1z = false;
+      const __vue_is_functional_template__$1A = false;
       /* style inject */
       
       /* style inject SSR */
@@ -13532,12 +13703,12 @@
 
       
       var WizardHeader = normalizeComponent(
-        { render: __vue_render__$1q, staticRenderFns: __vue_staticRenderFns__$1q },
-        __vue_inject_styles__$1z,
-        __vue_script__$1z,
-        __vue_scope_id__$1z,
-        __vue_is_functional_template__$1z,
-        __vue_module_identifier__$1z,
+        { render: __vue_render__$1r, staticRenderFns: __vue_staticRenderFns__$1r },
+        __vue_inject_styles__$1A,
+        __vue_script__$1A,
+        __vue_scope_id__$1A,
+        __vue_is_functional_template__$1A,
+        __vue_module_identifier__$1A,
         undefined,
         undefined
       );
@@ -13559,7 +13730,7 @@
     //
     //
     //
-    var script$1A = {
+    var script$1B = {
       name: 'wizard-progress',
       props: {
         /**
@@ -13610,9 +13781,9 @@
     };
 
     /* script */
-                const __vue_script__$1A = script$1A;
+                const __vue_script__$1B = script$1B;
     /* template */
-    var __vue_render__$1r = function() {
+    var __vue_render__$1s = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -13659,17 +13830,17 @@
         })
       )
     };
-    var __vue_staticRenderFns__$1r = [];
-    __vue_render__$1r._withStripped = true;
+    var __vue_staticRenderFns__$1s = [];
+    __vue_render__$1s._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1A = undefined;
+      const __vue_inject_styles__$1B = undefined;
       /* scoped */
-      const __vue_scope_id__$1A = undefined;
+      const __vue_scope_id__$1B = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1A = undefined;
+      const __vue_module_identifier__$1B = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1A = false;
+      const __vue_is_functional_template__$1B = false;
       /* style inject */
       
       /* style inject SSR */
@@ -13677,18 +13848,18 @@
 
       
       var WizardProgress = normalizeComponent(
-        { render: __vue_render__$1r, staticRenderFns: __vue_staticRenderFns__$1r },
-        __vue_inject_styles__$1A,
-        __vue_script__$1A,
-        __vue_scope_id__$1A,
-        __vue_is_functional_template__$1A,
-        __vue_module_identifier__$1A,
+        { render: __vue_render__$1s, staticRenderFns: __vue_staticRenderFns__$1s },
+        __vue_inject_styles__$1B,
+        __vue_script__$1B,
+        __vue_scope_id__$1B,
+        __vue_is_functional_template__$1B,
+        __vue_module_identifier__$1B,
         undefined,
         undefined
       );
 
     //
-    var script$1B = {
+    var script$1C = {
       name: 'wizard-success',
       extends: WizardStep,
       props: {
@@ -13704,9 +13875,9 @@
     };
 
     /* script */
-                const __vue_script__$1B = script$1B;
+                const __vue_script__$1C = script$1C;
     /* template */
-    var __vue_render__$1s = function() {
+    var __vue_render__$1t = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -13732,17 +13903,17 @@
         2
       )
     };
-    var __vue_staticRenderFns__$1s = [];
-    __vue_render__$1s._withStripped = true;
+    var __vue_staticRenderFns__$1t = [];
+    __vue_render__$1t._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1B = undefined;
+      const __vue_inject_styles__$1C = undefined;
       /* scoped */
-      const __vue_scope_id__$1B = undefined;
+      const __vue_scope_id__$1C = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1B = undefined;
+      const __vue_module_identifier__$1C = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1B = false;
+      const __vue_is_functional_template__$1C = false;
       /* style inject */
       
       /* style inject SSR */
@@ -13750,18 +13921,18 @@
 
       
       var WizardSuccess = normalizeComponent(
-        { render: __vue_render__$1s, staticRenderFns: __vue_staticRenderFns__$1s },
-        __vue_inject_styles__$1B,
-        __vue_script__$1B,
-        __vue_scope_id__$1B,
-        __vue_is_functional_template__$1B,
-        __vue_module_identifier__$1B,
+        { render: __vue_render__$1t, staticRenderFns: __vue_staticRenderFns__$1t },
+        __vue_inject_styles__$1C,
+        __vue_script__$1C,
+        __vue_scope_id__$1C,
+        __vue_is_functional_template__$1C,
+        __vue_module_identifier__$1C,
         undefined,
         undefined
       );
 
     //
-    var script$1C = {
+    var script$1D = {
       name: 'wizard',
       components: {
         SlideDeck,
@@ -14019,9 +14190,9 @@
     };
 
     /* script */
-                const __vue_script__$1C = script$1C;
+                const __vue_script__$1D = script$1D;
     /* template */
-    var __vue_render__$1t = function() {
+    var __vue_render__$1u = function() {
       var _vm = this;
       var _h = _vm.$createElement;
       var _c = _vm._self._c || _h;
@@ -14114,17 +14285,17 @@
         2
       )
     };
-    var __vue_staticRenderFns__$1t = [];
-    __vue_render__$1t._withStripped = true;
+    var __vue_staticRenderFns__$1u = [];
+    __vue_render__$1u._withStripped = true;
 
       /* style */
-      const __vue_inject_styles__$1C = undefined;
+      const __vue_inject_styles__$1D = undefined;
       /* scoped */
-      const __vue_scope_id__$1C = undefined;
+      const __vue_scope_id__$1D = undefined;
       /* module identifier */
-      const __vue_module_identifier__$1C = undefined;
+      const __vue_module_identifier__$1D = undefined;
       /* functional template */
-      const __vue_is_functional_template__$1C = false;
+      const __vue_is_functional_template__$1D = false;
       /* style inject */
       
       /* style inject SSR */
@@ -14132,12 +14303,12 @@
 
       
       var Wizard = normalizeComponent(
-        { render: __vue_render__$1t, staticRenderFns: __vue_staticRenderFns__$1t },
-        __vue_inject_styles__$1C,
-        __vue_script__$1C,
-        __vue_scope_id__$1C,
-        __vue_is_functional_template__$1C,
-        __vue_module_identifier__$1C,
+        { render: __vue_render__$1u, staticRenderFns: __vue_staticRenderFns__$1u },
+        __vue_inject_styles__$1D,
+        __vue_script__$1D,
+        __vue_scope_id__$1D,
+        __vue_is_functional_template__$1D,
+        __vue_module_identifier__$1D,
         undefined,
         undefined
       );
@@ -14227,6 +14398,7 @@
         SelectField: SelectField,
         SlideDeck: SlideDeck,
         Slides: Slides,
+        SliderField: SliderField,
         TableView: TableView,
         TextareaField: TextareaField,
         ThumbnailList: ThumbnailList,
@@ -14369,6 +14541,7 @@
           options = {};
         }
 
+        console.log(options.modal);
         const instance = instantiate(Vue, Modal, options.modal);
         instance.$content = instantiate(Vue, Component, options.content);
         instance.$slots.default = [instance.$content.$mount()._vnode];
@@ -14385,14 +14558,14 @@
 
       Vue.prototype.$alert = function (title, Component, options) {
         return new Promise((resolve, reject) => {
-          const modal = this.$modal(Component, deepExtend(options, {
+          const modal = this.$modal(Component, deepExtend({
             modal: {
               propsData: {
                 title: title,
                 type: 'alert'
               }
             }
-          }));
+          }, options));
           modal.$on('confirm', event => {
             modal.close();
           });
@@ -14404,14 +14577,14 @@
 
       Vue.prototype.$confirm = function (title, Component, options) {
         return new Promise((resolve, reject) => {
-          const modal = this.$modal(Component || title, deepExtend(options, {
+          const modal = this.$modal(Component || title, deepExtend({
             modal: {
               propsData: {
                 title: Component ? title : null,
                 type: 'confirm'
               }
             }
-          }));
+          }, options));
           modal.$on('cancel', event => {
             reject(modal);
           });
@@ -14432,14 +14605,14 @@
             predicate = () => true;
           }
 
-          const modal = this.$modal(Component, deepExtend(options, {
+          const modal = this.$modal(Component, deepExtend({
             modal: {
               propsData: {
                 title: title,
                 type: 'prompt'
               }
             }
-          }));
+          }, options));
           modal.$on('cancel', event => {
             reject(modal);
           });

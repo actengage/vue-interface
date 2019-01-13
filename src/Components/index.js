@@ -80,6 +80,7 @@ import RadioField from './RadioField';
 import SelectField from './SelectField';
 import SlideDeck from './SlideDeck';
 import Slides from './SlideDeck/Slides';
+import SliderField from './SliderField';
 import TableView from './TableView';
 import TextareaField from './TextareaField';
 import ThumbnailList from './ThumbnailList';
@@ -175,6 +176,7 @@ export {
     SelectField,
     SlideDeck,
     Slides,
+    SliderField,
     TableView,
     TextareaField,
     ThumbnailList,
