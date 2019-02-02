@@ -1,12 +1,14 @@
 <template>
     <div class="modal-header">
         <slot name="title">
-            <modal-title><slot/></modal-title>
+            <modal-title><slot /></modal-title>
         </slot>
 
         <slot name="close-button">
             <button v-if="closeable" type="button" class="close" aria-label="ariaLabel" @click="$emit('close')">
-                <span aria-hidden="true">&times;</span>
+                <span aria-hidden="true">
+                    &times;
+                </span>
             </button>
         </slot>
     </div>
@@ -17,7 +19,7 @@ import ModalTitle from './ModalTitle';
 
 export default {
 
-    name: 'modal-header',
+    name: 'ModalHeader',
 
     components: {
         ModalTitle

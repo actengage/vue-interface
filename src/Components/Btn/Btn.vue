@@ -1,15 +1,25 @@
 <template>
-    <router-link v-if="to" :to="to" :disabled="disabled" :class="classes" @click="onClick" role="button">
-        <slot/>
+    <router-link v-if="to"
+        :to="to"
+        :disabled="disabled"
+        :class="classes"
+        role="button"
+        @click="onClick">
+        <slot />
     </router-link>
-    <a v-else-if="href" :href="href" :disabled="disabled" :class="classes" @click="onClick" role="button">
-        <slot/>
+    <a v-else-if="href"
+        :href="href"
+        :disabled="disabled"
+        :class="classes"
+        role="button"
+        @click="onClick">
+        <slot />
     </a>
-    <label v-else-if="label" :disabled="disabled" :class="classes" @click="onClick" role="button">
-        <slot/>
+    <label v-else-if="label" :disabled="disabled" :class="classes" role="button" @click="onClick">
+        <slot />
     </label>
     <button v-else :type="type" :disabled="disabled" :class="classes" @click="onClick">
-        <slot/>
+        <slot />
     </button>
 </template>
 
@@ -18,10 +28,11 @@ import Variant from '../../Mixins/Variant';
 import Sizeable from '../../Mixins/Sizeable';
 import Colorable from '../../Mixins/Colorable';
 import MergeClasses from '../../Mixins/MergeClasses';
+import kebabCase from '../../Helpers/Functions/kebabCase';
 
 export default {
 
-    name: 'btn',
+    name: 'Btn',
 
     mixins: [
         Variant,
@@ -91,18 +102,10 @@ export default {
 
     },
 
-    methods: {
-
-        onClick(event) {
-            this.$emit('click', event);
-        }
-
-    },
-
     computed: {
 
         variantClassPrefix() {
-            return this.$options.name + (this.outline ? '-outline' : '');
+            return kebabCase(this.$options.name) + (this.outline ? '-outline' : '');
         },
 
         classes() {
@@ -114,6 +117,14 @@ export default {
                 this.block ? 'btn-block' : '',
                 this.active ? 'active' : ''
             );
+        }
+
+    },
+
+    methods: {
+
+        onClick(event) {
+            this.$emit('click', event);
         }
 
     }

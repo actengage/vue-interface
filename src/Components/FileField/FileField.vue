@@ -1,44 +1,33 @@
 <template>
-
     <form-group :group="group" :class="formGroupClasses">
-
         <slot name="label">
             <form-label v-if="label || hasDefaultSlot" :for="$attrs.id">
-                <slot>{{label}}</slot>
+                <slot>{{ label }}</slot>
             </form-label>
         </slot>
 
         <div class="custom-file">
-
             <slot name="placeholder">
-                <form-label :class="mergeClasses(colorableClasses, 'custom-file-label')" :for="$attrs.id" v-html="placeholder || 'Choose file'" />
+                <form-label :class="mergeClasses(colorableClasses, 'custom-file-label')" :for="$attrs.id" v-html="$attrs.placeholder || 'Choose file'" />
             </slot>
 
             <input
                 v-bind-events
+                v-bind="controlAttributes"
+                :value="value"
                 type="file"
-                :class="controlClasses"
-                :id="$attrs.id"
-                :width="width"
-                :height="height"
-                :required="required"
-                :multiple="multiple"
-                :readonly="readonly"
                 @change="$emit('change', $event.target.files)">
-
+                
             <slot name="help">
                 <help-text v-if="helpText" v-html="helpText" />
             </slot>
 
             <slot name="feedback">
-                <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-                <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+                <form-feedback v-if="validFeedback" valid v-html="validFeedback" />
+                <form-feedback v-if="invalidFeedback" invalid v-html="invalidFeedback" />
             </slot>
-
         </div>
-
     </form-group>
-
 </template>
 
 <script>
@@ -51,17 +40,20 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'file-field',
-
-    extends: InputField,
+    name: 'FileField',
 
     components: {
         HelpText,
         FormGroup,
         FormLabel,
-        FormFeedback,
-        MergeClasses
+        FormFeedback
     },
+
+    extends: InputField,
+
+    mixins: [
+        MergeClasses
+    ],
 
     model: {
         event: 'change'

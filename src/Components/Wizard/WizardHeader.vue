@@ -1,13 +1,13 @@
 <template>
     <component :is="tag" class="wizard-header" :class="{'text-center': center}">
-        <slot/>
+        <slot />
     </component>
 </template>
 
 <script>
 export default {
 
-    name: 'wizard-header',
+    name: 'WizardHeader',
 
     props: {
 

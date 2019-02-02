@@ -1,41 +1,44 @@
 <template>
-
-    <div class="modal" :class="triggerableClasses" :style="{display: isDisplaying ? 'block' : 'none'}" tabindex="-1" role="dialog" @keydown.esc="cancel">
-
-        <modal-backdrop v-if="backdrop" ref="backdrop"/>
+    <div class="modal"
+        :class="triggerableClasses"
+        :style="{display: isDisplaying ? 'block' : 'none'}"
+        tabindex="-1"
+        role="dialog"
+        @keydown.esc="cancel">
+        <modal-backdrop v-if="backdrop" ref="backdrop" />
 
         <modal-dialog :class="{'modal-dialog-centered': center}">
-
             <modal-content>
-
                 <slot name="header">
-                    <modal-header v-if="title" @close="cancel">{{title}}</modal-header>
+                    <modal-header v-if="title" @close="cancel">
+                        {{ title }}
+                    </modal-header>
                 </slot>
 
                 <slot name="body">
                     <component :is="!flush ? 'modal-body' : 'div'" class="child-component">
-                        <slot/>
+                        <slot />
                     </component>
                 </slot>
 
                 <slot name="footer">
                     <modal-footer v-if="type">
                         <template v-if="type === 'alert'">
-                            <btn-activity :activity="activity" variant="primary" @click="confirm">{{okLabel}}</btn-activity>
+                            <btn-activity :activity="activity" variant="primary" @click="confirm">
+                                {{ okLabel }}
+                            </btn-activity>
                         </template>
                         <template v-else>
-                            <btn type="button" variant="secondary" @click="cancel" v-html="cancelLabel"/>
-                            <btn-activity :activity="activity" variant="primary" @click="confirm">{{okLabel}}</btn-activity>
+                            <btn type="button" variant="secondary" @click="cancel" v-html="cancelLabel" />
+                            <btn-activity :activity="activity" variant="primary" @click="confirm">
+                                {{ okLabel }}
+                            </btn-activity>
                         </template>
                     </modal-footer>
                 </slot>
-
             </modal-content>
-
         </modal-dialog>
-
     </div>
-
 </template>
 
 <script>
@@ -51,7 +54,7 @@ import Triggerable from '../../Mixins/Triggerable';
 
 export default {
 
-    name: 'modal',
+    name: 'Modal',
 
     components: {
         Btn,
@@ -154,6 +157,35 @@ export default {
 
     },
 
+    data() {
+        return {
+            backdropComponent: null,
+            isDisplaying: this.show || !this.target,
+            isShowing: false
+        };
+    },
+
+    watch: {
+
+        isShowing(value) {
+            if(value) {
+                document.querySelector('body').classList.add('modal-open');
+                // this.mountBackdrop();
+            }
+            else {
+                document.querySelector('body').classList.remove('modal-open');
+                // this.unmountBackdrop();
+            }
+
+            this.$emit('update:show', value);
+        }
+
+    },
+
+    mounted() {
+        this.initializeTriggers();
+    },
+
     methods: {
 
         /**
@@ -210,35 +242,6 @@ export default {
             (this.type === 'confirm' || this.type === 'prompt') ? this.cancel(event) : this.close(event);
         }
 
-    },
-
-    watch: {
-
-        isShowing(value) {
-            if(value) {
-                document.querySelector('body').classList.add('modal-open');
-                // this.mountBackdrop();
-            }
-            else {
-                document.querySelector('body').classList.remove('modal-open');
-                // this.unmountBackdrop();
-            }
-
-            this.$emit('update:show', value);
-        }
-
-    },
-
-    data() {
-        return {
-            backdropComponent: null,
-            isDisplaying: this.show || !this.target,
-            isShowing: false
-        };
-    },
-
-    mounted() {
-        this.initializeTriggers();
     },
 
     beforeRouteLeave(to, from, next) {

@@ -1,13 +1,13 @@
 <template>
     <h5 class="dropdown-header">
-        <slot>{{header}}</slot>
+        <slot>{{ header }}</slot>
     </h5>
 </template>
 
 <script>
 export default {
 
-    name: 'dropdown-menu-header',
+    name: 'DropdownMenuHeader',
 
     props: {
 

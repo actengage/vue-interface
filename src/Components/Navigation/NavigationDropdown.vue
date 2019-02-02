@@ -1,7 +1,5 @@
 <template>
-
     <navigation-item class="dropdown">
-
         <slot name="toggle-button">
             <navigation-link
                 href="#"
@@ -12,7 +10,7 @@
                 :aria-expanded="isDropdownShowing"
                 @click.native.prevent="toggle()"
                 @blur="onBlur">
-                {{label}}
+                {{ label }}
             </navigation-link>
         </slot>
 
@@ -23,12 +21,10 @@
                 :align="align"
                 :show.sync="isDropdownShowing"
                 @item:click="onItemClick">
-                <slot/>
+                <slot />
             </dropdown-menu>
         </slot>
-
     </navigation-item>
-
 </template>
 
 <script>
@@ -39,16 +35,15 @@ import BtnDropdown from '../BtnDropdown';
 
 export default {
 
-    name: 'navigation-dropdown',
-
-    extends: BtnDropdown,
+    name: 'NavigationDropdown',
 
     components: {
-        BtnDropdown,
         DropdownMenu,
         NavigationItem,
         NavigationLink
-    }
+    },
+
+    extends: BtnDropdown
 
 };
 </script>

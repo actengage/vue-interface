@@ -1,19 +1,13 @@
 <template>
     <ul class="navbar-nav" role="nav">
-        <slot/>
+        <slot />
     </ul>
 </template>
 
 <script>
-import Navigation from '../Navigation';
-
 export default {
 
-    name: 'navbar-nav',
-
-    components: {
-        Navigation
-    }
+    name: 'NavbarNav'
 
 };
 </script>

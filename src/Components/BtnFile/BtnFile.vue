@@ -1,21 +1,19 @@
 <template>
-
-    <btn class="btn-file" :type="type" :variant="variant" :block="block" :size="size" :disabled="disabled" :active="active">
-        <slot/>
-
+    <btn class="btn-file"
+        :type="type"
+        :variant="variant"
+        :block="block"
+        :size="size"
+        :disabled="disabled"
+        :active="active">
+        <slot />
         <input
             v-bind-events
+            v-bind="controlAttributes"
+            :value="value"
             type="file"
-            :class="controlClasses"
-            :id="$attrs.id"
-            :width="width"
-            :height="height"
-            :required="required"
-            :multiple="multiple"
-            :readonly="readonly"
-            v-on:change="$emit('change', multiple ? $event.target.files : $event.target.files[0])">
+            @input="$emit('change', multiple ? $event.target.files : $event.target.files[0])">
     </btn>
-
 </template>
 
 <script>
@@ -24,16 +22,17 @@ import FileField from '../FileField';
 
 export default {
 
-    name: 'btn-file',
+    name: 'BtnFile',
+
+    components: {
+        Btn
+    },
+
+    extends: Btn,
 
     mixins: [
         FileField
     ],
-
-    components: {
-        Btn,
-        FileField
-    },
 
     model: {
         event: 'change'

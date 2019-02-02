@@ -1,19 +1,14 @@
 <template>
     <div class="list-group" :class="classes">
-        <slot/>
+        <slot />
     </div>
 </template>
 
 <script>
 import { each } from '../../Helpers/Functions';
-import ListGroupItem from './ListGroupItem';
 import prefix from '../../Helpers/Prefix/Prefix';
 
 export default {
-
-    components: {
-        ListGroupItem
-    },
 
     props: {
 
@@ -47,6 +42,14 @@ export default {
         }
     },
 
+    mounted() {
+        this.bindEventsToChildren();
+    },
+
+    updated() {
+        this.bindEventsToChildren();
+    },
+
     methods: {
 
         bindEventsToChildren() {
@@ -74,14 +77,6 @@ export default {
             this.$emit('item:click', event, child);
         }
 
-    },
-
-    mounted() {
-        this.bindEventsToChildren();
-    },
-
-    updated() {
-        this.bindEventsToChildren();
     }
 
 };

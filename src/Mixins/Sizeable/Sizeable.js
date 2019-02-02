@@ -1,4 +1,5 @@
 import prefix from '../../Helpers/Prefix/Prefix';
+import kebabCase from '../../Helpers/Functions/kebabCase';
 
 export default {
 
@@ -20,7 +21,7 @@ export default {
     computed: {
 
         sizeableClassPrefix() {
-            return this.$options.name;
+            return kebabCase(this.$options.name);
         },
 
         sizeableClass() {

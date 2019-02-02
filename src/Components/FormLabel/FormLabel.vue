@@ -1,7 +1,7 @@
 <template>
-
-    <label :class="classes"><slot/></label>
-
+    <label :class="classes">
+        <slot />
+    </label>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ import Screenreaders from '../../Mixins/Screenreaders/Screenreaders';
 
 export default {
 
-    name: 'form-label',
+    name: 'FormLabel',
 
     mixins: [
         Colorable,

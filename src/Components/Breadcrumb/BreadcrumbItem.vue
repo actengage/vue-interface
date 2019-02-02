@@ -1,13 +1,13 @@
 <template>
     <li class="breadcrumb-item" :class="{'active': active}" :aria-current="active ? 'page' : false">
         <a v-if="!active && href" :href="href">
-            <slot>{{label}}</slot>
+            <slot>{{ label }}</slot>
         </a>
         <router-link v-else-if="!active && to" :to="to">
-            <slot>{{label}}</slot>
+            <slot>{{ label }}</slot>
         </router-link>
         <template v-else>
-            <slot>{{label}}</slot>
+            <slot>{{ label }}</slot>
         </template>
     </li>
 </template>
@@ -15,7 +15,7 @@
 <script>
 export default {
 
-    name: 'breadcrumb-item',
+    name: 'BreadcrumbItem',
 
     props: {
 

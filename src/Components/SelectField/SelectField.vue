@@ -1,9 +1,7 @@
 <template>
-
     <form-group :group="group" :class="formGroupClasses">
-
         <slot name="label">
-            <form-label v-if="label" :for="$attrs.id" v-html="label"/>
+            <form-label v-if="label" :for="$attrs.id" v-html="label" />
         </slot>
 
         <div class="form-group-inner">
@@ -13,35 +11,32 @@
                     v-bind="controlAttributes"
                     :value="value"
                     @input="$emit('input', $event.target.value)">
-                    <slot/>
+                    <slot />
                 </select>
             </slot>
 
             <slot name="activity">
                 <transition name="slide-fade">
-                    <activity-indicator key="test" v-if="activity" ref="activity" type="dots" :size="size"/>
+                    <activity-indicator v-if="activity" key="test" ref="activity" type="dots" :size="size" />
                 </transition>
             </slot>
         </div>
 
         <slot name="feedback">
-            <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-            <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+            <form-feedback v-if="validFeedback" valid v-html="validFeedback" />
+            <form-feedback v-if="invalidFeedback" invalid v-html="invalidFeedback" />
         </slot>
 
         <slot name="help">
             <help-text v-if="helpText" v-html="helpText" />
         </slot>
-
     </form-group>
-
 </template>
 
 <script>
 import HelpText from '../HelpText';
 import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';
-import FormControl from '../FormControl';
 import FormFeedback from '../FormFeedback';
 import Colorable from '../../Mixins/Colorable';
 import ActivityIndicator from '../ActivityIndicator';
@@ -52,12 +47,11 @@ const CUSTOM_SELECT_PREFIX = 'custom-select-';
 
 export default {
 
-    name: 'select-field',
+    name: 'SelectField',
 
     components: {
         ActivityIndicator,
         HelpText,
-        FormControl,
         FormGroup,
         FormLabel,
         FormFeedback

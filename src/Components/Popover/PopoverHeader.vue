@@ -1,13 +1,13 @@
 <template>
     <component :is="tag" class="popover-header">
-        <slot/>
+        <slot />
     </component>
 </template>
 
 <script>
 export default {
 
-    name: 'popover-header',
+    name: 'PopoverHeader',
 
     props: {
 

@@ -1,27 +1,41 @@
 import { each } from './Helpers/Functions';
-import * as components from './Components';
-import * as directives from './Directives';
-import * as plugins from './Plugins';
 
-const Vue = window.Vue;
+import * as Components from './Components';
+import * as Directives from './Directives';
+import * as Filters from './Filters';
+import * as Helpers from './Helpers';
+import * as Http from './Http';
+import * as Mixins from './Mixins';
+import * as Plugins from './Plugins';
 
-if(!Vue) {
-    throw Error(`
-        Vue must be installed before you can install Vue Interface. Be sure to
-        include the following before install.js script tag:
+function install(Vue) {
+    each(Components, (component, key) => {
+        Vue.component(key, component);
+    });
 
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    `);
+    each(Directives, (directive, key) => {
+        Vue.directive(key, directive);
+    });
+
+    each(Filters, (filter, key) => {
+        Vue.filter(key, filter);
+    });
+
+    each(Plugins, plugin => {
+        Vue.use(plugin);
+    });
 }
 
-each(components, (component, key) => {
-    Vue.component(key, component);
-});
+if(window && window.Vue) {
+    window.Vue.use(install);
+}
 
-each(directives, (directive, key) => {
-    Vue.directive(key, directive);
-});
-
-each(plugins, plugin => {
-    Vue.use(plugin);
-});
+export {
+    Components,
+    Directives,
+    Filters,
+    Helpers,
+    Http,
+    Mixins,
+    Plugins
+};

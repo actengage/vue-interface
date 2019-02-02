@@ -1,11 +1,11 @@
 <template>
     <a v-if="href" :href="href" class="badge" :class="mergeClasses(classes, variantClass)">
-        <slot>{{label}}</slot>
-        <span class="sr-only" v-html="accessibility"/>
+        <slot>{{ label }}</slot>
+        <span class="sr-only" v-html="accessibility" />
     </a>
     <span v-else class="badge" :class="mergeClasses(classes, variantClass)">
-        <slot>{{label}}</slot>
-        <span class="sr-only" v-html="accessibility"/>
+        <slot>{{ label }}</slot>
+        <span class="sr-only" v-html="accessibility" />
     </span>
 </template>
 
@@ -16,7 +16,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'badge',
+    name: 'Badge',
 
     mixins: [
         Variant,
@@ -68,7 +68,7 @@ export default {
             return prefix({
                 'pill': this.pill,
                 'secondary': this.secondary
-            }, this.$options.name);
+            }, kebabCase(this.$options.name));
         }
     }
 };

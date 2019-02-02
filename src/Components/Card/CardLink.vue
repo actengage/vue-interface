@@ -1,9 +1,7 @@
 <template>
-
     <router-link :to="href" :class="mergeClasses(className, colorableClasses)" @click="onClick">
-        <slot/>
+        <slot />
     </router-link>
-
 </template>
 
 <script>
@@ -12,7 +10,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'card-link',
+    name: 'CardLink',
 
     extends: Card,
 

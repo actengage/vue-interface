@@ -1,13 +1,13 @@
 <template>
     <span class="navbar-text">
-        <slot/>
+        <slot />
     </span>
 </template>
 
 <script>
 export default {
 
-    name: 'navbar-text'
+    name: 'NavbarText'
 
 };
 </script>

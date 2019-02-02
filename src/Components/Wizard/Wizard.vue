@@ -1,7 +1,6 @@
 <template>
     <div class="wizard">
-
-        <wizard-header v-if="header && !isFinished" ref="header" v-html="header"/>
+        <wizard-header v-if="header && !isFinished" ref="header" v-html="header" />
 
         <wizard-progress
             v-if="!isFinished"
@@ -9,11 +8,10 @@
             :active="currentStep"
             :highest-step="highestStep"
             :steps="steps"
-            @click="onProgressClick"
-        />
+            @click="onProgressClick" />
 
-        <div class="wizard-content" ref="content">
-            <slot v-if="!isFinished" name="content"/>
+        <div ref="content" class="wizard-content">
+            <slot v-if="!isFinished" name="content" />
 
             <slide-deck
                 v-if="!isFinished"
@@ -27,11 +25,11 @@
             </slide-deck>
 
             <slot v-else-if="isFinished && !hasFailed" name="success">
-                <wizard-success ref="success"/>
+                <wizard-success ref="success" />
             </slot>
 
             <slot v-else-if="isFinished && hasFailed" name="error">
-                <wizard-error ref="error" :errors="errors" @back="onClickTest"/>
+                <wizard-error ref="error" :errors="errors" @back="onClickTest" />
             </slot>
         </div>
 
@@ -49,8 +47,7 @@
                 :finish-button="!isFinishButtonDisabled"
                 @click:back="onClickBack"
                 @click:finish="onClickFinish"
-                @click:next="onClickNext"
-            />
+                @click:next="onClickNext" />
         </slot>
     </div>
 </template>
@@ -66,7 +63,7 @@ import { find } from '../../Helpers/Functions';
 
 export default {
 
-    name: 'wizard',
+    name: 'Wizard',
 
     components: {
         SlideDeck,
@@ -171,12 +168,38 @@ export default {
 
     },
 
+    data() {
+        return {
+            steps: [],
+            errors: null,
+            hasFailed: false,
+            isFinished: false,
+            currentStep: this.index(),
+            highestStep: this.index(this.completed),
+            isBackButtonDisabled: this.backButton === false,
+            isNextButtonDisabled: this.nextButton === false,
+            isFinishButtonDisabled: this.finishButton === false
+        };
+    },
+
     watch: {
 
         active() {
             this.currentStep = this.index();
         }
 
+    },
+
+    mounted() {
+        const slide = this.$refs.slideDeck.slide(this.currentStep);
+
+        if(slide) {
+            (slide.componentInstance || slide.context).$refs.wizard = this;
+            (slide.componentInstance || slide.context).$emit('enter');
+            this.$emit('enter', slide);
+        }
+
+        this.steps = this.$refs.slideDeck.slides();
     },
 
     methods: {
@@ -300,32 +323,6 @@ export default {
             }
         }
 
-    },
-
-    mounted() {
-        const slide = this.$refs.slideDeck.slide(this.currentStep);
-
-        if(slide) {
-            (slide.componentInstance || slide.context).$refs.wizard = this;
-            (slide.componentInstance || slide.context).$emit('enter');
-            this.$emit('enter', slide);
-        }
-
-        this.steps = this.$refs.slideDeck.slides();
-    },
-
-    data() {
-        return {
-            steps: [],
-            errors: null,
-            hasFailed: false,
-            isFinished: false,
-            currentStep: this.index(),
-            highestStep: this.index(this.completed),
-            isBackButtonDisabled: this.backButton === false,
-            isNextButtonDisabled: this.nextButton === false,
-            isFinishButtonDisabled: this.finishButton === false
-        };
     }
 
 };

@@ -1,10 +1,12 @@
 <template>
     <div class="activity-indicator" :class="classes">
-        <div v-for="i in nodes"></div>
+        <div v-for="i in nodes" :key="i" />
     </div>
 </template>
 
 <script>
+import kebabCase from '../../../Helpers/Functions/kebabCase';
+
 export default {
 
     props: {
@@ -25,8 +27,9 @@ export default {
     computed: {
         classes: function() {
             const classes = {};
+            const name = kebabCase(this.$options.name);
 
-            classes[this.$options.name] = !!this.$options.name;
+            classes[name] = !!name;
             classes[this.prefix + this.size.replace(this.prefix, '')] = !!this.size;
 
             return classes;

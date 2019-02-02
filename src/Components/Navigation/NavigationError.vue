@@ -1,14 +1,14 @@
 <template>
     <span class="navigation-error fa-stack fa-md" :title="error">
-        <i class="fa fa-stack-2x fa-certificate"/>
-        <i class="fa fa-stack-1x fa-exclamation fa-inverse"/>
+        <i class="fa fa-stack-2x fa-certificate" />
+        <i class="fa fa-stack-1x fa-exclamation fa-inverse" />
     </span>
 </template>
 
 <script>
 export default {
 
-    name: 'navigation-error',
+    name: 'NavigationError',
 
     props: {
 

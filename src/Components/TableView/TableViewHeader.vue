@@ -1,33 +1,31 @@
 <template>
-
-	<th scope="col">
-	    <template v-if="id && request">
-			<a href="#"
+    <th scope="col">
+        <template v-if="id && request">
+            <a href="#"
                 class="sort"
                 :data-id="id"
                 @click.prevent="$emit('order', id)">
                 <template v-if="!$slots.default">
                     {{ label || name || id }}
                 </template>
-                <slot/>
+                <slot />
             </a>
-			<i v-if="request.params.order === id && request.params.sort === 'asc'" class="sort-icon fa fa-sort-asc"/>
-			<i v-if="request.params.order === id && request.params.sort === 'desc'" class="sort-icon fa fa-sort-desc"/>
-		</template>
+            <i v-if="request.params.order === id && request.params.sort === 'asc'" class="sort-icon fa fa-sort-asc" />
+            <i v-if="request.params.order === id && request.params.sort === 'desc'" class="sort-icon fa fa-sort-desc" />
+        </template>
         <template v-else>
             <template v-if="!$slots.default">
                 {{ label || name || id }}
             </template>
-            <slot/>
+            <slot />
         </template>
-	</th>
-
+    </th>
 </template>
 
 <script>
 export default {
 
-    name: 'table-view-header',
+    name: 'TableViewHeader',
 
     props: {
 

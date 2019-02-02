@@ -3,7 +3,7 @@ import CardImg from './CardImg';
 
 export default {
 
-    name: 'card-img-top',
+    name: 'CardImgTop',
 
     extends: CardImg
 };

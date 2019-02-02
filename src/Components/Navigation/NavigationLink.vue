@@ -1,7 +1,7 @@
 <template>
     <component :is="component" :href="href || (to ? '#' : null)" :to="to" :class="classes" @click="$emit('click', $event)">
         <slot />
-        <navigation-error v-if="error" :error="error"/>
+        <navigation-error v-if="error" :error="error" />
     </component>
 </template>
 
@@ -10,7 +10,7 @@ import NavigationError from './NavigationError';
 
 export default {
 
-    name: 'navigation-link',
+    name: 'NavigationLink',
 
     components: {
         NavigationError
@@ -79,12 +79,6 @@ export default {
         },
 
         classes() {
-            this.$nextTick(() => {
-                if(!this.isItem) {
-                    this.isItem = !this.$parent.$el.classList.contains('nav-item');
-                }
-            });
-
             return {
                 'nav-link': !!this.href || !!this.to,
                 'nav-item': !!this.item,
@@ -93,6 +87,12 @@ export default {
             };
         }
 
+    },
+
+    updated() {
+        if(!this.isItem) {
+            this.isItem = !this.$parent.$el.classList.contains('nav-item');
+        }
     }
 
 };

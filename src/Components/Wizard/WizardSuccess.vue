@@ -1,12 +1,12 @@
 <template>
     <div class="wizard-success">
         <div v-if="icon" class="wizard-success-icon">
-            <i :class="icon"/>
+            <i :class="icon" />
         </div>
 
-        <h3 v-if="title" class="wizard-success-title" v-html="title"/>
+        <h3 v-if="title" class="wizard-success-title" v-html="title" />
 
-        <slot/>
+        <slot />
     </div>
 </template>
 
@@ -15,7 +15,7 @@ import WizardStep from './WizardStep';
 
 export default {
 
-    name: 'wizard-success',
+    name: 'WizardSuccess',
 
     extends: WizardStep,
 

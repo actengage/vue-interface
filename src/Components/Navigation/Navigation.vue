@@ -1,22 +1,17 @@
 <template>
     <nav class="nav" :class="classes" :role="role">
-        <slot/>
+        <slot />
     </nav>
 </template>
 
 <script>
-import NavigationItem from './NavigationItem';
 import prefix from '../../Helpers/Prefix';
 import Colorable from '../../Mixins/Colorable';
 import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'navigation',
-
-    components: {
-        NavigationItem
-    },
+    name: 'Navigation',
 
     mixins: [
         Colorable,
@@ -90,15 +85,15 @@ export default {
 
     },
 
+    data() {
+        return {
+            isCard: this.card
+        };
+    },
+
     computed: {
 
         classes() {
-            this.$nextTick(() => {
-                if(!this.isCard) {
-                    this.isCard = this.$parent.$el.classList.contains('card-header');
-                }
-            });
-
             return this.mergeClasses(
                 this.align ? prefix(this.align, 'justify-content') : null,
                 this.colorableClasses, {
@@ -115,10 +110,10 @@ export default {
 
     },
 
-    data() {
-        return {
-            isCard: this.card
-        };
+    updated() {
+        if(!this.isCard) {
+            this.isCard = this.$parent.$el.classList.contains('card-header');
+        }
     }
 
 };

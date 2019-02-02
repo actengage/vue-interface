@@ -1,13 +1,13 @@
 <template>
     <div class="modal-backdrop" :class="{'fade': fade, 'show': show}">
-        <slot/>
+        <slot />
     </div>
 </template>
 
 <script>
 export default {
 
-    name: 'modal-backdrop',
+    name: 'ModalBackdrop',
 
     props: {
 

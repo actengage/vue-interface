@@ -1,9 +1,7 @@
 <template>
-
     <btn-group class="card-btn-group">
-        <slot/>
+        <slot />
     </btn-group>
-
 </template>
 
 <script>
@@ -11,7 +9,7 @@ import Card from './Card';
 
 export default {
 
-    name: 'card-btn-group',
+    name: 'CardBtnGroup',
 
     extends: Card
 

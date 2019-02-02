@@ -1,13 +1,18 @@
 <template>
-    <div class="overlay" :class="triggerableClasses" :style="{'background': background, 'display': isDisplaying ? 'flex' : 'none'}" role="dialog" tabindex="-1" @keydown.esc="onEsc">
+    <div class="overlay"
+        :class="triggerableClasses"
+        :style="{'background': background, 'display': isDisplaying ? 'flex' : 'none'}"
+        role="dialog"
+        tabindex="-1"
+        @keydown.esc="onEsc">
         <button v-if="closeable && !hideCloseButton" type="button" class="btn btn-link overlay-close" @click="onClickClose">
-            <i class="fa fa-times-circle"/>
+            <i class="fa fa-times-circle" />
         </button>
 
         <overlay-content :class="{'overlay-content-fixed': fixedContent, 'overlay-content-center': center}" :style="{minHeight: minHeight}">
             <slot name="body">
                 <overlay-body class="my-4">
-                    <slot/>
+                    <slot />
                 </overlay-body>
             </slot>
         </overlay-content>
@@ -21,7 +26,7 @@ import Triggerable from '../../Mixins/Triggerable';
 
 export default {
 
-    name: 'overlay',
+    name: 'Overlay',
 
     components: {
         OverlayBody,

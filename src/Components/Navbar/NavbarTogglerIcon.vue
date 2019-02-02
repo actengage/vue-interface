@@ -1,13 +1,13 @@
 <template>
     <span class="navbar-toggler-icon">
-        <slot/>
+        <slot />
     </span>
 </template>
 
 <script>
 export default {
 
-    name: 'navbar-toggler-icon'
+    name: 'NavbarTogglerIcon'
 
 };
 </script>

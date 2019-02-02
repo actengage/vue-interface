@@ -1,7 +1,7 @@
 <template>
     <button :type="type" class="btn" :class="classes" @click="onClick">
-        <i v-if="icon" :class="icon"/> {{label}}
-        <slot/>
+        <i v-if="icon" :class="icon" /> {{ label }}
+        <slot />
         <activity-indicator v-bind="indicatorProps" />
     </button>
 </template>
@@ -40,7 +40,7 @@ const animated = function(el, callback) {
 
 export default {
 
-    name: 'activity-button',
+    name: 'BtnActivity',
 
     components: {
         ActivityIndicator
@@ -139,66 +139,6 @@ export default {
         }
     },
 
-    methods: {
-
-        /**
-         * Disable the button.
-         *
-         * @return void
-         */
-        disable() {
-            this.$el.disabled = true;
-        },
-
-        /**
-         * Enable the button.
-         *
-         * @return void
-         */
-        enable() {
-            this.$el.disabled = false;
-        },
-
-        /**
-         * Show the activity indicator inside the button.
-         *
-         * @return void
-         */
-        showActivity() {
-            this.disable();
-
-            animated(this.$el, () => {
-                this.$el.classList.add('btn-activity');
-                this.$emit('activity:show');
-            });
-        },
-
-        /**
-         * Hide the activity indicator inside the button.
-         *
-         * @return void
-         */
-        hideActivity() {
-            this.$el.classList.add('btn-hide-activity');
-
-            animated(this.$el, () => {
-                this.enable();
-                this.$el.classList.remove('btn-activity', 'btn-hide-activity');
-                this.$emit('activity:hide');
-            });
-        },
-
-        /**
-         * The click callback function
-         *
-         * @return void
-         */
-        onClick(event) {
-            this.$emit('click', event);
-        }
-
-    },
-
     computed: {
 
         /**
@@ -241,6 +181,66 @@ export default {
             else {
                 this.hideActivity();
             }
+        }
+
+    },
+
+    methods: {
+
+        /**
+         * Disable the button.
+         *
+         * @return void
+         */
+        disable() {
+            this.$el.disabled = true;
+        },
+
+        /**
+         * Enable the button.
+         *
+         * @return void
+         */
+        enable() {
+            this.$el.disabled = false;
+        },
+
+        /**
+         * Show the activity indicator inside the button.
+         *
+         * @return void
+         */
+        showActivity() {
+            this.disable();
+
+            animated(this.$el, () => {
+                this.$el.classList.add('btn-activity');
+                this.$emit('show-activity');
+            });
+        },
+
+        /**
+         * Hide the activity indicator inside the button.
+         *
+         * @return void
+         */
+        hideActivity() {
+            this.$el.classList.add('btn-hide-activity');
+
+            animated(this.$el, () => {
+                this.enable();
+                this.$el.classList.remove('btn-activity', 'btn-hide-activity');
+                this.$emit('hide-activity');
+            });
+        },
+
+        /**
+         * The click callback function
+         *
+         * @return void
+         */
+        onClick(event) {
+            this.$emit('click', event);
         }
 
     }

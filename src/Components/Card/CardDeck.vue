@@ -1,15 +1,13 @@
 <template>
-
     <div class="card-deck">
-        <slot/>
+        <slot />
     </div>
-
 </template>
 
 <script>
 export default {
 
-    name: 'card-deck'
+    name: 'CardDeck'
 
 };
 </script>

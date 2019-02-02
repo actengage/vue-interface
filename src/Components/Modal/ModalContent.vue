@@ -1,11 +1,13 @@
 <template>
-    <div class="modal-content"><slot/></div>
+    <div class="modal-content">
+        <slot />
+    </div>
 </template>
 
 <script>
 export default {
 
-    name: 'modal-content'
+    name: 'ModalContent'
 
 };
 </script>

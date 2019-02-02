@@ -1,9 +1,6 @@
 <template>
-
     <form-group :group="group" class="upload-field" :class="{'enable-dropzone': dropzone, 'enable-multiple': multiple}">
-
         <dropzone @drop="onDrop">
-
             <file-field
                 v-if="multiple && (!maxUploads || maxUploads > value.length) || !multiple && !value"
                 :name="name"
@@ -12,8 +9,7 @@
                 :help-text="helpText"
                 :multiple="multiple"
                 :errors="errors"
-                @change="onChange"
-            />
+                @change="onChange" />
 
             <thumbnail-list v-if="files && files.length" class="mt-4" wrap>
                 <thumbnail-list-item
@@ -26,20 +22,17 @@
                     :min-height="minHeight"
                     :max-height="maxHeight"
                     :class="{'uploading': !!progressBars[key]}">
-                    <file-preview :file="file" :progress="progressBars[key] || 0" @loaded="onLoadedPreview" @close="removeFile(file)"/>
-                    <slot :file="file"/>
+                    <file-preview :file="file" :progress="progressBars[key] || 0" @loaded="onLoadedPreview" @close="removeFile(file)" />
+                    <slot :file="file" />
                 </thumbnail-list-item>
             </thumbnail-list>
 
             <div v-if="showDropElement" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
-                <i class="fa fa-cloud-upload"/>
+                <i class="fa fa-cloud-upload" />
                 <div>Drag and drop files to upload</div>
             </div>
-
         </dropzone>
-
     </form-group>
-
 </template>
 
 <script>
@@ -55,9 +48,7 @@ import { each, extend, remove, isArray, isUndefined } from '../../Helpers/Functi
 
 export default {
 
-    name: 'upload-field',
-
-    mixins: [FormControl],
+    name: 'UploadField',
 
     components: {
         Dropzone,
@@ -67,6 +58,8 @@ export default {
         ThumbnailList,
         ThumbnailListItem
     },
+
+    mixins: [FormControl],
 
     model: {
         prop: 'value',
@@ -180,6 +173,25 @@ export default {
         model: [Model, Function],
 
         request: Object
+
+    },
+
+    data() {
+        return {
+            progressBars: {},
+            isDraggingInside: false
+        };
+    },
+
+    computed: {
+
+        files() {
+            return this.multiple ? this.value : (this.value ? [this.value] : []);
+        },
+
+        showDropElement() {
+            return !isUndefined(this.dragging) ? this.dragging : this.isDraggingInside;
+        }
 
     },
 
@@ -369,25 +381,6 @@ export default {
         onLoadedPreview(event) {
             this.$emit('loaded', event);
         }
-    },
-
-    computed: {
-
-        files() {
-            return this.multiple ? this.value : (this.value ? [this.value] : []);
-        },
-
-        showDropElement() {
-            return !isUndefined(this.dragging) ? this.dragging : this.isDraggingInside;
-        }
-
-    },
-
-    data() {
-        return {
-            progressBars: {},
-            isDraggingInside: false
-        };
     }
 
 };

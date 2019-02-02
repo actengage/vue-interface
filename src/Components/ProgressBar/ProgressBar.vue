@@ -1,8 +1,20 @@
 <template>
     <div class="progress" :style="{'height': formattedHeight}">
-        <div class="progress-bar" role="progressbar" :style="styles" :class="mergeClasses(progressClasses, variantClass)" :aria-valuenow="offsetValue" :aria-valuemin="min" :aria-valuemax="max">
-            <span v-if="!!label"><template v-if="label !== true">{{label}}</template> {{offsetValue}}%</span>
-            <span v-else><slot/></span>
+        <div class="progress-bar"
+            role="progressbar"
+            :style="styles"
+            :class="mergeClasses(progressClasses, variantClass)"
+            :aria-valuenow="offsetValue"
+            :aria-valuemin="min"
+            :aria-valuemax="max">
+            <span v-if="!!label">
+                <template v-if="label !== true">
+                    {{ label }}
+                </template> {{ offsetValue }}%
+            </span>
+            <span v-else>
+                <slot />
+            </span>
         </div>
     </div>
 </template>
@@ -14,7 +26,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'progress-bar',
+    name: 'ProgressBar',
 
     mixins: [
         Variant,

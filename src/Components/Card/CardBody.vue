@@ -3,7 +3,7 @@ import Card from './Card';
 
 export default {
 
-    name: 'card-body',
+    name: 'CardBody',
 
     extends: Card
 

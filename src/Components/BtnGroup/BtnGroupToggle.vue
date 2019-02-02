@@ -1,13 +1,13 @@
 <template>
     <div class="btn-group-toggle" data-toggle="buttons">
-        <slot/>
+        <slot />
     </div>
 </template>
 
 <script>
 export default {
 
-    name: 'btn-group-toggle'
+    name: 'BtnGroupToggle'
 
 };
 </script>

@@ -1,9 +1,9 @@
 <template>
     <div v-show="isDisplaying" class="popover" :class="mergeClasses(triggerableClasses, classes)" role="tooltip">
-        <div class="arrow"></div>
-        <popover-header v-if="title" v-html="title"/>
+        <div class="arrow" />
+        <popover-header v-if="title" v-html="title" />
         <popover-body>
-            <slot/>
+            <slot />
         </popover-body>
     </div>
 </template>
@@ -17,7 +17,7 @@ import { each, isString } from '../../Helpers/Functions';
 
 export default {
 
-    name: 'popover',
+    name: 'Popover',
 
     mixins: [
         Triggerable,
@@ -176,6 +176,39 @@ export default {
 
     },
 
+    computed: {
+
+        classes() {
+            return prefix({
+                'top': this.placement === 'top',
+                'bottom': this.placement === 'bottom',
+                'left': this.placement === 'left',
+                'right': this.placement === 'right'
+            }, 'bs-popover');
+        }
+
+    },
+
+    watch: {
+
+        isShowing(value) {
+            this.$nextTick(() => {
+                this.align();
+
+                if(value) {
+                    this.focus();
+                }
+            });
+        }
+
+    },
+
+    beforeCreate() {
+        if(!this.$poppers) {
+            this.$poppers = {};
+        }
+    },
+
     methods: {
 
         align() {
@@ -228,39 +261,6 @@ export default {
             each(this.$poppers[el].trigger, trigger => {
                 el.addEventListener(trigger, this.$poppers[el].event);
             });
-        }
-    },
-
-    watch: {
-
-        isShowing(value) {
-            this.$nextTick(() => {
-                this.align();
-
-                if(value) {
-                    this.focus();
-                }
-            });
-        }
-
-    },
-
-    computed: {
-
-        classes() {
-            return prefix({
-                'top': this.placement === 'top',
-                'bottom': this.placement === 'bottom',
-                'left': this.placement === 'left',
-                'right': this.placement === 'right'
-            }, 'bs-popover');
-        }
-
-    },
-
-    beforeCreate() {
-        if(!this.$poppers) {
-            this.$poppers = {};
         }
     }
 

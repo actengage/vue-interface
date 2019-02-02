@@ -1,15 +1,15 @@
 <template>
     <router-link v-if="to" :to="to" :class="classes" @click="$emit('click', $event)">
-        <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
+        <slot>{{ label }}</slot> <badge v-if="badge" v-bind="badgeOptions" />
     </router-link>
     <a v-else-if="href" :href="href" :class="classes" @click="$emit('click', $event)">
-        <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
+        <slot>{{ label }}</slot> <badge v-if="badge" v-bind="badgeOptions" />
     </a>
     <button v-else-if="action" type="button" :class="classes" @click.prevent="$emit('click', $event)">
-        <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
+        <slot>{{ label }}</slot> <badge v-if="badge" v-bind="badgeOptions" />
     </button>
     <div v-else :class="classes" @click="$emit('click', $event)">
-        <slot>{{label}}</slot> <badge v-if="badge" v-bind="badgeOptions"></badge>
+        <slot>{{ label }}</slot> <badge v-if="badge" v-bind="badgeOptions" />
     </div>
 </template>
 

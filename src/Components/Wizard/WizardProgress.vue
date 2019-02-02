@@ -1,16 +1,17 @@
 <template>
     <div class="wizard-progress">
         <a
-            href="#"
             v-for="(step, i) in steps"
+            :key="i"
+            href="#"
             class="wizard-step"
             :class="{'active': i === active, 'disabled': i > highestStep, 'complete': i + 1 <= highestStep}"
             :data-step="i"
             :title="step.label || step.title"
             :style="{width: `${100 / steps.length}%`}"
             @click.prevent="onClick($event, step)">
-            <span v-if="step.componentOptions && step.componentOptions.propsData.label" class="wizard-step-label" v-html="step.componentOptions.propsData.label"/>
-            <span v-else-if="step.componentOptions && step.componentOptions.propsData.title" class="wizard-step-label" v-html="step.componentOptions.propsData.title"/>
+            <span v-if="step.componentOptions && step.componentOptions.propsData.label" class="wizard-step-label" v-html="step.componentOptions.propsData.label" />
+            <span v-else-if="step.componentOptions && step.componentOptions.propsData.title" class="wizard-step-label" v-html="step.componentOptions.propsData.title" />
         </a>
     </div>
 </template>
@@ -18,7 +19,7 @@
 <script>
 export default {
 
-    name: 'wizard-progress',
+    name: 'WizardProgress',
 
     props: {
 
@@ -54,6 +55,12 @@ export default {
 
     },
 
+    data() {
+        return {
+            isActive: false
+        };
+    },
+
     methods: {
 
         onClick(event, step) {
@@ -62,12 +69,6 @@ export default {
             }
         }
 
-    },
-
-    data() {
-        return {
-            isActive: false
-        };
     }
 
 };

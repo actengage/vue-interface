@@ -1,7 +1,9 @@
 <template>
     <div class="thumbnail-list" :class="classes">
-        <thumbnail-list-item v-if="!!images" v-for="image in images" :key="image" :src="image" :width="width" />
-        <slot/>
+        <template v-if="!!images">
+            <thumbnail-list-item v-for="image in images" :key="image" :src="image" :width="width" />
+        </template>
+        <slot />
     </div>
 </template>
 

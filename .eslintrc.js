@@ -1,23 +1,32 @@
 module.exports = {
-    root: true,
-    parser: 'babel-eslint',
-    parserOptions: {
-        sourceType: 'module'
-    },
-    // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-    extends: 'standard',
-    // required to lint *.vue files
-    plugins: [
-        'html',
-        'jest'
+    extends: [
+        'plugin:vue/recommended'
     ],
-    env: {
-        'browser': true,
-        'node': true,
-        'jest': true
+    parserOptions: {
+        'parser': 'babel-eslint'
     },
     // add your custom rules here
     rules: {
+        'vue/no-v-html': false,
+        'vue/require-default-prop': false,
+        "vue/max-attributes-per-line": ["error", {
+            "singleline": 5,
+            "multiline": {
+                "max": 1,
+                "allowFirstLine": true
+            }
+        }],
+        "vue/html-indent": ["error", 4, {
+            "attribute": false,
+            "baseIndent": 1,
+            "closeBracket": 1,
+            "alignAttributesVertically": false,
+            "ignores": []
+        }],
+        "vue/html-closing-bracket-newline": ["error", {
+            "singleline": "never",
+            "multiline": "never"
+        }],
         // Ensure no space after keywords like if.
         'keyword-spacing': ["error", {
             "overrides": {

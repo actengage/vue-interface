@@ -1,6 +1,6 @@
 <template>
-    <form @submit.prevent="onSubmit" :class="{'form-inline': inline}" :novalidate="novalidate">
-        <slot></slot>
+    <form :class="{'form-inline': inline}" :novalidate="novalidate" @submit.prevent="onSubmit">
+        <slot />
     </form>
 </template>
 
@@ -89,6 +89,12 @@ export default {
 
     },
 
+    data() {
+        return {
+            errors: {}
+        };
+    },
+
     methods: {
 
         submit(event) {
@@ -148,12 +154,6 @@ export default {
             this.$emit('submit-complete', event, false, errors);
         }
 
-    },
-
-    data() {
-        return {
-            errors: {}
-        };
     }
 
 };

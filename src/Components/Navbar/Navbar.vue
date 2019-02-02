@@ -1,6 +1,6 @@
 <template>
     <nav :class="classes">
-        <slot/>
+        <slot />
     </nav>
 </template>
 
@@ -8,25 +8,12 @@
 import prefix from '../../Helpers/Prefix';
 import Variant from '../../Mixins/Variant';
 import Colorable from '../../Mixins/Colorable';
-import NavbarBrand from './NavbarBrand';
-import NavbarCollapse from './NavbarCollapse';
-import NavbarText from './NavbarText';
-import NavbarToggler from './NavbarToggler';
-import NavbarTogglerIcon from './NavbarTogglerIcon';
 import MergeClasses from '../../Mixins/MergeClasses';
 import { isBoolean } from '../../Helpers/Functions';
 
 export default {
 
-    name: 'navbar',
-
-    components: {
-        NavbarBrand,
-        NavbarCollapse,
-        NavbarText,
-        NavbarToggler,
-        NavbarTogglerIcon
-    },
+    name: 'Navbar',
 
     mixins: [
         Variant,
@@ -88,6 +75,10 @@ export default {
 
     },
 
+    data() {
+        return {};
+    },
+
     computed: {
 
         expandedClass() {
@@ -108,10 +99,6 @@ export default {
                 this.colorableClasses
             );
         }
-    },
-
-    data() {
-        return {};
     }
 
 };

@@ -1,19 +1,16 @@
 <template>
-
     <div class="file-preview" :class="{'has-image': !!image}">
-
         <div class="file-preview-inner">
-
             <a v-if="!hideClose" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
-                <i class="fa fa-times-circle"/>
+                <i class="fa fa-times-circle" />
             </a>
 
             <div v-if="!!poster || isImage" class="file-preview-image">
-                <img v-if="!!poster || !!image" :src="poster || image" class="file-preview-thumbnail" @load="onLoad"/>
+                <img v-if="!!poster || !!image" :src="poster || image" class="file-preview-thumbnail" @load="onLoad">
             </div>
 
             <div v-else v-ready="() => this.$emit('loaded')" class="file-preview-icon">
-                <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}"/>
+                <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}" />
             </div>
 
             <progress-bar
@@ -21,14 +18,14 @@
                 v-ready="readFile"
                 :value="progress || loaded || 0"
                 :height="10"
-                class="mt-3"/>
+                class="mt-3" />
 
-            <div class="file-preview-filename" v-html="name"/>
-            <div class="file-preview-filesize">({{size}})</div>
+            <div class="file-preview-filename" v-html="name" />
+            <div class="file-preview-filesize">
+                ({{ size }})
+            </div>
         </div>
-
     </div>
-
 </template>
 
 <script>
@@ -39,7 +36,7 @@ import readFile from '../../Helpers/ReadFile/ReadFile';
 
 export default {
 
-    name: 'file-preview',
+    name: 'FilePreview',
 
     components: {
         ProgressBar
@@ -92,6 +89,13 @@ export default {
             default: undefined
         }
 
+    },
+
+    data() {
+        return {
+            image: this.file.url,
+            loaded: this.file instanceof File ? 0 : false
+        };
     },
 
     computed: {
@@ -210,13 +214,6 @@ export default {
             this.$emit('loaded');
         }
 
-    },
-
-    data() {
-        return {
-            image: this.file.url,
-            loaded: this.file instanceof File ? 0 : false
-        };
     }
 
 };

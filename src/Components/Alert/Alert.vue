@@ -1,9 +1,16 @@
 <template>
     <div class="alert" :class="mergeClasses(variantClass, {show: isVisible, fade: fade})" role="alert">
-        <alert-heading v-if="title || heading">{{ title || heading }}</alert-heading>
-        <slot/>
-        <alert-close v-if="dismissible" @click="dismiss()"/>
-        <progress-bar v-if="typeof show === 'number'" :variant="variant" :height="5" :value="dismissCount" :max="show" class="my-3"/>
+        <alert-heading v-if="title || heading">
+            {{ title || heading }}
+        </alert-heading>
+        <slot />
+        <alert-close v-if="dismissible" @click="dismiss()" />
+        <progress-bar v-if="typeof show === 'number'"
+            :variant="variant"
+            :height="5"
+            :value="dismissCount"
+            :max="show"
+            class="my-3" />
     </div>
 </template>
 
@@ -17,7 +24,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'alert',
+    name: 'Alert',
 
     components: {
         AlertClose,
@@ -76,16 +83,11 @@ export default {
 
     },
 
-    methods: {
-
-        dismiss() {
-            this.isVisible = false;
-
-            transition(this.$el).then(delay => {
-                this.$emit('dismissed');
-            });
-        }
-
+    data() {
+        return {
+            dismissCount: this.show,
+            isVisible: this.show
+        };
     },
 
     mounted() {
@@ -105,11 +107,16 @@ export default {
         }
     },
 
-    data() {
-        return {
-            dismissCount: this.show,
-            isVisible: this.show
-        };
+    methods: {
+
+        dismiss() {
+            this.isVisible = false;
+
+            transition(this.$el).then(delay => {
+                this.$emit('dismissed');
+            });
+        }
+
     }
 
 };

@@ -1,6 +1,6 @@
 <template>
     <div class="infinite-scrolling" :style="{height: heightUnit, background: background}">
-        <activity-indicator v-if="activity" :size="size" :type="type" center/>
+        <activity-indicator v-if="activity" :size="size" :type="type" center />
     </div>
 </template>
 
@@ -10,7 +10,7 @@ import ActivityIndicator from '../ActivityIndicator';
 
 export default {
 
-    name: 'infinite-scrolling',
+    name: 'InfiniteScrolling',
 
     components: {
         ActivityIndicator
@@ -72,20 +72,10 @@ export default {
 
     },
 
-    methods: {
-
-        scrollIntoViewport(entry) {
-            this.$emit('scroll:in', entry);
-
-            if(!this.activity) {
-                this.$emit('load', entry);
-            }
-        },
-
-        scrollOutViewport(entry) {
-            this.$emit('scroll:out', entry);
-        }
-
+    data() {
+        return {
+            hasScrolledIntoViewport: false
+        };
     },
 
     computed: {
@@ -115,10 +105,20 @@ export default {
         });
     },
 
-    data() {
-        return {
-            hasScrolledIntoViewport: false
-        };
+    methods: {
+
+        scrollIntoViewport(entry) {
+            this.$emit('scroll:in', entry);
+
+            if(!this.activity) {
+                this.$emit('load', entry);
+            }
+        },
+
+        scrollOutViewport(entry) {
+            this.$emit('scroll:out', entry);
+        }
+
     }
 
 };

@@ -3,7 +3,7 @@ import { extend, first, findIndex, isUndefined } from '../../Helpers/Functions';
 
 export default {
 
-    name: 'slides',
+    name: 'Slides',
 
     props: {
 
@@ -18,6 +18,13 @@ export default {
             default: 0
         }
 
+    },
+
+    data() {
+        return {
+            lastSlide: null,
+            currentSlide: this.active
+        };
     },
 
     watch: {
@@ -117,13 +124,6 @@ export default {
             });
         }
 
-    },
-
-    data() {
-        return {
-            lastSlide: null,
-            currentSlide: this.active
-        };
     },
 
     render(h) {

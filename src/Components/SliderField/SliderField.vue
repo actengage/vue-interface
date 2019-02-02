@@ -1,7 +1,5 @@
 <template>
-
     <form-group :group="group" :class="formGroupClasses">
-
         <slot name="label">
             <form-label v-if="label" :for="$attrs.id" v-html="label" />
         </slot>
@@ -16,16 +14,14 @@
         </div>
 
         <slot name="feedback">
-            <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-            <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+            <form-feedback v-if="validFeedback" valid v-html="validFeedback" />
+            <form-feedback v-if="invalidFeedback" invalid v-html="invalidFeedback" />
         </slot>
 
         <slot name="help">
             <help-text v-if="helpText" v-html="helpText" />
         </slot>
-
     </form-group>
-
 </template>
 
 <script>
@@ -33,37 +29,17 @@ import HelpText from '../HelpText';
 import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';
 import FormFeedback from '../FormFeedback';
-import FormControl from '../FormControl';
 import FormControlMixin from '../../Mixins/FormControl';
 
 export default {
 
-    name: 'slider-field',
+    name: 'SliderField',
 
     components: {
         HelpText,
         FormGroup,
         FormLabel,
-        FormControl,
         FormFeedback
-    },
-
-    mixins: [
-        FormControlMixin
-    ],
-
-    props: {
-
-        /**
-         * The class name assigned to the control element
-         *
-         * @property String
-         */
-        defaultControlClass: {
-            type: String,
-            default: 'form-control slider-field'
-        }
-
     },
 
     directives: {
@@ -116,6 +92,24 @@ export default {
                 window.addEventListener('mousemove', drag, false);
             }
 
+        }
+
+    },
+
+    mixins: [
+        FormControlMixin
+    ],
+
+    props: {
+
+        /**
+         * The class name assigned to the control element
+         *
+         * @property String
+         */
+        defaultControlClass: {
+            type: String,
+            default: 'form-control slider-field'
         }
 
     }

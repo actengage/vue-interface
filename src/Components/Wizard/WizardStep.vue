@@ -3,7 +3,7 @@ import { isFunction } from '../../Helpers/Functions';
 
 export default {
 
-    name: 'wizard-step',
+    name: 'WizardStep',
 
     props: {
 
@@ -52,6 +52,14 @@ export default {
 
     },
 
+    updated() {
+        this.performValidityChecks();
+    },
+
+    mounted() {
+        this.$nextTick(this.performValidityChecks);
+    },
+
     methods: {
 
         checkValidity(prop) {
@@ -93,14 +101,6 @@ export default {
             }
         }
 
-    },
-
-    updated() {
-        this.performValidityChecks();
-    },
-
-    mounted() {
-        this.$nextTick(this.performValidityChecks);
     },
 
     render(h) {

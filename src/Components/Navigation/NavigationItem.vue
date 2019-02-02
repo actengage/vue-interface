@@ -9,7 +9,7 @@ import NavigationLink from './NavigationLink';
 
 export default {
 
-    name: 'navigation-item',
+    name: 'NavigationItem',
 
     extends: NavigationLink,
 

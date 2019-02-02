@@ -1,9 +1,7 @@
 <template>
     <div class="dropdown-menu" :class="{'dropdown-menu-right': align === 'right', 'show': show}" :aria-labelledby="id" tabindex="-1" @click="onClick">
-        <template v-for="item in items">
-            <component :is="prefix(item.type || 'item', 'dropdown-menu')" v-bind="item"/>
-        </template>
-        <slot/>
+        <component :is="prefix(item.type || 'item', 'dropdown-menu')" v-for="(item, i) in items" :key="i" v-bind="item" />
+        <slot />
     </div>
 </template>
 
@@ -17,7 +15,7 @@ import DropdownMenuDivider from './DropdownMenuDivider';
 
 export default {
 
-    name: 'dropdown-menu',
+    name: 'DropdownMenu',
 
     components: {
         DropdownMenuItem,
@@ -76,6 +74,14 @@ export default {
 
     },
 
+    mounted() {
+        each(this.$children, child => {
+            child.$on('click', event => {
+                this.onItemClick(event, child);
+            });
+        });
+    },
+
     methods: {
 
         prefix: prefix,
@@ -102,14 +108,6 @@ export default {
             this.$emit('item:click', event, item);
         }
 
-    },
-
-    mounted() {
-        each(this.$children, child => {
-            child.$on('click', event => {
-                this.onItemClick(event, child);
-            });
-        });
     }
 
 };

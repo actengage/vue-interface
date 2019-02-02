@@ -1,13 +1,13 @@
 <template>
-    <div class="navbar-collapse" id="navbarCollapse" :class="{'collapse': collapse}">
-        <slot/>
+    <div id="navbarCollapse" class="navbar-collapse" :class="{'collapse': collapse}">
+        <slot />
     </div>
 </template>
 
 <script>
 export default {
 
-    name: 'navbar-collapse',
+    name: 'NavbarCollapse',
 
     props: {
 

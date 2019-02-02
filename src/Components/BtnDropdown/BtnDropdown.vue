@@ -1,38 +1,63 @@
 <template>
-
     <btn-group v-if="split">
         <template v-if="!dropleft">
             <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
-                <slot name="label"><i v-if="icon" :class="icon"/> {{label}}</slot>
+                <slot name="label">
+                    <i v-if="icon" :class="icon" /> {{ label }}
+                </slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
-                <slot name="label-wrapper"><i v-if="icon" :class="icon"/> <slot name="label">{{label}}</slot></slot>
+                <slot name="label-wrapper">
+                    <i v-if="icon" :class="icon" /> <slot name="label">
+                        {{ label }}
+                    </slot>
+                </slot>
             </button>
         </template>
         <btn-group :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}">
-            <button type="button" aria-haspopup="true" :aria-expanded="isDropdownShowing" :id="$attrs.id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur"></button>
+            <button :id="$attrs.id"
+                type="button"
+                aria-haspopup="true"
+                :aria-expanded="isDropdownShowing"
+                :class="toggleClasses"
+                @click.prevent="!isDropdownShowing ? show() : hide()"
+                @blur="onBlur" />
             <dropdown-menu
                 :id="$attrs.id"
                 :align="align"
                 :show.sync="isDropdownShowing"
                 @click="onMenuClick"
                 @item:click="onItemClick">
-                <slot/>
+                <slot />
             </dropdown-menu>
         </btn-group>
         <template v-if="dropleft">
             <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
-                <slot name="label"><i v-if="icon" :class="icon"/> {{label}}</slot>
+                <slot name="label">
+                    <i v-if="icon" :class="icon" /> {{ label }}
+                </slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
-                <slot name="label-wrapper"><i v-if="icon" :class="icon"/> <slot name="label">{{label}}</slot></slot>
+                <slot name="label-wrapper">
+                    <i v-if="icon" :class="icon" /> <slot name="label">
+                        {{ label }}
+                    </slot>
+                </slot>
             </button>
         </template>
     </btn-group>
 
     <btn-group v-else :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}" @click="onClick">
-        <button aria-haspopup="true" :aria-expanded="isDropdownShowing" :type="type" :id="$attrs.id" :class="toggleClasses" @click.prevent="!isDropdownShowing ? show() : hide()" @blur="onBlur">
-            <slot name="label"><i v-if="icon" :class="icon"/> {{label}}</slot>
+        <button :id="$attrs.id"
+            aria-haspopup="true"
+            :aria-expanded="isDropdownShowing"
+            :type="type"
+            :class="toggleClasses"
+            @click.prevent="!isDropdownShowing ? show() : hide()"
+            @blur="onBlur">
+            <slot name="label">
+                <i v-if="icon" :class="icon" /> {{ label }}
+            </slot>
         </button>
 
         <dropdown-menu
@@ -41,10 +66,9 @@
             :show.sync="isDropdownShowing"
             @click="onMenuClick"
             @item:click="onItemClick">
-            <slot/>
+            <slot />
         </dropdown-menu>
     </btn-group>
-
 </template>
 
 <script>
@@ -66,14 +90,14 @@ let ignoreBlurEvent = false;
 
 export default {
 
-    name: 'btn-dropdown',
-
-    extends: Btn,
+    name: 'BtnDropdown',
 
     components: {
         BtnGroup,
         DropdownMenu
     },
+
+    extends: Btn,
 
     props: {
 
@@ -175,6 +199,79 @@ export default {
 
     },
 
+    data() {
+        return {
+            isDropdownShowing: false
+        };
+    },
+
+    computed: {
+
+        variantClassPrefix() {
+            return 'btn' + (this.outline ? '-outline' : '');
+        },
+
+        sizeableClassPrefix() {
+            return 'btn';
+        },
+
+        actionClasses() {
+            return [
+                'btn',
+                prefix(this.size, 'btn'),
+                prefix(this.variant, 'btn')
+            ].join(' ');
+        },
+
+        toggleClasses() {
+            return [
+                'btn',
+                'dropdown-toggle',
+                this.variantClass,
+                this.sizeableClass,
+                this.active ? 'active' : '',
+                this.block ? 'btn-block' : '',
+                (this.split ? 'dropdown-toggle-split' : '')
+            ].join(' ');
+        }
+    },
+
+    mounted() {
+        each(this.$el.querySelectorAll('[type=submit], input, select, textarea, [tabindex]:not([tabindex="-1"]'), el => {
+            if(el && el.addEventListener) {
+                el.addEventListener('blur', event => {
+                    if(!ignoreBlurEvent) {
+                        this.focus();
+                    }
+
+                    ignoreBlurEvent = false;
+                });
+
+                el.addEventListener('focus', event => {
+                    ignoreBlurEvent = false;
+                });
+
+                el.addEventListener('keydown', event => {
+                    const ignore = [
+                        LEFT_ARROW_KEYCODE,
+                        RIGHT_ARROW_KEYCODE,
+                        UP_ARROW_KEYCODE,
+                        DOWN_ARROW_KEYCODE,
+                        TAB_KEYCODE
+                    ];
+
+                    if(ignore.indexOf(event.keyCode) !== -1) {
+                        ignoreBlurEvent = true;
+                    }
+                });
+
+                el.addEventListener('mousedown', event => {
+                    ignoreBlurEvent = true;
+                });
+            }
+        });
+    },
+
     methods: {
 
         /**
@@ -227,35 +324,8 @@ export default {
          * @return void
          */
         show() {
-            this.isDropdownShowing = true;
-
-            this.$nextTick(() => {
-                let side = 'bottom';
-
-                if(this.dropup) {
-                    side = 'top';
-                }
-                else if(this.dropleft) {
-                    side = 'left';
-                }
-                else if(this.dropright) {
-                    side = 'right';
-                }
-
-                const menu = this.$el.querySelector('.dropdown-menu');
-                const toggle = this.$el.querySelector('.dropdown-toggle');
-                const position = [side, this.align === 'left' ? 'start' : 'end'];
-
-                this.$popper = new Popper(toggle, menu, {
-                    placement: position.join('-')
-                });
-
-                if(this.queryFocusable().item(0)) {
-                    this.$el.querySelector('input, select, textarea').focus();
-                }
-
-                this.$emit('show');
-            });
+            this.$emit('toggle', this.isDropdownShowing = true);
+            this.$emit('show');
         },
 
         /**
@@ -313,79 +383,6 @@ export default {
             this.$emit('item:click', event, item);
         }
 
-    },
-
-    computed: {
-
-        variantClassPrefix() {
-            return 'btn' + (this.outline ? '-outline' : '');
-        },
-
-        sizeableClassPrefix() {
-            return 'btn';
-        },
-
-        actionClasses() {
-            return [
-                'btn',
-                prefix(this.size, 'btn'),
-                prefix(this.variant, 'btn')
-            ].join(' ');
-        },
-
-        toggleClasses() {
-            return [
-                'btn',
-                'dropdown-toggle',
-                this.variantClass,
-                this.sizeableClass,
-                this.active ? 'active' : '',
-                this.block ? 'btn-block' : '',
-                (this.split ? 'dropdown-toggle-split' : '')
-            ].join(' ');
-        }
-    },
-
-    data() {
-        return {
-            isDropdownShowing: false
-        };
-    },
-
-    mounted() {
-        each(this.$el.querySelectorAll('[type=submit], input, select, textarea, [tabindex]:not([tabindex="-1"]'), el => {
-            if(el && el.addEventListener) {
-                el.addEventListener('blur', event => {
-                    if(!ignoreBlurEvent) {
-                        this.focus();
-                    }
-
-                    ignoreBlurEvent = false;
-                });
-
-                el.addEventListener('focus', event => {
-                    ignoreBlurEvent = false;
-                });
-
-                el.addEventListener('keydown', event => {
-                    const ignore = [
-                        LEFT_ARROW_KEYCODE,
-                        RIGHT_ARROW_KEYCODE,
-                        UP_ARROW_KEYCODE,
-                        DOWN_ARROW_KEYCODE,
-                        TAB_KEYCODE
-                    ];
-
-                    if(ignore.indexOf(event.keyCode) !== -1) {
-                        ignoreBlurEvent = true;
-                    }
-                });
-
-                el.addEventListener('mousedown', event => {
-                    ignoreBlurEvent = true;
-                });
-            }
-        });
     }
 
 };

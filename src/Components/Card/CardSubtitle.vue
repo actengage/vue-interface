@@ -1,9 +1,7 @@
 <template>
-
     <h6 :class="mergeClasses(className, colorableClasses)">
-        <slot/>
+        <slot />
     </h6>
-
 </template>
 
 <script>
@@ -12,7 +10,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'card-subtitle',
+    name: 'CardSubtitle',
 
     extends: Card,
 

@@ -4,7 +4,7 @@ import { extend } from '../../../Helpers/Functions';
 
 export default {
 
-    name: 'activity-indicator-spinner',
+    name: 'ActivityIndicatorSpinner',
 
     extends: BaseType,
 

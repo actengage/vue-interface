@@ -1,9 +1,7 @@
 <template>
-
     <component :is="tag" :class="mergeClasses(className, colorableClasses)">
-        <slot/>
+        <slot />
     </component>
-
 </template>
 
 <script>
@@ -12,7 +10,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'card-header',
+    name: 'CardHeader',
 
     extends: Card,
 

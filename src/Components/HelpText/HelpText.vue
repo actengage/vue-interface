@@ -1,7 +1,7 @@
 <template>
-
-    <small class="form-text" :class="classes"><slot /></small>
-
+    <small class="form-text" :class="classes">
+        <slot />
+    </small>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ import Screenreaders from '../../Mixins/Screenreaders/Screenreaders';
 
 export default {
 
-    name: 'help-text',
+    name: 'HelpText',
 
     mixins: [
         Colorable,

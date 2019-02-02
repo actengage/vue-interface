@@ -1,13 +1,15 @@
 <template>
-
     <div class="table-view">
-
         <div v-if="heading || description || $slots.buttons" class="d-flex justify-content-between align-items-center">
-            <slot name="heading"><h2 v-if="heading" v-html="heading"/></slot>
-            <slot name="description"><p v-if="description" v-html="description"/></slot>
+            <slot name="heading">
+                <h2 v-if="heading" v-html="heading" />
+            </slot>
+            <slot name="description">
+                <p v-if="description" v-html="description" />
+            </slot>
 
             <div v-if="$slots.buttons" class="ml-auto my-3">
-                <slot name="buttons"/>
+                <slot name="buttons" />
             </div>
         </div>
 
@@ -23,8 +25,8 @@
                 :paginate="paginate"
                 @paginate="onPaginate"
                 @order="id => orderBy(id)">
-                <slot :data="data" :columns="columns"/>
-            </base-table/>
+                <slot :data="data" :columns="columns" />
+            </base-table>
         </card>
         <base-table
             v-else
@@ -38,11 +40,9 @@
             :paginate="paginate"
             @paginate="onPaginate"
             @order="id => orderBy(id)">
-            <slot :data="data" :columns="columns"/>
-        </base-table/>
-
+            <slot :data="data" :columns="columns" />
+        </base-table>
     </div>
-
 </template>
 
 <script>
@@ -50,20 +50,18 @@ import Card from '../Card';
 import BaseTable from './Table';
 import Proxy from '../../Mixins/Proxy';
 import Request from '../../Http/Request';
-import TableViewHeader from './TableViewHeader';
 import { extend } from '../../Helpers/Functions';
 import TableViewTransformer from '../../Http/TableViewTransformer';
 
 export default {
-    name: 'table-view',
-
-    mixins: [Proxy],
+    name: 'TableView',
 
     components: {
         Card,
-        BaseTable,
-        TableViewHeader
+        BaseTable
     },
+
+    mixins: [Proxy],
 
     props: {
 
@@ -150,6 +148,38 @@ export default {
         }
     },
 
+    data() {
+        return {
+            // (array) The dataset for the table
+            data: this.$attrs.data || [],
+
+            // (bool) Is the table currently loading data
+            loading: false,
+
+            // (null|object) The response object
+            response: null,
+
+            // (object) The HTTP request object
+            request: extend({
+                headers: {},
+                params: {
+                    page: this.page,
+                    limit: this.limit,
+                    order: this.order,
+                    sort: this.sort
+                }
+            }, this.$attrs.request)
+        };
+    },
+
+    mounted() {
+        this.fetch();
+    },
+
+    beforeDestroy() {
+        this.$off();
+    },
+
     methods: {
 
         orderBy(order) {
@@ -217,38 +247,6 @@ export default {
             this.request.params.page = page;
             this.fetch();
         }
-    },
-
-    data() {
-        return {
-            // (array) The dataset for the table
-            data: this.$attrs.data || [],
-
-            // (bool) Is the table currently loading data
-            loading: false,
-
-            // (null|object) The response object
-            response: null,
-
-            // (object) The HTTP request object
-            request: extend({
-                headers: {},
-                params: {
-                    page: this.page,
-                    limit: this.limit,
-                    order: this.order,
-                    sort: this.sort
-                }
-            }, this.$attrs.request)
-        };
-    },
-
-    mounted() {
-        this.fetch();
-    },
-
-    beforeDestroy() {
-        this.$off();
     }
 };
 </script>

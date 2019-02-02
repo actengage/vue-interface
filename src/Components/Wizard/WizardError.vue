@@ -1,12 +1,12 @@
 <template>
     <div class="wizard-error">
         <div v-if="icon" class="wizard-error-icon">
-            <i :class="icon"/>
+            <i :class="icon" />
         </div>
 
-        <h3 v-if="title" class="wizard-error-title" v-html="title"/>
+        <h3 v-if="title" class="wizard-error-title" v-html="title" />
 
-        <slot/>
+        <slot />
 
         <div class="row justify-content-center">
             <div class="col-sm-6">
@@ -19,7 +19,7 @@
                 </div>
 
                 <btn size="lg" variant="danger" block @click="$emit('back')">
-                    <i class="fa fa-long-arrow-left"/> Go Back
+                    <i class="fa fa-long-arrow-left" /> Go Back
                 </btn>
             </div>
         </div>
@@ -32,13 +32,13 @@ import WizardStep from './WizardStep';
 
 export default {
 
-    name: 'wizard-error',
-
-    extends: WizardStep,
+    name: 'WizardError',
 
     components: {
         Btn
     },
+
+    extends: WizardStep,
 
     props: {
 

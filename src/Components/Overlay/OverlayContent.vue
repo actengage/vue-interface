@@ -1,6 +1,6 @@
 <template>
     <container class="overlay-content">
-        <slot/>
+        <slot />
     </container>
 </template>
 
@@ -9,7 +9,7 @@ import Container from '../Container';
 
 export default {
 
-    name: 'overlay-content',
+    name: 'OverlayContent',
 
     components: {
         Container

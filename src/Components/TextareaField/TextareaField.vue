@@ -1,10 +1,8 @@
 <template>
-
     <form-group :group="group" :class="formGroupClasses">
-
         <slot name="label">
             <form-label v-if="label || hasDefaultSlot" :for="$attrs.id">
-                <slot>{{label}}</slot>
+                <slot>{{ label }}</slot>
             </form-label>
         </slot>
 
@@ -15,11 +13,10 @@
                     v-bind-events
                     v-bind="controlAttributes"
                     :value="value"
-                    @input="$emit('input', $event.target.value)"
-                />
+                    @input="$emit('input', $event.target.value)" />
                 <slot name="feedback">
-                    <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-                    <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+                    <form-feedback v-if="validFeedback" valid v-html="validFeedback" />
+                    <form-feedback v-if="invalidFeedback" invalid v-html="invalidFeedback" />
                 </slot>
             </div>
         </slot>
@@ -27,9 +24,7 @@
         <slot name="help">
             <help-text v-if="helpText" v-html="helpText" />
         </slot>
-
     </form-group>
-
 </template>
 
 <script>
@@ -44,7 +39,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'textarea-field',
+    name: 'TextareaField',
 
     components: {
         HelpText,

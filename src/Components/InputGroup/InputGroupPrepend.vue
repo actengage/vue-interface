@@ -1,12 +1,10 @@
 <template>
-
     <div class="input-group-prepend">
         <input-group-text v-if="text">
-            <slot/>
+            <slot />
         </input-group-text>
-        <slot v-else/>
+        <slot v-else />
     </div>
-
 </template>
 
 <script>
@@ -14,7 +12,7 @@ import InputGroupText from './InputGroupText';
 
 export default {
 
-    name: 'input-group-prepend',
+    name: 'InputGroupPrepend',
 
     components: {
         InputGroupText

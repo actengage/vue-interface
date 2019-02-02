@@ -8,7 +8,7 @@
         :aria-expanded="expanded"
         :aria-label="label"
         @click="onClick">
-        <slot><navbar-toggler-icon/></slot>
+        <slot><navbar-toggler-icon /></slot>
     </button>
 </template>
 
@@ -17,7 +17,7 @@ import NavbarTogglerIcon from './NavbarTogglerIcon';
 
 export default {
 
-    name: 'navbar-toggler',
+    name: 'NavbarToggler',
 
     components: {
         NavbarTogglerIcon

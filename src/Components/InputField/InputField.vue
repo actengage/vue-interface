@@ -1,9 +1,7 @@
 <template>
-
     <form-group :group="group" :class="formGroupClasses">
-
         <slot name="label">
-            <form-label ref="label" v-if="label || hasDefaultSlot" :for="$attrs.id" v-html="label"/>
+            <form-label v-if="label || hasDefaultSlot" ref="label" :for="$attrs.id" v-html="label" />
         </slot>
 
         <div class="form-group-inner">
@@ -12,35 +10,31 @@
                     v-bind-events
                     v-bind="controlAttributes"
                     :value="value"
-                    @input="$emit('input', $event.target.value)"
-                />
+                    @input="$emit('input', $event.target.value)">
             </slot>
 
             <slot name="activity">
                 <transition name="slide-fade">
-                    <activity-indicator key="test" v-if="activity" ref="activity" type="dots" :size="size"/>
+                    <activity-indicator v-if="activity" key="test" ref="activity" type="dots" :size="size" />
                 </transition>
             </slot>
         </div>
 
         <slot name="feedback">
-            <form-feedback v-if="validFeedback" ref="feedback" v-html="validFeedback" valid />
-            <form-feedback v-else-if="invalidFeedback" ref="feedback" v-html="invalidFeedback" invalid />
+            <form-feedback v-if="validFeedback" ref="feedback" valid v-html="validFeedback" />
+            <form-feedback v-else-if="invalidFeedback" ref="feedback" invalid v-html="invalidFeedback" />
         </slot>
 
         <slot name="help">
             <help-text v-if="helpText" ref="help" v-html="helpText" />
         </slot>
-
     </form-group>
-
 </template>
 
 <script>
 import HelpText from '../HelpText';
 import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';
-import FormControl from '../FormControl';
 import FormFeedback from '../FormFeedback';
 import Colorable from '../../Mixins/Colorable';
 import ActivityIndicator from '../ActivityIndicator';
@@ -48,21 +42,20 @@ import FormControlMixin from '../../Mixins/FormControl';
 
 export default {
 
-    name: 'input-field',
-
-    mixins: [
-        Colorable,
-        FormControlMixin
-    ],
+    name: 'InputField',
 
     components: {
         HelpText,
-        FormControl,
         FormGroup,
         FormLabel,
         FormFeedback,
         ActivityIndicator
-    }
+    },
+
+    mixins: [
+        Colorable,
+        FormControlMixin
+    ]
 
 };
 </script>

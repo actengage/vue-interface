@@ -1,21 +1,19 @@
 <template>
-
-    <div :class="mergeClasses(this.custom ? 'custom-checkbox' : '', controlClass, inline ? inlineClass : '')">
-
+    <div :class="mergeClasses(custom ? 'custom-checkbox' : '', controlClass, inline ? inlineClass : '')">
         <input
+            :id="$attrs.id || hash"
             v-bind-events
             v-bind="controlAttributes"
             type="checkbox"
-            :id="$attrs.id || hash"
             :value="value"
             :checked="checkedValues.indexOf(value) !== -1"
-            @input="update"/>
+            @input="update">
 
         <label :for="$attrs.id || hash" :class="mergeClasses(labelClass)">
-            <slot>{{label}}</slot>
+            <slot>{{ label }}</slot>
             <slot name="feedback">
-                <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-                <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+                <form-feedback v-if="validFeedback" valid v-html="validFeedback" />
+                <form-feedback v-if="invalidFeedback" invalid v-html="invalidFeedback" />
             </slot>
         </label>
 
@@ -31,7 +29,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'checkbox-field',
+    name: 'CheckboxField',
 
     extends: RadioField,
 

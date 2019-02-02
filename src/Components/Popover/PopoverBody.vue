@@ -1,13 +1,13 @@
 <template>
     <div class="popover-body">
-        <slot/>
+        <slot />
     </div>
 </template>
 
 <script>
 export default {
 
-    name: 'popover-body'
+    name: 'PopoverBody'
 
 };
 </script>

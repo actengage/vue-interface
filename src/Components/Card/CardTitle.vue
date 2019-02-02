@@ -1,9 +1,7 @@
 <template>
-
     <h5 :class="mergeClasses(className, colorableClasses)">
-        <slot/>
+        <slot />
     </h5>
-
 </template>
 
 <script>
@@ -12,7 +10,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'card-title',
+    name: 'CardTitle',
 
     mixins: [
         Card,

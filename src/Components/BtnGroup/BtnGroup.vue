@@ -1,7 +1,9 @@
 <template>
     <div :class="classes" :data-toggle="toggle ? 'buttons' : false" role="group">
-        <btn v-if="buttons" v-for="(button, i) in buttons" :key="i" v-bind="button" />
-        <slot/>
+        <template v-if="buttons">
+            <btn v-for="(button, i) in buttons" :key="i" v-bind="button" />
+        </template>
+        <slot />
     </div>
 </template>
 
@@ -13,7 +15,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'btn-group',
+    name: 'BtnGroup',
 
     components: {
         Btn

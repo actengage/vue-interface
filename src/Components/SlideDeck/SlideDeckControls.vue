@@ -1,8 +1,13 @@
 <template>
     <!-- TODO: Add tooltip with slide name/key to the control once the tooltip directive has been written. -->
     <div class="slide-deck-controls">
-        <a v-for="slide in slides" href="#" @click.prevent="onClick($event, slide)" class="slide-deck-control-icon" :class="{'is-active': (slide.data ? slide.data.key : slide.key) === active}">
-            <i class="fa fa-circle"/>
+        <a v-for="(slide, i) in slides"
+            :key="i"
+            href="#"
+            class="slide-deck-control-icon"
+            :class="{'is-active': (slide.data ? slide.data.key : slide.key) === active}"
+            @click.prevent="onClick($event, slide)">
+            <i class="fa fa-circle" />
         </a>
     </div>
 </template>
@@ -10,7 +15,7 @@
 <script>
 export default {
 
-    name: 'slide-deck-controls',
+    name: 'SlideDeckControls',
 
     props: {
 
@@ -36,20 +41,20 @@ export default {
 
     },
 
-    methods: {
-
-        onClick(event, slide) {
-            this.$emit('click', event, slide);
-        }
-
+    data() {
+        return {};
     },
 
     computed: {
 
     },
 
-    data() {
-        return {};
+    methods: {
+
+        onClick(event, slide) {
+            this.$emit('click', event, slide);
+        }
+
     }
 
 };

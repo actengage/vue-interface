@@ -1,11 +1,13 @@
 <template>
-    <div class="modal-dialog" role="document"><slot/></div>
+    <div class="modal-dialog" role="document">
+        <slot />
+    </div>
 </template>
 
 <script>
 export default {
 
-    name: 'modal-dialog'
+    name: 'ModalDialog'
 
 };
 </script>

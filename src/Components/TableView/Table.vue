@@ -1,38 +1,35 @@
 <template>
-
     <table class="table" :class="{'table-hover': hover && !loading && data.length}">
-
         <thead slot="thead">
             <tr v-if="columns.length || $slots.columns" slot="columns">
                 <table-view-header
                     v-for="(column, key) in tableColumns"
-                    v-bind="column.props || column"
-                    v-on="column.events"
-                    :request="request"
                     :key="key"
-                    @order="id => $emit('order', id)"
-                />
+                    v-bind="column.props || column"
+                    :request="request"
+                    v-on="column.events"
+                    @order="id => $emit('order', id)" />
             </tr>
         </thead>
 
         <tbody>
             <tr v-if="loading">
                 <td :colspan="tableColumns.length" class="position-relative" :style="{'height': height(minHeight)}">
-                    <activity-indicator :center="true"></activity-indicator>
+                    <activity-indicator :center="true" />
                 </td>
             </tr>
 
             <tr v-else-if="!data.length">
                 <td :colspan="tableColumns.length" class="position-relative">
                     <alert variant="warning" class="my-3">
-                        <i class="fa fa-warning"/> There are no results found.
+                        <i class="fa fa-warning" /> There are no results found.
                     </alert>
                 </td>
             </tr>
 
             <slot v-else :data="data" :columns="tableColumns">
-                <tr v-for="(row, i) in data">
-                    <td v-for="column in tableColumns" v-html="row[column.id] || row[column.name]"></td>
+                <tr v-for="(row, x) in data" :key="x">
+                    <td v-for="(column, y) in tableColumns" :key="y" v-html="row[column.id] || row[column.name]" />
                 </tr>
             </slot>
         </tbody>
@@ -45,15 +42,12 @@
                             align="center"
                             :page="response.current_page"
                             :total-pages="response.last_page"
-                            @paginate="$emit('paginate')"
-                        />
+                            @paginate="$emit('paginate')" />
                     </slot>
                 </td>
             </tfoot>
         </slot>
-
     </table>
-
 </template>
 
 <script>
@@ -117,6 +111,22 @@ export default {
 
     },
 
+    computed: {
+        tableColumns() {
+            let columns = this.columns;
+
+            if(!columns || !columns.length) {
+                columns = Object.keys(this.data[0]);
+            }
+
+            return columns.map(column => {
+                return isObject(column) ? column : {
+                    name: column
+                };
+            });
+        }
+    },
+
     methods: {
 
         height(min) {
@@ -134,22 +144,6 @@ export default {
             return unit(Math.max(min, height));
         }
 
-    },
-
-    computed: {
-        tableColumns() {
-            let columns = this.columns;
-
-            if(!columns || !columns.length) {
-                columns = Object.keys(this.data[0]);
-            }
-
-            return columns.map(column => {
-                return isObject(column) ? column : {
-                    name: column
-                };
-            });
-        }
     }
 
 };

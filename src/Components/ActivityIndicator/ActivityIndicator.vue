@@ -1,13 +1,14 @@
 <template>
     <div v-if="center" class="center-wrapper" :class="{'position-relative': relative, 'position-fixed': fixed}" :style="style">
         <div class="center-content d-flex flex-column align-items-center">
-            <component :is="component" :size="size" :prefix="prefix"/>
-            <div v-if="label" v-html="label" class="activity-indicator-label"/>
+            <component :is="component" :size="size" :prefix="prefix" />
+            <div v-if="label" class="activity-indicator-label" v-html="label" />
         </div>
     </div>
     <div v-else class="d-flex flex-column justify-content-center align-items-center" :style="style">
-        <component :is="component" :size="size" :prefix="prefix"/>
-        <div v-if="label" v-html="label" class="activity-indicator-label"/>
+        <component :is="component" :size="size" :prefix="prefix" />
+        
+        <div v-if="label" class="activity-indicator-label" v-html="label" />
     </div>
 </template>
 
@@ -15,12 +16,17 @@
 import unit from '../../Helpers/Unit';
 import BaseType from './Types/BaseType';
 import ActivityIndicatorDots from './Types/Dots';
-import { kebabCase } from '../../Helpers/Functions';
 import ActivityIndicatorSpinner from './Types/Spinner';
+import kebabCase from '../../Helpers/Functions/kebabCase';
 
 export default {
 
-    name: 'activity-indicator',
+    name: 'ActivityIndicator',
+
+    components: {
+        ActivityIndicatorDots,
+        ActivityIndicatorSpinner
+    },
 
     extends: BaseType,
 
@@ -51,11 +57,6 @@ export default {
 
         minWidth: [String, Number]
 
-    },
-
-    components: {
-        ActivityIndicatorDots,
-        ActivityIndicatorSpinner
     },
 
     computed: {

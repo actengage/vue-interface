@@ -1,38 +1,38 @@
 <template>
-
     <form-group :group="group" :class="formGroupClasses">
-
         <slot name="label">
             <form-label v-if="label" :for="$attrs.id" v-html="label" />
         </slot>
 
-        <div :class="controlClasses" tabindex="0" @click="toggle()" @keyup.32="toggle()" @keyup.37="toggle(offValue)" @keyup.39="toggle(onValue)">
-            <div class="light-switch-handle"></div>
-        	<div class="light-switch-container">
-        		<div class="light-switch-label on-value"></div>
-        		<div class="light-switch-label off-value"></div>
-        	</div>
+        <div :class="controlClasses"
+            tabindex="0"
+            @click="toggle()"
+            @keyup.32="toggle()"
+            @keyup.37="toggle(offValue)"
+            @keyup.39="toggle(onValue)">
+            <div class="light-switch-handle" />
+            <div class="light-switch-container">
+                <div class="light-switch-label on-value" />
+                <div class="light-switch-label off-value" />
+            </div>
         </div>
 
         <input
             v-bind-events
             v-bind="controlAttributes"
             :value="value"
-            @input="$emit('input', $event.target.value)"
             class="d-none"
-        />
+            @input="$emit('input', $event.target.value)">
 
         <slot name="feedback">
-            <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-            <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+            <form-feedback v-if="validFeedback" valid v-html="validFeedback" />
+            <form-feedback v-if="invalidFeedback" invalid v-html="invalidFeedback" />
         </slot>
 
         <slot name="help">
             <help-text v-if="helpText" v-html="helpText" />
         </slot>
-
     </form-group>
-
 </template>
 
 <script>
@@ -41,18 +41,16 @@ import FormGroup from '../FormGroup';
 import FormLabel from '../FormLabel';
 import FormFeedback from '../FormFeedback';
 import { isUndefined } from '../../Helpers/Functions';
-import FormControl from '../FormControl';
 import FormControlMixin from '../../Mixins/FormControl';
 
 export default {
 
-    name: 'light-switch-field',
+    name: 'LightSwitchField',
 
     components: {
         HelpText,
         FormGroup,
         FormLabel,
-        FormControl,
         FormFeedback
     },
 
@@ -88,6 +86,7 @@ export default {
          * @property String
          */
         onValue: {
+            type: [String, Number, Boolean, Object, Array],
             default: 1
         },
 
@@ -97,9 +96,16 @@ export default {
          * @property String
          */
         offValue: {
+            type: [String, Number, Boolean, Object, Array],
             default: 0
         }
 
+    },
+
+    data() {
+        return {
+            dragging: false
+        };
     },
 
     computed: {
@@ -119,6 +125,16 @@ export default {
             ].join(' ');
         }
 
+    },
+
+    watch: {
+        value() {
+            this.dragging = true;
+
+            setTimeout(() => {
+                this.dragging = false;
+            }, this.getTransitionInMilliseconds());
+        }
     },
 
     methods: {
@@ -142,22 +158,6 @@ export default {
             this.$emit('input', !isUndefined(value) ? value : (this.isActive ? this.offValue : this.onValue));
         }
 
-    },
-
-    watch: {
-        value() {
-            this.dragging = true;
-
-            setTimeout(() => {
-                this.dragging = false;
-            }, this.getTransitionInMilliseconds());
-        }
-    },
-
-    data() {
-        return {
-            dragging: false
-        };
     }
 
 };

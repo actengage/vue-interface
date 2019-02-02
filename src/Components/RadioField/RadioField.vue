@@ -1,22 +1,19 @@
 <template>
-
-    <div :class="mergeClasses(this.custom ? 'custom-radio' : '', controlClass, inline ? inlineClass : '')">
-
+    <div :class="mergeClasses(custom ? 'custom-radio' : '', controlClass, inline ? inlineClass : '')">
         <input
+            :id="$attrs.id || hash"
             v-bind-events
             v-bind="controlAttributes"
             type="radio"
-            :id="$attrs.id || hash"
             :value="value"
             :checked="checkedValue === value"
-            @change="update"
-        />
+            @change="update">
 
         <label :for="$attrs.id || hash" :class="mergeClasses(labelClass)">
-            <slot>{{label}}</slot>
+            <slot>{{ label }}</slot>
             <slot name="feedback">
-                <form-feedback v-if="validFeedback" v-html="validFeedback" valid />
-                <form-feedback v-if="invalidFeedback" v-html="invalidFeedback" invalid />
+                <form-feedback v-if="validFeedback" valid v-html="validFeedback" />
+                <form-feedback v-if="invalidFeedback" invalid v-html="invalidFeedback" />
             </slot>
         </label>
 
@@ -24,7 +21,6 @@
             <help-text v-if="helpText" v-html="helpText" />
         </slot>
     </div>
-
 </template>
 
 <script>
@@ -38,7 +34,7 @@ import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {
 
-    name: 'radio-field',
+    name: 'RadioField',
 
     components: {
         HelpText,

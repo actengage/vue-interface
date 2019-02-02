@@ -1,20 +1,27 @@
 <template>
-
-    <div class="dropzone" :class="{'is-dragging': isDragging}" @drop.prevent="onDrop" @dragover.prevent="onDragover" @dragenter.prevent="onDragenter" @dragleave.prevent="onDragleave">
+    <div class="dropzone"
+        :class="{'is-dragging': isDragging}"
+        @drop.prevent="onDrop"
+        @dragover.prevent="onDragover"
+        @dragenter.prevent="onDragenter"
+        @dragleave.prevent="onDragleave">
         <slot name="placeholder">
             <div class="dropzone-placeholder text-center">
                 <card>
                     <card-body>
-                        <h1 class="mt-4">Drag & Drop</h1>
+                        <h1 class="mt-4">
+                            Drag & Drop
+                        </h1>
                         <p>Drag and drop your files here to upload them!</p>
-                        <div class="mt-3"><i class="fa fa-image"/></div>
+                        <div class="mt-3">
+                            <i class="fa fa-image" />
+                        </div>
                     </card-body>
                 </card>
             </div>
         </slot>
-        <slot/>
+        <slot />
     </div>
-
 </template>
 
 <script>
@@ -23,11 +30,18 @@ import CardBody from '../Card/CardBody';
 
 export default {
 
-    name: 'dropzone',
+    name: 'Dropzone',
 
     components: {
         Card,
         CardBody
+    },
+
+    data() {
+        return {
+            files: null,
+            isDragging: false
+        };
     },
 
     methods: {
@@ -53,13 +67,6 @@ export default {
             this.$emit('dragleave', event);
         }
 
-    },
-
-    data() {
-        return {
-            files: null,
-            isDragging: false
-        };
     }
 
 };

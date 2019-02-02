@@ -1,7 +1,11 @@
 import prefix from '../../Helpers/Prefix';
 import Colorable from '../../Mixins/Colorable';
 import MergeClasses from '../../Mixins/MergeClasses';
-import { each, isArray, isEmpty, isObject } from '../../Helpers/Functions';
+import each from '../../Helpers/Functions/each';
+import isArray from '../../Helpers/Functions/isArray';
+import isEmpty from '../../Helpers/Functions/isEmpty';
+import isObject from '../../Helpers/Functions/isObject';
+import kebabCase from '../../Helpers/Functions/kebabCase';
 
 const emptyClass = 'is-empty';
 const focusClass = 'has-focus';
@@ -317,7 +321,7 @@ export default {
         },
 
         formGroupClasses() {
-            const name = prefix(this.$options.name, this.custom ? customPrefix : '');
+            const name = prefix(kebabCase(this.$options.name), this.custom ? customPrefix : '');
 
             return this.mergeClasses(name, prefix(this.size, name), {
                 'has-activity': this.activity,

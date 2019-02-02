@@ -11,7 +11,7 @@
                     @before-leave="onSlideBeforeLeave"
                     @leave="onSlideLeave">
                     <slides ref="slides" :key="currentSlide" :active="currentSlide">
-                        <slot/>
+                        <slot />
                     </slides>
                 </transition>
             </keep-alive>
@@ -30,7 +30,7 @@ import { isFunction } from '../../Helpers/Functions';
 
 export default {
 
-    name: 'slide-deck',
+    name: 'SlideDeck',
 
     components: {
         Slides,
@@ -103,6 +103,41 @@ export default {
 
     },
 
+    data() {
+        return {
+            height: null,
+            width: null,
+            lastSlide: null,
+            currentSlide: this.active,
+            direction: 'forward'
+        };
+    },
+
+    computed: {
+
+        overflowElement() {
+            if(this.overflow === true) {
+                return this.$el;
+            }
+            else if(this.overflow instanceof Element) {
+                return this.overflow;
+            }
+            else if(this.overflow && this.overflow.elm) {
+                return this.overflow.elm;
+            }
+            else if(this.overflow) {
+                return document.querySelector(this.overflow);
+            }
+
+            return null;
+        },
+
+        nodes() {
+            return this.$slots.default;
+        }
+
+    },
+
     watch: {
 
         active(value, oldValue) {
@@ -114,6 +149,12 @@ export default {
             this.direction = this.$refs.slides.getSlideIndex(oldValue) > this.$refs.slides.getSlideIndex(value) ? 'backward' : 'forward';
         }
 
+    },
+
+    mounted() {
+        if(this.overflowElement) {
+            this.overflowElement.style.overflow = 'hidden';
+        }
     },
 
     methods: {
@@ -216,47 +257,6 @@ export default {
             );
         }
 
-    },
-
-    computed: {
-
-        overflowElement() {
-            if(this.overflow === true) {
-                return this.$el;
-            }
-            else if(this.overflow instanceof Element) {
-                return this.overflow;
-            }
-            else if(this.overflow && this.overflow.elm) {
-                return this.overflow.elm;
-            }
-            else if(this.overflow) {
-                return document.querySelector(this.overflow);
-            }
-
-            return null;
-        },
-
-        nodes() {
-            return this.$slots.default;
-        }
-
-    },
-
-    mounted() {
-        if(this.overflowElement) {
-            this.overflowElement.style.overflow = 'hidden';
-        }
-    },
-
-    data() {
-        return {
-            height: null,
-            width: null,
-            lastSlide: null,
-            currentSlide: this.active,
-            direction: 'forward'
-        };
     }
 
 };

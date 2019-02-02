@@ -3,7 +3,7 @@ import Card from './Card';
 
 export default {
 
-    name: 'card-img-overlay',
+    name: 'CardImgOverlay',
 
     extends: Card
 

@@ -1,11 +1,11 @@
 <template>
-    <div class="dropdown-divider"></div>
+    <div class="dropdown-divider" />
 </template>
 
 <script>
 export default {
 
-    name: 'dropdown-menu-divider'
+    name: 'DropdownMenuDivider'
 
 };
 </script>

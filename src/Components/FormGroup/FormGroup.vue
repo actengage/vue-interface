@@ -1,15 +1,13 @@
 <template>
-
     <div :class="{'form-group': !!group}">
-        <slot/>
+        <slot />
     </div>
-
 </template>
 
 <script>
 export default {
 
-    name: 'form-group',
+    name: 'FormGroup',
 
     props: {
 

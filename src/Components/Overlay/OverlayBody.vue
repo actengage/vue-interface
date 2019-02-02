@@ -1,11 +1,13 @@
 <template>
-    <div class="overlay-body"><slot/></div>
+    <div class="overlay-body">
+        <slot />
+    </div>
 </template>
 
 <script>
 export default {
 
-    name: 'overlay-body'
+    name: 'OverlayBody'
 
 };
 </script>

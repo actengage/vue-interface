@@ -1,11 +1,13 @@
 <template>
-    <a class="alert-link"><slot/></a>
+    <a class="alert-link">
+        <slot />
+    </a>
 </template>
 
 <script>
 export default {
 
-    name: 'alert-link'
+    name: 'AlertLink'
 
 };
 </script>

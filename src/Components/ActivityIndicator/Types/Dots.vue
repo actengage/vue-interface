@@ -3,7 +3,7 @@ import BaseType from './BaseType';
 
 export default {
 
-    name: 'activity-indicator-dots',
+    name: 'ActivityIndicatorDots',
 
     extends: BaseType
 };

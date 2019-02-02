@@ -7,8 +7,8 @@
         :class="{'active': active}"
         class="dropdown-item"
         @click="onClick">
-        <i v-if="icon" :class="icon"/>
-        <slot>{{label}}</slot>
+        <i v-if="icon" :class="icon" />
+        <slot>{{ label }}</slot>
     </component>
 </template>
 
@@ -17,7 +17,7 @@ import Proxy from '../../Mixins/Proxy/Proxy';
 
 export default {
 
-    name: 'dropdown-menu-item',
+    name: 'DropdownMenuItem',
 
     mixins: [
         Proxy

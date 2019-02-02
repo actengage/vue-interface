@@ -1,14 +1,12 @@
 <template>
     <component
-        v-bind="$attrs"
         :is="element"
+        v-bind="$attrs"
         :aria-label="label || name || id"
         :aria-describedby="id || name"
         @input="$emit('input', $event.target.value)">
-        <slot/>
+        <slot />
     </component>
-</div>
-
 </template>
 
 <script>
@@ -17,7 +15,7 @@ import FormControl from '../../Mixins/FormControl';
 
 export default {
 
-    name: 'form-control',
+    name: 'FormControl',
 
     mixins: [
         Colorable,
