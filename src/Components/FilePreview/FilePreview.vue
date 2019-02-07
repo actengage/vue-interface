@@ -2,7 +2,7 @@
     <div class="file-preview" :class="{'has-image': !!image}">
         <div class="file-preview-inner">
             <a v-if="!hideClose" href="#" class="file-preview-close" @click.prevent="$emit('close', file)">
-                <i class="fa fa-times-circle" />
+                <font-awesome-icon icon="times-circle" />
             </a>
 
             <div v-if="!!poster || isImage" class="file-preview-image">
@@ -10,7 +10,7 @@
             </div>
 
             <div v-else v-ready="() => this.$emit('loaded')" class="file-preview-icon">
-                <i class="fa" :class="{'fa-file-video-o': isVideo, 'fa-file-o': !isVideo}" />
+                <font-awesome-icon :icon="isVideo ? 'file-video' : 'file-alt'" />
             </div>
 
             <progress-bar
@@ -34,12 +34,23 @@ import ProgressBar from '../ProgressBar';
 import { isFunction } from '../../Helpers/Functions';
 import readFile from '../../Helpers/ReadFile/ReadFile';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faFileAlt } from '@fortawesome/free-solid-svg-icons/faFileAlt';
+import { faFileVideo } from '@fortawesome/free-solid-svg-icons/faFileVideo';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
+
+library.add(faFileAlt);
+library.add(faFileVideo);
+library.add(faTimesCircle);
+
 export default {
 
     name: 'FilePreview',
 
     components: {
-        ProgressBar
+        ProgressBar,
+        FontAwesomeIcon
     },
 
     directives: {
@@ -67,7 +78,7 @@ export default {
          * @property Object
          */
         file: {
-            type: [Object, File],
+            type: [Object, Blob],
             required: true
         },
 
@@ -94,7 +105,7 @@ export default {
     data() {
         return {
             image: this.file.url,
-            loaded: this.file instanceof File ? 0 : false
+            loaded: this.file instanceof Blob ? 0 : false
         };
     },
 
@@ -106,7 +117,7 @@ export default {
          * @property String
          */
         name() {
-            return this.file instanceof File ? this.file.name : this.file.orig_filename;
+            return this.file instanceof Blob ? this.file.name : this.file.orig_filename;
         },
 
         /**
@@ -115,7 +126,7 @@ export default {
          * @property String
          */
         extension() {
-            return this.file instanceof File ? this.file.name.split('.').pop().toLowerCase() : this.file.extension;
+            return this.file instanceof Blob ? this.file.name.split('.').pop().toLowerCase() : this.file.extension;
         },
 
         /**
@@ -133,7 +144,7 @@ export default {
          * @property String
          */
         type() {
-            return this.file instanceof File ? this.file.type : this.file.mime;
+            return this.file instanceof Blob ? this.file.type : this.file.mime;
         },
 
         /**
@@ -160,7 +171,7 @@ export default {
          * @property String
          */
         lastModified() {
-            return this.file instanceof File ? this.file.lastModified : null;
+            return this.file instanceof Blob ? this.file.lastModified : null;
         },
 
         /**
@@ -169,7 +180,7 @@ export default {
          * @property String
          */
         lastModifiedDate() {
-            return this.file instanceof File ? this.file.lastModifiedDate : null;
+            return this.file instanceof Blob ? this.file.lastModifiedDate : null;
         }
 
     },
@@ -177,7 +188,7 @@ export default {
     methods: {
 
         readFile() {
-            if(this.file instanceof File) {
+            if(this.file instanceof Blob) {
                 const start = moment();
 
                 this.loaded = 0;

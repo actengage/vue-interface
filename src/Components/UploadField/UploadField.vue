@@ -28,7 +28,7 @@
             </thumbnail-list>
 
             <div v-if="showDropElement" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
-                <i class="fa fa-cloud-upload" />
+                <font-awesome-icon icon="cloud-upload-alt" />
                 <div>Drag and drop files to upload</div>
             </div>
         </dropzone>
@@ -39,12 +39,18 @@
 import FormGroup from '../FormGroup';
 import Model from '../../Http/Model';
 import Dropzone from '../Dropzone/Dropzone';
-import FormControl from '../../Mixins/FormControl/FormControl';
 import FileField from '../FileField/FileField';
 import FilePreview from '../FilePreview/FilePreview';
 import ThumbnailList from '../ThumbnailList/ThumbnailList';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import FormControl from '../../Mixins/FormControl/FormControl';
 import ThumbnailListItem from '../ThumbnailList/ThumbnailListItem';
 import { each, extend, remove, isArray, isUndefined } from '../../Helpers/Functions';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons/faCloudUploadAlt';
+
+library.add(faCloudUploadAlt);
 
 export default {
 
@@ -56,6 +62,7 @@ export default {
         FileField,
         FilePreview,
         ThumbnailList,
+        FontAwesomeIcon,
         ThumbnailListItem
     },
 

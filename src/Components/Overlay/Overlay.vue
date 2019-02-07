@@ -6,7 +6,7 @@
         tabindex="-1"
         @keydown.esc="onEsc">
         <button v-if="closeable && !hideCloseButton" type="button" class="btn btn-link overlay-close" @click="onClickClose">
-            <i class="fa fa-times-circle" />
+            <font-awesome-icon icon="times-circle" />
         </button>
 
         <overlay-content :class="{'overlay-content-fixed': fixedContent, 'overlay-content-center': center}" :style="{minHeight: minHeight}">
@@ -24,13 +24,20 @@ import OverlayBody from './OverlayBody';
 import OverlayContent from './OverlayContent';
 import Triggerable from '../../Mixins/Triggerable';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
+
+library.add(faTimesCircle);
+
 export default {
 
     name: 'Overlay',
 
     components: {
         OverlayBody,
-        OverlayContent
+        OverlayContent,
+        FontAwesomeIcon
     },
 
     mixins: [

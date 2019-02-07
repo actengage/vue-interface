@@ -7,15 +7,25 @@
             class="slide-deck-control-icon"
             :class="{'is-active': (slide.data ? slide.data.key : slide.key) === active}"
             @click.prevent="onClick($event, slide)">
-            <i class="fa fa-circle" />
+            <font-awesome-icon icon="circle" />
         </a>
     </div>
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons/faCircle';
+
+library.add(faCircle);
+
 export default {
 
     name: 'SlideDeckControls',
+    
+    components: {
+        FontAwesomeIcon
+    },
 
     props: {
 

@@ -2,6 +2,7 @@ import camelCase from './camelCase';
 import chunk from './chunk';
 import cloneDeep from './cloneDeep';
 import concatMap from './concatMap';
+import debounce from './debounce';
 import deepExtend from './deepExtend';
 import deepFlatten from './deepFlatten';
 import each from './each';
@@ -41,6 +42,7 @@ export {
     chunk,
     cloneDeep,
     concatMap,
+    debounce,
     deepExtend,
     deepFlatten,
     each,

@@ -1,8 +1,8 @@
 import { isFunction } from '../Functions';
 
 export default function readFile(file, progress) {
-    if(!(file instanceof File)) {
-        throw new Error('The first argument be an instance of File object.');
+    if(!(file instanceof Blob)) {
+        throw new Error('The first argument be an instance of Blob object.');
     }
 
     return new Promise((resolve, reject) => {

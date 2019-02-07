@@ -1,7 +1,7 @@
 <template>
     <div class="wizard-error">
         <div v-if="icon" class="wizard-error-icon">
-            <i :class="icon" />
+            <i :class="icon" size="3x" />
         </div>
 
         <h3 v-if="title" class="wizard-error-title" v-html="title" />
@@ -19,7 +19,7 @@
                 </div>
 
                 <btn size="lg" variant="danger" block @click="$emit('back')">
-                    <i class="fa fa-long-arrow-left" /> Go Back
+                    <font-awesome-icon icon="long-arrow-alt-left" /> Go Back
                 </btn>
             </div>
         </div>
@@ -30,12 +30,21 @@
 import Btn from '../Btn';
 import WizardStep from './WizardStep';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons/faLongArrowAltLeft';
+
+library.add(faCheck);
+library.add(faLongArrowAltLeft);
+
 export default {
 
     name: 'WizardError',
 
     components: {
-        Btn
+        Btn,
+        FontAwesomeIcon
     },
 
     extends: WizardStep,
@@ -44,7 +53,7 @@ export default {
 
         icon: {
             type: String,
-            default: 'fa fa-3x fa-check'
+            default: 'check'
         },
 
         title: {

@@ -1,7 +1,7 @@
 import isFunction from './isFunction';
 
 export default function wrap(subject, fn) {
-    return value => {
-        return isFunction(fn) ? fn(subject, value) : value;
+    return (...args) => {
+        return isFunction(fn) ? fn(subject, ...args) : args;
     };
 };

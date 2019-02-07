@@ -22,7 +22,7 @@
             <tr v-else-if="!data.length">
                 <td :colspan="tableColumns.length" class="position-relative">
                     <alert variant="warning" class="my-3">
-                        <i class="fa fa-warning" /> There are no results found.
+                        <font-awesome-icon icon="warning" /> There are no results found.
                     </alert>
                 </td>
             </tr>
@@ -58,11 +58,18 @@ import TableViewHeader from './TableViewHeader';
 import ActivityIndicator from '../ActivityIndicator';
 import { each, isObject } from '../../Helpers/Functions';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
+
+library.add(faExclamationTriangle);
+
 export default {
 
     components: {
         Alert,
         Pagination,
+        FontAwesomeIcon,
         TableViewHeader,
         ActivityIndicator
     },

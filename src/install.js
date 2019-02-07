@@ -30,7 +30,7 @@ if(window && window.Vue) {
     window.Vue.use(install);
 }
 
-export {
+export default {
     Components,
     Directives,
     Filters,

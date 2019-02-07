@@ -1,5 +1,7 @@
 import blob from './Blob';
+import breakpoints from './Breakpoints';
 import elapsed from './Elapsed';
+import EventEmitter from './EventEmitter';
 import hash from './Hash';
 import instantiate from './Instantiate';
 import prefix from './Prefix';
@@ -13,7 +15,9 @@ import wait from './Wait';
 
 export {
     blob,
+    breakpoints,
     elapsed,
+    EventEmitter,
     hash,
     instantiate,
     prefix,

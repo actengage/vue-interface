@@ -10,8 +10,8 @@
                 </template>
                 <slot />
             </a>
-            <i v-if="request.params.order === id && request.params.sort === 'asc'" class="sort-icon fa fa-sort-asc" />
-            <i v-if="request.params.order === id && request.params.sort === 'desc'" class="sort-icon fa fa-sort-desc" />
+            <font-awesome-icon v-if="request.params.order === id && request.params.sort === 'asc'" class="sort-icon" icon="sort-up" />
+            <font-awesome-icon v-if="request.params.order === id && request.params.sort === 'desc'" class="sort-icon" icon="sort-down" />
         </template>
         <template v-else>
             <template v-if="!$slots.default">
@@ -23,9 +23,21 @@
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faSortUp } from '@fortawesome/free-solid-svg-icons/faSortUp';
+import { faSortDown } from '@fortawesome/free-solid-svg-icons/faSortDown';
+
+library.add(faSortUp);
+library.add(faSortDown);
+
 export default {
 
     name: 'TableViewHeader',
+
+    components: {
+        FontAwesomeIcon
+    },
 
     props: {
 

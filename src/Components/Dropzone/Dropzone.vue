@@ -14,7 +14,7 @@
                         </h1>
                         <p>Drag and drop your files here to upload them!</p>
                         <div class="mt-3">
-                            <i class="fa fa-image" />
+                            <font-awesome-icon icon="image" />
                         </div>
                     </card-body>
                 </card>
@@ -28,13 +28,20 @@
 import Card from '../Card';
 import CardBody from '../Card/CardBody';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faImage } from '@fortawesome/free-solid-svg-icons/faImage';
+
+library.add(faImage);
+
 export default {
 
     name: 'Dropzone',
 
     components: {
         Card,
-        CardBody
+        CardBody,
+        FontAwesomeIcon
     },
 
     data() {
@@ -76,12 +83,16 @@ export default {
 .dropzone {
     position: relative;
 
-    p {
-        font-size: 18px;
+    &.is-dragging .dropzone-placeholder {
+        display: block;
     }
 
-    .fa-image {
+    & > .fa-image {
         font-size: 100px;
+    }
+
+    p {
+        font-size: 18px;
     }
 
     .dropzone-placeholder {
@@ -93,10 +104,6 @@ export default {
         width: 100%;
         height: 100%;
         background: white;
-    }
-
-    &.is-dragging .dropzone-placeholder {
-        display: block;
     }
 }
 </style>

@@ -8,7 +8,7 @@
                 :disabled="backButton === false || (active === 0 && backButton !== true)"
                 :size="sizeableClass"
                 @click="onClickBack">
-                <i class="fa fa-long-arrow-left" /> Back
+                <font-awesome-icon icon="long-arrow-alt-left" /> Back
             </btn>
         </btn-group>
         <btn-group ref="right" class="wizard-buttons-right">
@@ -31,7 +31,7 @@
                 type="button"
                 variant="primary"
                 @click="onClickNext">
-                Next <i class="fa fa-long-arrow-right" />
+                Next <font-awesome-icon icon="long-arrow-alt-right" />
             </btn-activity>
         </btn-group>
     </div>
@@ -43,6 +43,16 @@ import BtnGroup from '../BtnGroup';
 import BtnActivity from '../BtnActivity';
 import Sizeable from '../../Mixins/Sizeable';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons/faLongArrowAltLeft';
+import { faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons/faLongArrowAltRight';
+
+library.add(faCheck);
+library.add(faLongArrowAltLeft);
+library.add(faLongArrowAltRight);
+
 export default {
 
     name: 'WizardButtons',
@@ -50,7 +60,8 @@ export default {
     components: {
         Btn,
         BtnGroup,
-        BtnActivity
+        BtnActivity,
+        FontAwesomeIcon
     },
 
     mixins: [

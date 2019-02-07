@@ -13,6 +13,7 @@
 import prefix from '../../Helpers/Prefix';
 import Variant from '../../Mixins/Variant';
 import MergeClasses from '../../Mixins/MergeClasses';
+import kebabCase from '../../Helpers/Functions/kebabCase';
 
 export default {
 

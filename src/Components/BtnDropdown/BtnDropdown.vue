@@ -3,12 +3,13 @@
         <template v-if="!dropleft">
             <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
                 <slot name="label">
-                    <i v-if="icon" :class="icon" /> {{ label }}
+                    <icon v-if="icon" :icon="icon" /> {{ label }}
                 </slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
                 <slot name="label-wrapper">
-                    <i v-if="icon" :class="icon" /> <slot name="label">
+                    <icon v-if="icon" :icon="icon" />
+                    <slot name="label">
                         {{ label }}
                     </slot>
                 </slot>
@@ -34,12 +35,13 @@
         <template v-if="dropleft">
             <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
                 <slot name="label">
-                    <i v-if="icon" :class="icon" /> {{ label }}
+                    <icon v-if="icon" :icon="icon" /> {{ label }}
                 </slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
                 <slot name="label-wrapper">
-                    <i v-if="icon" :class="icon" /> <slot name="label">
+                    <icon v-if="icon" :icon="icon" />
+                    <slot name="label">
                         {{ label }}
                     </slot>
                 </slot>
@@ -56,7 +58,7 @@
             @click.prevent="!isDropdownShowing ? show() : hide()"
             @blur="onBlur">
             <slot name="label">
-                <i v-if="icon" :class="icon" /> {{ label }}
+                <icon v-if="icon" :icon="icon" /> {{ label }}
             </slot>
         </button>
 

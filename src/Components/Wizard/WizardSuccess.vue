@@ -1,7 +1,7 @@
 <template>
     <div class="wizard-success">
         <div v-if="icon" class="wizard-success-icon">
-            <i :class="icon" />
+            <font-awesome-icon :icon="icon" />
         </div>
 
         <h3 v-if="title" class="wizard-success-title" v-html="title" />
@@ -13,9 +13,19 @@
 <script>
 import WizardStep from './WizardStep';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+
+library.add(faCheck);
+
 export default {
 
     name: 'WizardSuccess',
+
+    components: {
+        FontAwesomeIcon
+    },
 
     extends: WizardStep,
 
@@ -23,7 +33,7 @@ export default {
 
         icon: {
             type: String,
-            default: 'fa fa-check'
+            default: 'check'
         },
 
         title: {

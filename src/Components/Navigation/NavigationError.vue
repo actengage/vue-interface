@@ -1,14 +1,29 @@
 <template>
     <span class="navigation-error fa-stack fa-md" :title="error">
-        <i class="fa fa-stack-2x fa-certificate" />
-        <i class="fa fa-stack-1x fa-exclamation fa-inverse" />
+        <font-awesome-layers>
+            <font-awesome-icon icon="certificate" size="2x" />
+            <font-awesome-icon icon="exclamation" />
+        </font-awesome-layers>
     </span>
 </template>
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCertificate } from '@fortawesome/free-solid-svg-icons/faCertificate';
+import { faExclamation } from '@fortawesome/free-solid-svg-icons/faExclamation';
+import { FontAwesomeIcon, FontAwesomeLayers } from '@fortawesome/vue-fontawesome';
+
+library.add(faCertificate);
+library.add(faExclamation);
+
 export default {
 
     name: 'NavigationError',
+
+    components: {
+        FontAwesomeIcon,
+        FontAwesomeLayers
+    },
 
     props: {
 

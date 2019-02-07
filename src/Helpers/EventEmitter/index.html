@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>elapsed</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../../dist/VueInterface.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>EventEmitter</h1>
+
+            <p>
+                The `EventEmitter` class creates an abstraction that handles
+                the basic functions of an event emitter.
+            </p>
+
+            <h3>Basic Example</h3>
+
+            <button onclick="emitter.emit('event-a', 1, 2, 3)">
+                Emit "event-a"
+            </button>
+
+            <button onclick="emitter.emit('event-b', 4, 5, 6)">
+                Emit "event-b"
+            </button>
+
+            <button onclick="emitter.off('event-a')">
+                Off "event-a"
+            </button>
+            
+            <button onclick="emitter.off('event-b')">
+                Off "event-b"
+            </button>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="../../../dist/VueInterface.umd.js"></script>
+        <script type="text/javascript">
+            const { EventEmitter } = VueInterface.Helpers;
+
+            const emitter = new EventEmitter;
+
+            emitter.once('event-a', (...args) => {
+                console.log('once event-a', args);
+            });
+
+            emitter.on('event-a', (...args) => {
+                console.log('event-a', args);
+            });
+
+            emitter.on('event-b', (...args) => {
+                console.log('event-b', args);
+            });
+        </script>
+    </body>
+</html>

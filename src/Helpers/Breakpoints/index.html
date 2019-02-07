@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>elapsed</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../../dist/VueInterface.css">
+    </head>
+    <body>
+        <div id="app" class="container">
+            <h1>breakpoints</h1>
+
+            <p>
+                The `breakpoints` function creates an event emitter that fires 
+                events as the window resizes.
+            </p>
+
+            <h3>Basic Example</h3>
+
+            <div id="test">
+                test
+            </div>
+            
+        </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+        <script type="text/javascript" src="../../../dist/VueInterface.umd.js"></script>
+        <script type="text/javascript">
+            const { breakpoints } = VueInterface.Helpers;
+
+            const vue = new Vue({
+                el: '#app',
+                mounted() {
+                    breakpoints(document.getElementById('test'), {
+                        'sm': 300
+                    }, {
+                        'md': [300, 500]
+                    }, {
+                        'lg': {
+                            gte: 501,
+                            lt: 700
+                        }
+                    }, {
+                        'xl': {
+                            gte: 700
+                        }
+                    }, {
+                        wait: 500
+                    })
+                },
+                data() {
+                    return {
+                        reject: null,
+                        resolve: null,
+                        hasError: false,
+                        hasElapsed: false,
+                        hasStarted: false,
+                        hasFinished: false,
+                        showActivity: false
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>
