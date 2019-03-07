@@ -1,8 +1,8 @@
 <template>
-    <div class="thumbnail-list-item" :style="{height: unit(height), width: unit(width), minHeight: unit(minHeight), maxHeight: unit(maxHeight), minWidth: unit(minWidth), maxWidth: unit(maxWidth)}">
+    <a :href="src || '#'" class="thumbnail-list-item" :style="style" @click="onClick">
         <img v-if="src" :src="src" :alt="alt" :class="{'img-fluid': fluid}">
         <slot />
-    </div>
+    </a>
 </template>
 
 <script>
@@ -18,26 +18,52 @@ export default {
 
         width: [String, Number],
 
+        minWidth: [String, Number],
+
+        maxWidth: [String, Number],
+
         height: [String, Number],
 
         minHeight: [String, Number],
 
         maxHeight: [String, Number],
 
-        minWidth: [String, Number],
-
-        maxWidth: [String, Number],
-
         fluid: {
+            type: Boolean,
+            default: true
+        },
+
+        preventDefault: {
             type: Boolean,
             default: true
         }
 
     },
 
+    computed: {
+
+        style() {
+            return {
+                height: unit(this.height),
+                width: unit(this.width),
+                minHeight: unit(this.minHeight),
+                maxHeight: unit(this.maxHeight),
+                minWidth: unit(this.minWidth),
+                maxWidth: unit(this.maxWidth)
+            };
+        }
+
+    },
+
     methods: {
 
-        unit: unit
+        onClick(event) {
+            if(this.preventDefault) {
+                event.preventDefault();
+            }
+
+            this.$emit('click', event);
+        }
 
     }
 

@@ -6,7 +6,7 @@
 
 <script>
 import Model from '../../Http/Model/Model';
-import { isFunction, pickBy } from '../../Helpers/Functions';
+import { isFunction, pickBy, deepExtend } from '../../Helpers/Functions';
 
 export default {
 
@@ -43,6 +43,18 @@ export default {
          * @property Object
          */
         headers: Object,
+
+        /**
+         * A JSON object of default request object
+         *
+         * @property Object
+         */
+        request: {
+            type: Object,
+            default() {
+                return {};
+            }
+        },
 
         /**
          * Display the form fields inline
@@ -98,16 +110,16 @@ export default {
     methods: {
 
         submit(event) {
-            this.$emit('submit', event);
+            this.$emit('submit', event, this.model);
 
-            return this.model[this.method](this.data, pickBy({
+            return this.model[this.method](this.data, pickBy(deepExtend(this.request, {
                 query: this.query,
                 headers: this.headers,
                 onUploadProgress: event => {
                     this.$emit('submit:progress', event);
                     this.$emit('submit-progress', event);
                 }
-            }, value => !!value)).then((data) => {
+            }), value => !!value)).then((data) => {
                 this.onSubmitSuccess(event, data);
             }, (errors) => {
                 this.onSubmitFailed(event, errors);

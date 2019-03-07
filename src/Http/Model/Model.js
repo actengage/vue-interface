@@ -339,8 +339,8 @@ export default class Model {
      * @param data object
      * @return bool
      */
-    save(data = {}, config = {}) {
-        this.fill(data);
+    save(fill = {}, config = {}) {
+        this.fill(fill);
 
         return new Promise((resolve, reject) => {
             const data = !this.hasFiles() ? this.toJSON() : this.toFormData();
@@ -350,6 +350,11 @@ export default class Model {
             );
 
             this.$request = this.constructor.request(method, uri, config);
+
+            if(this.hasFiles()) {
+                this.$request.headers['Content-Type'] = 'multipart/form-data';
+            }
+
             this.$request.send({
                 data: data
             }).then(response => resolve(this.fill(response.data)), reject);
@@ -399,14 +404,14 @@ export default class Model {
         each(this.toJSON(), (value, key) => {
             if(isArray(value)) {
                 each(value, item => {
-                    if(!(item instanceof File) && (isObject(item) || isArray(item))) {
+                    if(!(item instanceof Blob) && (isObject(item) || isArray(item))) {
                         item = JSON.stringify(item);
                     }
 
                     form.append(key.replace(/(.+)(\[.+\]?)$/, '$1') + '[]', item);
                 });
             }
-            else if(!(value instanceof File) && isObject(value)) {
+            else if(!(value instanceof Blob) && isObject(value)) {
                 form.append(key, JSON.stringify(value));
             }
             else if(!isNull(value)) {
@@ -454,8 +459,12 @@ export default class Model {
      * @param data object
      * @return bool
      */
-    static search(params = {}, config = {}) {
+    static search(query = {}, config = {}) {
         const model = new this();
+
+        config = Object.assign({
+            query: query,
+        }, config);
 
         return new Promise((resolve, reject) => {
             model.$request = this.request('get', (config.uri || model.uri()), config);

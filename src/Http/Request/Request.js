@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Response from './Response';
 import BaseClass from '../../Support/BaseClass';
-import { extend, deepExtend, isObject } from '../../Helpers/Functions';
+import { deepExtend, isObject } from '../../Helpers/Functions';
 
 const DEFAULTS = {
     transformRequest: [],
@@ -47,13 +47,19 @@ export default class Request extends BaseClass {
     }
 
     get options() {
-        return deepExtend({
+        const merged = deepExtend({
             cancelToken: new axios.CancelToken(cancel => {
                 this.cancel = cancel;
 
                 return cancel;
             })
         }, DEFAULTS, this.getPublicAttributes());
+
+        if(this.data instanceof FormData) {
+            merged.data = this.data;
+        }
+
+        return merged;
     }
 
     set options(attributes) {
@@ -96,7 +102,7 @@ export default class Request extends BaseClass {
     }
 
     static set defaults(value) {
-        extend(DEFAULTS, value);
+        Object.assign(DEFAULTS, value);
     }
 
     static transformRequest(fn) {

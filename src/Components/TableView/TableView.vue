@@ -50,7 +50,6 @@ import Card from '../Card';
 import BaseTable from './Table';
 import Proxy from '../../Mixins/Proxy';
 import Request from '../../Http/Request';
-import { extend } from '../../Helpers/Functions';
 import TableViewTransformer from '../../Http/TableViewTransformer';
 
 export default {
@@ -124,6 +123,21 @@ export default {
         // (string) The table heading
         heading: String,
 
+        // (string) The default sort value
+        defaultSort: {
+            type: String,
+            default: 'desc'
+        },
+
+        // (string) The HTTP method used to send the request.
+        method: {
+            type: String,
+            default: 'get',
+            validate(value) {
+                return ['get', 'post', 'put', 'delete'].indexOf(value) !== -1;
+            }
+        },
+
         // (string) Add table-hover to the table element
         hover: {
             type: Boolean,
@@ -145,7 +159,24 @@ export default {
             validate: (value) => {
                 return value instanceof TableViewTransformer;
             }
+        },
+
+        // (bool) The request headers
+        headers: {
+            type: Object,
+            default() {
+                return {};
+            }
+        },
+
+        // (bool) The request URL parameters
+        params: {
+            type: Object,
+            default() {
+                return {};
+            }
         }
+
     },
 
     data() {
@@ -160,15 +191,15 @@ export default {
             response: null,
 
             // (object) The HTTP request object
-            request: extend({
-                headers: {},
-                params: {
+            request: {
+                headers: Object.assign({}, this.headers),
+                params: Object.assign({
                     page: this.page,
                     limit: this.limit,
                     order: this.order,
                     sort: this.sort
-                }
-            }, this.$attrs.request)
+                }, this.params)
+            }
         };
     },
 
@@ -181,52 +212,77 @@ export default {
     },
 
     methods: {
-
+        
         orderBy(order) {
-            const defaultSort = 'desc';
             const currentSort = this.getRequestParam('sort');
             const currentOrder = this.getRequestParam('order');
 
-            this.addRequestParam('order', order);
-            this.addRequestParam('sort',
-                currentOrder !== order || !currentSort ? defaultSort : (
-                    currentSort === defaultSort ? 'asc' : null
+            this.setRequestParam('order', order);
+            this.setRequestParam('sort',
+                currentOrder !== order || !currentSort ? this.defaultSort : (
+                    currentSort === this.defaultSort ? 'asc' : null
                 )
             );
 
             this.fetch();
         },
 
-        getRequestHeader(key, value) {
-            return this.request.headers[key] || value;
+        getRequestHeader(key, defaultValue) {
+            return this.request.headers[key] || defaultValue;
         },
 
-        addRequestHeader(key, value) {
-            if(!this.request.headers) {
-                this.request.headers = {};
+        setRequestHeader(key, value) {
+            this.request.headers = Object.assign(this.request.headers, {
+                [key]: value
+            });
+        },
+
+        setRequestHeaders(value) {
+            Object.assign(this.request.headers, value);
+        },
+
+        getRequestParam(key, defaultValue) {
+            return this.request.params[key] || defaultValue;
+        },
+
+        getRequestParams() {
+            return this.request.params;
+        },
+
+        setRequestParam(key, value) {
+            this.request.params = Object.assign(this.request.params, {
+                [key]: value
+            });
+        },
+
+        setRequestParams(value) {
+            Object.assign(this.request.params, value);
+        },
+
+        getRequestData(key, defaultValue) {
+            return this.request.data[key] || defaultValue;
+        },
+
+        setRequestData(key, value) {
+            if(value === undefined) {
+                this.request.data = Object.assign(this.request.data, {
+                    [key]: value
+                });
             }
-
-            this.request.headers[key] = value;
-        },
-
-        getRequestParam(key, value) {
-            return this.request.params[key] || value;
-        },
-
-        addRequestParam(key, value) {
-            if(!this.request.params) {
-                this.request.params = {};
+            else {
+                Object.assign(this.request.data, value);
             }
-
-            this.request.params[key] = value;
         },
 
-        fetch() {
+        fetch(page = 1, params = {}) {
+            this.setRequestParams(params);
+            this.setRequestParam('page', page);        
             this.loading = true;
             this.$emit('fetch');
 
-            return Request.get(this.url, this.request).then(response => {
+            return Request[this.method](this.url, this.request).then(response => {
                 const transformer = this.transformer || new TableViewTransformer(response);
+
                 this.loading = false;
                 this.data = transformer.data();
                 this.response = transformer.response();
@@ -239,13 +295,8 @@ export default {
             });
         },
 
-        onPaginate(page, event) {
-            if(!this.request.params) {
-                this.request.params = {};
-            }
-
-            this.request.params.page = page;
-            this.fetch();
+        onPaginate(page) {          
+            this.fetch(page);
         }
     }
 };

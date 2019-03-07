@@ -31,6 +31,18 @@ export default {
             default: true
         }
 
+    },
+
+    data() {
+        return {
+            isShowing: false
+        };
+    },
+
+    mounted() {
+        this.$nextTick(() => {
+            this.isShowing = this.show;
+        });
     }
 
 };

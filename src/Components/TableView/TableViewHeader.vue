@@ -1,7 +1,8 @@
 <template>
     <th scope="col">
         <template v-if="id && request">
-            <a href="#"
+            <a
+                href="#"
                 class="sort"
                 :data-id="id"
                 @click.prevent="$emit('order', id)">

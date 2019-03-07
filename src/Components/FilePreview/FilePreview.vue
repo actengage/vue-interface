@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import moment from 'moment';
 import ProgressBar from '../ProgressBar';
 import { isFunction } from '../../Helpers/Functions';
 import readFile from '../../Helpers/ReadFile/ReadFile';
@@ -189,7 +188,7 @@ export default {
 
         readFile() {
             if(this.file instanceof Blob) {
-                const start = moment();
+                const start = new Date().getTime();
 
                 this.loaded = 0;
 
@@ -206,7 +205,7 @@ export default {
                             this.$nextTick(() => {
                                 this.loaded = false;
                             });
-                        }, 500 - moment().diff(start));
+                        }, 500 - (((new Date().getTime() - start) / 1000)));
                     }, error => {
                         this.$emit('error', error);
                     });
@@ -247,12 +246,12 @@ $file-preview-close-height: 1rem * 2;
         padding: 0;
         width: 24px;
         height: 24px;
-        background: white;
         position: absolute;
+        background: white;
         border-radius: 100%;
         transform: translate(33%, -33%);
 
-        i {
+        svg {
             position: absolute;
             top: 0;
             left: 0;

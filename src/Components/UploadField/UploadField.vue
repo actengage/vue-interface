@@ -1,14 +1,15 @@
 <template>
-    <form-group :group="group" class="upload-field" :class="{'enable-dropzone': dropzone, 'enable-multiple': multiple}">
+    <form-group :group="group" :class="mergeClasses(formGroupClasses, {'enable-dropzone': dropzone, 'enable-multiple': multiple})">
         <dropzone @drop="onDrop">
+            <slot name="label">
+                <form-label v-if="label || hasDefaultSlot" ref="label" :for="$attrs.id" v-html="label" />
+            </slot>
+
             <file-field
                 v-if="multiple && (!maxUploads || maxUploads > value.length) || !multiple && !value"
-                :name="name"
-                :label="label"
-                :placeholder="placeholder"
+                v-bind="controlAttributes"
                 :help-text="helpText"
-                :multiple="multiple"
-                :errors="errors"
+                :value="value"
                 @change="onChange" />
 
             <thumbnail-list v-if="files && files.length" class="mt-4" wrap>
@@ -36,14 +37,16 @@
 </template>
 
 <script>
+import Dropzone from '../Dropzone';
 import FormGroup from '../FormGroup';
+import FileField from '../FileField';
+import FormLabel from '../FormLabel';
 import Model from '../../Http/Model';
-import Dropzone from '../Dropzone/Dropzone';
-import FileField from '../FileField/FileField';
-import FilePreview from '../FilePreview/FilePreview';
-import ThumbnailList from '../ThumbnailList/ThumbnailList';
+import FilePreview from '../FilePreview';
+import ThumbnailList from '../ThumbnailList';
+import FormControl from '../../Mixins/FormControl';
+import MergeClasses from '../../Mixins/MergeClasses';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import FormControl from '../../Mixins/FormControl/FormControl';
 import ThumbnailListItem from '../ThumbnailList/ThumbnailListItem';
 import { each, extend, remove, isArray, isUndefined } from '../../Helpers/Functions';
 
@@ -60,13 +63,17 @@ export default {
         Dropzone,
         FormGroup,
         FileField,
+        FormLabel,
         FilePreview,
         ThumbnailList,
         FontAwesomeIcon,
         ThumbnailListItem
     },
 
-    mixins: [FormControl],
+    mixins: [
+        FormControl,
+        MergeClasses
+    ],
 
     model: {
         prop: 'value',
@@ -186,15 +193,12 @@ export default {
     data() {
         return {
             progressBars: {},
-            isDraggingInside: false
+            isDraggingInside: false,
+            files: !this.value ? [] : (this.multiple ? Array.from(this.value) : [this.value])
         };
     },
 
     computed: {
-
-        files() {
-            return this.multiple ? this.value : (this.value ? [this.value] : []);
-        },
 
         showDropElement() {
             return !isUndefined(this.dragging) ? this.dragging : this.isDraggingInside;
@@ -205,31 +209,16 @@ export default {
     methods: {
 
         removeFile(data) {
+            this.files.splice(this.files.indexOf(data), 1);
+
+            if(data.request && data.request.cancel) {
+                data.request.cancel();
+            }
+
             if(this.multiple) {
-                const files = isArray(this.value) ? this.value.slice(0) : [];
-
-                if(data instanceof File) {
-                    if(data.request && data.request.cancel) {
-                        data.request.cancel();
-                    }
-
-                    remove(files, {
-                        name: data.name,
-                        size: data.size,
-                        lastModified: data.lastModified
-                    });
-                }
-                else {
-                    remove(files, data);
-                }
-
-                this.$emit('change', files);
+                this.$emit('change', this.files);
             }
             else {
-                if(data.request && data.request.cancel) {
-                    data.request.cancel();
-                }
-
                 this.$emit('change', null);
             }
         },
@@ -244,26 +233,22 @@ export default {
             };
 
             if(this.multiple) {
-                const files = subject || (isArray(this.value) ? this.value.slice(0) : []);
-
-                if((!this.maxUploads || this.maxUploads > files.length) && files.indexOf(data) === -1) {
-                    files.push(file);
-
-                    this.$emit('change', files);
+                if((!this.maxUploads || this.maxUploads > this.files.length) && this.files.indexOf(data) === -1) {
+                    this.files.splice(this.files.length, 0, file);
+                    this.$emit('change', this.files);
                     this.upload(file);
                 }
             }
             else {
+                this.files = [file];
                 this.$emit('change', file);
                 this.upload(file);
             }
         },
 
         addFiles(files) {
-            const subject = isArray(this.value) ? this.value.slice(0) : [];
-
-            each(files, file => {
-                this.addFile(file, subject);
+            Array.from(files).forEach(file => {
+                this.addFile(file);
             });
 
             event.target.value = null;
@@ -396,7 +381,13 @@ export default {
 <style lang="scss">
 
 .upload-field {
-     .file-preview {
+    .form-group.form-control {
+        height: auto;
+        border: 0;
+        padding: 0;
+    }
+    
+    .file-preview {
         min-width: 100px;
         min-height: 100px;
 

@@ -96,8 +96,8 @@ $slider-label-height: $slider-handle-height;
     @include slider-size('lg', 1.5);
     @include slider-size('xl', 2);
 
-    @include form-validation-state("valid", $form-feedback-valid-color);
-    @include form-validation-state("invalid", $form-feedback-invalid-color);
+    @include form-validation-state("valid", $form-feedback-valid-color, '');
+    @include form-validation-state("invalid", $form-feedback-invalid-color, '');
 
     &.is-invalid {
         border: 1px solid $form-feedback-invalid-color;

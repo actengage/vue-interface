@@ -186,6 +186,10 @@ export default {
 
         active() {
             this.currentStep = this.index();
+        },
+
+        currentStep(value) {
+            this.$emit('update:active', value);
         }
 
     },
@@ -205,7 +209,7 @@ export default {
     methods: {
 
         back() {
-            this.$emit('update:step', this.currentStep = Math.max(this.currentStep - 1, 0));
+            this.currentStep = Math.max(this.currentStep - 1, 0);
         },
 
         disableButtons() {
@@ -265,7 +269,7 @@ export default {
         },
 
         next() {
-            this.$emit('update:step', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
+            this.$emit('update:active', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
         },
 
         onBeforeEnter(slide, prev) {

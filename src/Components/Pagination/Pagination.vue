@@ -13,7 +13,8 @@
                     <a v-if="item.divider" class="page-link">
                         &hellip;
                     </a>
-                    <a v-else
+                    <a
+                        v-else
                         href="#"
                         class="page-link"
                         :class="item.class"

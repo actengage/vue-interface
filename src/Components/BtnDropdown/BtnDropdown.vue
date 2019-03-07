@@ -16,7 +16,8 @@
             </button>
         </template>
         <btn-group :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}">
-            <button :id="$attrs.id"
+            <button
+                :id="$attrs.id"
                 type="button"
                 aria-haspopup="true"
                 :aria-expanded="isDropdownShowing"
@@ -50,7 +51,8 @@
     </btn-group>
 
     <btn-group v-else :class="{'dropup': dropup, 'dropright': dropright, 'dropleft': dropleft}" @click="onClick">
-        <button :id="$attrs.id"
+        <button
+            :id="$attrs.id"
             aria-haspopup="true"
             :aria-expanded="isDropdownShowing"
             :type="type"

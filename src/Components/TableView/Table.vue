@@ -22,7 +22,7 @@
             <tr v-else-if="!data.length">
                 <td :colspan="tableColumns.length" class="position-relative">
                     <alert variant="warning" class="my-3">
-                        <font-awesome-icon icon="warning" /> There are no results found.
+                        <font-awesome-icon icon="exclamation-triangle" /> There are no results found.
                     </alert>
                 </td>
             </tr>
@@ -42,7 +42,7 @@
                             align="center"
                             :page="response.current_page"
                             :total-pages="response.last_page"
-                            @paginate="$emit('paginate')" />
+                            @paginate="(page, event) => $emit('paginate', page, event)" />
                     </slot>
                 </td>
             </tfoot>
@@ -138,7 +138,6 @@ export default {
 
         height(min) {
             const elements = [
-                // this.$el.querySelector('thead'),
                 this.$el.querySelector('tbody')
             ];
 

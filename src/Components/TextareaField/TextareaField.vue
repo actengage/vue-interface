@@ -1,9 +1,7 @@
 <template>
     <form-group :group="group" :class="formGroupClasses">
         <slot name="label">
-            <form-label v-if="label || hasDefaultSlot" :for="$attrs.id">
-                <slot>{{ label }}</slot>
-            </form-label>
+            <form-label v-if="label" ref="label" :for="$attrs.id" v-html="label" />
         </slot>
 
         <slot name="control">
@@ -59,29 +57,14 @@ export default {
     ],
 
     props: {
+        
         /**
          * The autogrow attribute
          *
          * @property Boolean
          */
-        autogrow: [Number, String, Boolean],
+        autogrow: [Number, String, Boolean]
 
-        /**
-         * The type attribute
-         *
-         * @property String
-         */
-        type: {
-            type: String,
-            default: 'text'
-        },
-
-        /**
-         * The rows attribute
-         *
-         * @property String
-         */
-        rows: [Number, String]
     }
 
 };

@@ -9,10 +9,12 @@ export default function instantiate(Vue, Component, options) {
         Component = Vue.extend(Component);
     }
     else if(isString(Component)) {
+        const string = Component;
+
         Component = Vue.extend({
             functional: true,
             render(h, context) {
-                return this._v(Component);
+                return this._v(string);
             }
         });
     }

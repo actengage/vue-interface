@@ -1,4 +1,4 @@
-import { each, isString } from '../../Helpers/Functions';
+import { each, isString, isFunction } from '../../Helpers/Functions';
 import transition from '../../Helpers/Transition';
 
 export default {
@@ -31,7 +31,7 @@ export default {
          * @type {String|Element|Boolean}
          */
         target: {
-            type: [String, Element, Boolean],
+            type: [Function, String, Element, Boolean],
             default: false
         },
 
@@ -70,22 +70,21 @@ export default {
          *
          * @return void
          */
-        initializeTriggers() {
+        initializeTarget() {
             if(this.target && this.trigger !== 'manual') {
-                if(this.target instanceof Element) {
+                if(isFunction(this.target)) {
+                    this.initializeTrigger(this.target(this));
+                }
+                else if(this.target instanceof Element) {
                     this.initializeTrigger(this.target);
                 }
                 else {
-                    document.querySelectorAll(this.target).forEach(el => {
-                        this.initializeTrigger(el);
-                    });
+                    (this.$parent.$el || document)
+                        .querySelectorAll(this.target)
+                        .forEach(el => {
+                            this.initializeTrigger(el);
+                        });
                 }
-            }
-
-            if(this.show || !this.target) {
-                this.$nextTick(() => {
-                    this.isShowing = true;
-                });
             }
         },
 
@@ -187,13 +186,13 @@ export default {
     },
 
     mounted() {
-        this.initializeTriggers();
+        this.initializeTarget();
     },
 
     data() {
         return {
-            isDisplaying: this.show || !this.target,
-            isShowing: false
+            isShowing: this.show,
+            isDisplaying: this.show || !this.target
         };
     }
 

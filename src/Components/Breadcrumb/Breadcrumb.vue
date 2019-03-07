@@ -3,8 +3,8 @@
         <ol class="breadcrumb">
             <breadcrumb-item
                 v-for="(item, i) in items"
-                v-bind="item"
                 :key="i"
+                v-bind="item"
                 :current="i === item.length - 1" />
             <slot />
         </ol>
@@ -32,7 +32,7 @@ export default {
         items: {
             type: Array,
             default() {
-                return []
+                return [];
             }
         }
 

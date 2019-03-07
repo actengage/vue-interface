@@ -1,7 +1,8 @@
 <template>
-    <div class="overlay"
+    <div
+        class="overlay"
         :class="triggerableClasses"
-        :style="{'background': background, 'display': isDisplaying ? 'flex' : 'none'}"
+        :style="{'background': background}"
         role="dialog"
         tabindex="-1"
         @keydown.esc="onEsc">

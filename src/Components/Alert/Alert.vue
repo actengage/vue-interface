@@ -5,7 +5,8 @@
         </alert-heading>
         <slot />
         <alert-close v-if="dismissible" @click="dismiss()" />
-        <progress-bar v-if="typeof show === 'number'"
+        <progress-bar
+            v-if="typeof show === 'number'"
             :variant="variant"
             :height="5"
             :value="dismissCount"

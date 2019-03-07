@@ -2,36 +2,39 @@
     <div class="wizard-buttons">
         <btn-group ref="left" class="wizard-buttons-left">
             <slot name="buttons-left" />
-            <btn ref="back"
+            <btn
+                ref="back"
                 type="button"
-                variant="secondary"
+                :variant="backVariant"
                 :disabled="backButton === false || (active === 0 && backButton !== true)"
                 :size="sizeableClass"
                 @click="onClickBack">
-                <font-awesome-icon icon="long-arrow-alt-left" /> Back
+                <font-awesome-icon icon="long-arrow-alt-left" /> {{ backLabel || 'Back' }}
             </btn>
         </btn-group>
         <btn-group ref="right" class="wizard-buttons-right">
             <slot name="buttons-right" />
-            <btn-activity v-if="active === steps.length - 1"
+            <btn-activity
+                v-if="finishButton === true || active === steps.length - 1"
                 ref="finish"
                 :activity="activity"
                 :size="sizeableClass"
+                :variant="finishVariant"
                 :disabled="finishButton === false"
                 type="button"
-                variant="success"
                 @click="onClickFinish">
-                Finish
+                {{ finishLabel || 'Finish' }}
             </btn-activity>
-            <btn-activity v-if="active < steps.length - 1"
+            <btn-activity
+                v-if="active < steps.length - 1"
                 ref="next"
                 :activity="activity"
                 :size="sizeableClass"
+                :variant="nextVariant"
                 :disabled="nextButton === false"
                 type="button"
-                variant="primary"
                 @click="onClickNext">
-                Next <font-awesome-icon icon="long-arrow-alt-right" />
+                {{ nextLabel || 'Next' }} <font-awesome-icon icon="long-arrow-alt-right" />
             </btn-activity>
         </btn-group>
     </div>
@@ -95,6 +98,23 @@ export default {
         backButton: Boolean,
 
         /**
+         * Override the "Back" button label.
+         *
+         * @type {String}
+         */
+        backLabel: String,
+
+        /**
+         * The "Back" button variable.
+         *
+         * @type {String}
+         */
+        backVariant: {
+            type: String,
+            default: 'secondary'
+        },
+
+        /**
          * Show should the "Finish" button.
          *
          * @type {Boolean}
@@ -102,11 +122,45 @@ export default {
         finishButton: Boolean,
 
         /**
+         * Override the "Finish" button label.
+         *
+         * @type {String}
+         */
+        finishLabel: String,
+
+        /**
+         * The "Finish" button variable.
+         *
+         * @type {String}
+         */
+        finishVariant: {
+            type: String,
+            default: 'success'
+        },
+
+        /**
          * Show should the "Next" button.
          *
          * @type {Boolean}
          */
         nextButton: Boolean,
+
+        /**
+         * Override the "Next" button label.
+         *
+         * @type {String}
+         */
+        nextLabel: String,
+
+        /**
+         * The "Next" button variable.
+         *
+         * @type {String}
+         */
+        nextVariant: {
+            type: String,
+            default: 'primary'
+        },
 
         /**
          * An array of steps passed from the parent.

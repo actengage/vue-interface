@@ -1,7 +1,8 @@
 <template>
     <!-- TODO: Add tooltip with slide name/key to the control once the tooltip directive has been written. -->
     <div class="slide-deck-controls">
-        <a v-for="(slide, i) in slides"
+        <a
+            v-for="(slide, i) in slides"
             :key="i"
             href="#"
             class="slide-deck-control-icon"

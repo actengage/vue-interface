@@ -8,15 +8,11 @@ export default function(Vue, options) {
             options = {};
         }
 
-        console.log(options.modal);
-
         const instance = instantiate(Vue, Modal, options.modal);
 
         instance.$content = instantiate(Vue, Component, options.content);
         instance.$slots.default = [instance.$content.$mount()._vnode];
-        instance.$mount(
-            document.body.appendChild(document.createElement('div'))
-        );
+        instance.$mount(document.body.appendChild(document.createElement('div')));
 
         if(options.content && options.content.on) {
             each(options.content.on, (fn, key) => {

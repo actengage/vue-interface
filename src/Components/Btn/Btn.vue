@@ -1,5 +1,6 @@
 <template>
-    <router-link v-if="to"
+    <router-link
+        v-if="to"
         :to="to"
         :disabled="disabled"
         :class="classes"
@@ -7,7 +8,8 @@
         @click="onClick">
         <slot />
     </router-link>
-    <a v-else-if="href"
+    <a
+        v-else-if="href"
         :href="href"
         :disabled="disabled"
         :class="classes"

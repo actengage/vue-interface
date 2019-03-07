@@ -4,7 +4,8 @@
             <form-label v-if="label" :for="$attrs.id" v-html="label" />
         </slot>
 
-        <div :class="controlClasses"
+        <div
+            :class="controlClasses"
             tabindex="0"
             @click="toggle()"
             @keyup.32="toggle()"
@@ -243,8 +244,8 @@ $light-switch-label-height: $light-switch-handle-height;
     @include light-switch-size('lg', 1.5);
     @include light-switch-size('xl', 2);
 
-    @include form-validation-state("valid", $form-feedback-valid-color);
-    @include form-validation-state("invalid", $form-feedback-invalid-color);
+    @include form-validation-state("valid", $form-feedback-valid-color, 'none');
+    @include form-validation-state("invalid", $form-feedback-invalid-color, 'none');
 
     &.is-invalid {
         border: 1px solid $form-feedback-invalid-color;

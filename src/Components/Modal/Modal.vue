@@ -1,5 +1,6 @@
 <template>
-    <div class="modal"
+    <div
+        class="modal"
         :class="triggerableClasses"
         :style="{display: isDisplaying ? 'block' : 'none'}"
         tabindex="-1"
@@ -160,7 +161,7 @@ export default {
     data() {
         return {
             backdropComponent: null,
-            isDisplaying: this.show || !this.target,
+            isDisplaying: false,
             isShowing: false
         };
     },
@@ -170,11 +171,9 @@ export default {
         isShowing(value) {
             if(value) {
                 document.querySelector('body').classList.add('modal-open');
-                // this.mountBackdrop();
             }
             else {
                 document.querySelector('body').classList.remove('modal-open');
-                // this.unmountBackdrop();
             }
 
             this.$emit('update:show', value);
@@ -183,36 +182,17 @@ export default {
     },
 
     mounted() {
-        this.initializeTriggers();
+        this.initializeTarget();
+        this.$nextTick(() => {
+            this.isDisplaying = this.show || !this.target;
+            
+            setTimeout(() => {
+                this.isShowing = this.show;
+            }, 50);
+        });
     },
 
     methods: {
-
-        /**
-         * Mount the backdrop to the document body.
-         *
-         * @return {void}
-        mountBackdrop() {
-            if(!this.backdropComponent) {
-                this.backdropComponent = this.$refs.backdrop.$mount(
-                    document.body.appendChild(document.createElement('div'))
-                );
-            }
-        },
-        */
-
-        /**
-         * Unmount the backdrop from the document body.
-         *
-         * @return {void}
-        unmountBackdrop() {
-            if(this.backdropComponent) {
-                this.backdropComponent.$destroy();
-                this.backdropComponent.$el.remove();
-                this.backdropComponent = null;
-            }
-        },
-        */
 
         /**
          * Cancel the modal

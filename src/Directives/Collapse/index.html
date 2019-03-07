@@ -6,7 +6,7 @@
         <title>Collapse</title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/dist/vue-interface.css">
+        <link rel="stylesheet" href="../../../dist/VueInterface.css">
     </head>
     <body>
         <div id="app" class="container">
@@ -14,8 +14,8 @@
 
             <h3>Basic Usage</h3>
 
-            <btn href="#content" v-collapse="true">Link with href</btn>
-            <btn type="button" data-target="#content" v-collapse="true">Button with data-target</btn>
+            <btn href="#content" v-collapse>Link with href</btn>
+            <btn type="button" data-target="#content" v-collapse>Button with data-target</btn>
 
             <div id="content">
                 <card class="mt-3">
@@ -28,7 +28,7 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
-        <script type="text/javascript" src="/dist/vue-interface.js"></script>
+        <script type="text/javascript" src="../../../dist/VueInterface.umd.js"></script>
         <script type="text/javascript">
             const vue = new Vue({
                 el: '#app',

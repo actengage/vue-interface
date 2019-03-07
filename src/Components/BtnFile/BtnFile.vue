@@ -1,5 +1,6 @@
 <template>
-    <btn class="btn-file"
+    <btn
+        class="btn-file"
         :type="type"
         :variant="variant"
         :block="block"

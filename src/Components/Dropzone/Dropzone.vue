@@ -1,5 +1,6 @@
 <template>
-    <div class="dropzone"
+    <div
+        class="dropzone"
         :class="{'is-dragging': isDragging}"
         @drop.prevent="onDrop"
         @dragover.prevent="onDragover"
@@ -14,7 +15,7 @@
                         </h1>
                         <p>Drag and drop your files here to upload them!</p>
                         <div class="mt-3">
-                            <font-awesome-icon icon="image" />
+                            <font-awesome-icon :icon="['far', 'image']" size="4x" />
                         </div>
                     </card-body>
                 </card>
@@ -30,7 +31,7 @@ import CardBody from '../Card/CardBody';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faImage } from '@fortawesome/free-solid-svg-icons/faImage';
+import { faImage } from '@fortawesome/free-regular-svg-icons/faImage';
 
 library.add(faImage);
 
@@ -82,7 +83,7 @@ export default {
 <style lang="scss">
 .dropzone {
     position: relative;
-
+    
     &.is-dragging .dropzone-placeholder {
         display: block;
     }
@@ -104,6 +105,7 @@ export default {
         width: 100%;
         height: 100%;
         background: white;
+        pointer-events: none;
     }
 }
 </style>

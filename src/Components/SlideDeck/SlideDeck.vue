@@ -199,15 +199,20 @@ export default {
 
             this.width = null;
             this.height = null;
-            this.$emit(
-                'after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide)
-            );
+
+            if(this.$refs.slides) {
+                this.$emit(
+                    'after-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide)
+                );
+            }
         },
 
         onSlideBeforeEnter(el) {
-            this.$emit(
-                'before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide)
-            );
+            if(this.$refs.slides) {
+                this.$emit(
+                    'before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide)
+                );
+            }
         },
 
         onSlideEnter(el, done) {
@@ -219,9 +224,11 @@ export default {
                 this.$nextTick(done);
             });
 
-            this.$emit(
-                'enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide)
-            );
+            if(this.$refs.slides) {
+                this.$emit(
+                    'enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide)
+                );
+            }
         },
 
         onSlideAfterLeave(el) {
@@ -234,17 +241,22 @@ export default {
             }
 
             this.$nextTick(() => {
-                this.$emit(
-                    'after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide)
-                );
+                if(this.$refs.slides) {
+                    this.$emit(
+                        'after-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide)
+                    );
+                }
             });
         },
 
         onSlideBeforeLeave(el) {
             this.resize(el);
-            this.$emit(
-                'before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide)
-            );
+
+            if(this.$refs.slides) {
+                this.$emit(
+                    'before-leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide)
+                );
+            }
         },
 
         onSlideLeave(el, done) {
@@ -252,9 +264,11 @@ export default {
                 this.$nextTick(done);
             });
 
-            this.$emit(
-                'leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide)
-            );
+            if(this.$refs.slides) {
+                this.$emit(
+                    'leave', this.$refs.slides.slide(this.lastSlide), this.$refs.slides.slide(this.currentSlide)
+                );
+            }
         }
 
     }

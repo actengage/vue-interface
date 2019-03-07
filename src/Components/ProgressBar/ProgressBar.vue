@@ -1,6 +1,7 @@
 <template>
     <div class="progress" :style="{'height': formattedHeight}">
-        <div class="progress-bar"
+        <div
+            class="progress-bar"
             role="progressbar"
             :style="styles"
             :class="mergeClasses(progressClasses, variantClass)"

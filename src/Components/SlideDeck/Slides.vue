@@ -104,8 +104,15 @@ export default {
          * @return {VNode|null}
          */
         getSlideIndex(slide) {
-            const key = !isUndefined(slide.data) ? slide.data.key : slide.key || slide;
-
+            let key = slide;
+            
+            if(slide && !isUndefined(slide.data)) {
+                key = slide.data.key;
+            }
+            else if(slide && slide.key) {
+                key = slide.key;
+            }
+            
             return findIndex(this.slides(), (vnode, i) => {
                 if(slide === vnode) {
                     return true;

@@ -1,10 +1,20 @@
-import { isUndefined } from '../../Helpers/Functions';
+import { isFunction, isString, isArray } from '../../Helpers/Functions';
 import transition from '../../Helpers/Transition';
+
+function height(el) {
+    const style = getComputedStyle(el);
+    
+    let height = el.offsetHeight;
+  
+    height += parseInt(style.marginTop) + parseInt(style.marginBottom);
+    
+    return height;
+}
 
 function show(el, target, vnode) {
     target.classList.remove('collapse');
     target.classList.add('show');
-    target.$collapsedHeight = getComputedStyle(target).height;
+    target.$collapsedHeight = `${height(target)}px`;
     target.classList.add('collapsing');
 
     vnode.context.$nextTick(() => {
@@ -22,7 +32,6 @@ function show(el, target, vnode) {
 function hide(el, target, vnode) {
     target.style.height = target.$collapsedHeight;
     target.classList.add('collapsing');
-    target.classList.remove('collapse');
 
     vnode.context.$nextTick(() => {
         target.style.height = 0;
@@ -36,41 +45,51 @@ function hide(el, target, vnode) {
     });
 }
 
+function toggle(el, target, vnode) {
+    if(!target.classList.contains('show')) {
+        show(el, target, vnode);
+    }
+    else {
+        hide(el, target, vnode);
+    }
+}
+
 export default {
 
     inserted(el, binding, vnode) {
-        if(isUndefined(binding.value) || binding.value === true) {
-            el.classList.add('collapsed');
-            el.setAttribute('data-toggle', 'collapse');
-
-            const target = el.getAttribute('data-target') || el.getAttribute('href');
-            const elements = document.querySelectorAll(target);
-
-            el.addEventListener('click', event => {
-                elements.forEach(element => {
-                    if(!element.classList.contains('show')) {
-                        show(el, element, vnode);
-                    }
-                    else {
-                        hide(el, element, vnode);
-                    }
-                });
-
-                event.preventDefault();
-            });
-
-            elements.forEach(element => {
-                /*
-                if(!element.$collapsedHeight) {
-                    element.$collapsedHeight = getComputedStyle(element).height;
-                }
-                */
-
-                if(!element.classList.contains('collapse')) {
-                    element.classList.add('collapse');
-                }
-            });
+        // If the binding value is `false`, then do nothing.
+        if(binding.value === false) {
+            return;
         }
+
+        // Get the collapsable target.
+        const target = isFunction(binding.value) ? 
+            binding.value(el, binding, vnode) : 
+            (el.getAttribute('data-target') || el.getAttribute('href'));
+
+        const targets = isString(target) ? document.querySelectorAll(target) : (
+            !isArray(target) ? [target] : target
+        );
+
+        // Set the class and attribute so it matches the Boostrap 4 spec.
+        // el.classList.add('collapsed');
+        el.setAttribute('data-toggle', 'collapse');
+
+        // Bind the toggle
+        el.addEventListener('click', event => {
+            targets.forEach(element => toggle(el, element, vnode));
+
+            event.preventDefault();
+        });
+
+        targets.forEach(target => {
+            if(target.classList.contains('show')) {
+                target.$collapsedHeight = `${height(target)}px`;
+            }
+            else {
+                target.classList.add('collapse');
+            }
+        });
     }
 
 };

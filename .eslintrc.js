@@ -7,13 +7,13 @@ module.exports = {
     },
     // add your custom rules here
     rules: {
-        'vue/no-v-html': false,
-        'vue/require-default-prop': false,
+        'vue/no-v-html': 0,
+        'vue/require-default-prop': 0,
         "vue/max-attributes-per-line": ["error", {
-            "singleline": 5,
+            "singleline": 10,
             "multiline": {
                 "max": 1,
-                "allowFirstLine": true
+                "allowFirstLine": false
             }
         }],
         "vue/html-indent": ["error", 4, {
@@ -50,4 +50,4 @@ module.exports = {
         // allow debugger during development
         'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
     }
-}
+};
