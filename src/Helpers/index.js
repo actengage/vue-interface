@@ -9,7 +9,6 @@ import readFile from './ReadFile';
 import script from './Script';
 import scrollTo from './ScrollTo';
 import transition from './Transition';
-import unit from './Unit';
 import uuid from './Uuid';
 import wait from './Wait';
 
@@ -25,7 +24,6 @@ export {
     script,
     scrollTo,
     transition,
-    unit,
     uuid,
     wait
 };

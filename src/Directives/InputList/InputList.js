@@ -1,10 +1,7 @@
 import { get, isNull, isEmpty, isUndefined, isArray } from "../../Helpers/Functions";
+import { isObject } from "util";
 
 const TAB = 9;
-
-function insertAfter(newNode, referenceNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.lastSibling);
-}
 
 function input(child) {
     if(child.elm || child.$el) {
@@ -18,7 +15,7 @@ function input(child) {
     return child;
 }
 
-function bindEvents(child, items) {
+function bindEvents(child, items, defaultValue, vnode) {
     const el = input(child);
 
     el.addEventListener('blur', e => {
@@ -27,44 +24,62 @@ function bindEvents(child, items) {
         if(isEmpty(e.target.value) && items.length > 1 && index < items.length - 1) {
             items.splice(index, 1);
         }
+        else if(!isNull(items[items.length - 1])) {
+            items.push(defaultValue);
+        }
     });
 
     el.addEventListener('keydown', e => {
         if(e.keyCode === TAB) {
             if(!event.shiftKey && !isNull(items[items.length - 1])) {
-                e.preventDefault();
-
-                items.push(null);
+                items.push(defaultValue);
             }
         }
     });
 
     child.$inputListControl = true;
 
-    return el;
+    return new Promise((resolve) => {
+        vnode.context.$nextTick(() => resolve(el));
+    });
 }
 
 export default {
 
     inserted(el, binding, vnode) {
-        if(!isArray(binding.value)) {
+        let items = binding.value;
+        let defaultValue = null;
+        let expression = binding.expression;
+
+        if(isObject(items)) {
+            if(items.items) {
+                items = items.items;
+                expression = 'items';
+            }
+            
+            if(items.defaultValue) {
+                defaultValue = items.defaultValue;
+            }
+        }
+        
+        if(!isArray(items)) {
             throw Error('The v-input-list directive requires an array.');
         }
         
         vnode.context.$nextTick(() => {
             vnode.elm.childNodes.forEach(child => {
-                bindEvents(child, binding.value);
+                bindEvents(child, items, defaultValue, vnode);
             });
 
-            if(!binding.value.length) {
-                binding.value.push(null);
+            if(!items.length) {
+                vnode.context.$nextTick(() => items.push(defaultValue));
             }
 
-            vnode.context.$watch(binding.expression, (value) => {
+            vnode.context.$watch(expression, (value) => {
                 Array.from(vnode.elm.childNodes)
                     .filter(child => !child.$inputListControl)
                     .forEach(child => {
-                        bindEvents(child, value).focus();
+                        bindEvents(child, value, defaultValue, vnode).then(() => focus());
                     });
             });
         });

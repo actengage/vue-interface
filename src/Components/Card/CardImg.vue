@@ -10,7 +10,7 @@
 
 <script>
 import Card from './Card';
-import unit from '../../Helpers/Unit';
+import unit from '../../Helpers/Functions/unit';
 import MergeClasses from '../../Mixins/MergeClasses';
 
 export default {

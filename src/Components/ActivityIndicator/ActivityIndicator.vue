@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import unit from '../../Helpers/Unit';
 import BaseType from './Types/BaseType';
+import unit from '../../Helpers/Functions/unit';
 import ActivityIndicatorDots from './Types/Dots';
 import ActivityIndicatorSpinner from './Types/Spinner';
 import kebabCase from '../../Helpers/Functions/kebabCase';
@@ -83,6 +83,8 @@ export default {
 <style lang="scss">
 .center-wrapper {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
 

@@ -73,7 +73,7 @@ $wizard-success-color: #55b776;
         margin: $font-size-lg auto;
         position: relative;
 
-        i {
+        svg {
             position: absolute;
             width: 100%;
             top: 50%;

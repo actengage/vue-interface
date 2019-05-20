@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import unit from '../../Helpers/Unit';
+import unit from '../../Helpers/Functions/unit';
 import ActivityIndicator from '../ActivityIndicator';
 
 export default {

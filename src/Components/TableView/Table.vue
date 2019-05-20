@@ -52,7 +52,7 @@
 
 <script>
 import Alert from '../Alert';
-import unit from '../../Helpers/Unit';
+import unit from '../../Helpers/Functions/unit';
 import Pagination from '../Pagination';
 import TableViewHeader from './TableViewHeader';
 import ActivityIndicator from '../ActivityIndicator';

@@ -463,7 +463,7 @@ export default class Model {
         const model = new this();
 
         config = Object.assign({
-            query: query,
+            params: query,
         }, config);
 
         return new Promise((resolve, reject) => {

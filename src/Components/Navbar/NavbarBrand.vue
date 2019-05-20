@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import unit from '../../Helpers/Unit';
+import unit from '../../Helpers/Functions/unit';
 
 export default {
 

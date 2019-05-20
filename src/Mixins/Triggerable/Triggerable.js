@@ -1,5 +1,5 @@
-import { each, isString, isFunction } from '../../Helpers/Functions';
 import transition from '../../Helpers/Transition';
+import { each, isString, isFunction } from '../../Helpers/Functions';
 
 export default {
 

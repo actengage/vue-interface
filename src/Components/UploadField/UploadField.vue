@@ -1,6 +1,6 @@
 <template>
-    <form-group :group="group" :class="mergeClasses(formGroupClasses, {'enable-dropzone': dropzone, 'enable-multiple': multiple})">
-        <dropzone @drop="onDrop">
+    <form-group :group="group" :class="mergeClasses(formGroupClasses, {'is-dragging': isDragging, 'enable-dropzone': dropzone, 'enable-multiple': multiple})">
+        <dropzone @drop="onDrop" @dragover="onDragOver" @dragenter="onDragEnter" @dragleave="onDragLeave">
             <slot name="label">
                 <form-label v-if="label || hasDefaultSlot" ref="label" :for="$attrs.id" v-html="label" />
             </slot>
@@ -28,7 +28,7 @@
                 </thumbnail-list-item>
             </thumbnail-list>
 
-            <div v-if="showDropElement" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
+            <div v-if="isDragging" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
                 <font-awesome-icon icon="cloud-upload-alt" />
                 <div>Drag and drop files to upload</div>
             </div>
@@ -146,18 +146,6 @@ export default {
         dropzoneMinHeight: [Number, String],
 
         /**
-         * Is the user dragging a file over the dropzone
-         *
-         * @property String
-         */
-        dragging: {
-            type: [String, Boolean],
-            default() {
-                return undefined;
-            }
-        },
-
-        /**
          * Can user drag/drop files into browser to upload them.
          *
          * @property String
@@ -193,7 +181,7 @@ export default {
     data() {
         return {
             progressBars: {},
-            isDraggingInside: false,
+            isDragging: false,
             files: !this.value ? [] : (this.multiple ? Array.from(this.value) : [this.value])
         };
     },
@@ -201,7 +189,7 @@ export default {
     computed: {
 
         showDropElement() {
-            return !isUndefined(this.dragging) ? this.dragging : this.isDraggingInside;
+            return this.isDragging;
         }
 
     },
@@ -326,9 +314,8 @@ export default {
          * @type Object
          */
         onDragOver(event) {
-            this.isDraggingInside = true;
-            this.$emit('update:dragging', true);
-            this.$emit('drag:over', event);
+            this.isDragging = true;
+            this.$emit('drag-over', event);
         },
 
         /**
@@ -337,9 +324,10 @@ export default {
          * @type Object
          */
         onDragEnter(event) {
-            this.isDraggingInside = true;
-            this.$emit('update:dragging', true);
-            this.$emit('drag:enter', event);
+            console.log('onDragEnter');
+
+            this.isDragging = true;
+            this.$emit('drag-enter', event);
         },
 
         /**
@@ -348,9 +336,10 @@ export default {
          * @type Object
          */
         onDragLeave(event) {
-            this.isDraggingInside = false;
-            this.$emit('update:dragging', false);
-            this.$emit('drag:leave', event);
+            console.log('onDragEnter');
+
+            this.isDragging = false;
+            this.$emit('drag-leave', event);
         },
 
         /**
@@ -359,7 +348,7 @@ export default {
          * @property String
          */
         onDrop(event) {
-            this.isDraggingInside = false;
+            this.isDragging = false;
             this.addFiles(event.dataTransfer.files);
             this.$emit('update:dragging', false);
             this.$emit('drop', event);
@@ -381,6 +370,10 @@ export default {
 <style lang="scss">
 
 .upload-field {
+    &.is-dragging, .is-dragging {
+        position: static;
+    }
+
     .form-group.form-control {
         height: auto;
         border: 0;

@@ -240,7 +240,12 @@ export default {
          * @return void
          */
         onClick(event) {
-            this.$emit('click', event);
+            if(!this.disabled) {
+                this.$emit('click', event);
+            }
+            else {
+                event.preventDefault();
+            }
         }
 
     }

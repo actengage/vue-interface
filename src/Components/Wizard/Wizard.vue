@@ -337,12 +337,7 @@ export default {
 @import './node_modules/bootstrap/scss/variables.scss';
 
 .wizard {
-    .slide-deck-content {
-        margin: 1rem;
-    }
-
     .wizard-content {
-        overflow: hidden;
         padding: .5rem;
 
         & + hr {

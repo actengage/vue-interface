@@ -1,10 +1,10 @@
 <template>
     <div class="alert" :class="mergeClasses(variantClass, {show: isVisible, fade: fade})" role="alert">
+        <alert-close v-if="dismissible" @click="dismiss()" />
         <alert-heading v-if="title || heading">
             {{ title || heading }}
         </alert-heading>
         <slot />
-        <alert-close v-if="dismissible" @click="dismiss()" />
         <progress-bar
             v-if="typeof show === 'number'"
             :variant="variant"
@@ -114,7 +114,7 @@ export default {
             this.isVisible = false;
 
             transition(this.$el).then(delay => {
-                this.$emit('dismissed');
+                this.$emit('dismiss');
             });
         }
 

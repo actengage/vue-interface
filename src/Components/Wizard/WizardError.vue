@@ -95,7 +95,7 @@ $wizard-error-color: #b10805;
         margin: $font-size-lg auto;
         position: relative;
 
-        i {
+        svg {
             position: absolute;
             width: 100%;
             top: 50%;

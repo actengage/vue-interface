@@ -8,7 +8,11 @@ export default function(Vue, options) {
             options = {};
         }
 
-        const instance = instantiate(Vue, Modal, options.modal);
+        const instance = instantiate(Vue, Modal, deepExtend({
+            propsData: {
+                show: true
+            }
+        }, options.modal));
 
         instance.$content = instantiate(Vue, Component, options.content);
         instance.$slots.default = [instance.$content.$mount()._vnode];

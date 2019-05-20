@@ -1,5 +1,6 @@
 <template>
-    <div class="slide-deck" :class="{'slide-deck-flex': center}">
+    <div class="slide-deck" :class="{'slide-deck-flex': center, 'is-sliding': isSliding}">
+        <slot name="top" />
         <div ref="content" class="slide-deck-content" :style="{width: width, height: height}">
             <keep-alive>
                 <transition
@@ -16,9 +17,11 @@
                 </transition>
             </keep-alive>
         </div>
-        <slot name="controls">
+        <slot name="middle" />
+        <slot name="controls" :slides="slides()" :active="currentSlide">
             <slide-deck-controls v-if="controls" ref="controls" :slides="slides()" :active="currentSlide" @click="onClickControl" />
         </slot>
+        <slot name="bottom" />
     </div>
 </template>
 
@@ -108,6 +111,7 @@ export default {
             height: null,
             width: null,
             lastSlide: null,
+            isSliding: false,
             currentSlide: this.active,
             direction: 'forward'
         };
@@ -145,16 +149,16 @@ export default {
             this.currentSlide = value;
         },
 
+        isSliding(value) {
+            if(this.overflowElement) {
+                this.overflowElement.style.overflow = value ? 'hidden' : 'inherit';
+            }
+        },
+
         currentSlide(value, oldValue) {
             this.direction = this.$refs.slides.getSlideIndex(oldValue) > this.$refs.slides.getSlideIndex(value) ? 'backward' : 'forward';
         }
 
-    },
-
-    mounted() {
-        if(this.overflowElement) {
-            this.overflowElement.style.overflow = 'hidden';
-        }
     },
 
     methods: {
@@ -176,12 +180,12 @@ export default {
             }
         },
 
-        slide(index) {
-            return this.$refs.slides ? this.$refs.slides.slide(index || this.active) : null;
-        },
-
         slides() {
             return this.$refs.slides ? this.$refs.slides.slides() : [];
+        },
+
+        slide(index) {
+            return this.$refs.slides ? this.$refs.slides.slide(index || this.active) : null;
         },
 
         onClickControl(event, vnode) {
@@ -208,6 +212,8 @@ export default {
         },
 
         onSlideBeforeEnter(el) {
+            this.isSliding = true;
+            
             if(this.$refs.slides) {
                 this.$emit(
                     'before-enter', this.$refs.slides.slide(this.currentSlide), this.$refs.slides.slide(this.lastSlide)
@@ -221,6 +227,7 @@ export default {
             this.height = el.style.height;
 
             transition(el).then(delay => {
+                this.isSliding = false;
                 this.$nextTick(done);
             });
 
@@ -295,13 +302,7 @@ export default {
         position: relative;
         transition: all .333s ease;
     }
-
-    /*
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    */
-
+    
     .slide-deck-controls {
         position: absolute;
         left: 50%;

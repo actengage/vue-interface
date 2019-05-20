@@ -3,6 +3,7 @@ import Alert from './Alert';
 import AlertClose from './Alert/AlertClose';
 import AlertHeading from './Alert/AlertHeading';
 import AlertLink from './Alert/AlertLink';
+import AnimatedCss from './AnimatedCss';
 import Badge from './Badge';
 import BaseForm from './BaseForm';
 import Breadcrumb from './Breadcrumb';
@@ -99,6 +100,7 @@ export {
     AlertClose,
     AlertHeading,
     AlertLink,
+    AnimatedCss,
     Badge,
     BaseForm,
     Breadcrumb,

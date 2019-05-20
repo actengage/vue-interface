@@ -1,51 +1,57 @@
 {
-    "name": "vue-interface",
-    "version": "0.3.28",
-    "main": "./dist/vue-interface.js",
-    "module": "./dist/vue-interface.es.js",
-    "styles": "./dist/vue-interface.css",
-    "scripts": {
-        "dev": "npm run serve",
-        "serve": "vue-cli-service build --target lib --name=VueInterface ./src/install.js --watch",
-        "build": "vue-cli-service build --target lib --name=VueInterface ./src/install.js",
-        "lint": "vue-cli-service lint",
-        "fix": "vue-cli-service lint --fix",
-        "release-patch": "npm version patch --no-git-tag-version; npm run release;",
-        "release-minor": "npm version minor --no-git-tag-version; npm run release;",
-        "release-major": "npm version major --no-git-tag-version; npm run release;",
-        "release": "npm run build; npm run commit; npm publish; git push;"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^1.2.15",
-        "@fortawesome/free-regular-svg-icons": "^5.7.2",
-        "@fortawesome/free-solid-svg-icons": "^5.7.2",
-        "@fortawesome/vue-fontawesome": "^0.1.4",
-        "bootstrap": "^4.3.1"
-    },
-    "devDependencies": {
-        "@vue/cli-plugin-babel": "^3.4.1",
-        "@vue/cli-plugin-eslint": "^3.4.1",
-        "@vue/cli-service": "^3.4.1",
-        "babel-eslint": "^10.0.1",
-        "eslint": "^5.15.1",
-        "eslint-config-standard": "^12.0.0",
-        "eslint-plugin-html": "^5.0.3",
-        "eslint-plugin-import": "^2.14.0",
-        "eslint-plugin-jest": "^22.3.0",
-        "eslint-plugin-node": "^8.0.1",
-        "eslint-plugin-promise": "^4.0.1",
-        "eslint-plugin-standard": "^4.0.0",
-        "eslint-plugin-vue": "^5.2.2",
-        "html-beautify-webpack-plugin": "^1.0.5",
-        "node-sass": "^4.11.0",
-        "sass-loader": "^7.1.0",
-        "vue": "^2.6.8",
-        "vue-template-compiler": "^2.6.8",
-        "webpack-manifest-plugin": "^2.0.4"
-    },
-    "peerDependencies": {
-        "axios": "^0.18.0",
-        "moment": "^2.22.0",
-        "vue": "^2.5.0"
-    }
+  "name": "vue-interface",
+  "version": "0.4.0",
+  "scripts": {
+    "serve": "vue-cli-service build --target lib --name=VueInterface ./src/install.js --watch",
+    "build": "vue-cli-service build --target lib --name=VueInterface ./src/install.js",
+    "lint": "vue-cli-service lint",
+    "dev": "npm run serve",
+    "fix": "vue-cli-service lint --fix",
+    "release": "npm run build; npm run commit; npm publish; git push;",
+    "release-major": "npm version major --no-git-tag-version; npm run release;",
+    "release-minor": "npm version minor --no-git-tag-version; npm run release;",
+    "release-patch": "npm version patch --no-git-tag-version; npm run release;",
+    "test:unit": "vue-cli-service test:unit"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.18",
+    "@fortawesome/free-regular-svg-icons": "^5.8.2",
+    "@fortawesome/free-solid-svg-icons": "^5.8.2",
+    "@fortawesome/vue-fontawesome": "^0.1.6",
+    "animate.css": "^3.7.0",
+    "bootstrap": "^4.3.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.7.0",
+    "@vue/cli-plugin-eslint": "^3.7.0",
+    "@vue/cli-plugin-unit-jest": "^3.7.0",
+    "@vue/cli-service": "^3.7.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-html": "^5.0.5",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jest": "^22.5.1",
+    "eslint-plugin-node": "^9.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "html-beautify-webpack-plugin": "^1.0.5",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0",
+    "vue": "^2.6.10",
+    "vue-template-compiler": "^2.6.10",
+    "webpack-manifest-plugin": "^2.0.4"
+  },
+  "main": "./dist/vue-interface.js",
+  "module": "./dist/vue-interface.es.js",
+  "peerDependencies": {
+    "axios": "^0.18.0",
+    "moment": "^2.22.0",
+    "vue": "^2.5.0"
+  },
+  "styles": "./dist/vue-interface.css"
 }

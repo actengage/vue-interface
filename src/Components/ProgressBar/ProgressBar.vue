@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import unit from '../../Helpers/Unit';
+import unit from '../../Helpers/Functions/unit';
 import Variant from '../../Mixins/Variant';
 import MergeClasses from '../../Mixins/MergeClasses';
 
