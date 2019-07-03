@@ -61,6 +61,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../../scss/custom-fields';
+
 .input-field {
     .slide-fade-enter,
     .slide-fade-leave-to {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Response from './Response';
 import BaseClass from '../../Support/BaseClass';
-import { deepExtend, isObject } from '../../Helpers/Functions';
+import { deepExtend, isObject, pickBy } from '../../Helpers/Functions';
 
 const DEFAULTS = {
     transformRequest: [],
@@ -53,7 +53,9 @@ export default class Request extends BaseClass {
 
                 return cancel;
             })
-        }, DEFAULTS, this.getPublicAttributes());
+        }, pickBy(DEFAULTS, value => {
+            return !!value.length;
+        }), this.getPublicAttributes());
 
         if(this.data instanceof FormData) {
             merged.data = this.data;

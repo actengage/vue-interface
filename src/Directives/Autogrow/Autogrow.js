@@ -35,6 +35,18 @@ const STYLE_ATTRIBUTES = [
     'wordWrap'
 ];
 
+function escape(html) {
+    const el = document.createElement('textarea');    
+    el.textContent = html;
+    return el.innerHTML;
+}
+
+function unescape(html) {
+    const el = document.createElement('textarea');
+    el.innerHTML = html;
+    return el.textContent;
+}
+
 function int(str) {
     if(typeof str === 'number') {
         return str;
@@ -42,82 +54,75 @@ function int(str) {
     else if(!str || !str.replace) {
         return 0;
     }
-
-    return parseInt(str.replace(/[^\d.]+/g, ''));
+    
+    return parseInt(str.replace(/[^\d.]+/g, '')) || 0;
 }
 
-function input(div, el) {
-    div.innerHTML = el.value.replace(/(?:\r\n|\r|\n)/g, '<br />');
+function input(div, el, minHeight, maxHeight) {
+    div.innerHTML = escape(el.value).replace(/(?:\r\n|\r|\n)/g, '<br />') + '&nbsp;';
+
+    let dynamicHeight = Math.max(minHeight, height(div));
+  
+    if(div.innerHTML.match(/(<br\s?\/?\>)+/)) {
+        dynamicHeight += int(style(el, 'lineHeight'));
+    }
+
+    el.style.height = (
+        (!maxHeight || dynamicHeight < maxHeight) ? dynamicHeight : maxHeight
+    ) + 'px';
 }
 
 function height(el) {
-    return int(el.getBoundingClientRect().height);
+    return int(style(el, 'height'));
 }
 
 function style(el, attr) {
     return window.getComputedStyle(el)[attr];
 }
 
-function resize(target, div, minHeight, maxHeight) {
-    const dynamicHeight = Math.max(height(div) + int(style(div, 'lineHeight')), minHeight);
-    target.style.height = ((!maxHeight || dynamicHeight < maxHeight) ? dynamicHeight : maxHeight) + 'px';
-}
-
-/*
-function setMinHeight(div, el) {
-    div.style.minHeight = height(el) + 'px';
-}
-*/
-
-function mimic(el) {
+function mimic(el, minHeight) {
     const div = document.createElement('div');
     const styles = window.getComputedStyle(el);
 
-    for(let i in STYLE_ATTRIBUTES) {
-        const key = STYLE_ATTRIBUTES[i];
-
-        div.style[key] = styles[key];
-    }
-
     div.style.position = 'absolute';
-    div.style.bottom = '100%';
     div.style.zIndex = -1;
     div.style.visibility = 'hidden';
+    // div.style.minHeight = `${minHeight}px`;
+    
+    el.parentNode.insertBefore(div, el.nextSibling);
+
+    STYLE_ATTRIBUTES.forEach(key => div.style[key] = styles[key]);
 
     return div;
 }
 
-function init(el, maxHeight) {
-    const div = mimic(el);
+function init(el, binding, vnode) {
     const minHeight = height(el);
+    const div = mimic(el, minHeight);
+    const maxHeight = binding.value !== true ? binding.value : 0;
 
     el.addEventListener('input', event => {
-        input(div, event.target);
-        resize(el, div, minHeight, maxHeight);
+        input(div, event.target, minHeight, maxHeight);
     });
 
-    document.body.appendChild(div);
+    input(div, el, minHeight, maxHeight);
 
-    input(div, el);
-    resize(el, div, minHeight, maxHeight);
+    return;
 }
 
 export default {
 
     inserted(el, binding, vnode) {
-        if(el.tagName !== 'TEXTAREA') {
-            el = el.querySelector('textarea');
-        }
-
-        if(!el) {
-            throw new Error('A textarea is required for the v-autogrow directive.');
-        }
-
-        if(binding.value === true) {
-            init(el);
-        }
-        else if(binding.value !== false) {
-            init(el, binding.value);
+        if(binding.value !== false) {
+            if(el.tagName !== 'TEXTAREA') {
+                el = el.querySelector('textarea');
+            }
+    
+            if(!el) {
+                throw new Error('A textarea is required for the v-autogrow directive.');
+            }
+            
+            init(el, binding, vnode);
         }
     }
 

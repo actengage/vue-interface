@@ -7,10 +7,10 @@ import isEmpty from '../../Helpers/Functions/isEmpty';
 import isObject from '../../Helpers/Functions/isObject';
 import kebabCase from '../../Helpers/Functions/kebabCase';
 
-const emptyClass = 'is-empty';
-const focusClass = 'has-focus';
-const changedClass = 'has-changed';
-const customPrefix = 'custom';
+const EMPTY_CLASS = 'is-empty';
+const FOCUS_CLASS = 'has-focus';
+const CHANGED_CLASS = 'has-changed';
+const CUSTOM_PREFIX = 'custom';
 
 function addClass(el, vnode, css) {
     // el.classList.add(css);
@@ -24,7 +24,7 @@ function removeClass(el, vnode, css) {
 
 function addEmptyClass(el, vnode) {
     if(isEmpty(el.value) || (el.tagName === 'SELECT' && el.selectedIndex === -1)) {
-        addClass(el, vnode, emptyClass);
+        addClass(el, vnode, EMPTY_CLASS);
     }
 }
 
@@ -187,14 +187,7 @@ export default {
          *
          * @property String
          */
-        helpText: [Number, String],
-
-        /**
-         * The maxlength attribute
-         *
-         * @property String
-         */
-        maxlength: [Number, String]
+        helpText: [Number, String]
 
     },
 
@@ -202,13 +195,13 @@ export default {
         bindEvents: {
             bind(el, binding, vnode) {
                 function changedValue(el, value) {
-                    addClass(el, vnode, changedClass);
+                    addClass(el, vnode, CHANGED_CLASS);
 
                     if(!isEmpty(value) || (el.selectedIndex && el.selectedIndex > -1)) {
-                        removeClass(el, vnode, emptyClass);
+                        removeClass(el, vnode, EMPTY_CLASS);
                     }
-                    else if(!el.classList.contains(changedClass)) {
-                        addClass(el, vnode, emptyClass);
+                    else if(!el.classList.contains(CHANGED_CLASS)) {
+                        addClass(el, vnode, EMPTY_CLASS);
                     }
 
                     if(el.tagName === 'SELECT' && el.querySelector('[value=""]')) {
@@ -221,11 +214,11 @@ export default {
                 });
 
                 el.addEventListener('blur', event => {
-                    if(el.classList.contains(emptyClass)) {
-                        removeClass(el, vnode, changedClass);
+                    if(el.classList.contains(EMPTY_CLASS)) {
+                        removeClass(el, vnode, CHANGED_CLASS);
                     }
 
-                    removeClass(el, vnode, focusClass);
+                    removeClass(el, vnode, FOCUS_CLASS);
                 });
 
                 el.addEventListener('input', event => {
@@ -234,7 +227,7 @@ export default {
 
                 // Add/remove the has-focus class from the form control
                 el.addEventListener('focus', event => {
-                    addClass(el, vnode, focusClass);
+                    addClass(el, vnode, FOCUS_CLASS);
                 });
 
                 // Bubble the native events up to the vue component.
@@ -243,12 +236,16 @@ export default {
                         vnode.context.$emit(name, event);
                     });
                 });
+
+                el.setAttribute('data-selected-index', el.selectedIndex);
             },
             inserted(el, binding, vnode) {
+                el.selectedIndex = el.getAttribute('data-selected-index');
+                
                 addEmptyClass(el, vnode);
 
                 if(el.selectedIndex > -1) {
-                    addClass(el, vnode, changedClass);
+                    addClass(el, vnode, CHANGED_CLASS);
                 }
             },
             update(el, binding, vnode) {
@@ -321,7 +318,7 @@ export default {
         },
 
         formGroupClasses() {
-            const name = prefix(kebabCase(this.$options.name), this.custom ? customPrefix : '');
+            const name = prefix(kebabCase(this.$options.name), this.custom ? CUSTOM_PREFIX : '');
 
             return this.mergeClasses(name, prefix(this.size, name), {
                 'has-activity': this.activity,

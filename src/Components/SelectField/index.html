@@ -28,13 +28,6 @@
                 <option value="3">Option 3</option>
             </select-field>
 
-            <select-field :custom="true" label="Custom Field">
-                <option value="">Select an option...</option>
-                <option value="1">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
-            </select-field>
-
             <select-field label="Plaintext Field" plaintext>
                 <option value="">Select an option...</option>
                 <option value="1">Option 1</option>
@@ -44,6 +37,27 @@
 
             <select-field label="Readonly Field" readonly>
                 <option value="">Select an option...</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+            
+            <h3>Custom Fields</h3>
+
+            <select-field label="Custom Field" placeholder="Custom Field" custom>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+
+            <select-field label="Custom Field" placeholder="Custom Field" custom>
+                <option value="">Select an option...</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select-field>
+
+            <select-field label="Custom Field" placeholder="Custom Field" error="test" custom>
                 <option value="1">Option 1</option>
                 <option value="2">Option 2</option>
                 <option value="3">Option 3</option>
@@ -86,22 +100,19 @@
 
                     <h5>Custom Field</h5>
 
-                    <select-field :custom="true" size="sm">
-                        <option value="">Small</option>
+                    <select-field label="Small" placeholder="Small" size="sm" custom>
                         <option value="1">Option 1</option>
                         <option value="2">Option 2</option>
                         <option value="3">Option 3</option>
                     </select-field>
 
-                    <select-field :custom="true" size="md">
-                        <option value="">Medium</option>
+                    <select-field custom label="Medium" placeholder="Medium">
                         <option value="1">Option 1</option>
                         <option value="2">Option 2</option>
                         <option value="3">Option 3</option>
                     </select-field>
 
-                    <select-field :custom="true" size="lg">
-                        <option value="">Large</option>
+                    <select-field custom label="Large" placeholder="Large" size="lg">
                         <option value="1">Option 1</option>
                         <option value="2">Option 2</option>
                         <option value="3">Option 3</option>
@@ -185,17 +196,16 @@
             <select-field label="Single Inline Error" error="This is an inline error."></select-field>
 
             <select-field name="test" label="Multiple Errors From Object" :errors="{'test': ['This is an inline error #1.', 'This is an inline error #2.']}"></select-field>
-
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
         <script type="text/javascript" src="../../../dist/VueInterface.umd.js"></script>
         <script type="text/javascript">
-            const vue = new Vue({
+            new Vue({
                 el: '#app',
                 data() {
                     return {
-                        value: null,
+                        value: '1',
                         showActivity: false
                     };
                 }

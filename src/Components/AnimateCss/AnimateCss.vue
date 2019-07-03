@@ -1,5 +1,7 @@
 <template>
     <transition
+        :mode="mode"
+        :duration="duration"
         :enter-class="enterClass"
         :enter-to-class="enterToClass"
         :enter-active-class="enterActiveClassName"
@@ -12,7 +14,7 @@
         @before-leave="(...args) => this.$emit('before-leave', ...args)"
         @leave="(...args) => this.$emit('leave', ...args)"
         @after-leave="(...args) => this.$emit('after-leave', ...args)">
-        <slot/>
+        <slot />
     </transition>
 </template>
 
@@ -23,7 +25,17 @@ export default {
 
     props: {
 
+        delay: [String, Number, Function],
+
+        duration: [Object, String, Number],
+        
+        mode: String,
+
+        enter: String,
+
         enterClass: String,
+
+        leave: String,
 
         enterToClass: String,
 
@@ -35,17 +47,11 @@ export default {
 
         leaveActiveClass: String,
 
-        animated: {
-            type: Boolean,
-            default: true
-        },
+        x: Boolean,
+
+        y: Boolean,
 
         big: Boolean,
-
-        name: {
-            type: [Array, String],
-            required: true
-        },
 
         up: Boolean,
 
@@ -55,12 +61,19 @@ export default {
 
         right: Boolean,
 
-        special: Boolean,
+        animated: {
+            type: Boolean,
+            default: true
+        },
+
+        name: String,
 
         direction: {
             type: String,
             default() {
                 return (
+                    this.x && 'x' ||
+                    this.y && 'y' ||
                     this.up && 'up' ||
                     this.down && 'down' ||
                     this.left && 'left' ||
@@ -70,6 +83,27 @@ export default {
             validate(value) {
                 return ['up', 'down', 'left', 'right'].indexOf(value.toLowerCase()) !== -1;
             }
+        },
+
+        directionEffects: {
+            type: Array,
+            default: () => ([
+                'bounce',
+                'fade',
+                'flip',
+                'lightspeed',
+                'rotate',
+                'roll',
+                'slide',
+                'zoom'
+            ])
+        },
+
+        special: {
+            type: Boolean,
+            default() {
+                return this.name && this.directionEffects.indexOf(this.name.toLowerCase()) === -1;
+            }
         }
 
     },
@@ -77,43 +111,47 @@ export default {
     computed: {
 
         enterActiveClassName() {
-            const names = this.name instanceof Array && this.name || [this.name];
-            
-            return names
-                .map(name => {
-                    return camelCase([
-                        name,
-                        !this.special && 'in',
-                        this.direction,
-                        this.big && 'big'
-                    ].filter(value => !!value).join(' '))
-                })
-                .concat([
-                    this.animated && 'animated',
-                    this.enterActiveClass
-                ])
-                .join(' ');
+            return this.enter && `${this.enter} ${this.animated && 'animated'}` || 
+                this.activeClass('in', this.enterActiveClass);
         },
 
         leaveActiveClassName() {
-            const names = this.name instanceof Array && this.name || [this.name];
-            
-            return names
-                .map(name => {
-                    return camelCase([
-                        name,
-                        !this.special && 'out',
-                        this.direction,
-                        this.big && 'big'
-                    ].filter(value => !!value).join(' '))
-                })
-                .concat([
-                    this.animated && 'animated',
-                    this.leaveActiveClass
-                ])
-                .join(' ');
+            return this.leave && `${this.leave} ${this.animated && 'animated'}` || 
+                this.activeClass('out', this.leaveActiveClass);
         }
 
+    },
+
+    methods: {
+
+        activeClass(key, ...classes) {
+            return [
+                camelCase([
+                    this.name,
+                    !this.special && key,
+                    this.direction,
+                    this.big && 'big'
+                ].filter(value => !!value).join(' '))
+            ]
+                .concat([
+                    this.animated && 'animated'
+                ])
+                .concat(classes)
+                .join(' ');
+        }        
+
+    },
+
+    updated() {
+        const delay = this.delay instanceof Function ? this.delay() : this.delay;
+
+        if(delay && this.$slots.default && this.$slots.default.length) {
+            const el = this.$slots.default[0].elm;
+            
+            if(el.style.animatedDelay !== delay) {
+                el.style.animationDelay = delay;
+            }
+        }
     }
 
 };

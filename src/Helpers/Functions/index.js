@@ -23,6 +23,7 @@ import isNumber from './isNumber';
 import isNumeric from './isNumeric';
 import isObject from './isObject';
 import isString from './isString';
+import isSymbol from './isSymbol';
 import isUndefined from './isUndefined';
 import kebabCase from './kebabCase';
 import map from './map';
@@ -31,10 +32,13 @@ import matches from './matches';
 import matchesProperty from './matchesProperty';
 import negate from './negate';
 import noop from './noop';
+import now from './now';
 import omitBy from './omitBy';
 import pickBy from './pickBy';
 import property from './property';
 import remove from './remove';
+import throttle from './throttle';
+import toNumber from './toNumber';
 import wrap from './wrap';
 
 export {
@@ -62,6 +66,7 @@ export {
     isNumeric,
     isObject,
     isString,
+    isSymbol,
     isUndefined,
     kebabCase,
     key,
@@ -71,9 +76,12 @@ export {
     matchesProperty,
     negate,
     noop,
+    now,
     omitBy,
     pickBy,
     property,
     remove,
+    throttle,
+    toNumber,
     wrap
 };

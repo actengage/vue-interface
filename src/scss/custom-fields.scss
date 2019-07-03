@@ -16,15 +16,15 @@ $custom-control-disabled-bg: $input-disabled-bg !default;
 
 $custom-control-padding-y: .5em !default;
 $custom-control-padding-x: .75em !default;
-$custom-control-line-height: $input-line-height !default;
+$custom-control-line-height: 1em !default;
 
 $custom-control-padding-y-sm: .5em !default;
 $custom-control-padding-x-sm: .75em !default;
-$custom-control-line-height-sm: $input-line-height-sm !default;
+$custom-control-line-height-sm: 1em !default;
 
 $custom-control-padding-y-lg: .5em !default;
 $custom-control-padding-x-lg: .75em !default;
-$custom-control-line-height-lg: $input-line-height-lg !default;
+$custom-control-line-height-lg: 1em !default;
 
 $custom-control-border-width: $input-border-width;
 $custom-control-border-color: $input-border-color;
@@ -36,7 +36,7 @@ $custom-control-border-radius-sm: $input-border-radius-sm !default;
 $custom-control-height-border: $input-border-width * 2 !default;
 
 $custom-control-height-inner: ($custom-control-font-size-base + ($custom-control-line-height / 2) + ($custom-control-padding-y * 2)) !default;
-$custom-control-height: calc(#{$custom-control-height-inner} + #{$custom-control-height-border})  !default;
+$custom-control-height: calc(#{$custom-control-height-inner} + #{$custom-control-height-border}) !default;
 
 $custom-control-height-inner-sm: ($custom-control-font-size-sm + ($custom-control-line-height-sm / 2) + ($custom-control-padding-y-sm * 2)) !default;
 $custom-control-height-sm: calc(#{$custom-control-height-inner-sm} + #{$custom-control-height-border}) !default;
@@ -44,18 +44,33 @@ $custom-control-height-sm: calc(#{$custom-control-height-inner-sm} + #{$custom-c
 $custom-control-height-inner-lg: ($custom-control-font-size-lg + ($custom-control-line-height-lg / 2) + ($custom-control-padding-y-lg * 2)) !default;
 $custom-control-height-lg: calc(#{$custom-control-height-inner-lg} + #{$custom-control-height-border}) !default;
 
-$custom-control-label-font-size: $custom-control-font-size-base * .75;
-$custom-control-label-font-size-sm: $custom-control-font-size-sm * .75;
-$custom-control-label-font-size-lg: $custom-control-font-size-lg * .75;
+$custom-control-label-font-size: $custom-control-font-size-base;
+$custom-control-label-font-size-sm: $custom-control-font-size-sm;
+$custom-control-label-font-size-lg: $custom-control-font-size-lg;
+
+$custom-control-shrink-font-size-base: $custom-control-label-font-size * .9;
+$custom-control-shrink-font-size-sm: $custom-control-label-font-size-sm * .8;
+$custom-control-shrink-font-size-lg: $custom-control-label-font-size-lg * .85;
 
 $custom-control-placeholder-color: $input-placeholder-color;
 
 $custom-control-transition: $input-transition, padding .15s ease-out;
 
+@function parseInt($n) {
+    @return $n / ($n * 0 + 1); /* 2 */
+}
+
+@function px($value, $font-size: 16) {
+    $font-size: $font-size + 0px;
+    $convertedSize: parseInt($value) * parseInt($font-size);
+    @return #{$convertedSize}px;
+}
+
 .custom-select-field,
 .custom-input-field,
 .custom-textarea-field {
     label {
+        margin: 0;
         font-weight: normal;
         color: $input-placeholder-color;
     }
@@ -170,23 +185,26 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
 .custom-select-field {
 
     & > label {
-        z-index: 1;
+        left: 0;
         margin: 0;
-        top: $custom-control-height-inner / 2;
+        z-index: 1;
         position: absolute;
+        line-height: $custom-control-height;
         font-size: $custom-control-font-size-base;
-        line-height: $custom-control-font-size-base;
-        transform: translateY(-50%);
         transition: all .15s ease-out;
         padding: 0 $custom-control-padding-x 0;
     }
-
+    
+    &.is-empty > label {
+        line-height: calc(#{px($custom-control-height-inner)} + #{$custom-control-height-border});
+    }
+    
     .form-group-inner {
         &::after {
-            z-index: 0;
             position: absolute;
             top: 0;
             right: 0;
+            z-index: 0;
             content: '';
             width: 2.3em;
             height: 66.6666%;
@@ -209,6 +227,10 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMCAxNi42IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAzMCAxNi42Ij48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZmlsbD0iIzI4YTc0NSIgZD0iTTMwIDBMMTUgMTYuNiAwIDBoMzB6Ii8+PC9zdmc+);
     }
 
+    &.is-invalid .custom-select {
+        background: none;
+    }
+
     &.has-focus .form-group-inner {
         color: $input-focus-color;
         background-color: $input-focus-bg;
@@ -223,19 +245,24 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
     }
 
     &:not(.is-empty),
-    &.has-changed {
-        label {
+    &.has-changed,
+    &.has-changed.is-empty {
+        &:not(.has-focus) {
+            z-index: 0;
+        }
+
+        & > label {
             top: 0;
             opacity: 1;
-            z-index: 2;
+            z-index: 1;
             transform: none;
-            font-size: $custom-control-label-font-size;
-            line-height: $custom-control-label-font-size;
-            padding: $custom-control-padding-y * 1.6666 $custom-control-padding-x * 1.5 0;
+            line-height: 1em;
+            font-size: $custom-control-shrink-font-size-base;
+            padding: $custom-control-padding-y * .75 $custom-control-padding-x + ($custom-control-label-font-size - $custom-control-shrink-font-size-base / 1.05) 0;
         }
 
         .custom-select {
-            padding-top: $custom-control-label-font-size * 1.25;
+            padding-top: $custom-control-font-size-base;
         }
     }
 
@@ -245,20 +272,26 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
     // height and font-size of form controls
     &.custom-select-field-sm {
         & > label {
-            padding: 0 $custom-control-padding-x-sm;
             font-size: $custom-control-font-size-sm;
-            line-height: $custom-control-font-size-sm;
-            @include border-radius($custom-control-border-radius-sm);
+            padding-left: $custom-control-padding-x-sm;
+        }
+        
+        &:not(.is-empty),
+        &.has-changed,
+        &.has-changed.is-empty {
+            & > label {
+                font-size: $custom-control-shrink-font-size-sm;
+                padding: $custom-control-padding-y-sm $custom-control-padding-x-sm + ($custom-control-label-font-size-sm - $custom-control-shrink-font-size-sm / 1.15) 0;
+            }
+
+            .custom-select {
+                padding-top: #{$custom-control-font-size-base + $custom-control-font-size-base - $custom-control-font-size-sm};
+            }
         }
 
-        &.is-empty > label {
-            font-size: $custom-control-font-size-sm;
-            top: calc(#{$custom-control-height-sm} / 2);
-        }
-
-        &:not(.is-empty) > label {
-            font-size: $custom-control-label-font-size-sm;
-            padding: $custom-control-padding-y-sm / 2 $custom-control-padding-x-sm 0;
+        &.is-empty > label,
+        &.has-changed.is-empty > label {
+            line-height: calc(#{px($custom-control-height-inner-sm)} + #{$custom-control-height-border} + #{$custom-control-font-size-base - $custom-control-font-size-sm});
         }
 
         .form-group-inner {
@@ -278,33 +311,31 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
 
     &.custom-select-field-lg {
         & > label {
-            padding: 0 $custom-control-padding-x-lg;
             font-size: $custom-control-font-size-lg;
-            line-height: $custom-control-font-size-lg;
-            // transform: translateY($custom-control-height-lg);
-            @include border-radius($custom-control-border-radius-lg);
         }
-
-        &.is-empty > label {
-            font-size: $custom-control-label-font-size-lg;
-            top: calc(#{$custom-control-height-lg} / 2);
-        }
-
-        &:not(.is-empty) {
+            
+        &:not(.is-empty),
+        &.has-changed,
+        &.has-changed.is-empty {
             & > label {
-                font-size: $custom-control-label-font-size-lg;
-                padding: $custom-control-padding-y-lg / 4 $custom-control-padding-x-lg 0;
+                font-size: $custom-control-shrink-font-size-lg;
+                padding: $custom-control-padding-y-lg / 1.15 $custom-control-padding-x-lg + ($custom-control-label-font-size-lg - $custom-control-shrink-font-size-lg) 0;
             }
 
             .custom-select {
-                font-size: $custom-control-label-font-size-lg * 1.25;
+                padding-top: #{$custom-control-font-size-base - ($custom-control-font-size-lg - $custom-control-font-size-base)};
             }
+        }
+
+        &.is-empty > label,
+        &.has-changed.is-empty > label {
+            line-height: calc(#{px($custom-control-height-inner-lg)} + #{$custom-control-height-border} + .5em);
         }
 
         .form-group-inner {
             height: $custom-control-height-lg;
-            padding: $custom-control-padding-y-lg $custom-control-padding-x-lg;
-
+            font-size: $custom-control-label-font-size-lg;
+            
             &::after {
                 width: 2.8em;
                 background-size: 1em 1em;
@@ -328,6 +359,9 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
         border: 0;
         z-index: 1;
         transition: all .15s ease-out;
+        -webkit-appearance: none; 
+        -moz-appearance: none;
+        appearance: none;
 
         &:focus {
             background: none;
@@ -345,62 +379,73 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
     position: relative;
 
     & > label {
+        left: 0;
         margin: 0;
         opacity: 0;
         z-index: -1;
         line-height: 1.5;
         position: absolute;
         transition: all .15s ease-out;
+        padding-left: $custom-control-padding-x;
         font-size: $custom-control-label-font-size;
-        transform: translateY($custom-control-label-font-size / 2);
-        padding: $custom-control-padding-y 1em;
+        padding: $custom-control-padding-y $custom-control-padding-x 0;
     }
 
-    &:not(.is-empty), &.is-empty.has-changed {
+    &:not(.is-empty),
+    &.has-changed,
+    &.has-changed.is-empty {
         .custom-control::placeholder {
             opacity: 0;
         }
 
-        label {
+        & > label {
             z-index: 1;
             opacity: 1;
             transform: none;
+            line-height: 1em;
+            font-size: $custom-control-shrink-font-size-base;
+            padding: $custom-control-padding-y * .75 $custom-control-padding-x + ($custom-control-label-font-size - $custom-control-shrink-font-size-base / 1.05) 0;
 
             & + .form-group-inner .custom-control {
-                padding-top: $custom-control-label-font-size * 2;
+                padding-top: $custom-control-font-size-base + $custom-control-padding-y;
             }
         }
     }
 
     &.custom-textarea-field:not(.is-empty) textarea,
+    &.custom-textarea-field.has-changed textarea,
     &.custom-textarea-field.is-empty.has-changed textarea {
         padding-top: $custom-control-padding-y * 2.5;
     }
 
     &.custom-input-field-sm,
     &.custom-textarea-field-sm {
-        label {
-            font-size: $custom-control-label-font-size-sm;
-            padding: $custom-control-padding-y-sm 1em;
-        }
-
-        &:not(.is-empty), &.is-empty.has-changed {
+        &:not(.is-empty),
+        &.has-changed,
+        &.has-changed.is-empty {
+            & > label {
+                font-size: $custom-control-shrink-font-size-sm;
+                padding: $custom-control-padding-y-sm / 1.15 $custom-control-padding-x-sm + ($custom-control-label-font-size-sm - $custom-control-shrink-font-size-sm / 1.15) 0;
+            }
+    
             .form-group-inner .custom-control {
-                padding-top: $custom-control-label-font-size-sm * 2;
+                padding-top: $custom-control-label-font-size-sm * 1.5;
             }
         }
     }
 
     &.custom-input-field-lg,
     &.custom-textarea-field-lg {
-        label {
-            font-size: $custom-control-label-font-size-lg;
-            padding: $custom-control-padding-y-lg 1em;
-        }
-
-        &:not(.is-empty), &.is-empty.has-changed {
+        &:not(.is-empty),
+        &.has-changed,
+        &.has-changed.is-empty {
+            & > label {
+                font-size: $custom-control-shrink-font-size-lg;
+                padding: $custom-control-padding-y-lg / 1.15 $custom-control-padding-x-lg + ($custom-control-label-font-size-lg - $custom-control-shrink-font-size-lg) 0;
+            }
+            
             .form-group-inner .custom-control {
-                padding-top: $custom-control-label-font-size-lg * 2;
+                padding-top: $custom-control-font-size-lg;
             }
         }
     }
@@ -418,7 +463,7 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
         &.custom-control-sm {
             height: $custom-control-height-sm;
             padding: $custom-control-padding-y-sm $custom-control-padding-x-sm;
-            font-size: $custom-control-label-font-size-sm * 1.25;
+            font-size: $custom-control-label-font-size-sm;
             line-height: $custom-control-line-height-sm;
             @include border-radius($custom-control-border-radius-sm);
         }
@@ -426,7 +471,7 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
         &.custom-control-lg {
             height: $custom-control-height-lg;
             padding: $custom-control-padding-y-lg $custom-control-padding-x-lg;
-            font-size: $custom-control-label-font-size-lg * 1.25;
+            font-size: $custom-control-label-font-size-lg;
             line-height: $custom-control-line-height-lg;
             @include border-radius($custom-control-border-radius-lg);
         }

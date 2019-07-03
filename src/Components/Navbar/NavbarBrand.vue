@@ -1,5 +1,5 @@
 <template>
-    <component :is="component" class="navbar-brand" :class="{'h1': h1}" :to="to" :href="href || to ? '#' : null">
+    <component :is="component" class="navbar-brand" :class="{'h1': h1}" :to="to" :href="href || '#'">
         <img
             v-if="src"
             class="d-inline-block align-center"
