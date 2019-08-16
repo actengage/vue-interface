@@ -3,13 +3,14 @@
         <template v-if="!dropleft">
             <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
                 <slot name="label">
-                    <icon v-if="icon" :icon="icon" /> {{ label }}
+                    <icon v-if="icon" :icon="icon" />
+                    <template v-html="label" />
                 </slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
                 <slot name="label">
                     <icon v-if="icon" :icon="icon" />
-                    {{ label }}
+                    <template v-html="label" />
                 </slot>
             </button>
         </template>
