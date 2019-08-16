@@ -7,11 +7,9 @@
                 </slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
-                <slot name="label-wrapper">
+                <slot name="label">
                     <icon v-if="icon" :icon="icon" />
-                    <slot name="label">
-                        {{ label }}
-                    </slot>
+                    {{ label }}
                 </slot>
             </button>
         </template>
