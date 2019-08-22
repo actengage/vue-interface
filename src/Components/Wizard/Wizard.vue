@@ -37,6 +37,7 @@
             <hr>
 
             <wizard-buttons
+                v-if="buttons"
                 ref="buttons"
                 size="lg"
                 :steps="steps"
@@ -99,6 +100,16 @@ export default {
          * @type {Boolean}
          */
         activity: Boolean,
+
+        /**
+         * Show the wizard button container.
+         *
+         * @type {Boolean}
+         */
+        buttons: {
+            type: Boolean,
+            default: true
+        },
 
         /**
          * Show should the "Back" button.
