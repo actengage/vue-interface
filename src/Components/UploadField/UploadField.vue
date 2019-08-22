@@ -28,6 +28,11 @@
                 </thumbnail-list-item>
             </thumbnail-list>
 
+            <slot name="feedback">
+                <form-feedback v-if="validFeedback" ref="feedback" valid v-html="validFeedback" />
+                <form-feedback v-else-if="invalidFeedback" ref="feedback" invalid v-html="invalidFeedback" />
+            </slot>
+
             <div v-if="isDragging" class="upload-field-dropzone" :style="{'min-height': dropzoneMinHeight}" @drop.prevent="onDrop">
                 <font-awesome-icon icon="cloud-upload-alt" />
                 <div>Drag and drop files to upload</div>
