@@ -33,11 +33,10 @@
             </slot>
         </div>
 
-        <slot v-if="!isFinished" name="buttons">
+        <slot v-if="buttons && !isFinished" name="buttons">
             <hr>
 
             <wizard-buttons
-                v-if="buttons"
                 ref="buttons"
                 size="lg"
                 :steps="steps"
