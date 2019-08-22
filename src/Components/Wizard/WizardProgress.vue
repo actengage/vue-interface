@@ -175,8 +175,7 @@ export default {
         }
 
         &:before {
-            font-family: FontAwesome;
-            content: "\f00c";
+            content: "✓";
             line-height: 40px;
         }
 
