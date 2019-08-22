@@ -42,9 +42,9 @@
                 :steps="steps"
                 :active="currentStep"
                 :activity="activity"
-                :back-button="!isBackButtonDisabled"
-                :next-button="!isNextButtonDisabled"
-                :finish-button="!isFinishButtonDisabled"
+                :back-button="backButton && !isBackButtonDisabled"
+                :next-button="nextButton && !isNextButtonDisabled"
+                :finish-button="finishButton && !isFinishButtonDisabled"
                 @click:back="onClickBack"
                 @click:finish="onClickFinish"
                 @click:next="onClickNext" />
@@ -119,7 +119,7 @@ export default {
          */
         finishButton: {
             type: Boolean,
-            default: true
+            default: false
         },
 
         /**

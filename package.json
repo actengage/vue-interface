@@ -50,10 +50,5 @@
   },
   "main": "./dist/vue-interface.js",
   "module": "./dist/vue-interface.es.js",
-  "peerDependencies": {
-    "axios": "^0.18.0",
-    "moment": "^2.22.0",
-    "vue": "^2.5.0"
-  },
   "styles": "./dist/vue-interface.css"
 }
