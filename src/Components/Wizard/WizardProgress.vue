@@ -177,6 +177,8 @@ export default {
         &:before {
             content: "✓";
             line-height: 40px;
+            font-size: 1em;
+            font-weight: bold;
         }
 
         & + .wizard-step:after {
