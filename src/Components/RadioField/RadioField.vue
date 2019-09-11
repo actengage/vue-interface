@@ -1,11 +1,12 @@
 <template>
     <div :class="mergeClasses(custom ? 'custom-radio' : '', controlClass, inline ? inlineClass : '')">
         <input
-            :id="$attrs.id || hash"
             v-bind-events
             v-bind="controlAttributes"
+            ref="field"
             type="radio"
             :value="value"
+            :id="$attrs.id || hash"
             :checked="checkedValue === value"
             @change="update">
 

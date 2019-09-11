@@ -31,7 +31,7 @@ export default class Request extends BaseClass {
         return new Promise((resolve, reject) => {
             axios(this.options).then(
                 response => resolve(this.response = new Response(response)),
-                error => reject(this.response = new Response(error.response))
+                error => reject(this.response = new Response(error))
             );
         });
     }
@@ -47,15 +47,25 @@ export default class Request extends BaseClass {
     }
 
     get options() {
+        const defaults = pickBy(DEFAULTS, value => {
+            if(typeof value === 'array') {
+                return !!value.length;
+            }
+            else if(typeof value === 'object') {
+                return !!Object.entries(value).length;
+            }
+            else {
+                return !!value;
+            }
+        });
+
         const merged = deepExtend({
             cancelToken: new axios.CancelToken(cancel => {
                 this.cancel = cancel;
 
                 return cancel;
             })
-        }, pickBy(DEFAULTS, value => {
-            return !!value.length;
-        }), this.getPublicAttributes());
+        }, defaults, this.getPublicAttributes());
 
         if(this.data instanceof FormData) {
             merged.data = this.data;

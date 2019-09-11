@@ -14,8 +14,9 @@
             <input
                 v-bind-events
                 v-bind="controlAttributes"
-                :value="value"
+                ref="field"
                 type="file"
+                :value="value"
                 @change="$emit('change', $event.target.files)">
                 
             <slot name="help">

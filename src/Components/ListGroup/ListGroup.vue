@@ -20,16 +20,6 @@ export default {
         flush: {
             type: Boolean,
             default: false
-        },
-
-        /**
-         * Can activate multiple list items
-         *
-         * @property Boolean
-         */
-        multiple: {
-            type: Boolean,
-            default: false
         }
 
     },

@@ -1,6 +1,6 @@
 <template>
     <nav aria-label="Page navigation example">
-        <ul class="pagination" :class="classes">
+        <ul class="pagination mb-0" :class="classes">
             <li class="page-item" :class="{'disabled': currentPage === 1}">
                 <a href="#" class="page-link" aria-label="Previous" @click.prevent="prev($event)">
                     <span aria-hidden="true">

@@ -191,8 +191,8 @@ export default {
 
     data() {
         return {
-            isShowing: this.show,
-            isDisplaying: this.show || !this.target
+            isShowing: false,
+            isDisplaying: false,
         };
     }
 

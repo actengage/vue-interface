@@ -21,8 +21,9 @@
         <input
             v-bind-events
             v-bind="controlAttributes"
-            :value="value"
+            ref="field"
             class="d-none"
+            :value="value"
             @input="$emit('input', $event.target.value)">
 
         <slot name="feedback">

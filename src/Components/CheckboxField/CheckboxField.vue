@@ -1,12 +1,13 @@
 <template>
     <div :class="mergeClasses(custom ? 'custom-checkbox' : '', controlClass, inline ? inlineClass : '')">
         <input
-            :id="$attrs.id || hash"
             v-bind-events
             v-bind="controlAttributes"
+            ref="field"
             type="checkbox"
             :value="value"
-            :checked="checkedValues.indexOf(value) !== -1"
+            :id="$attrs.id || hash"
+            :checked="checked || isChecked(value)"
             @input="update">
 
         <label :for="$attrs.id || hash" :class="mergeClasses(labelClass)">
@@ -44,6 +45,8 @@ export default {
 
     props: {
 
+        checked: Boolean,
+
         /**
          * The checked values
          *
@@ -54,16 +57,67 @@ export default {
             default() {
                 return [];
             }
-        }
+        },
+
+        transform: {
+            type: Function,
+            default: value => value
+        },
+
+        /**
+         * Determine if the value is checked.
+         *
+         * @property String
+         */
+        isChecked:{
+            type: Function,
+            default(value) {
+                if(this.checkedValues.indexOf(value) !== -1) {
+                    return true;
+                }
+
+                const matches = this.checkedValues.filter(checkedValue => {
+                    if(this.compareValues(this.transform(value), checkedValue)) {
+                        return true;
+                    }
+                });
+                
+                return matches.length > 0;
+            }
+        },
+
 
     },
 
     methods: {
 
+        stringify(value) {
+            try {
+                return JSON.stringify(value);
+            }
+            catch {
+                return value;
+            }
+        },
+
+        compareValues(a, b) {
+            if(typeof a === 'object') {
+                a = this.stringify(a);
+            }
+            
+            if(typeof b === 'object') {
+                b = this.stringify(b);
+            }
+
+            return a === b;
+        },
+
         update(event) {
-            const value = event.target.value;
+            const value = this.transform(event.target.value);
             const checked = this.checkedValues.slice(0);
-            const index = this.checkedValues.indexOf(value);
+            const index = this.checkedValues.findIndex(item => {
+                return this.compareValues(value, item);
+            });
 
             if(index === -1) {
                 checked.push(value);
@@ -71,9 +125,8 @@ export default {
             else {
                 checked.splice(index, 1);
             }
-
+            
             this.$emit('change', checked);
-            this.$emit('input', event);
         }
 
     }

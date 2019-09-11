@@ -113,7 +113,7 @@ export default {
             this.$emit('submit', event, this.model);
 
             return this.model[this.method](this.data, pickBy(deepExtend(this.request, {
-                query: this.query,
+                params: this.query,
                 headers: this.headers,
                 onUploadProgress: event => {
                     this.$emit('submit:progress', event);

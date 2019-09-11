@@ -2,13 +2,13 @@
     <div class="table-view">
         <div v-if="heading || description || $slots.buttons" class="d-flex justify-content-between align-items-center">
             <slot name="heading">
-                <h2 v-if="heading" v-html="heading" />
+                <h2 v-if="heading" class="font-weight-light mb-3">{{ heading }}</h2>
             </slot>
             <slot name="description">
                 <p v-if="description" v-html="description" />
             </slot>
 
-            <div v-if="$slots.buttons" class="ml-auto my-3">
+            <div v-if="$slots.buttons" class="ml-auto">
                 <slot name="buttons" />
             </div>
         </div>
@@ -51,6 +51,7 @@ import BaseTable from './Table';
 import Proxy from '../../Mixins/Proxy';
 import Request from '../../Http/Request';
 import TableViewTransformer from '../../Http/TableViewTransformer';
+import { map } from '../../Helpers/Functions';
 
 export default {
     name: 'TableView',

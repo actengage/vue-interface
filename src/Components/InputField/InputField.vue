@@ -9,6 +9,7 @@
                 <input
                     v-bind-events
                     v-bind="controlAttributes"
+                    ref="field"
                     :value="value"
                     @input="$emit('input', $event.target.value)">
             </slot>

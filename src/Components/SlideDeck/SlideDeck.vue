@@ -295,6 +295,7 @@ export default {
 
         .slide-deck-content {
             flex: 1;
+            margin: auto;
         }
     }
 

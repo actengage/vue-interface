@@ -3,6 +3,12 @@ import { extend } from '../../Helpers/Functions';
 
 export default class Response extends BaseClass {
     constructor(data) {
+        if(data instanceof Error) {
+            data = Object.assign({
+                error: data
+            }, data.response);
+        }
+        
         super(extend({
             date: new Date()
         }, data));

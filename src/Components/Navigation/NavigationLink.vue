@@ -80,7 +80,7 @@ export default {
 
         classes() {
             return {
-                'nav-link': !!this.href || !!this.to,
+                'nav-link': true,
                 'nav-item': !!this.item,
                 'active': this.active,
                 'disabled': this.disabled

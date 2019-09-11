@@ -6,8 +6,11 @@
         tabindex="-1"
         role="dialog"
         @keydown.esc="cancel">
-        <modal-backdrop v-if="backdrop" ref="backdrop" />
-
+        <slot name="backdrop">
+            {{isShowing ? 1 : 0}}
+            <modal-backdrop :show="isShowing" ref="backdrop" />
+        </slot>
+        
         <modal-dialog :class="{'modal-dialog-centered': center}">
             <modal-content>
                 <slot name="header">
@@ -157,24 +160,11 @@ export default {
         }
 
     },
-
-    data() {
-        return {
-            backdropComponent: null,
-            isDisplaying: false,
-            isShowing: false
-        };
-    },
-
+    
     watch: {
 
-        isShowing(value) {
-            if(value) {
-                document.querySelector('body').classList.add('modal-open');
-            }
-            else {
-                document.querySelector('body').classList.remove('modal-open');
-            }
+        isShowing(value) {            
+            document.querySelector('body').classList[value ? 'add' : 'remove']('modal-open');
 
             this.$emit('update:show', value);
         }
@@ -182,14 +172,16 @@ export default {
     },
 
     mounted() {
-        this.initializeTarget();
-        this.$nextTick(() => {
-            this.isDisplaying = this.show || !this.target;
-            
-            setTimeout(() => {
-                this.isShowing = this.show;
-            }, 50);
-        });
+        if(this.show) {
+            this.$nextTick(() => {
+                this.initializeTarget();
+                this.isDisplaying = true;
+
+                setTimeout(() => {
+                    this.isShowing = this.show;
+                }, 50);
+            });
+        }
     },
 
     methods: {

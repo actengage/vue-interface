@@ -59,6 +59,14 @@ export default class Model {
         ]
             .filter(value => !!value)
             .concat([].slice.call(arguments))
+            .map(part => {                
+                Object.entries(this.attributes)
+                    .forEach(([key, value]) => {
+                        part = part.toString().replace(new RegExp(`\:${key}`), value);
+                    });
+
+                return part;
+            })
             .join('/');
     }
 
@@ -152,8 +160,17 @@ export default class Model {
      *
      * @return array
      */
-    getAttributes() {
+    get attributes() {
         return this.$attributes;
+    }
+
+    /**
+     * Get all the defined attributes.
+     *
+     * @return array
+     */
+    getAttributes() {
+        return this.attributes;
     }
 
     /**
@@ -204,6 +221,15 @@ export default class Model {
     }
 
     /**
+     * Set the attributes property.
+     *
+     * @return array
+     */
+    set attributes(value) {
+        return this.$attributes = value;
+    }
+
+    /**
      * Set an array or object of data as attributes.
      *
      * @param attributes array|object
@@ -227,15 +253,13 @@ export default class Model {
      * @return void
      */
     setAttribute(key, value) {
-        if(this.getAttribute(key) !== value) {
-            this.handleAttributeChange(key, value);
+        this.handleAttributeChange(key, value);
 
-            if(isUndefined(value)) {
-                delete this.$attributes[key];
-            }
-            else {
-                this.$attributes[key] = value;
-            }
+        if(isUndefined(value)) {
+            delete this.$attributes[key];
+        }
+        else {
+            this.$attributes[key] = value;
         }
     }
 
@@ -343,21 +367,25 @@ export default class Model {
         this.fill(fill);
 
         return new Promise((resolve, reject) => {
-            const data = !this.hasFiles() ? this.toJSON() : this.toFormData();
-            const uri = config.uri || this.uri();
+            const data = !this.hasFiles() ?
+                this.toJSON() :
+                this.toFormData();
+            
             const method = config.method || (
                 !this.exists() || this.hasFiles() ? 'post' : 'put'
             );
 
-            this.$request = this.constructor.request(method, uri, config);
+            this.$request = this.constructor.request(method, config.uri || this.uri(), config);
 
             if(this.hasFiles()) {
                 this.$request.headers['Content-Type'] = 'multipart/form-data';
             }
-
-            this.$request.send({
-                data: data
-            }).then(response => resolve(this.fill(response.data)), reject);
+            
+            this.$request
+                .send({data})
+                .then(response => {
+                    resolve(this.fill(response.data));
+                }, reject);
         });
     }
 
@@ -482,10 +510,15 @@ export default class Model {
      * @param data object
      * @return bool
      */
-    static find(id, config = {}) {
+    static find(data, config = {}) {
         return new Promise((resolve, reject) => {
             const model = new this();
-            model.$request = this.request('get', (config.uri || model.uri(id)), config);
+
+            model.fill(typeof data === 'object' ? data : {
+                [(new this).key()]: data
+            });
+
+            model.$request = this.request('get', (config.uri || model.uri()), config);
             model.$request.send().then(response => {
                 resolve(model.initialize(response.data));
             }, error => {
