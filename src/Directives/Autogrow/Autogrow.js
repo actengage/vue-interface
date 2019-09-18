@@ -111,19 +111,29 @@ function init(el, binding, vnode) {
 }
 
 export default {
-
-    inserted(el, binding, vnode) {
-        if(binding.value !== false) {
-            if(el.tagName !== 'TEXTAREA') {
-                el = el.querySelector('textarea');
-            }
     
-            if(!el) {
-                throw new Error('A textarea is required for the v-autogrow directive.');
-            }
-            
-            init(el, binding, vnode);
+    inserted(el, binding, vnode) {
+        const elm = el;
+
+        if(binding.value === false) {
+            return;
         }
+
+        if(el.tagName !== 'TEXTAREA') {
+            el = el.querySelector('textarea');
+        }
+
+        if(!el) {
+            throw new Error('A textarea is required for the v-autogrow directive.');
+        }
+        
+        init(el, binding, vnode);
+
+        el.resize = function() {
+            vnode.context.$nextTick(() => {
+                el.dispatchEvent(new Event('input'));
+            });
+        };
     }
 
 };

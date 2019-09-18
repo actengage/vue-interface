@@ -137,6 +137,13 @@ export default {
         },
 
         /**
+         * The default label class assigned to the label element
+         *
+         * @property String
+         */
+        labelClass: [Object, String],
+
+        /**
          * Hide the label for browsers, but leave it for screen readers.
          *
          * @property String
@@ -237,14 +244,16 @@ export default {
                     });
                 });
 
-                el.setAttribute('data-selected-index', el.selectedIndex);
+                if(el.selectedIndex >= 0) {
+                    el.setAttribute('data-selected-index', el.selectedIndex);
+                }
             },
             inserted(el, binding, vnode) {
                 el.selectedIndex = el.getAttribute('data-selected-index');
                 
                 addEmptyClass(el, vnode);
 
-                if(el.selectedIndex > -1) {
+                if(typeof el.selectedIndex === 'number' && el.selectedIndex > -1) {
                     addClass(el, vnode, CHANGED_CLASS);
                 }
             },

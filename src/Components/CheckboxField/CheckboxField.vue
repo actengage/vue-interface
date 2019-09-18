@@ -10,7 +10,7 @@
             :checked="checked || isChecked(value)"
             @input="update">
 
-        <label :for="$attrs.id || hash" :class="mergeClasses(labelClass)">
+        <label :for="$attrs.id || hash" :class="mergeClasses(computedLabelClass, labelClass)">
             <slot>{{ label }}</slot>
             <slot name="feedback">
                 <form-feedback v-if="validFeedback" valid v-html="validFeedback" />

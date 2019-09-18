@@ -69,11 +69,13 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
 .custom-select-field,
 .custom-input-field,
 .custom-textarea-field {
+    
     label {
         margin: 0;
         font-weight: normal;
         color: $input-placeholder-color;
     }
+
 
     &.is-invalid {
         &.custom-input-field .custom-control,
@@ -121,12 +123,20 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
 }
 
 .custom-select-field .form-group-inner,
+.custom-input-field .custom-control {
+    height: $custom-control-height;
+}
+
+.custom-textarea-field .custom-control {
+    min-height: $custom-control-height;
+}
+
+.custom-select-field .form-group-inner,
 .custom-input-field .custom-control,
 .custom-textarea-field .custom-control {
     display: block;
     width: 100%;
     transition: padding .15s ease-out;
-    height: $custom-control-height;
     padding: $custom-control-padding-y $custom-control-padding-x;
     font-size: $custom-control-font-size-base;
     line-height: $custom-control-line-height;

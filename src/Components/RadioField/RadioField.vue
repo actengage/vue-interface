@@ -10,7 +10,7 @@
             :checked="checkedValue === value"
             @change="update">
 
-        <label :for="$attrs.id || hash" :class="mergeClasses(labelClass)">
+        <label :for="$attrs.id || hash" :class="mergeClasses(computedLabelClass, labelClass)">
             <slot>{{ label }}</slot>
             <slot name="feedback">
                 <form-feedback v-if="validFeedback" valid v-html="validFeedback" />
@@ -115,7 +115,7 @@ export default {
             return hash(this._uid.toString());
         },
 
-        labelClass() {
+        computedLabelClass() {
             return prefix('label', this.controlClass);
         },
 

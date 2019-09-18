@@ -6,7 +6,7 @@ export default {
             const classes = {};
 
             for(let i in this.$attrs) {
-                if(i.match(/^bg|text|border|bg-gradient-/)) {
+                if(i.match(/^bg|text|border|bg-gradient-/) && !!this.$attrs[i] || this.$attrs[i] === undefined) {
                     classes[i] = true;
                 }
             }

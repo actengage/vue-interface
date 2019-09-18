@@ -2,7 +2,7 @@
     <form-group :group="group" :class="mergeClasses(formGroupClasses, {'is-dragging': isDragging, 'enable-dropzone': dropzone, 'enable-multiple': multiple})">
         <dropzone @drop="onDrop" @dragover="onDragOver" @dragenter="onDragEnter" @dragleave="onDragLeave">
             <slot name="label">
-                <form-label v-if="label || hasDefaultSlot" ref="label" :for="$attrs.id" v-html="label" />
+                <form-label v-if="label || hasDefaultSlot" ref="label" :for="$attrs.id" :class="labelClass" v-html="label" />
             </slot>
 
             <file-field
