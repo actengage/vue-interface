@@ -230,6 +230,10 @@ export default {
 
                 el.addEventListener('input', event => {
                     changedValue(event.target, event.target.value);
+
+                    if(typeof el.selectedIndex === 'number' && el.selectedIndex > -1) {
+                        el.setAttribute('data-selected-index', el.selectedIndex);
+                    }
                 });
 
                 // Add/remove the has-focus class from the form control
@@ -244,17 +248,15 @@ export default {
                     });
                 });
 
-                if(el.selectedIndex >= 0) {
+                if(typeof el.selectedIndex === 'number' && el.selectedIndex > -1) {
                     el.setAttribute('data-selected-index', el.selectedIndex);
                 }
             },
             inserted(el, binding, vnode) {
-                el.selectedIndex = el.getAttribute('data-selected-index');
-                
                 addEmptyClass(el, vnode);
 
                 if(typeof el.selectedIndex === 'number' && el.selectedIndex > -1) {
-                    addClass(el, vnode, CHANGED_CLASS);
+                    // addClass(el, vnode, CHANGED_CLASS);
                 }
             },
             update(el, binding, vnode) {
