@@ -11,7 +11,6 @@
                     v-bind="controlAttributes"
                     ref="field"
                     :value="value"
-                    :data-selected-index="selectedIndex"
                     @input="$emit('input', $event.target.value)">
                     <slot />
                 </select>
@@ -66,10 +65,6 @@ export default {
     ],
 
     computed: {
-
-        selectedIndex() {
-            return this.$refs.field && this.$refs.field.selectedIndex;
-        },
 
         controlClass() {
             const controlClass = this.custom ? 'custom-select' : this.defaultControlClass;
