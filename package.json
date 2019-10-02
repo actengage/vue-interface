@@ -47,7 +47,6 @@
     "vue-template-compiler": "^2.6.10",
     "webpack-manifest-plugin": "^2.0.4"
   },
-  "module": "./src/index.js",
-  "main": "./dist/vue-interface.js",
+  "main": "./src/index.js",
   "styles": "./dist/vue-interface.css"
 }

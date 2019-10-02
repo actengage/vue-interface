@@ -39,6 +39,8 @@ import property from './property';
 import remove from './remove';
 import throttle from './throttle';
 import toNumber from './toNumber';
+import unit from './unit';
+import value from './value';
 import wrap from './wrap';
 
 export {
@@ -83,5 +85,7 @@ export {
     remove,
     throttle,
     toNumber,
+    unit,
+    value,
     wrap
 };

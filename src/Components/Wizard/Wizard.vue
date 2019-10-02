@@ -35,16 +35,16 @@
 
         <slot v-if="buttons && !isFinished" name="buttons">
             <hr>
-
+            
             <wizard-buttons
                 ref="buttons"
                 size="lg"
                 :steps="steps"
                 :active="currentStep"
                 :activity="activity"
-                :back-button="backButton && !isBackButtonDisabled"
-                :next-button="nextButton && !isNextButtonDisabled"
-                :finish-button="finishButton && !isFinishButtonDisabled"
+                :back-button="!isBackButtonDisabled"
+                :next-button="!isNextButtonDisabled"
+                :finish-button="!isFinishButtonDisabled"
                 @click:back="onClickBack"
                 @click:finish="onClickFinish"
                 @click:next="onClickNext" />
@@ -87,13 +87,6 @@ export default {
         },
 
         /**
-         * The the index or key of the max completed step.
-         *
-         * @type {String|Number}
-         */
-        completed: [String, Number],
-
-        /**
          * Show the activity indicator in the next or finish button.
          *
          * @type {Boolean}
@@ -111,26 +104,11 @@ export default {
         },
 
         /**
-         * Show should the "Back" button.
+         * The the index or key of the max completed step.
          *
-         * @type {Boolean}
+         * @type {String|Number}
          */
-        backButton: {
-            type: [Function, Boolean],
-            default() {
-                return this.currentStep > 0;
-            }
-        },
-
-        /**
-         * Show should the "Finish" button.
-         *
-         * @type {Boolean}
-         */
-        finishButton: {
-            type: Boolean,
-            default: false
-        },
+        completed: [String, Number],
 
         /**
          * Pass a header as a string.
@@ -140,14 +118,25 @@ export default {
         header: String,
 
         /**
+         * Show should the "Back" button.
+         *
+         * @type {Boolean}
+         */
+        backButton: Boolean,
+
+        /**
          * Show should the "Next" button.
          *
          * @type {Boolean}
          */
-        nextButton: {
-            type: Boolean,
-            default: true
-        },
+        nextButton: Boolean,
+
+        /**
+         * Show should the "Finish" button.
+         *
+         * @type {Boolean}
+         */
+        finishButton: Boolean,
 
         /**
          * The mode determines how the popover content will flex based on the

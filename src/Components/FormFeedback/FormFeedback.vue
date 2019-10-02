@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'invalid-feedback': invalid, 'valid-feedback': valid && !invalid}">
+    <div v-if="!label || typeof label === 'string'" :class="classes">
         <slot>{{ label }}</slot>
     </div>
 </template>
@@ -22,7 +22,7 @@ export default {
          *
          * @property String
          */
-        label: String,
+        label: [Boolean, String],
 
         /**
          * Should the feedback marked as invalid
@@ -37,6 +37,17 @@ export default {
          * @property String
          */
         valid: Boolean
+
+    },
+
+    computed: {
+
+        classes() {
+            return {
+                'invalid-feedback': this.invalid,
+                'valid-feedback': this.valid && !this.invalid
+            };
+        }
 
     }
 

@@ -8,16 +8,6 @@ export default {
     props: {
 
         /**
-         * The parent wizard component instance.
-         *
-         * @type {String}
-        wizard: {
-            //required: true,
-            type: Object
-        },
-        */
-
-        /**
          * The step's label in the progress bar.
          *
          * @type {String}
@@ -53,7 +43,7 @@ export default {
     },
 
     updated() {
-        this.performValidityChecks();
+        this.$nextTick(this.performValidityChecks);
     },
 
     mounted() {
@@ -63,28 +53,30 @@ export default {
     methods: {
 
         checkValidity(prop) {
+            let value = isFunction(this[prop]) ? this[prop](this) : this[prop];
+
             // Validate the property for the step first.
-            if(isFunction(this[prop]) ? this[prop](this) === false : this[prop] === false) {
+            if(value === false) {
                 return false;
             }
 
             // Then validate the property of the wizard, this is the global validator
             if(this.$refs.wizard) {
-                if(isFunction(this.$refs.wizard[prop])
-                    ? this.$refs.wizard[prop](this) === false
-                    : this.$refs.wizard[prop] === false) {
+                value = isFunction(this.$refs.wizard[prop]) ?
+                    this.$refs.wizard[prop](this) :
+                    this.$refs.wizard[prop];
+                    
+                if(value === false) {
                     return false;
                 }
             }
-
+            
             return true;
         },
 
         performValidityChecks() {
-            if(this.$refs.wizard) {
-                this.checkValidity('validate') ? this.enable() : this.disable();
-                this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
-            }
+            this.checkValidity('validate') ? this.enable() : this.disable();
+            this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
         },
 
         disable() {

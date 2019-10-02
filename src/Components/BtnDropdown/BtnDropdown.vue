@@ -2,15 +2,19 @@
     <btn-group v-if="split">
         <template v-if="!dropleft">
             <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
+                <slot name="icon">
+                    <icon v-if="icon" :icon="icon" class="mr-2" />
+                </slot>
                 <slot name="label">
-                    <icon v-if="icon" :icon="icon" />
-                    <template v-html="label" />
+                    <template>{{label}}</template>
                 </slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
+                <slot name="icon">
+                    <icon v-if="icon" :icon="icon" class="mr-2" />
+                </slot>
                 <slot name="label">
-                    <icon v-if="icon" :icon="icon" />
-                    <template v-html="label" />
+                    <template>{{label}}</template>
                 </slot>
             </button>
         </template>
@@ -34,16 +38,19 @@
         </btn-group>
         <template v-if="dropleft">
             <a v-if="href" :href="href" :class="actionClasses" @click="onClick">
+                <slot name="icon">
+                    <icon v-if="icon" :icon="icon" class="mr-2" />
+                </slot>
                 <slot name="label">
-                    <icon v-if="icon" :icon="icon" /> {{ label }}
+                    <template>{{label}}</template>
                 </slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
-                <slot name="label-wrapper">
-                    <icon v-if="icon" :icon="icon" />
-                    <slot name="label">
-                        {{ label }}
-                    </slot>
+                <slot name="icon">
+                    <icon v-if="icon" :icon="icon" class="mr-2" />
+                </slot>
+                <slot name="label">
+                    <template>{{label}}</template>
                 </slot>
             </button>
         </template>
@@ -58,8 +65,11 @@
             :class="toggleClasses"
             @click.prevent="!isDropdownShowing ? show() : hide()"
             @blur="onBlur">
+            <slot name="icon">
+                <icon v-if="icon" :icon="icon" class="mr-2" />
+            </slot>
             <slot name="label">
-                <icon v-if="icon" :icon="icon" /> {{ label }}
+                <template>{{label}}</template>
             </slot>
         </button>
 

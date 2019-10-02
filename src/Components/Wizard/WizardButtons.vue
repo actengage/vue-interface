@@ -15,7 +15,7 @@
         <btn-group ref="right" class="wizard-buttons-right">
             <slot name="buttons-right" />
             <btn-activity
-                v-if="finishButton === true || active === steps.length - 1"
+                v-if="active === steps.length - 1"
                 ref="finish"
                 :activity="activity"
                 :size="sizeableClass"
@@ -26,7 +26,7 @@
                 {{ finishLabel || 'Finish' }}
             </btn-activity>
             <btn-activity
-                v-if="active < steps.length - 1"
+                v-else
                 ref="next"
                 :activity="activity"
                 :size="sizeableClass"

@@ -97,7 +97,34 @@ export default {
          *
          * @property Function|String
          */
-        redirect: [Object, String, Function]
+        redirect: [Object, String, Function],
+
+        /**
+         * The submit function
+         *
+         * @property Function
+         */
+        submit: {
+            type: Function,
+            default(event) {
+                if(this.model) {
+                    this.$emit('submit', event, this.model);
+
+                    return this.model[this.method](this.data, pickBy(deepExtend(this.request, {
+                        params: this.query,
+                        headers: this.headers,
+                        onUploadProgress: event => {
+                            this.$emit('submit:progress', event);
+                            this.$emit('submit-progress', event);
+                        }
+                    }), value => !!value)).then((data) => {
+                        this.onSubmitSuccess(event, data);
+                    }, (errors) => {
+                        this.onSubmitFailed(event, errors);
+                    });
+                }
+            }
+        }
 
     },
 
@@ -109,30 +136,13 @@ export default {
 
     methods: {
 
-        submit(event) {
-            this.$emit('submit', event, this.model);
-
-            return this.model[this.method](this.data, pickBy(deepExtend(this.request, {
-                params: this.query,
-                headers: this.headers,
-                onUploadProgress: event => {
-                    this.$emit('submit:progress', event);
-                    this.$emit('submit-progress', event);
-                }
-            }), value => !!value)).then((data) => {
-                this.onSubmitSuccess(event, data);
-            }, (errors) => {
-                this.onSubmitFailed(event, errors);
-            });
-        },
-
         /**
          * A callback function for the `submit` event
          *
          * @property Function
          */
         onSubmit(event) {
-            this.model && this.submit(event);
+            this.submit(event);
         },
 
         /**

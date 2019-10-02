@@ -90,7 +90,7 @@ export default {
          *
          * @property String|Boolean
          */
-        error: String,
+        error: [Boolean, String],
 
         /**
          * An inline field validation errors passed as object with key/value
@@ -230,10 +230,6 @@ export default {
 
                 el.addEventListener('input', event => {
                     changedValue(event.target, event.target.value);
-
-                    if(typeof el.selectedIndex === 'number' && el.selectedIndex > -1) {
-                        el.setAttribute('data-selected-index', el.selectedIndex);
-                    }
                 });
 
                 // Add/remove the has-focus class from the form control
@@ -248,7 +244,7 @@ export default {
                     });
                 });
 
-                if(typeof el.selectedIndex === 'number' && el.selectedIndex > -1) {
+                if(el.selectedIndex >= 0) {
                     el.setAttribute('data-selected-index', el.selectedIndex);
                 }
             },
@@ -354,11 +350,15 @@ export default {
         },
 
         invalidFeedback() {
+            if(this.error) {
+                return this.error;
+            }
+
             const errors = this.getFieldErrors();
 
-            return this.error || (
-                isArray(errors) ? errors.join('<br>') : errors
-            );
+            return isArray(errors) ? errors.filter(error => {
+                return error && typeof error === 'string';
+            }).join('<br>') : errors;
         },
 
         validFeedback() {

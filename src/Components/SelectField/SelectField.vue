@@ -24,8 +24,8 @@
         </div>
 
         <slot name="feedback">
-            <form-feedback v-if="validFeedback" valid v-html="validFeedback" />
-            <form-feedback v-if="invalidFeedback" invalid v-html="invalidFeedback" />
+            <form-feedback v-if="validFeedback" :label="validFeedback" />
+            <form-feedback v-if="invalidFeedback" :label="invalidFeedback" invalid />
         </slot>
 
         <slot name="help">

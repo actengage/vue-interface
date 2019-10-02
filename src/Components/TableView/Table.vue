@@ -126,11 +126,13 @@ export default {
                 columns = Object.keys(this.data[0]);
             }
 
-            return columns.map(column => {
-                return isObject(column) ? column : {
-                    name: column
-                };
-            });
+            return columns
+                .filter(value => !!value)
+                .map(column => {
+                    return isObject(column) ? column : {
+                        name: column
+                    };
+                });
         }
     },
 
