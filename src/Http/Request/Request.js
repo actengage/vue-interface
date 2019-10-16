@@ -1,4 +1,4 @@
-import axios from 'axios';
+import Axios from 'axios';
 import Response from './Response';
 import BaseClass from '../../Support/BaseClass';
 import { deepExtend, isObject, pickBy } from '../../Helpers/Functions';
@@ -29,7 +29,7 @@ export default class Request extends BaseClass {
         this.setAttributes(attributes);
 
         return new Promise((resolve, reject) => {
-            axios(this.options).then(
+            Axios(this.options).then(
                 response => resolve(this.response = new Response(response)),
                 error => reject(this.response = new Response(error))
             );
@@ -60,7 +60,7 @@ export default class Request extends BaseClass {
         });
 
         const merged = deepExtend({
-            cancelToken: new axios.CancelToken(cancel => {
+            cancelToken: new Axios.CancelToken(cancel => {
                 this.cancel = cancel;
 
                 return cancel;

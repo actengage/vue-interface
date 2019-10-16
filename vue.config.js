@@ -10,9 +10,9 @@ module.exports = {
             // new ManifestPlugin()
         ],
         externals: {
-            'axios': 'axios',
+            'axios': 'Axios',
             'moment': 'moment',
-            'popper.js': 'popper.js'
+            'popper.js': 'Popper'
         }
     },
     pages: {
