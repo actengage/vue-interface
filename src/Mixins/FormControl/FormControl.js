@@ -228,7 +228,8 @@ export default {
                     removeClass(el, vnode, FOCUS_CLASS);
                 });
 
-                el.addEventListener('input', event => {
+                
+                el.addEventListener('change', event => {
                     changedValue(event.target, event.target.value);
                 });
 
