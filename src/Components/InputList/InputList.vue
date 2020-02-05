@@ -1,6 +1,6 @@
 <template>
     <div class="input-list">
-        <div v-for="(value, i) in items" :key="i" v-bind-events>
+        <div v-for="(value, i) in computedItems" :key="i" v-bind-events>
             <slot :index="i" />
         </div>
     </div>
@@ -21,10 +21,15 @@ export default {
                 const children = Array.from(vnode.elm.children);
 
                 children.forEach((child) => {
-                    child.querySelectorAll('input, textarea, select')
-                        .forEach(input => {
-                            vnode.context.bindEvents(input, el);
-                        });
+                    if(isUndefined(child.value)) {
+                        child.querySelectorAll('input, textarea, select')
+                            .forEach(input => {
+                                vnode.context.bindEvents(input, el);
+                            });
+                    }
+                    else {
+                        vnode.context.bindEvents(child, el);
+                    }
                 });
             }
 
@@ -33,6 +38,11 @@ export default {
     },
 
     props: {
+
+        items: {
+            type: Array,
+            default: () => []
+        },
 
         total: {
             type: Number,
@@ -69,15 +79,13 @@ export default {
     },
 
     data() {
-        const items = [];
+        const computedItems = [].concat(this.items);
 
-        for(let i = 0; i < this.total; i++) {
-            items.push(i.toString());
-        };
+        for(let i = computedItems.length; i < this.total; i++) {
+            computedItems.push(i.toString());
+        }
 
-        return {
-            items
-        };
+        return { computedItems };
     },
 
     methods: {
@@ -104,7 +112,12 @@ export default {
                 const i = this.indexOf(parent);
 
                 if(!this.isLastChild(parent) && this.validateEmpty(input, parent)) {
-                    this.items.splice(i, 1);
+                    this.computedItems.splice(i, 1);
+                    
+                    input.dispatchEvent(new Event('remove'));
+
+                    parent.querySelector('input, select, textarea').focus();
+                    
                     this.$emit('remove', parent, i);
                 }
             });
@@ -120,10 +133,10 @@ export default {
                 if(e.shiftKey || e.keyCode !== TAB) {
                     return false;
                 }
-
+            
                 if(this.isLastChild(parent) && this.validate(input, parent)) {
-                    if(this.items.indexOf(i + 1) === -1) {
-                        this.items.push(this.items.length.toString());
+                    if(this.computedItems.indexOf(i + 1) === -1) {
+                        this.computedItems.push(this.computedItems.length.toString());
                     }
                 }
             });

@@ -14,29 +14,35 @@
 
             <h3>Basic Usage</h3>
 
-            <input-list v-slot="{ index }">
-                <div class="mb-3">
-                    <input-field
-                        ref="titles"
-                        v-model="titles[index]"
-                        :disabled="activity"
-                        label="Title"
-                        placeholder="Title"
-                        class="mb-1"
-                        size="sm"
-                        custom />
-                </div>
+            {{titles}}
+
+            <input-list v-slot="{ index }" :items="titles">
+                <input
+                    ref="titles"
+                    type="text"
+                    placeholder="Title"
+                    class="form-control mb-1"
+                    size="sm"
+                    v-model="titles[index]"
+                    :data-index="index"
+                    @remove="e => onRemoveItem(e, index)"
+                    custom />
             </input-list>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
         <script type="text/javascript" src="../../../dist/VueInterface.umd.js"></script>
         <script type="text/javascript">
             const vue = new Vue({
                 el: '#app',
+                methods: {
+                    onRemoveItem(e, index) {
+                        this.titles.splice(index, 1);
+                    }
+                },
                 data() {
                     return {
-                        tiles: null
+                        titles: []
                     };
                 }
             });
