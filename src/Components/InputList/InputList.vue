@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { get, isNull, isEmpty, isUndefined, isArray } from "vue-interface/src/Helpers/Functions";
+import { get, isNull, isEmpty, isUndefined, isArray } from '../../Helpers/Functions';
 
 const TAB = 9;
 
