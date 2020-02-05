@@ -1,6 +1,6 @@
 {
   "name": "vue-interface",
-  "version": "0.4.41",
+  "version": "0.4.42",
   "scripts": {
     "serve": "vue-cli-service build --target lib --name=VueInterface ./src/install.js --watch",
     "build": "vue-cli-service build --target lib --name=VueInterface ./src/install.js",
