@@ -1,7 +1,12 @@
 <template>
     <div class="input-list">
         <div v-for="(value, i) in computedItems" :key="i" v-bind-events>
-            <slot :index="i" />
+            <slot
+            :index="i"
+            :is-odd="i % 2 === 1"
+            :is-even="i % 2 === 0"
+            :is-first-row="i === 0"
+            :is-last-row="i === computedItems.length - 1" />
         </div>
     </div>
 </template>

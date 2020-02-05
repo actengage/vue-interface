@@ -16,17 +16,29 @@
 
             {{titles}}
 
-            <input-list v-slot="{ index }" :items="titles">
-                <input
-                    ref="titles"
-                    type="text"
-                    placeholder="Title"
-                    class="form-control mb-1"
-                    size="sm"
-                    v-model="titles[index]"
-                    :data-index="index"
-                    @remove="e => onRemoveItem(e, index)"
-                    custom />
+            <input-list v-slot="{ index, isOdd, isEven, isFirstRow, isLastRow }" :items="titles">
+                <div class="mb-4">
+                    {{index}} - {{isOdd}} - {{isEven}} - {{isFirstRow}} - {{isLastRow}}<Br>
+                    <input-field
+                        ref="titles"
+                        label="Title"
+                        placeholder="Title"
+                        size="sm"
+                        v-model="titles[index]"
+                        :data-index="index"
+                        @remove="e => titles.splice(index, 1)"
+                        custom>
+                    </input-field>
+                    <input-field
+                        ref="names"
+                        placeholder="Name"
+                        size="sm"
+                        v-model="names[index]"
+                        :data-index="index"
+                        @remove="e => names.splice(index, 1)"
+                        custom>
+                    </input-field>
+                </div>
             </input-list>
         </div>
 
@@ -35,14 +47,10 @@
         <script type="text/javascript">
             const vue = new Vue({
                 el: '#app',
-                methods: {
-                    onRemoveItem(e, index) {
-                        this.titles.splice(index, 1);
-                    }
-                },
                 data() {
                     return {
-                        titles: []
+                        titles: [],
+                        names: []
                     };
                 }
             });
