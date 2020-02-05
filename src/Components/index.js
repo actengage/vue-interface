@@ -48,6 +48,7 @@ import InputGroup from './InputGroup';
 import InputGroupAppend from './InputGroup/InputGroupAppend';
 import InputGroupPrepend from './InputGroup/InputGroupPrepend';
 import InputGroupText from './InputGroup/InputGroupText';
+import InputList from './InputList';
 import LightSwitchField from './LightSwitchField';
 import ListGroup from './ListGroup';
 import ListGroupItem from './ListGroup/ListGroupItem';
@@ -145,6 +146,7 @@ export {
     InputGroupAppend,
     InputGroupPrepend,
     InputGroupText,
+    InputList,
     LightSwitchField,
     ListGroup,
     ListGroupItem,
