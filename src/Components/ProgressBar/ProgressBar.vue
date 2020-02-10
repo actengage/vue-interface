@@ -141,7 +141,7 @@ export default {
 .progress {
     position: relative;
     
-    & > span {
+    .progress-bar > span {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
