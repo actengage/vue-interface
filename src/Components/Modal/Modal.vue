@@ -7,8 +7,7 @@
         role="dialog"
         @keydown.esc="cancel">
         <slot name="backdrop">
-            {{isShowing ? 1 : 0}}
-            <modal-backdrop :show="isShowing" ref="backdrop" />
+            <modal-backdrop ref="backdrop" :show="isShowing" />
         </slot>
         
         <modal-dialog :class="{'modal-dialog-centered': center}">
