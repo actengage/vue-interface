@@ -81,7 +81,7 @@ export default {
                     this.initializeTrigger(this.target);
                 }
                 else {
-                    (this.$parent.$el || document)
+                    document
                         .querySelectorAll(this.target)
                         .forEach(el => {
                             this.initializeTrigger(el);
