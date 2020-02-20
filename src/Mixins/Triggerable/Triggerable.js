@@ -61,6 +61,8 @@ export default {
             each(isString(this.trigger) ? this.trigger.split(' ') : this.trigger, trigger => {
                 el.addEventListener(trigger, event => {
                     this.toggle();
+
+                    event.preventDefault();
                 });
             });
         },

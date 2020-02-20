@@ -7,9 +7,9 @@
         <div class="form-group-inner">
             <slot name="control">
                 <select
+                    ref="field"
                     v-bind-events
                     v-bind="controlAttributes"
-                    ref="field"
                     :value="value"
                     @input="$emit('input', $event.target.value)">
                     <slot />
