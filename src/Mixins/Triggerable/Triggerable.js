@@ -16,6 +16,33 @@ export default {
         },
 
         /**
+         * The animation class.
+         *
+         * @type {String}
+         */
+        animationClass: {
+            type: String,
+            default: 'fade'
+        },
+
+        /**
+         * The display class.
+         *
+         * @type {String}
+         */
+        displayClass: {
+            type: String,
+            default: 'display'
+        },
+
+        /**
+         * The duration length.
+         *
+         * @type {String}
+         */
+        duration: String,
+
+        /**
          * Is the triggerable element showing.
          *
          * @property Boolean
@@ -23,6 +50,16 @@ export default {
         show: {
             type: Boolean,
             defaut: false
+        },
+
+        /**
+         * The show class.
+         *
+         * @type {String}
+         */
+        showClass: {
+            type: String,
+            default: 'show'
         },
 
         /**
@@ -51,6 +88,16 @@ export default {
 
     methods: {
 
+        divideUnit(dividend, divisor) {
+            const [ match, value, unit ] = dividend.match(/^(\d+)(\w+)/);
+
+            if(match) {
+                return `${parseFloat(value, 10) / divisor}${unit}`;
+            }
+
+            return dividend;
+        },
+
         /**
          * Initialize the trigger event for the specified elements
          *
@@ -75,19 +122,33 @@ export default {
         initializeTarget() {
             if(this.target && this.trigger !== 'manual') {
                 if(isFunction(this.target)) {
-                    this.initializeTrigger(this.target(this));
+                    let target = this.target(this);
+
+                    if(isString(target)) {
+                        this.initializeSelector(target);
+                    }
+                    else {
+                        this.initializeTrigger(target);
+                    }
                 }
                 else if(this.target instanceof Element) {
                     this.initializeTrigger(this.target);
                 }
                 else {
-                    document
-                        .querySelectorAll(this.target)
-                        .forEach(el => {
-                            this.initializeTrigger(el);
-                        });
+                    this.initializeSelector(this.target);
                 }
             }
+        },
+
+        /**
+         * Initialize the event triggers on a selector
+         *
+         * @return void
+         */
+        initializeSelector(selector) {
+            document
+                .querySelectorAll(selector)
+                .forEach(el => this.initializeTrigger(el));
         },
 
         /**
@@ -116,14 +177,16 @@ export default {
          * @return this
          */
         open() {
-            this.isDisplaying = true;
+            if(!this.isDisplaying) {
+                this.isDisplaying = true;
 
-            this.$nextTick(() => {
-                transition(this.$el).then(delay => {
-                    this.isShowing = true;
-                    this.$emit('open');
+                this.$nextTick(() => {
+                    transition(this.$el, this.duration).then(delay => {
+                        this.isShowing = true;
+                        this.$emit('open');
+                    });
                 });
-            });
+            }
 
             return this;
         },
@@ -134,12 +197,14 @@ export default {
          * @return this
          */
         close(event) {
-            transition(this.$el).then(delay => {
-                this.isDisplaying = false;
-                this.$emit('close', event);
-            });
+            if(this.isShowing) {
+                this.isShowing = false;
 
-            this.isShowing = false;
+                transition(this.$el, this.duration).then(delay => {
+                    this.isDisplaying = false;
+                    this.$emit('close', event);
+                });
+            }
 
             return this;
         },
@@ -166,8 +231,9 @@ export default {
 
         triggerableClasses() {
             return {
-                'fade': this.animation,
-                'show': this.isShowing
+                [this.animationClass]: this.animation,
+                [this.showClass]: this.isShowing,
+                [this.displayClass]: this.isDisplaying,
             };
         }
 

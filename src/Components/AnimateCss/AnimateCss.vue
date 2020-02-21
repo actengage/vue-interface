@@ -1,7 +1,6 @@
 <template>
     <transition
         :mode="mode"
-        :duration="duration"
         :enter-class="enterClass"
         :enter-to-class="enterToClass"
         :enter-active-class="enterActiveClassName"
@@ -27,7 +26,7 @@ export default {
 
         delay: [String, Number, Function],
 
-        duration: [Object, String, Number],
+        duration: [String, Number, Function],
         
         mode: String,
 
@@ -143,15 +142,38 @@ export default {
     },
 
     updated() {
+        if(this.$slots.default && this.$slots.default.length) {
+            const [{ elm }] = this.$slots.default;
+
+            for(let attr of ['duration', 'delay']) {
+                const value = this[attr] instanceof Function
+                    ? this[attr]()
+                    : this[attr];
+                
+                elm.style[camelCase(`animation_${attr}`)] = value;
+            }
+        }
+        
+        /*
+        const duration = this.duration instanceof Function ? this.duration() : this.duration;
+
+        if(duration && this.$slots.default && this.$slots.default.length) {
+            const el = this.$slots.default[0].elm;
+            
+            if(el.style.animationDuration !== duration) {
+                el.style.animationDuration = duration;
+            }
+        }
         const delay = this.delay instanceof Function ? this.delay() : this.delay;
 
         if(delay && this.$slots.default && this.$slots.default.length) {
             const el = this.$slots.default[0].elm;
             
-            if(el.style.animatedDelay !== delay) {
+            if(el.style.animationDelay !== delay) {
                 el.style.animationDelay = delay;
             }
         }
+        */
     }
 
 };
