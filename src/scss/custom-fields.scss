@@ -264,7 +264,7 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
         & > label {
             top: 0;
             opacity: 1;
-            z-index: 1;
+            z-index: 2;
             transform: none;
             line-height: 1em;
             font-size: $custom-control-shrink-font-size-base;
@@ -409,7 +409,7 @@ $custom-control-transition: $input-transition, padding .15s ease-out;
         }
 
         & > label {
-            z-index: 1;
+            z-index: 2;
             opacity: 1;
             transform: none;
             line-height: 1em;
