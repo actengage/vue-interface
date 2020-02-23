@@ -1,6 +1,6 @@
-import Modal from 'vue-interface/src/Components/Modal';
-import instantiate from 'vue-interface/src/Helpers/Instantiate';
-import { each, isObject, isFunction, deepExtend, isUndefined } from 'vue-interface/src/Helpers/Functions';
+import Modal from '../../Components/Modal';
+import instantiate from '../../Helpers/Instantiate';
+import { each, isObject, isFunction, deepExtend, isUndefined } from '../../Helpers/Functions';
 
 export class VueFactory {
 
