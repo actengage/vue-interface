@@ -12,9 +12,9 @@
             </slot>
 
             <input
+                ref="field"
                 v-bind-events
                 v-bind="controlAttributes"
-                ref="field"
                 type="file"
                 :value="value"
                 @change="$emit('change', $event.target.files)">

@@ -6,7 +6,7 @@
                     <icon v-if="icon" :icon="icon" class="mr-2" />
                 </slot>
                 <slot name="label">
-                    <template>{{label}}</template>
+                    <template>{{ label }}</template>
                 </slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
@@ -14,7 +14,7 @@
                     <icon v-if="icon" :icon="icon" class="mr-2" />
                 </slot>
                 <slot name="label">
-                    <template>{{label}}</template>
+                    <template>{{ label }}</template>
                 </slot>
             </button>
         </template>
@@ -42,7 +42,7 @@
                     <icon v-if="icon" :icon="icon" class="mr-2" />
                 </slot>
                 <slot name="label">
-                    <template>{{label}}</template>
+                    <template>{{ label }}</template>
                 </slot>
             </a>
             <button v-else :type="type" :class="actionClasses" @click="onClick">
@@ -50,7 +50,7 @@
                     <icon v-if="icon" :icon="icon" class="mr-2" />
                 </slot>
                 <slot name="label">
-                    <template>{{label}}</template>
+                    <template>{{ label }}</template>
                 </slot>
             </button>
         </template>
@@ -69,7 +69,7 @@
                 <icon v-if="icon" :icon="icon" class="mr-2" />
             </slot>
             <slot name="label">
-                <template>{{label}}</template>
+                <template>{{ label }}</template>
             </slot>
         </button>
 

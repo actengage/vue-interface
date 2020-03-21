@@ -1,12 +1,12 @@
 <template>
     <div :class="mergeClasses(custom ? 'custom-checkbox' : '', controlClass, inline ? inlineClass : '')">
         <input
+            :id="$attrs.id || hash"
+            ref="field"
             v-bind-events
             v-bind="controlAttributes"
-            ref="field"
             type="checkbox"
             :value="value"
-            :id="$attrs.id || hash"
             :checked="checked || isChecked(value)"
             @input="update">
 

@@ -19,9 +19,9 @@
         </div>
 
         <input
+            ref="field"
             v-bind-events
             v-bind="controlAttributes"
-            ref="field"
             class="d-none"
             :value="value"
             @input="$emit('input', $event.target.value)">
@@ -213,14 +213,6 @@ $light-switch-label-height: $light-switch-handle-height;
         .light-switch-label {
             width: $label-width;
             height: $label-height;
-
-            &.on-value {
-                //border-radius: $handle-width 0 0 $handle-width;
-            }
-
-            &.off-value {
-                //border-radius: 0 $handle-width $handle-width 0;
-            }
         }
     }
 }
@@ -250,11 +242,6 @@ $light-switch-label-height: $light-switch-handle-height;
 
     &.is-invalid {
         border: 1px solid $form-feedback-invalid-color;
-
-        & .light-switch-handle {
-
-
-        }
 
         &:not(.is-active) .light-switch-handle {
             background: $form-feedback-invalid-color;

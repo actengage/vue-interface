@@ -121,26 +121,6 @@ export default {
 
     },
 
-    methods: {
-
-        activeClass(key, ...classes) {
-            return [
-                camelCase([
-                    this.name,
-                    !this.special && key,
-                    this.direction,
-                    this.big && 'big'
-                ].filter(value => !!value).join(' '))
-            ]
-                .concat([
-                    this.animated && 'animated'
-                ])
-                .concat(classes)
-                .join(' ');
-        }        
-
-    },
-
     updated() {
         if(this.$slots.default && this.$slots.default.length) {
             const [{ elm }] = this.$slots.default;
@@ -174,6 +154,26 @@ export default {
             }
         }
         */
+    },
+
+    methods: {
+
+        activeClass(key, ...classes) {
+            return [
+                camelCase([
+                    this.name,
+                    !this.special && key,
+                    this.direction,
+                    this.big && 'big'
+                ].filter(value => !!value).join(' '))
+            ]
+                .concat([
+                    this.animated && 'animated'
+                ])
+                .concat(classes)
+                .join(' ');
+        }        
+
     }
 
 };

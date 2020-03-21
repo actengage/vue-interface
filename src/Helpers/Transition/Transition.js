@@ -11,11 +11,11 @@ function duration(el, defaultValue = '0s') {
     const numeric = parseFloat(duration, 10) || 0;
     const unit = duration.match(/m?s/);
 
-    switch (unit[0]) {
-        case 's':
-            return numeric * 1000;
-        case 'ms':
-            return numeric;
+    switch (unit && unit[0]) {
+    case 's':
+        return numeric * 1000;
+    default:
+        return numeric;
     }
 }
 
