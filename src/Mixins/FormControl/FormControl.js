@@ -194,7 +194,21 @@ export default {
          *
          * @property String
          */
-        helpText: [Number, String]
+        helpText: [Number, String],
+
+        /**
+         * Should the input look like a pill.
+         *
+         * @property String
+         */
+        pill: Boolean,
+
+        /**
+         * The icon that should be used in the field.
+         *
+         * @property String
+         */
+        icon: [Array, String]
 
     },
 
@@ -295,6 +309,10 @@ export default {
             }
 
             return !errors || isArray(errors) || isObject(errors) ? errors : [errors];
+        },
+
+        onInput(e) {
+            this.$emit('input', this.currentValue = e.target.value);
         }
 
     },
@@ -342,9 +360,11 @@ export default {
 
         controlClasses() {
             return this.mergeClasses(
+                this.icon ? 'form-control-icon' : null,
                 this.controlClass,
                 this.colorableClasses,
                 this.controlSizeClass,
+                this.pill ? 'rounded rounded-pill' : null,
                 (this.spacing || ''),
                 ((this.valid || this.validFeedback) ? 'is-valid' : ''),
                 ((this.invalid || this.invalidFeedback) ? 'is-invalid' : '')
@@ -371,6 +391,12 @@ export default {
             return isArray(this.feedback) ? this.feedback.join('<br>') : this.feedback;
         }
 
+    },
+
+    data() {
+        return {
+            currentValue: this.value
+        };
     }
 
 };

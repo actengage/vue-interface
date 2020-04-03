@@ -1,18 +1,25 @@
 <template>
     <div class="table-view">
-        <div v-if="heading || description || $slots.buttons" class="d-flex justify-content-between align-items-center">
-            <slot name="heading">
-                <h2 v-if="heading" class="font-weight-light mb-3">{{ heading }}</h2>
-            </slot>
-            <slot name="description">
-                <p v-if="description" v-html="description" />
-            </slot>
-
-            <div v-if="$slots.buttons" class="ml-auto">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <slot name="heading">
+                    <component :is="headingTag" v-if="heading" class="font-weight-light mb-2">
+                        {{ heading }}
+                    </component>
+                </slot>
+                <slot name="description">
+                    <p v-if="description" v-html="description" />
+                </slot>
+                <slot name="search">
+                    <input-field v-if="search" icon="search" :placeholder="searchPlaceholder" pill @input="value => $set(request.params, searchParam, value)" />
+                </slot>
+            </div>
+        
+            <div v-if="$slots.buttons" class="ml-auto mb-3 mt-auto">
                 <slot name="buttons" />
             </div>
         </div>
-
+            
         <card v-if="card">
             <base-table
                 :request="request"
@@ -50,15 +57,22 @@ import Card from '../Card';
 import BaseTable from './Table';
 import Proxy from '../../Mixins/Proxy';
 import Request from '../../Http/Request';
+import InputField from '../../Components/InputField';
 import TableViewTransformer from '../../Http/TableViewTransformer';
 import { map } from '../../Helpers/Functions';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faSearch);
 
 export default {
     name: 'TableView',
 
     components: {
         Card,
-        BaseTable
+        BaseTable,
+        InputField
     },
 
     mixins: [Proxy],
@@ -124,6 +138,11 @@ export default {
         // (string) The table heading
         heading: String,
 
+        headingTag: {
+            type: String,
+            default: 'h3'
+        },
+
         // (string) The default sort value
         defaultSort: {
             type: String,
@@ -176,6 +195,21 @@ export default {
             default() {
                 return {};
             }
+        },
+
+        search: {
+            type: Boolean,
+            default: false
+        },
+
+        searchPlaceholder: {
+            type: String,
+            default: 'Search by keyword(s)'
+        },
+
+        searchParam: {
+            type: String,
+            default: 'q'
         }
 
     },
@@ -298,7 +332,12 @@ export default {
 
         onPaginate(page) {          
             this.fetch(page);
+        },
+
+        onInput(value) {
+            console.log(e);
         }
+
     }
 };
 </script>

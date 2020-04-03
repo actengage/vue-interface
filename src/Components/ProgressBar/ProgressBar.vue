@@ -1,13 +1,13 @@
 <template>
     <div class="progress" :style="{'height': formattedHeight}">
         <div
-        class="progress-bar"
-        role="progressbar"
-        :style="styles"
-        :class="mergeClasses(progressClasses, variantClass)"
-        :aria-valuenow="offsetValue"
-        :aria-valuemin="min"
-        :aria-valuemax="max">
+            class="progress-bar"
+            role="progressbar"
+            :style="styles"
+            :class="mergeClasses(progressClasses, variantClass)"
+            :aria-valuenow="offsetValue"
+            :aria-valuemin="min"
+            :aria-valuemax="max">
             <span v-if="!!label">
                 <template v-if="label !== true">
                     {{ label }}

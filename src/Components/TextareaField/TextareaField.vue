@@ -1,16 +1,16 @@
 <template>
     <form-group :group="group" :class="formGroupClasses">
         <slot name="label">
-            <form-label v-if="label" ref="label" :for="$attrs.id" v-html="label" :class="labelClass" />
+            <form-label v-if="label" ref="label" :for="$attrs.id" :class="labelClass" v-html="label" />
         </slot>
 
         <slot name="control">
             <div class="position-relative">
                 <textarea
+                    ref="field"
                     v-autogrow="autogrow"
                     v-bind-events
                     v-bind="controlAttributes"
-                    ref="field"
                     :value="value"
                     @input="$emit('input', $event.target.value)" />
                 <slot name="feedback">

@@ -7,8 +7,8 @@
 
             <file-field
                 v-if="multiple && (!maxUploads || maxUploads > value.length) || !multiple && !value"
-                v-bind="controlAttributes"
                 ref="field"
+                v-bind="controlAttributes"
                 :help-text="helpText"
                 :value="value"
                 @change="onChange" />

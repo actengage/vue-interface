@@ -6,12 +6,21 @@
 
         <div class="form-group-inner">
             <slot name="control">
+                <slot name="icon">
+                    <div class=" mx-2 pl-1">
+                        <font-awesome-icon
+                            :icon="icon"
+                            class="position-absolute h-100"
+                            :class="{'text-secondary': !currentValue, 'text-dark': !!currentValue}"
+                            @click="focus()" />
+                    </div>
+                </slot>
                 <input
                     ref="field"
                     v-bind-events
                     v-bind="controlAttributes"
-                    :value="value"
-                    @input="$emit('input', $event.target.value)">
+                    :value="currentValue"
+                    @input="onInput">
             </slot>
 
             <slot name="activity">
@@ -40,6 +49,7 @@ import FormFeedback from '../FormFeedback';
 import Colorable from '../../Mixins/Colorable';
 import ActivityIndicator from '../ActivityIndicator';
 import FormControlMixin from '../../Mixins/FormControl';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 export default {
 
@@ -50,6 +60,7 @@ export default {
         FormGroup,
         FormLabel,
         FormFeedback,
+        FontAwesomeIcon,
         ActivityIndicator
     },
 
@@ -74,6 +85,10 @@ export default {
     &.is-valid .valid-feedback,
     &.is-invalid .invalid-feedback {
         display: flex;
+    }
+    
+    .form-control-icon {
+        padding-left: 2em;
     }
 }
 </style>

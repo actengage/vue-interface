@@ -14,7 +14,7 @@
  * }, _.now());
  * // => Logs the number of milliseconds it took for the deferred invocation.
  */
-var now = function () {
+var now = function() {
     return Date.now();
 };
 
