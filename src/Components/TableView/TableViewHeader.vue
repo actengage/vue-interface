@@ -1,5 +1,5 @@
 <template>
-    <th scope="col">
+    <th scope="col" class="bg-light text-dark">
         <template v-if="id && request">
             <a
                 href="#"

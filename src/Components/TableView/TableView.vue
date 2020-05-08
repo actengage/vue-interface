@@ -11,7 +11,7 @@
                     <p v-if="description" v-html="description" />
                 </slot>
                 <slot name="search">
-                    <input-field v-if="search" icon="search" :placeholder="searchPlaceholder" pill @input="value => $set(request.params, searchParam, value)" />
+                    <input-field v-if="search" icon="search" :placeholder="searchPlaceholder" pill @input="onSearchInput" />
                 </slot>
             </div>
         
@@ -20,7 +20,7 @@
             </div>
         </div>
             
-        <card v-if="card">
+        <div :class="{'card': !!card, [shadowClassName]: !!shadow}">
             <base-table
                 :request="request"
                 :response="response"
@@ -34,48 +34,37 @@
                 @order="id => orderBy(id)">
                 <slot :data="data" :columns="columns" />
             </base-table>
-        </card>
-        <base-table
-            v-else
-            :request="request"
-            :response="response"
-            :columns="columns"
-            :data="data"
-            :hover="hover"
-            :loading="loading"
-            :min-height="minHeight"
-            :paginate="paginate"
-            @paginate="onPaginate"
-            @order="id => orderBy(id)">
-            <slot :data="data" :columns="columns" />
-        </base-table>
+        </div>
     </div>
 </template>
 
 <script>
-import Card from '../Card';
 import BaseTable from './Table';
 import Proxy from '../../Mixins/Proxy';
 import Request from '../../Http/Request';
+import Shadowable from '../../Mixins/Shadowable';
 import InputField from '../../Components/InputField';
 import TableViewTransformer from '../../Http/TableViewTransformer';
-import { map } from '../../Helpers/Functions';
+import { debounce, map } from '../../Helpers/Functions';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faSearch);
 
+const debounced = debounce((fn, ...args) => {
+    fn(...args);
+}, 250);
+
 export default {
     name: 'TableView',
 
     components: {
-        Card,
         BaseTable,
         InputField
     },
 
-    mixins: [Proxy],
+    mixins: [Proxy, Shadowable],
 
     props: {
 
@@ -334,8 +323,12 @@ export default {
             this.fetch(page);
         },
 
-        onInput(value) {
-            console.log(e);
+        onSearchInput(value) {
+            this.$set(this.request.params, this.searchParam, value);
+
+            debounced(() => {
+                this.fetch();
+            });
         }
 
     }
@@ -349,6 +342,14 @@ export default {
     thead th {
         border-top: 0;
         border-bottom: 0;
+
+        &:first-child {
+            border-radius: .25em 0 0 0;
+        }
+
+        &:last-child {
+            border-radius: 0 .25em 0 0;
+        }
     }
 
     tfoot .pagination {

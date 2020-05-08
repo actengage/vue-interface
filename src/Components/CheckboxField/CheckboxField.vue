@@ -95,7 +95,7 @@ export default {
             try {
                 return JSON.stringify(value);
             }
-            catch {
+            catch (e) {
                 return value;
             }
         },

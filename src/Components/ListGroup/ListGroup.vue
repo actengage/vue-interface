@@ -7,8 +7,13 @@
 <script>
 import { each } from '../../Helpers/Functions';
 import prefix from '../../Helpers/Prefix/Prefix';
+import Shadowable from '../../Mixins/Shadowable';
 
 export default {
+
+    mixins: [
+        Shadowable
+    ],
 
     props: {
 
@@ -26,9 +31,11 @@ export default {
 
     computed: {
         classes() {
-            return prefix({
-                'flush': this.flush
-            }, 'list-group');
+            return Object.assign(prefix({
+                'flush': this.flush,
+            }, 'list-group'), {
+                [this.shadowClassName]: true
+            });
         }
     },
 

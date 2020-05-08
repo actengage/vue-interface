@@ -6,6 +6,7 @@ import isArray from '../../Helpers/Functions/isArray';
 import isEmpty from '../../Helpers/Functions/isEmpty';
 import isObject from '../../Helpers/Functions/isObject';
 import kebabCase from '../../Helpers/Functions/kebabCase';
+import Shadowable from '../Shadowable';
 
 const EMPTY_CLASS = 'is-empty';
 const FOCUS_CLASS = 'has-focus';
@@ -34,7 +35,8 @@ export default {
 
     mixins: [
         Colorable,
-        MergeClasses
+        MergeClasses,
+        Shadowable
     ],
 
     props: {
@@ -355,7 +357,7 @@ export default {
                 'has-activity': this.activity,
                 'is-valid': !!(this.valid || this.validFeedback),
                 'is-invalid': !!(this.invalid || this.invalidFeedback)
-            });
+            }, this.shadowClassName);
         },
 
         controlClasses() {

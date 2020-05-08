@@ -7,7 +7,7 @@
         <div class="form-group-inner">
             <slot name="control">
                 <slot name="icon">
-                    <div class=" mx-2 pl-1">
+                    <div v-if="icon" class=" mx-2 pl-1">
                         <font-awesome-icon
                             :icon="icon"
                             class="position-absolute h-100"
