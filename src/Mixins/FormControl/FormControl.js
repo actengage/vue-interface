@@ -62,16 +62,18 @@ export default {
         },
 
         /**
-         * The value of label element. If no value, no label will appear.
+         * The field's default value.
          *
-         * @property String
+         * @property Mixed
          */
-        label: [Number, String],
+        defaultValue: {
+            default: null
+        },
 
         /**
-         * The field id attribute value.
+         * The field value.
          *
-         * @property String
+         * @property Mixed
          */
         value: {
             default: null
@@ -86,6 +88,13 @@ export default {
             type: Boolean,
             default: true
         },
+
+        /**
+         * The value of label element. If no value, no label will appear.
+         *
+         * @property String
+         */
+        label: [Number, String],
 
         /**
          * An inline field validation error.
@@ -395,9 +404,15 @@ export default {
 
     },
 
+    mounted() {
+        if(this.value === null && this.defaultValue !== null) {
+            this.$emit('input', this.defaultValue);
+        }
+    },
+
     data() {
         return {
-            currentValue: this.value
+            currentValue: this.value || this.defaultValue
         };
     }
 

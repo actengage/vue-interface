@@ -67,7 +67,10 @@ export default {
     computed: {
 
         controlClass() {
-            const controlClass = this.custom ? 'custom-select' : this.defaultControlClass;
+            const controlClass = this.custom
+                ? 'custom-select'
+                : this.defaultControlClass;
+            
             return this.plaintext ? `${controlClass}-plaintext` : controlClass;
         },
 
