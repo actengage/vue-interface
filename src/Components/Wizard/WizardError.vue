@@ -94,12 +94,12 @@ $wizard-error-color: #b10805;
         height: $font-size-lg * 6;
         margin: $font-size-lg auto;
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         svg {
-            position: absolute;
             width: 100%;
-            top: 50%;
-            left: 0;
             line-height: 0;
         }
     }

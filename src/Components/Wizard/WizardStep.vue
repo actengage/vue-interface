@@ -76,7 +76,13 @@ export default {
 
         performValidityChecks() {
             this.checkValidity('validate') ? this.enable() : this.disable();
-            this.checkValidity('backButton') ? this.$refs.wizard.enableBackButton() : this.$refs.wizard.disableBackButton();
+
+            if(this.$refs.wizard && this.checkValidity('backButton')) {
+                this.$refs.wizard.enableBackButton();
+            }
+            else if(this.$refs.wizard) {
+                this.$refs.wizard.disableBackButton();
+            }
         },
 
         disable() {

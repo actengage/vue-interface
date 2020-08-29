@@ -267,6 +267,10 @@ export default {
             ));
         },
 
+        goto(index) {
+            this.$emit('update:active', this.currentStep = Math.min(this.currentStep + 1, index));
+        },
+
         next() {
             this.$emit('update:active', this.currentStep = Math.min(this.currentStep + 1, this.$refs.slideDeck.slides().length - 1));
         },
